@@ -10,9 +10,9 @@ import com.jagrosh.jdautilities.doc.standard.CommandInfo;
 import net.crimsonite.rena.Rena;
 
 @CommandInfo(
-	    name = {"shutdown"},
-	    description = "Disconnects the bot connections."
-	)
+		name = {"shutdown"},
+		description = "Disconnects the bot connections."
+	    )
 public class ShutdownCmd extends Command{
 	
 	final static Logger logger = LoggerFactory.getLogger(Rena.class);
@@ -21,7 +21,7 @@ public class ShutdownCmd extends Command{
 		this.name = "shutdown";
 		this.hidden = true;
 		this.ownerCommand = true;
-        this.guildOnly = false;
+		this.guildOnly = false;
 	}
 	
 	protected void execute(CommandEvent event) {

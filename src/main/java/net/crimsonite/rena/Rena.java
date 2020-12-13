@@ -38,7 +38,7 @@ public class Rena {
 		long startup = System.currentTimeMillis();
 		
         List<String> list;
-		try {
+        try {
 			list = Files.readAllLines(Paths.get("config.txt"));
 			
 			token = list.get(0);
@@ -70,10 +70,7 @@ public class Rena {
 		catch (LoginException e) {
 			e.printStackTrace();
 		}
-		
-		
-		
-		
+        
 		logger.info("Bot activated in " + (System.currentTimeMillis() - startup) + "ms.");
 	}
 	
