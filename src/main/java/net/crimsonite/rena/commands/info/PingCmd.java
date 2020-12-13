@@ -19,7 +19,7 @@ public class PingCmd extends Command{
 		this.name = "ping";
 		this.aliases = new String[] {"latency"};
 		this.category = new Category("Informations");
-		this.help = "Shows the client and websocket ping";
+		this.help = "Shows the client and websocket ping.";
 		this.guildOnly = false;
 		this.cooldown = 5;
 	}

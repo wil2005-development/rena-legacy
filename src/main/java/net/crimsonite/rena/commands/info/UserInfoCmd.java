@@ -22,7 +22,7 @@ public class UserInfoCmd extends Command{
 		this.name = "profile";
 		this.aliases = new String[] {"iam", "userinfo"};
 		this.category = new Category("Informations");
-		this.help = "Shows the author's profile/member's if specified";
+		this.help = "Shows the author's profile/member's if specified.";
 		this.arguments = "[mention]";
 		this.guildOnly = true;
 		this.cooldown = 5;

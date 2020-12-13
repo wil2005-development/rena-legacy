@@ -11,8 +11,8 @@ import net.crimsonite.rena.Rena;
 
 @CommandInfo(
 		name = {"shutdown"},
-		description = "Disconnects the bot connections."
-	    )
+		description = "Closes all connections."
+		)
 public class ShutdownCmd extends Command{
 	
 	final static Logger logger = LoggerFactory.getLogger(Rena.class);

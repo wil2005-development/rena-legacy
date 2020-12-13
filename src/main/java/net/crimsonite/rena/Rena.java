@@ -42,27 +42,27 @@ public class Rena {
 			list = Files.readAllLines(Paths.get("config.txt"));
 			
 			token = list.get(0);
-	        ownerID = list.get(1);
-	        prefix = list.get(3);
-	        
-	        client.setStatus(OnlineStatus.ONLINE);
-	        client.setActivity(Activity.watching("over you"));
-	        client.setOwnerId(ownerID);
-	        client.setEmojis("\u2714", "\u26A0", "\u274c");
-	        client.setPrefix(prefix);
-	        client.addCommands(
-	        		new GuildInfoCmd(),
-	        		new PingCmd(),
-	        		new UserInfoCmd(),
-	        		
-	        		new ShutdownCmd()
-	        		);
+			ownerID = list.get(1);
+			prefix = list.get(3);
+			
+			client.setStatus(OnlineStatus.ONLINE);
+			client.setActivity(Activity.watching("over you"));
+			client.setOwnerId(ownerID);
+			client.setEmojis("\u2714", "\u26A0", "\u274c");
+			client.setPrefix(prefix);
+			client.addCommands(
+					new GuildInfoCmd(),
+					new PingCmd(),
+					new UserInfoCmd(),
+					
+					new ShutdownCmd()
+					);
 	        
 	        JDABuilder.createDefault(token)
-            	.setStatus(OnlineStatus.DO_NOT_DISTURB)
-            	.setActivity(Activity.playing("loading..."))
-            	.addEventListeners(waiter, client.build())
-            	.build();
+			.setStatus(OnlineStatus.DO_NOT_DISTURB)
+			.setActivity(Activity.playing("loading..."))
+			.addEventListeners(waiter, client.build())
+			.build();
 		}
 		catch (IOException e) {
 			e.printStackTrace();
