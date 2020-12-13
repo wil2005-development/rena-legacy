@@ -37,8 +37,8 @@ public class Rena {
 		
 		long startup = System.currentTimeMillis();
 		
-        List<String> list;
-        try {
+		List<String> list;
+		try {
 			list = Files.readAllLines(Paths.get("config.txt"));
 			
 			token = list.get(0);
