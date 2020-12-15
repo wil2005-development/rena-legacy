@@ -16,6 +16,10 @@ import net.dv8tion.jda.api.entities.User;
 		)
 public class UserInfoCmd extends Command{
 	
+	private static User user;
+	private static User author;
+	private static Color roleColor;
+	
 	private static DateTimeFormatter format = DateTimeFormatter.ofPattern("MMMM d, yyyy");
 	
 	public UserInfoCmd() {
@@ -34,10 +38,11 @@ public class UserInfoCmd extends Command{
 			return;
 		
 		if (event.getArgs().isEmpty()) {
-			User author = event.getAuthor();
+			author = event.getAuthor();
+			roleColor = event.getGuild().getMember(author).getColor();
 			
 			EmbedBuilder embed = new EmbedBuilder()
-					.setColor(Color.CYAN)
+					.setColor(roleColor)
 					.setTitle(author.getName() + "'s Profile")
 					.setThumbnail(author.getEffectiveAvatarUrl())
 					.addField("ID", author.getId(), false)
@@ -47,13 +52,14 @@ public class UserInfoCmd extends Command{
 			event.reply(embed.build());
 		}
 		else {
-			User author = event.getAuthor();
+			author = event.getAuthor();
 			
 			try {
-				User user = event.getMessage().getMentionedUsers().get(0);
+				user = event.getMessage().getMentionedUsers().get(0);
+				roleColor = event.getGuild().getMember(user).getColor();
 				
 				EmbedBuilder embed = new EmbedBuilder()
-						.setColor(Color.CYAN)
+						.setColor(roleColor)
 						.setTitle(user.getName() + "'s Profile")
 						.setThumbnail(user.getEffectiveAvatarUrl())
 						.addField("ID", user.getId(), false)

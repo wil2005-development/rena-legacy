@@ -17,6 +17,10 @@ import net.dv8tion.jda.api.entities.User;
 		)
 public class GuildInfoCmd extends Command{
 	
+	private static Guild guild;
+	private static User author;
+	private static Color roleColor;
+	
 	private static DateTimeFormatter format = DateTimeFormatter.ofPattern("MMMM d, yyyy");
 	
 	public GuildInfoCmd() {
@@ -30,11 +34,12 @@ public class GuildInfoCmd extends Command{
 
 	@Override
 	protected void execute(CommandEvent event) {
-		Guild guild = event.getGuild();
-		User author = event.getAuthor();
+		guild = event.getGuild();
+		author = event.getAuthor();
+		roleColor = event.getGuild().getMember(author).getColor();
 		
 		EmbedBuilder embed = new EmbedBuilder()
-				.setColor(Color.RED)
+				.setColor(roleColor)
 				.setTitle("Showing informations for " + guild.getName())
 				.setThumbnail(guild.getIconUrl())
 				.addField("ID", guild.getId(), false)

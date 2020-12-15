@@ -16,6 +16,9 @@ import net.dv8tion.jda.api.entities.User;
 		)
 public class StatusCmd extends Command{
 	
+	public static User author;
+	public static Color roleColor;
+	
 	private static DateTimeFormatter format = DateTimeFormatter.ofPattern("MMMM d, yyyy");
 	
 	public StatusCmd() {
@@ -32,10 +35,11 @@ public class StatusCmd extends Command{
 		if (event.getAuthor().isBot())
 			return;
 		
-		User author = event.getAuthor();
+		author = event.getAuthor();
+		roleColor = event.getGuild().getMember(author).getColor();
 		
 		EmbedBuilder embed = new EmbedBuilder()
-				.setColor(Color.GREEN)
+				.setColor(roleColor)
 				.setTitle(event.getSelfUser().getName() + "'s Informations")
 				.addField("ID", event.getSelfUser().getId(), true)
 				.addField("Date Created", event.getSelfUser().getTimeCreated().format(format), false)
