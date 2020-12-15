@@ -16,6 +16,10 @@ import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import net.crimsonite.rena.commands.ShutdownCmd;
 import net.crimsonite.rena.commands.info.GuildInfoCmd;
 import net.crimsonite.rena.commands.info.PingCmd;
+<<<<<<< Updated upstream
+=======
+import net.crimsonite.rena.commands.info.StatusCmd;
+>>>>>>> Stashed changes
 import net.crimsonite.rena.commands.info.UserInfoCmd;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -53,6 +57,10 @@ public class Rena {
 			client.addCommands(
 					new GuildInfoCmd(),
 					new PingCmd(),
+<<<<<<< Updated upstream
+=======
+					new StatusCmd(),
+>>>>>>> Stashed changes
 					new UserInfoCmd(),
 					
 					new ShutdownCmd()
