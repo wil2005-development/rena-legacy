@@ -7,6 +7,7 @@ import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import com.jagrosh.jdautilities.doc.standard.CommandInfo;
 
+import net.crimsonite.rena.RenaInfo;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 
@@ -40,12 +41,13 @@ public class StatusCmd extends Command{
 		
 		EmbedBuilder embed = new EmbedBuilder()
 				.setColor(roleColor)
-				.setTitle(event.getSelfUser().getName() + "'s Informations")
+				.setTitle(event.getSelfUser().getName() + "'s Informations", RenaInfo.GITHUB_URL)
 				.addField("ID", event.getSelfUser().getId(), true)
 				.addField("Date Created", event.getSelfUser().getTimeCreated().format(format), false)
+				.addField("Version", RenaInfo.VERSION, true)
+				.addField("Shard", event.getJDA().getShardInfo().getShardString(), true)
 				.addField("Guilds", event.getJDA().getGuilds().size()+"", true)
 				.addField("Users", event.getJDA().getUsers().size()+"", true)
-				.addField("Shard", event.getJDA().getShardInfo().getShardString(), true)
 				.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 		
 		event.reply(embed.build());
