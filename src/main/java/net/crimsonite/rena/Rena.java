@@ -16,6 +16,7 @@ import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import net.crimsonite.rena.commands.ShutdownCmd;
 import net.crimsonite.rena.commands.info.GuildInfoCmd;
 import net.crimsonite.rena.commands.info.PingCmd;
+import net.crimsonite.rena.commands.info.ShardInfoCmd;
 import net.crimsonite.rena.commands.info.StatusCmd;
 import net.crimsonite.rena.commands.info.UserInfoCmd;
 import net.dv8tion.jda.api.JDABuilder;
@@ -54,6 +55,7 @@ public class Rena {
 			client.addCommands(
 					new GuildInfoCmd(),
 					new PingCmd(),
+					new ShardInfoCmd(),
 					new StatusCmd(),
 					new UserInfoCmd(),
 					
