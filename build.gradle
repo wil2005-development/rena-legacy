@@ -9,6 +9,7 @@ mainClassName = 'net.crimsonite.rena'
 version = '0.1.0'
 
 sourceCompatibility = 15
+targetCompatibility = 15
 
 repositories {
   jcenter()
