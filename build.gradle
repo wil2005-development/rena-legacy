@@ -1,0 +1,29 @@
+plugins {
+  id 'java'
+  id 'application'
+  id 'com.github.johnrengelman.shadow' version '6.0.0'
+}
+
+mainClassName = 'net.crimsonite.rena'
+
+version = '0.1.0'
+
+sourceCompatibility = 15
+targetCompatibility = 15
+
+repositories {
+  jcenter()
+}
+
+dependencies {
+  // MAIN
+  implementation 'net.dv8tion:JDA:4.2.0_222'
+  
+  //UTILS
+  implementation 'com.jagrosh:jda-utilities:3.0.5'
+  
+  // CORE
+  implementation 'ch.qos.logback:logback-classic:1.2.3'
+}
+
+compileJava.options.encoding = 'UTF-8'
