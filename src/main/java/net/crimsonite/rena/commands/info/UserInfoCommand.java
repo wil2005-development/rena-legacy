@@ -31,7 +31,7 @@ import net.dv8tion.jda.api.entities.User;
 		name = {"profile"},
 		description = "Shows the author's profile/member's if specified."
 		)
-public class UserInfoCmd extends Command{
+public class UserInfoCommand extends Command{
 	
 	private static User user;
 	private static User author;
@@ -39,7 +39,7 @@ public class UserInfoCmd extends Command{
 	
 	private static DateTimeFormatter format = DateTimeFormatter.ofPattern("MMMM d, yyyy");
 	
-	public UserInfoCmd() {
+	public UserInfoCommand() {
 		this.name = "profile";
 		this.aliases = new String[] {"iam", "userinfo"};
 		this.category = new Category("Informations");

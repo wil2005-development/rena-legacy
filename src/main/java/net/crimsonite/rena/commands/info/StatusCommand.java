@@ -34,14 +34,14 @@ import net.dv8tion.jda.api.entities.User;
 		name = {"status"},
 		description = "Shows the information about the bot."
 		)
-public class StatusCmd extends Command{
+public class StatusCommand extends Command{
 	
 	public static User author;
 	public static Color roleColor;
 	
 	private static DateTimeFormatter format = DateTimeFormatter.ofPattern("MMMM d, yyyy");
 	
-	public StatusCmd() {
+	public StatusCommand() {
 		this.name = "status";
 		this.aliases = new String[] {"botinfo"};
 		this.category = new Category("Informations");

@@ -15,38 +15,41 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.crimsonite.rena.commands;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+package net.crimsonite.rena.commands.info;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import com.jagrosh.jdautilities.doc.standard.CommandInfo;
 
-import net.crimsonite.rena.Rena;
-
 @CommandInfo(
-		name = {"shutdown"},
-		description = "Closes all connections."
+		name = {"shardinfo"},
+		description = "Shows the information about the current shard."
 		)
-public class ShutdownCmd extends Command{
+public class ShardInfoCommand extends Command{
 	
-	final static Logger logger = LoggerFactory.getLogger(Rena.class);
+	private static int currentShard;
+	private static int totalShard;
 	
-	public ShutdownCmd() {
-		this.name = "shutdown";
-		this.hidden = true;
-		this.ownerCommand = true;
-		this.guildOnly = false;
+	public ShardInfoCommand() {
+		this.name = "shardinfo";
+		this.aliases = new String[] {"shard"};
+		this.category = new Category("Informations");
+		this.help = "Shows the information about the current shard.";
+		this.guildOnly = true;
+		this.cooldown = 5;
 	}
-	
+
+	@Override
 	protected void execute(CommandEvent event) {
-		event.reactWarning();
-		logger.warn("Shutting down...");
+		currentShard = event.getJDA().getShardInfo().getShardId();
+		totalShard = event.getJDA().getShardInfo().getShardTotal();
 		
-		event.getJDA().shutdown();
-		logger.info("Successfully closed all connections!");
+		event.replyFormatted("```" +
+				"Current Shard: | %d\n" +
+				"Total Shards:  | %d\n" +
+				"```",
+				currentShard, totalShard
+				);
 	}
 
 }

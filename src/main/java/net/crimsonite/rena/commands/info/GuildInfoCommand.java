@@ -32,7 +32,7 @@ import net.dv8tion.jda.api.entities.User;
 		name = {"guildinfo"},
 		description = "Shows the informations about the guild."
 		)
-public class GuildInfoCmd extends Command{
+public class GuildInfoCommand extends Command{
 	
 	private static Guild guild;
 	private static User author;
@@ -40,7 +40,7 @@ public class GuildInfoCmd extends Command{
 	
 	private static DateTimeFormatter format = DateTimeFormatter.ofPattern("MMMM d, yyyy");
 	
-	public GuildInfoCmd() {
+	public GuildInfoCommand() {
 		this.name = "guild";
 		this.aliases = new String[] {"guildinfo, serverinfo"};
 		this.category = new Category("Informations");

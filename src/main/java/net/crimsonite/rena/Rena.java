@@ -30,12 +30,12 @@ import org.slf4j.LoggerFactory;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 
-import net.crimsonite.rena.commands.ShutdownCmd;
-import net.crimsonite.rena.commands.info.GuildInfoCmd;
-import net.crimsonite.rena.commands.info.PingCmd;
-import net.crimsonite.rena.commands.info.ShardInfoCmd;
-import net.crimsonite.rena.commands.info.StatusCmd;
-import net.crimsonite.rena.commands.info.UserInfoCmd;
+import net.crimsonite.rena.commands.ShutdownCommand;
+import net.crimsonite.rena.commands.info.GuildInfoCommand;
+import net.crimsonite.rena.commands.info.PingCommand;
+import net.crimsonite.rena.commands.info.ShardInfoCommand;
+import net.crimsonite.rena.commands.info.StatusCommand;
+import net.crimsonite.rena.commands.info.UserInfoCommand;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
@@ -72,13 +72,13 @@ public class Rena {
 			client.setEmojis("\u2714", "\u26A0", "\u274c");
 			client.setPrefix(prefix);
 			client.addCommands(
-					new GuildInfoCmd(),
-					new PingCmd(),
-					new ShardInfoCmd(),
-					new StatusCmd(),
-					new UserInfoCmd(),
+					new GuildInfoCommand(),
+					new PingCommand(),
+					new ShardInfoCommand(),
+					new StatusCommand(),
+					new UserInfoCommand(),
 					
-					new ShutdownCmd()
+					new ShutdownCommand()
 					);
 	        
 	        JDABuilder.createDefault(token)

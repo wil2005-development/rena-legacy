@@ -15,42 +15,38 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.crimsonite.rena.commands.info;
+package net.crimsonite.rena.commands;
 
-import java.time.temporal.ChronoUnit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import com.jagrosh.jdautilities.doc.standard.CommandInfo;
 
-@CommandInfo(
-		name = {"ping"},
-		description = "Shows the client and websocket ping."
-		)
-public class PingCmd extends Command{
-	
-	private static long ping;
-	private static long websocket;
-	
-	public PingCmd() {
-		this.name = "ping";
-		this.aliases = new String[] {"latency"};
-		this.category = new Category("Informations");
-		this.help = "Shows the client and websocket ping.";
-		this.guildOnly = false;
-		this.cooldown = 5;
-	}
+import net.crimsonite.rena.Rena;
 
-	@Override
+@CommandInfo(
+		name = {"shutdown"},
+		description = "Closes all connections."
+		)
+public class ShutdownCommand extends Command{
+	
+	final static Logger logger = LoggerFactory.getLogger(Rena.class);
+	
+	public ShutdownCommand() {
+		this.name = "shutdown";
+		this.hidden = true;
+		this.ownerCommand = true;
+		this.guildOnly = false;
+	}
+	
 	protected void execute(CommandEvent event) {
-		if (event.getAuthor().isBot())
-			return;
-					
-		event.reply("Requesting...", msg -> {
-            ping = event.getMessage().getTimeCreated().until(msg.getTimeCreated(), ChronoUnit.MILLIS);
-            websocket = event.getJDA().getGatewayPing();
-            msg.editMessageFormat("**Ping: **%dms | **Websocket: **%dms", ping, websocket).queue();
-        });
+		event.reactWarning();
+		logger.warn("Shutting down...");
+		
+		event.getJDA().shutdown();
+		logger.info("Successfully closed all connections!");
 	}
 
 }
