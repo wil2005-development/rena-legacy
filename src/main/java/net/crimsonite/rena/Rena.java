@@ -30,7 +30,8 @@ import org.slf4j.LoggerFactory;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 
-import net.crimsonite.rena.commands.ShutdownCommand;
+import net.crimsonite.rena.commands.dev.EvalCommand;
+import net.crimsonite.rena.commands.dev.ShutdownCommand;
 import net.crimsonite.rena.commands.info.GuildInfoCommand;
 import net.crimsonite.rena.commands.info.PingCommand;
 import net.crimsonite.rena.commands.info.ShardInfoCommand;
@@ -46,6 +47,7 @@ public class Rena {
 	
 	public static String token;
 	public static String prefix;
+	public static String alternativePrefix;
 	public static String ownerID;
 	
 	public static EventWaiter waiter = new EventWaiter();
@@ -65,12 +67,14 @@ public class Rena {
 			token = list.get(0);
 			ownerID = list.get(1);
 			prefix = list.get(3);
+			alternativePrefix = list.get(4);
 			
 			client.setStatus(OnlineStatus.ONLINE);
 			client.setActivity(Activity.watching("over you"));
 			client.setOwnerId(ownerID);
 			client.setEmojis("\u2714", "\u26A0", "\u274c");
 			client.setPrefix(prefix);
+			client.setAlternativePrefix(alternativePrefix);
 			client.addCommands(
 					new GuildInfoCommand(),
 					new PingCommand(),
@@ -78,6 +82,7 @@ public class Rena {
 					new StatusCommand(),
 					new UserInfoCommand(),
 					
+					new EvalCommand(),
 					new ShutdownCommand()
 					);
 	        

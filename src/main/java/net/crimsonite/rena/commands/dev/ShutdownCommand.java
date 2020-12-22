@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.crimsonite.rena.commands;
+package net.crimsonite.rena.commands.dev;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
