@@ -30,13 +30,13 @@ import org.slf4j.LoggerFactory;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 
-import net.crimsonite.rena.commands.dev.EvalCommand;
 import net.crimsonite.rena.commands.dev.ShutdownCommand;
 import net.crimsonite.rena.commands.info.GuildInfoCommand;
 import net.crimsonite.rena.commands.info.PingCommand;
 import net.crimsonite.rena.commands.info.ShardInfoCommand;
 import net.crimsonite.rena.commands.info.StatusCommand;
 import net.crimsonite.rena.commands.info.UserInfoCommand;
+import net.crimsonite.rena.commands.misc.SayCommand;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
@@ -76,13 +76,14 @@ public class Rena {
 			client.setPrefix(prefix);
 			client.setAlternativePrefix(alternativePrefix);
 			client.addCommands(
+					new SayCommand(),
+					
 					new GuildInfoCommand(),
 					new PingCommand(),
 					new ShardInfoCommand(),
 					new StatusCommand(),
 					new UserInfoCommand(),
 					
-					new EvalCommand(),
 					new ShutdownCommand()
 					);
 	        
