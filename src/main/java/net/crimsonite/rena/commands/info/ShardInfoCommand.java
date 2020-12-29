@@ -17,9 +17,14 @@
 
 package net.crimsonite.rena.commands.info;
 
+import java.awt.Color;
+
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import com.jagrosh.jdautilities.doc.standard.CommandInfo;
+
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.User;
 
 @CommandInfo(
 		name = {"shardinfo"},
@@ -27,6 +32,8 @@ import com.jagrosh.jdautilities.doc.standard.CommandInfo;
 		)
 public class ShardInfoCommand extends Command{
 	
+	private static User author;
+	private static Color roleColor;
 	private static int currentShard;
 	private static int totalShard;
 	
@@ -41,15 +48,20 @@ public class ShardInfoCommand extends Command{
 
 	@Override
 	protected void execute(CommandEvent event) {
+		author = event.getAuthor();
+		roleColor = event.getGuild().retrieveMember(author).complete().getColor();
 		currentShard = event.getJDA().getShardInfo().getShardId();
 		totalShard = event.getJDA().getShardInfo().getShardTotal();
 		
-		event.replyFormatted("```" +
-				"Current Shard: | %d\n" +
-				"Total Shards:  | %d\n" +
-				"```",
-				currentShard, totalShard
-				);
+		EmbedBuilder embed = new EmbedBuilder()
+				.setColor(roleColor)
+				.setTitle("Shard Info")
+				.setThumbnail(event.getSelfUser().getEffectiveAvatarUrl())
+				.addField("Current Shard", ""+currentShard, true)
+				.addField("Total Shard", ""+totalShard, true)
+				.setFooter(author.getName(), author.getEffectiveAvatarUrl());
+		
+		event.reply(embed.build());
 	}
 
 }
