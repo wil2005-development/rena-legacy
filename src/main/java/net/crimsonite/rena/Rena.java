@@ -36,6 +36,7 @@ import net.crimsonite.rena.commands.info.PingCommand;
 import net.crimsonite.rena.commands.info.ShardInfoCommand;
 import net.crimsonite.rena.commands.info.StatusCommand;
 import net.crimsonite.rena.commands.info.UserInfoCommand;
+import net.crimsonite.rena.commands.misc.ChooseCommand;
 import net.crimsonite.rena.commands.misc.SayCommand;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -76,6 +77,7 @@ public class Rena {
 			client.setPrefix(prefix);
 			client.setAlternativePrefix(alternativePrefix);
 			client.addCommands(
+					new ChooseCommand(),
 					new SayCommand(),
 					
 					new GuildInfoCommand(),
