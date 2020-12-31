@@ -1,7 +1,7 @@
 ## Contributing Guidelines
 
 #### A brief description about this project
-* Project Crimsonite-02(Codename Rena) is a Discord Bot made for the sake of learning. Everyone is welcome to contribute regardless of their programming knowledge.
+* Rena is a Discord Bot made for the sake of learning. Everyone is welcome to contribute regardless of their programming knowledge.
 Even the author of this project is a novice to programming, so you might find the code very messy.
 
 #### How to contribute to Rena
