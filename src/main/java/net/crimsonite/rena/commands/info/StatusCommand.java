@@ -64,7 +64,7 @@ public class StatusCommand extends Command{
 				.setThumbnail(event.getSelfUser().getEffectiveAvatarUrl())
 				.addField("ID", event.getSelfUser().getId(), true)
 				.addField("Date Created", event.getSelfUser().getTimeCreated().format(format), false)
-				.addField("Version", RenaInfo.VERSION, false)
+				.addField("Version", RenaInfo.VERSION_STRING, false)
 				.addField("Libraries Used", "JDA " + JDAInfo.VERSION + "\n" + "JDA-Utils " + JDAUtilitiesInfo.VERSION + "\n", false)
 				.addField("Shard", event.getJDA().getShardInfo().getShardString(), true)
 				.addField("Guilds", event.getJDA().getGuilds().size()+"", true)
