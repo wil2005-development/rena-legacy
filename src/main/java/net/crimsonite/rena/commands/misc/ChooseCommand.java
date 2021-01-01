@@ -48,7 +48,7 @@ public class ChooseCommand extends Command{
 		args = event.getArgs().split(",");
 		
 		if (event.getArgs().isEmpty()) {
-			event.reply("I choose nothing...");
+			event.reply("I choose **nothing**...");
 		}
 		else {
 			choice = args[(int)(Math.random()*args.length)];
