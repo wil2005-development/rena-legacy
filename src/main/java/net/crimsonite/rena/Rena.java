@@ -96,15 +96,18 @@ public class Rena {
 			.setMemberCachePolicy(MemberCachePolicy.ALL)
 			.addEventListeners(waiter, client.build())
 			.build();
+	        
+	        logger.info("Bot activated in " + (System.currentTimeMillis() - startup) + "ms.");
 		}
 		catch (IOException e) {
 			e.printStackTrace();
 		}
-		catch (LoginException e) {
-			e.printStackTrace();
+		catch (IllegalArgumentException e) {
+			logger.error("Failed to login, try checking if the Token and Intents are provided.");
 		}
-        
-		logger.info("Bot activated in " + (System.currentTimeMillis() - startup) + "ms.");
+		catch (LoginException e) {
+			logger.error("Failed to login, try checking if the provided Token is valid.");
+		}
 	}
 	
 	public static void main(String[] args) {
