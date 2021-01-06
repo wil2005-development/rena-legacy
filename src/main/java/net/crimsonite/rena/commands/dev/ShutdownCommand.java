@@ -23,11 +23,11 @@ import org.slf4j.LoggerFactory;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 
-import net.crimsonite.rena.Rena;
+import net.crimsonite.rena.RenaBot;
 
 public class ShutdownCommand extends Command{
 	
-	final static Logger logger = LoggerFactory.getLogger(Rena.class);
+	final static Logger logger = LoggerFactory.getLogger(RenaBot.class);
 	
 	public ShutdownCommand() {
 		this.name = "shutdown";

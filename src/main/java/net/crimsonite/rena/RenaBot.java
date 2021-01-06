@@ -44,7 +44,7 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
-public class Rena {
+public class RenaBot {
 	
 	public static String token;
 	public static String prefix;
@@ -54,9 +54,9 @@ public class Rena {
 	public static EventWaiter waiter = new EventWaiter();
 	public static CommandClientBuilder client = new CommandClientBuilder();
 
-	final static Logger logger = LoggerFactory.getLogger(Rena.class);
+	final static Logger logger = LoggerFactory.getLogger(RenaBot.class);
 	
-	private Rena() {
+	private RenaBot() {
 		logger.info("Starting up...");
 		
 		long startup = System.currentTimeMillis();
@@ -111,7 +111,7 @@ public class Rena {
 	}
 	
 	public static void main(String[] args) {
-		new Rena();
+		new RenaBot();
 	}
 	
 }
