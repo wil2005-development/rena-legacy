@@ -23,17 +23,12 @@ import java.time.format.DateTimeFormatter;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import com.jagrosh.jdautilities.commons.JDAUtilitiesInfo;
-import com.jagrosh.jdautilities.doc.standard.CommandInfo;
 
 import net.crimsonite.rena.RenaInfo;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDAInfo;
 import net.dv8tion.jda.api.entities.User;
 
-@CommandInfo(
-		name = {"status"},
-		description = "Shows the information about the bot."
-		)
 public class StatusCommand extends Command{
 	
 	public static User author;

@@ -21,15 +21,10 @@ import java.awt.Color;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
-import com.jagrosh.jdautilities.doc.standard.CommandInfo;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 
-@CommandInfo(
-		name = {"shardinfo"},
-		description = "Shows the information about the current shard."
-		)
 public class ShardInfoCommand extends Command{
 	
 	private static User author;

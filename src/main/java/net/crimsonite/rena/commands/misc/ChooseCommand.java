@@ -19,12 +19,7 @@ package net.crimsonite.rena.commands.misc;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
-import com.jagrosh.jdautilities.doc.standard.CommandInfo;
 
-@CommandInfo(
-		name = {"choose"},
-		description = "Chooses between two or more choices."
-		)
 public class ChooseCommand extends Command{
 	
 	private static String[] args;

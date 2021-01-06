@@ -22,16 +22,11 @@ import java.time.format.DateTimeFormatter;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
-import com.jagrosh.jdautilities.doc.standard.CommandInfo;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 
-@CommandInfo(
-		name = {"guildinfo"},
-		description = "Shows the informations about the guild."
-		)
 public class GuildInfoCommand extends Command{
 	
 	private static Guild guild;

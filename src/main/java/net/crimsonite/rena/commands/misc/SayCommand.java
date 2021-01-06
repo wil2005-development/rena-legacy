@@ -19,12 +19,7 @@ package net.crimsonite.rena.commands.misc;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
-import com.jagrosh.jdautilities.doc.standard.CommandInfo;
 
-@CommandInfo(
-		name = {"say"},
-		description = "Repeats the arguments passed after the command."
-		)
 public class SayCommand extends Command{
 	
 	public SayCommand() {

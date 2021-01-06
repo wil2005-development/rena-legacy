@@ -22,15 +22,10 @@ import java.time.format.DateTimeFormatter;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
-import com.jagrosh.jdautilities.doc.standard.CommandInfo;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 
-@CommandInfo(
-		name = {"profile"},
-		description = "Shows the author's profile/member's if specified."
-		)
 public class UserInfoCommand extends Command{
 	
 	private static User user;

@@ -22,14 +22,9 @@ import org.slf4j.LoggerFactory;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
-import com.jagrosh.jdautilities.doc.standard.CommandInfo;
 
 import net.crimsonite.rena.Rena;
 
-@CommandInfo(
-		name = {"shutdown"},
-		description = "Closes all connections."
-		)
 public class ShutdownCommand extends Command{
 	
 	final static Logger logger = LoggerFactory.getLogger(Rena.class);

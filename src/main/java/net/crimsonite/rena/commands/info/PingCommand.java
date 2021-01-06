@@ -21,12 +21,7 @@ import java.time.temporal.ChronoUnit;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
-import com.jagrosh.jdautilities.doc.standard.CommandInfo;
 
-@CommandInfo(
-		name = {"ping"},
-		description = "Shows the client and websocket ping."
-		)
 public class PingCommand extends Command{
 	
 	private static long ping;
