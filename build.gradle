@@ -51,6 +51,13 @@ shadowJar {
     archiveClassifier.set(null)
 }
 
+compileJava {
+	source = 'build/filtered'
+	options.encoding = 'UTF-8'
+	
+	dependsOn filterVersion
+}
+
 class Version {
 	String major, minor, revision
 	
@@ -58,7 +65,5 @@ class Version {
 		"${major}.${minor}.${revision}"
 	}
 }
-compileJava.options.encoding = 'UTF-8'
-compileJava.source = sourceSets.main.allJava
 
 build.dependsOn shadowJar
