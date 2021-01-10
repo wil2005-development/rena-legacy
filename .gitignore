@@ -14,5 +14,8 @@
 .settings
 /bin
 
+# VSCode
+.vscode
+
 # Files
 config.txt
