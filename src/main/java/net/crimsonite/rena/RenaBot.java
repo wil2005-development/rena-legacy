@@ -38,6 +38,7 @@ import net.crimsonite.rena.commands.info.StatusCommand;
 import net.crimsonite.rena.commands.info.UserInfoCommand;
 import net.crimsonite.rena.commands.misc.ChooseCommand;
 import net.crimsonite.rena.commands.misc.SayCommand;
+import net.crimsonite.rena.database.DBConnection;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
@@ -112,6 +113,7 @@ public class RenaBot {
 	
 	public static void main(String[] args) {
 		new RenaBot();
+		DBConnection.conn();
 	}
 	
 }

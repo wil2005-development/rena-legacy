@@ -19,11 +19,15 @@ repositories {
 }
 
 dependencies {
+	// MAIN
 	implementation 'net.dv8tion:JDA:4.2.0_222'
-	
 	implementation 'com.jagrosh:jda-utilities:3.0.5'
 
+	// LOGGER
 	implementation 'ch.qos.logback:logback-classic:1.2.3'
+	
+	// DATABASE
+	implementation 'com.rethinkdb:rethinkdb-driver:2.3.3'
 }
 
 task filterVersion(type: Copy) {
