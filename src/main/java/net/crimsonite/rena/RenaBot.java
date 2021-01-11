@@ -72,31 +72,31 @@ public class RenaBot {
 			alternativePrefix = list.get(4);
 			
 			client.setStatus(OnlineStatus.ONLINE)
-			.setActivity(Activity.watching("over you"))
-			.setOwnerId(ownerID)
-			.setEmojis("\u2714", "\u26A0", "\u274c")
-			.setPrefix(prefix)
-			.setAlternativePrefix(alternativePrefix)
-			.addCommands(
-					new ChooseCommand(),
-					new SayCommand(),
-					
-					new GuildInfoCommand(),
-					new PingCommand(),
-					new ShardInfoCommand(),
-					new StatusCommand(),
-					new UserInfoCommand(),
-					
-					new ShutdownCommand()
-					);
+				.setActivity(Activity.watching("over you"))
+				.setOwnerId(ownerID)
+				.setEmojis("\u2714", "\u26A0", "\u274c")
+				.setPrefix(prefix)
+				.setAlternativePrefix(alternativePrefix)
+				.addCommands(
+						new ChooseCommand(),
+						new SayCommand(),
+						
+						new GuildInfoCommand(),
+						new PingCommand(),
+						new ShardInfoCommand(),
+						new StatusCommand(),
+						new UserInfoCommand(),
+						
+						new ShutdownCommand()
+						);
 	        
 	        JDABuilder.createDefault(token)
-			.setStatus(OnlineStatus.DO_NOT_DISTURB)
-			.setActivity(Activity.playing("loading..."))
-			.enableIntents(GatewayIntent.GUILD_MEMBERS)
-			.setMemberCachePolicy(MemberCachePolicy.ALL)
-			.addEventListeners(waiter, client.build())
-			.build();
+		        .setStatus(OnlineStatus.DO_NOT_DISTURB)
+		        .setActivity(Activity.playing("loading..."))
+		        .enableIntents(GatewayIntent.GUILD_MEMBERS)
+		        .setMemberCachePolicy(MemberCachePolicy.ALL)
+		        .addEventListeners(waiter, client.build())
+		        .build();
 	        
 	        logger.info("Bot activated in " + (System.currentTimeMillis() - startup) + "ms.");
 		}
