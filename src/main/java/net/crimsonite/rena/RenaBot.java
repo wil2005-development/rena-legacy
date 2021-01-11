@@ -71,13 +71,13 @@ public class RenaBot {
 			prefix = list.get(3);
 			alternativePrefix = list.get(4);
 			
-			client.setStatus(OnlineStatus.ONLINE);
-			client.setActivity(Activity.watching("over you"));
-			client.setOwnerId(ownerID);
-			client.setEmojis("\u2714", "\u26A0", "\u274c");
-			client.setPrefix(prefix);
-			client.setAlternativePrefix(alternativePrefix);
-			client.addCommands(
+			client.setStatus(OnlineStatus.ONLINE)
+			.setActivity(Activity.watching("over you"))
+			.setOwnerId(ownerID)
+			.setEmojis("\u2714", "\u26A0", "\u274c")
+			.setPrefix(prefix)
+			.setAlternativePrefix(alternativePrefix)
+			.addCommands(
 					new ChooseCommand(),
 					new SayCommand(),
 					
