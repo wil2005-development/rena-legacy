@@ -78,17 +78,17 @@ public class RenaBot {
 				.setPrefix(prefix)
 				.setAlternativePrefix(alternativePrefix)
 				.addCommands(
-						new ChooseCommand(),
-						new SayCommand(),
-						
-						new GuildInfoCommand(),
-						new PingCommand(),
-						new ShardInfoCommand(),
-						new StatusCommand(),
-						new UserInfoCommand(),
-						
-						new ShutdownCommand()
-						);
+					new ChooseCommand(),
+					new SayCommand(),
+					
+					new GuildInfoCommand(),
+					new PingCommand(),
+					new ShardInfoCommand(),
+					new StatusCommand(),
+					new UserInfoCommand(),
+					
+					new ShutdownCommand()
+					);
 	        
 	        JDABuilder.createDefault(token)
 		        .setStatus(OnlineStatus.DO_NOT_DISTURB)
