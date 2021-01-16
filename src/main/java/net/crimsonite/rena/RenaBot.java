@@ -90,15 +90,15 @@ public class RenaBot {
 					new ShutdownCommand()
 					);
 	        
-	        JDABuilder.createDefault(token)
-		        .setStatus(OnlineStatus.DO_NOT_DISTURB)
-		        .setActivity(Activity.playing("loading..."))
-		        .enableIntents(GatewayIntent.GUILD_MEMBERS)
-		        .setMemberCachePolicy(MemberCachePolicy.ALL)
-		        .addEventListeners(waiter, client.build())
-		        .build();
-	        
-	        logger.info("Bot activated in " + (System.currentTimeMillis() - startup) + "ms.");
+			JDABuilder.createDefault(token)
+				.setStatus(OnlineStatus.DO_NOT_DISTURB)
+				.setActivity(Activity.playing("loading..."))
+				.enableIntents(GatewayIntent.GUILD_MEMBERS)
+				.setMemberCachePolicy(MemberCachePolicy.ALL)
+				.addEventListeners(waiter, client.build())
+				.build();
+			
+			logger.info("Bot activated in " + (System.currentTimeMillis() - startup) + "ms.");
 		}
 		catch (IOException e) {
 			e.printStackTrace();
