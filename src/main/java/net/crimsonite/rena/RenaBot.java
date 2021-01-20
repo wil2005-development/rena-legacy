@@ -27,17 +27,7 @@ import javax.security.auth.login.LoginException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.jagrosh.jdautilities.command.CommandClientBuilder;
-import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-
-import net.crimsonite.rena.commands.dev.ShutdownCommand;
-import net.crimsonite.rena.commands.info.GuildInfoCommand;
 import net.crimsonite.rena.commands.info.PingCommand;
-import net.crimsonite.rena.commands.info.ShardInfoCommand;
-import net.crimsonite.rena.commands.info.StatusCommand;
-import net.crimsonite.rena.commands.info.UserInfoCommand;
-import net.crimsonite.rena.commands.misc.ChooseCommand;
-import net.crimsonite.rena.commands.misc.SayCommand;
 import net.crimsonite.rena.database.DBConnection;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -51,9 +41,6 @@ public class RenaBot {
 	public static String prefix;
 	public static String alternativePrefix;
 	public static String ownerID;
-	
-	public static EventWaiter waiter = new EventWaiter();
-	public static CommandClientBuilder client = new CommandClientBuilder();
 
 	final static Logger logger = LoggerFactory.getLogger(RenaBot.class);
 	
@@ -70,32 +57,13 @@ public class RenaBot {
 			ownerID = list.get(1);
 			prefix = list.get(3);
 			alternativePrefix = list.get(4);
-			
-			client.setStatus(OnlineStatus.ONLINE)
-				.setActivity(Activity.watching("over you"))
-				.setOwnerId(ownerID)
-				.setEmojis("\u2714", "\u26A0", "\u274c")
-				.setPrefix(prefix)
-				.setAlternativePrefix(alternativePrefix)
-				.addCommands(
-					new ChooseCommand(),
-					new SayCommand(),
-					
-					new GuildInfoCommand(),
-					new PingCommand(),
-					new ShardInfoCommand(),
-					new StatusCommand(),
-					new UserInfoCommand(),
-					
-					new ShutdownCommand()
-					);
 	        
 			JDABuilder.createDefault(token)
-				.setStatus(OnlineStatus.DO_NOT_DISTURB)
+				.setStatus(OnlineStatus.ONLINE)
 				.setActivity(Activity.playing("loading..."))
 				.enableIntents(GatewayIntent.GUILD_MEMBERS)
 				.setMemberCachePolicy(MemberCachePolicy.ALL)
-				.addEventListeners(waiter, client.build())
+				.addEventListeners(new PingCommand())
 				.build();
 			
 			logger.info("Bot activated in " + (System.currentTimeMillis() - startup) + "ms.");

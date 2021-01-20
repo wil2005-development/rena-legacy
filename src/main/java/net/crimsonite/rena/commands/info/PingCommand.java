@@ -17,35 +17,39 @@
 
 package net.crimsonite.rena.commands.info;
 
-import java.time.temporal.ChronoUnit;
+import java.util.List;
 
-import com.jagrosh.jdautilities.command.Command;
-import com.jagrosh.jdautilities.command.CommandEvent;
+import net.crimsonite.rena.RenaBot;
+import net.crimsonite.rena.utils.Command;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-public class PingCommand extends Command{
-	
-	private static long ping;
-	private static long websocket;
-	
-	public PingCommand() {
-		this.name = "ping";
-		this.aliases = new String[] {"latency"};
-		this.category = new Category("Informations");
-		this.help = "Shows the client and websocket ping.";
-		this.guildOnly = false;
-		this.cooldown = 5;
+public class PingCommand extends Command {
+
+	@Override
+	public void onCommand(MessageReceivedEvent event, String[] args) {
+		JDA jda = event.getJDA();
+		MessageChannel channel = event.getChannel();
+		
+		jda.getRestPing().queue(
+				(ping) -> channel.sendMessageFormat("**Ping:** %dms | **Websocket:** %dms", ping, jda.getGatewayPing()).queue()
+				);
 	}
 
 	@Override
-	protected void execute(CommandEvent event) {
-		if (event.getAuthor().isBot())
-			return;
-					
-		event.reply("Requesting...", msg -> {
-            ping = event.getMessage().getTimeCreated().until(msg.getTimeCreated(), ChronoUnit.MILLIS);
-            websocket = event.getJDA().getGatewayPing();
-            msg.editMessageFormat("**Ping: **%dms | **Websocket: **%dms", ping, websocket).queue();
-        });
+	public String getCommandName() {
+		return RenaBot.prefix + "ping";
 	}
 
+	@Override
+	public List<String> getAliases() {
+		return null;
+	}
+
+	@Override
+	public boolean isOwnerCommand() {
+		return false;
+	}
+	
 }
