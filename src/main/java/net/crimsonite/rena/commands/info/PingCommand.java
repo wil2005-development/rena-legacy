@@ -17,8 +17,6 @@
 
 package net.crimsonite.rena.commands.info;
 
-import java.util.List;
-
 import net.crimsonite.rena.RenaBot;
 import net.crimsonite.rena.utils.Command;
 import net.dv8tion.jda.api.JDA;
@@ -28,7 +26,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 public class PingCommand extends Command {
 
 	@Override
-	public void onCommand(MessageReceivedEvent event, String[] args) {
+	public void execute(MessageReceivedEvent event, String[] args) {
 		JDA jda = event.getJDA();
 		MessageChannel channel = event.getChannel();
 		
@@ -41,12 +39,7 @@ public class PingCommand extends Command {
 	public String getCommandName() {
 		return RenaBot.prefix + "ping";
 	}
-
-	@Override
-	public List<String> getAliases() {
-		return null;
-	}
-
+	
 	@Override
 	public boolean isOwnerCommand() {
 		return false;
