@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 
 import net.crimsonite.rena.commands.info.PingCommand;
 import net.crimsonite.rena.commands.misc.ChooseCommand;
+import net.crimsonite.rena.commands.misc.SayCommand;
 import net.crimsonite.rena.database.DBConnection;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -64,7 +65,11 @@ public class RenaBot {
 				.setActivity(Activity.playing("loading..."))
 				.enableIntents(GatewayIntent.GUILD_MEMBERS)
 				.setMemberCachePolicy(MemberCachePolicy.ALL)
-				.addEventListeners(new PingCommand(), new ChooseCommand())
+				.addEventListeners(
+						new PingCommand(),
+						new ChooseCommand(),
+						new SayCommand()
+						)
 				.build();
 			
 			logger.info("Bot activated in " + (System.currentTimeMillis() - startup) + "ms.");
