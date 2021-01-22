@@ -25,12 +25,13 @@ public class ChooseCommand extends Command{
 
 	@Override
 	public void execute(MessageReceivedEvent event, String[] args) {
+		String[] slicedArgs = event.getMessage().getContentRaw().split(",(?=([^\\\"]*\\\"[^\\\"]*\\\")*[^\\\"]*$)");
 		
 		if (args.length <= 1) {
 			event.getChannel().sendMessage("I choose **nothing**...").queue();
 		}
 		else {
-			String choice = args[(int)(Math.random()*args.length)];
+			String choice = slicedArgs[(int)(Math.random()*slicedArgs.length)];
 			event.getChannel().sendMessageFormat("I choose **%s**.", choice).queue();
 		}
 	}
