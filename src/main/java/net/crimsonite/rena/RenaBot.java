@@ -27,6 +27,7 @@ import javax.security.auth.login.LoginException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import net.crimsonite.rena.commands.info.GuildinfoCommand;
 import net.crimsonite.rena.commands.info.PingCommand;
 import net.crimsonite.rena.commands.info.UserinfoCommand;
 import net.crimsonite.rena.commands.misc.ChooseCommand;
@@ -70,7 +71,8 @@ public class RenaBot {
 						new PingCommand(),
 						new ChooseCommand(),
 						new SayCommand(),
-						new UserinfoCommand()
+						new UserinfoCommand(),
+						new GuildinfoCommand()
 						)
 				.build();
 			
