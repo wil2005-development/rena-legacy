@@ -28,6 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import net.crimsonite.rena.commands.info.PingCommand;
+import net.crimsonite.rena.commands.info.UserinfoCommand;
 import net.crimsonite.rena.commands.misc.ChooseCommand;
 import net.crimsonite.rena.commands.misc.SayCommand;
 import net.crimsonite.rena.database.DBConnection;
@@ -68,7 +69,8 @@ public class RenaBot {
 				.addEventListeners(
 						new PingCommand(),
 						new ChooseCommand(),
-						new SayCommand()
+						new SayCommand(),
+						new UserinfoCommand()
 						)
 				.build();
 			
