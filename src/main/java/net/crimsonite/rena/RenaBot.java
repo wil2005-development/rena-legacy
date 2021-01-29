@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 
 import net.crimsonite.rena.commands.info.GuildinfoCommand;
 import net.crimsonite.rena.commands.info.PingCommand;
+import net.crimsonite.rena.commands.info.StatusCommand;
 import net.crimsonite.rena.commands.info.UserinfoCommand;
 import net.crimsonite.rena.commands.misc.ChooseCommand;
 import net.crimsonite.rena.commands.misc.SayCommand;
@@ -72,7 +73,8 @@ public class RenaBot {
 						new ChooseCommand(),
 						new SayCommand(),
 						new UserinfoCommand(),
-						new GuildinfoCommand()
+						new GuildinfoCommand(),
+						new StatusCommand()
 						)
 				.build();
 			
