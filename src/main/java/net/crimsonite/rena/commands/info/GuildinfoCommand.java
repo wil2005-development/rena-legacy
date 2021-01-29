@@ -20,36 +20,24 @@ package net.crimsonite.rena.commands.info;
 import java.awt.Color;
 import java.time.format.DateTimeFormatter;
 
-import com.jagrosh.jdautilities.command.Command;
-import com.jagrosh.jdautilities.command.CommandEvent;
-
+import net.crimsonite.rena.RenaBot;
+import net.crimsonite.rena.utils.Command;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-public class GuildInfoCommand extends Command{
-	
-	private static Guild guild;
-	private static User author;
-	private static Color roleColor;
-	
+public class GuildinfoCommand extends Command{
+
 	private static DateTimeFormatter format = DateTimeFormatter.ofPattern("MMMM d, yyyy");
 	
-	public GuildInfoCommand() {
-		this.name = "guild";
-		this.aliases = new String[] {"guildinfo, serverinfo"};
-		this.category = new Category("Informations");
-		this.help = "Shows the informations about the guild.";
-		this.guildOnly = false;
-		this.cooldown = 5;
-	}
-
 	@Override
-	protected void execute(CommandEvent event) {
-		guild = event.getGuild();
-		author = event.getAuthor();
-		roleColor = event.getGuild().getMember(author).getColor();
-		
+	public void execute(MessageReceivedEvent event, String[] args) {
+		MessageChannel channel = event.getChannel();
+		Guild guild = event.getGuild();
+		User author = event.getAuthor();
+		Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
 		EmbedBuilder embed = new EmbedBuilder()
 				.setColor(roleColor)
 				.setTitle("Showing informations for " + guild.getName())
@@ -60,8 +48,18 @@ public class GuildInfoCommand extends Command{
 				.addField("Members", "" + guild.getMemberCount(), true)
 				.addField("Roles", "" + guild.getRoles().size(), true)
 				.setFooter(author.getName(), author.getEffectiveAvatarUrl());
-				
-		event.reply(embed.build());
+		
+		channel.sendMessage(embed.build()).queue();
+	}
+
+	@Override
+	public String getCommandName() {
+		return RenaBot.prefix + "guild";
+	}
+
+	@Override
+	public boolean isOwnerCommand() {
+		return false;
 	}
 
 }

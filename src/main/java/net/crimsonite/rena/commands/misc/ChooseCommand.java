@@ -17,37 +17,33 @@
 
 package net.crimsonite.rena.commands.misc;
 
-import com.jagrosh.jdautilities.command.Command;
-import com.jagrosh.jdautilities.command.CommandEvent;
+import net.crimsonite.rena.RenaBot;
+import net.crimsonite.rena.utils.Command;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class ChooseCommand extends Command{
-	
-	private static String[] args;
-	private static String choice;
-	
-	public ChooseCommand() {
-		this.name = "choose";
-		this.aliases = new String[] {"pick"};
-		this.category = new Category("Miscellaneous");
-		this.help = "Chooses between two or more choices.";
-		this.arguments = "[choices]";
-		this.guildOnly = true;
-		this.cooldown = 5;
+
+	@Override
+	public void execute(MessageReceivedEvent event, String[] args) {
+		String[] slicedArgs = event.getMessage().getContentRaw().split(",(?=([^\\\"]*\\\"[^\\\"]*\\\")*[^\\\"]*$)");
+		
+		if (args.length <= 1) {
+			event.getChannel().sendMessage("I choose **nothing**...").queue();
+		}
+		else {
+			String choice = slicedArgs[(int)(Math.random()*slicedArgs.length)];
+			event.getChannel().sendMessageFormat("I choose **%s**.", choice).queue();
+		}
 	}
 
 	@Override
-	protected void execute(CommandEvent event) {
-		if (event.getAuthor().isBot())
-			return;
-		
-		args = event.getArgs().split(",");
-		
-		if (event.getArgs().isEmpty()) {
-			event.reply("I choose **nothing**...");
-		}
-		else {
-			choice = args[(int)(Math.random()*args.length)];
-			event.replyFormatted("I choose **%s**.", choice);
-		}
+	public String getCommandName() {
+		return RenaBot.prefix + "choose";
 	}
+	
+	@Override
+	public boolean isOwnerCommand() {
+		return false;
+	}
+
 }

@@ -17,32 +17,33 @@
 
 package net.crimsonite.rena.commands.misc;
 
-import com.jagrosh.jdautilities.command.Command;
-import com.jagrosh.jdautilities.command.CommandEvent;
+import net.crimsonite.rena.RenaBot;
+import net.crimsonite.rena.utils.Command;
+import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class SayCommand extends Command{
-	
-	public SayCommand() {
-		this.name = "say";
-		this.aliases = new String[] {"repeatafterme"};
-		this.category = new Category("Miscellaneous");
-		this.help = "Repeats the arguments passed after the command.";
-		this.arguments = "[message]";
-		this.guildOnly = true;
-		this.cooldown = 5;
+
+	@Override
+	public void execute(MessageReceivedEvent event, String[] args) {
+		MessageChannel channel = event.getChannel();
+		
+		if (args.length == 0) {
+			channel.sendMessage("What am I supposed to say?!");
+		}
+		else if (args.length >= 1) {
+			channel.sendMessageFormat("**%s** said: %s", event.getAuthor(), args[1]).queue();
+		}
 	}
 
 	@Override
-	protected void execute(CommandEvent event) {
-		if (event.getAuthor().isBot())
-			return;
-		
-		if (event.getArgs().isEmpty()) {
-			event.reply("Want me to repeat after nothing?!");
-		}
-		else {
-			event.reply(event.getArgs());
-		}
-		
+	public String getCommandName() {
+		return RenaBot.prefix + "say";
 	}
+
+	@Override
+	public boolean isOwnerCommand() {
+		return false;
+	}
+
 }
