@@ -15,7 +15,9 @@ public class DBConnection {
 	private static final RethinkDB r = RethinkDB.r;
 	final static Logger logger = LoggerFactory.getLogger(DBConnection.class);
 
-	// Connect to host DB
+	/**
+	 * @return database connection
+	 */
 	public static Connection conn() {
 		connection = r.connection().hostname("localhost").port(28015).connect();
 		
@@ -23,17 +25,21 @@ public class DBConnection {
 	}
 	
 	// Primary DB
-	public static Db db() {
+	protected static Db db() {
 		return r.db("Rena");
 	}
 	
-	// Users table
+	/**
+	 * @return table of users
+	 */
 	public static Table users() {
-		return db().table("Users");
+		return db().table("users");
 	}
 	
-	// Guilds table
+	/**
+	 * @return table of guilds
+	 */
 	public static Table guilds() {
-		return db().table("Guilds");
+		return db().table("guilds");
 	}
 }
