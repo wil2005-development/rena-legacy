@@ -63,16 +63,42 @@ public class DBUsers {
 	}
 	
 	/**
-	 * (Read)Returns the value of the specified key.
+	 * (Read)Returns the String value of the specified key.
 	 * 
 	 * @param UID
 	 * @param key
 	 * @return value of key
 	 */
-	public static String getValue(String UID, String key) {
+	public static String getValueString(String UID, String key) {
 		HashMap<String, String> obj = user.get(UID).run(DBConnection.conn());
 		
 		return String.valueOf(obj.get(key));
+	}
+	
+	/**
+	 * (Read)Returns the Integer value of the specified key.
+	 * 
+	 * @param UID
+	 * @param key
+	 * @return value of key
+	 */
+	public static Integer getValueInt(String UID, String key) {
+		HashMap<String, String> obj = user.get(UID).run(DBConnection.conn());
+		
+		return Integer.valueOf(obj.get(key));
+	}
+	
+	/**
+	 * (Read)Returns the Boolean value of the specified key.
+	 * 
+	 * @param UID
+	 * @param key
+	 * @return value of key
+	 */
+	public static Boolean getValueBoolean(String UID, String key) {
+		HashMap<String, String> obj = user.get(UID).run(DBConnection.conn());
+		
+		return Boolean.valueOf(obj.get(key));
 	}
 	
 	
