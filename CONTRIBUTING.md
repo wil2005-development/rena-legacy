@@ -1,12 +1,15 @@
 ## Contributing Guidelines
 
 #### A brief description about this project
-* Rena is a Discord Bot made for the sake of learning. Everyone is welcome to contribute regardless of their programming knowledge.
-Even the author of this project is a novice to programming, so you might find the code very messy.
+* Rena is a simple, multi-purpose bot for Discord that does very basic stuffs.
 
 #### How to contribute to Rena
-* You can contribute in any way you like, be it making a new feature, improvement, and bug fixes.
-* Keep in mind that the author of this project is also novice. He would appreciate it if you don't make any complicated changes.
+* You can contribute in any way you like, be it by making a new feature, improvements, etc.
+* A simple, but reasonable commit message will do(refer to the convention below).
 
-#### Additional notes
-* This is a small project, so there's no need to make a strict guideline. At least for now.
+#### Conventions
+You are not required to follow these instructions, but it would be better if you could, so that we can avoid potential complications.
+* Commit messages for editing an existing file must be all lowercased. (ex.`refactor`, `bug fixes for imageboard command`.)
+* Commit messages for a new feature or new modules must start with an uppercase character. (ex. `Add game API`, `Add game module`.)
+* Do not include different changes in a single commit.
+* Add `#TODO do domething` comments in files that requires other's attention.
