@@ -19,7 +19,6 @@ package net.crimsonite.rena.commands.info;
 
 import java.awt.Color;
 
-import net.crimsonite.rena.RenaBot;
 import net.crimsonite.rena.RenaInfo;
 import net.crimsonite.rena.utils.Command;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -48,7 +47,7 @@ public class StatusCommand extends Command {
 
 	@Override
 	public String getCommandName() {
-		return RenaBot.prefix + "status";
+		return "status";
 	}
 
 	@Override

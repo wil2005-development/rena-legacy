@@ -17,7 +17,6 @@
 
 package net.crimsonite.rena.commands.misc;
 
-import net.crimsonite.rena.RenaBot;
 import net.crimsonite.rena.utils.Command;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
@@ -38,7 +37,7 @@ public class ChooseCommand extends Command{
 
 	@Override
 	public String getCommandName() {
-		return RenaBot.prefix + "choose";
+		return "choose";
 	}
 	
 	@Override

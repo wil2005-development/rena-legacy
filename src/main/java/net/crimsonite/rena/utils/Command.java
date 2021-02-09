@@ -1,5 +1,6 @@
 package net.crimsonite.rena.utils;
 
+import net.crimsonite.rena.RenaBot;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Message;
@@ -25,7 +26,7 @@ public abstract class Command extends ListenerAdapter {
 	}
 	
 	protected boolean containsCommand(Message message) {
-		return getCommandName().equalsIgnoreCase(commandArgs(message)[0]);
+		return (RenaBot.prefix+getCommandName()).equalsIgnoreCase(commandArgs(message)[0]);
 	}
 	
 	protected String[] commandArgs(Message message) {
