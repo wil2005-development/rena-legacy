@@ -46,12 +46,14 @@ public class RenaBot {
 	public static String prefix;
 	public static String alternativePrefix;
 	public static String ownerID;
+	public static String hostName;
+	public static int port;
 	public static long startup;
 
 	final static Logger logger = LoggerFactory.getLogger(RenaBot.class);
 	
 	protected RenaBot() {
-		logger.info("Starting up...");
+		logger.info("Preparing bot for activation...");
 		
 		startup = System.currentTimeMillis();
 		
@@ -62,6 +64,8 @@ public class RenaBot {
 			ownerID = list.get(1);
 			prefix = list.get(3);
 			alternativePrefix = list.get(4);
+			hostName = list.get(5);
+			port = Integer.parseInt(list.get(6));
 	        
 			JDA jda = JDABuilder.createDefault(list.get(0))
 				.setStatus(OnlineStatus.ONLINE)
@@ -98,6 +102,8 @@ public class RenaBot {
 	
 	// Execute program
 	public static void main(String[] args) {
+		logger.info("Starting up...");
+		
 		new RenaBot();
 		DBConnection.conn();
 	}
