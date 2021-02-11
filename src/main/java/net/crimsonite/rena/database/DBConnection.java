@@ -14,7 +14,7 @@ public class DBConnection {
 	/**
 	 * @param hostName
 	 * @param port
-	 * @return database connection.
+	 * @return database connection
 	 */
 	public static final Connection conn() {
 		Connection connection = r.connection().hostname(RenaBot.hostName).port(RenaBot.port).connect();
@@ -28,7 +28,7 @@ public class DBConnection {
 	}
 	
 	/**
-	 * @return table of users.
+	 * @return table of users
 	 */
 	public static final Table users() {
 		return db().table("users");
