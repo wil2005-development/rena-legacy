@@ -31,8 +31,6 @@ import net.crimsonite.rena.commands.info.GuildinfoCommand;
 import net.crimsonite.rena.commands.info.PingCommand;
 import net.crimsonite.rena.commands.info.StatusCommand;
 import net.crimsonite.rena.commands.info.UserinfoCommand;
-import net.crimsonite.rena.commands.misc.ChooseCommand;
-import net.crimsonite.rena.commands.misc.SayCommand;
 import net.crimsonite.rena.database.DBConnection;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -74,8 +72,6 @@ public class RenaBot {
 				.setMemberCachePolicy(MemberCachePolicy.ALL)
 				.addEventListeners(
 						new PingCommand(),
-						new ChooseCommand(),
-						new SayCommand(),
 						new UserinfoCommand(),
 						new GuildinfoCommand(),
 						new StatusCommand()
