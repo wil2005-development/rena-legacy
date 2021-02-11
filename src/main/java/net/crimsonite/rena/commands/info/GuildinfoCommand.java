@@ -20,7 +20,6 @@ package net.crimsonite.rena.commands.info;
 import java.awt.Color;
 import java.time.format.DateTimeFormatter;
 
-import net.crimsonite.rena.RenaBot;
 import net.crimsonite.rena.utils.Command;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
@@ -54,7 +53,7 @@ public class GuildinfoCommand extends Command{
 
 	@Override
 	public String getCommandName() {
-		return RenaBot.prefix + "guild";
+		return "guild";
 	}
 
 	@Override

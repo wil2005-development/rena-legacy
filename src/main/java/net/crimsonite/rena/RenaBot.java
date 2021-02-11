@@ -31,9 +31,8 @@ import net.crimsonite.rena.commands.info.GuildinfoCommand;
 import net.crimsonite.rena.commands.info.PingCommand;
 import net.crimsonite.rena.commands.info.StatusCommand;
 import net.crimsonite.rena.commands.info.UserinfoCommand;
-import net.crimsonite.rena.commands.misc.ChooseCommand;
-import net.crimsonite.rena.commands.misc.SayCommand;
 import net.crimsonite.rena.database.DBConnection;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
@@ -42,46 +41,52 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
 public class RenaBot {
 	
-	public static String token;
 	public static String prefix;
 	public static String alternativePrefix;
 	public static String ownerID;
+	public static String hostName;
+	public static int port;
+	public static long startup;
 
 	final static Logger logger = LoggerFactory.getLogger(RenaBot.class);
 	
-	private RenaBot() {
-		logger.info("Starting up...");
+	protected RenaBot() {
+		logger.info("Preparing bot for activation...");
 		
-		long startup = System.currentTimeMillis();
+		startup = System.currentTimeMillis();
 		
 		List<String> list;
 		try {
 			list = Files.readAllLines(Paths.get("config.txt"));
-			
-			token = list.get(0);
+
 			ownerID = list.get(1);
 			prefix = list.get(3);
 			alternativePrefix = list.get(4);
+			hostName = list.get(5);
+			port = Integer.parseInt(list.get(6));
 	        
-			JDABuilder.createDefault(token)
+			JDA jda = JDABuilder.createDefault(list.get(0))
 				.setStatus(OnlineStatus.ONLINE)
 				.setActivity(Activity.playing("loading..."))
 				.enableIntents(GatewayIntent.GUILD_MEMBERS)
 				.setMemberCachePolicy(MemberCachePolicy.ALL)
 				.addEventListeners(
 						new PingCommand(),
-						new ChooseCommand(),
-						new SayCommand(),
 						new UserinfoCommand(),
 						new GuildinfoCommand(),
 						new StatusCommand()
 						)
 				.build();
 			
-			logger.info("Bot activated in " + (System.currentTimeMillis() - startup) + "ms.");
+			if (jda.awaitReady() != null) {
+				logger.info("{} activated in {} second(s).", new Object[] {jda.getSelfUser().getName(), ((System.currentTimeMillis()-startup)/1000)});
+			}
 		}
 		catch (IOException e) {
 			e.printStackTrace();
+		}
+		catch (InterruptedException e) {
+			logger.error("Connection has been interrupted.");
 		}
 		catch (IllegalArgumentException e) {
 			logger.error("Failed to login, try checking if the Token and Intents are provided.");
@@ -91,9 +96,12 @@ public class RenaBot {
 		}
 	}
 	
+	// Execute program
 	public static void main(String[] args) {
+		logger.info("Starting up...");
+		
 		new RenaBot();
 		DBConnection.conn();
 	}
-	
+
 }
