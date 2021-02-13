@@ -31,6 +31,7 @@ import net.crimsonite.rena.commands.info.GuildinfoCommand;
 import net.crimsonite.rena.commands.info.PingCommand;
 import net.crimsonite.rena.commands.info.StatusCommand;
 import net.crimsonite.rena.commands.info.UserinfoCommand;
+import net.crimsonite.rena.commands.roleplay.DailyCommand;
 import net.crimsonite.rena.database.DBConnection;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -45,7 +46,6 @@ public class RenaBot {
 	public static String alternativePrefix;
 	public static String ownerID;
 	public static String hostName;
-	public static int port;
 	public static long startup;
 
 	final static Logger logger = LoggerFactory.getLogger(RenaBot.class);
@@ -63,7 +63,6 @@ public class RenaBot {
 			prefix = list.get(3);
 			alternativePrefix = list.get(4);
 			hostName = list.get(5);
-			port = Integer.parseInt(list.get(6));
 	        
 			JDA jda = JDABuilder.createDefault(list.get(0))
 				.setStatus(OnlineStatus.ONLINE)
@@ -74,7 +73,8 @@ public class RenaBot {
 						new PingCommand(),
 						new UserinfoCommand(),
 						new GuildinfoCommand(),
-						new StatusCommand()
+						new StatusCommand(),
+						new DailyCommand()
 						)
 				.build();
 			
