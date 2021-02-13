@@ -30,42 +30,45 @@ public abstract class Command extends ListenerAdapter {
 			return;
 		}
 		
-		if (cooldownCache.containsKey(author.getId())) {
-			long remainingCooldownShortened = remainingCooldown(author.getId())-TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
+		if (containsCommand(event.getMessage())) {
+			String command = getCommandName();
 			
-			if (remainingCooldownShortened > 0) {
-				event.getChannel().sendMessageFormat("**Oi oi! Slow down!!!** *This command is on cooldown for* `%d`s.", remainingCooldownShortened).queue();
+			if (cooldownCache.containsKey(author.getId() + "-" + command)) {
+				long remainingCooldownShortened = remainingCooldown(author.getId(), command)-TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
 				
-				return;
+				if (remainingCooldownShortened > 0) {
+					event.getChannel().sendMessageFormat("**Oi oi! Slow down!!!** *This command is on cooldown for* `%d`s.", remainingCooldownShortened).queue();
+					
+					return;
+				}
+				else if (remainingCooldownShortened <= 0) {
+					removeCooldown(author.getId(), command);
+					
+					execute(event, commandArgs(event.getMessage()));
+		        	setCooldown(author.getId(), getCommandName());
+				}
 			}
-			else if (remainingCooldownShortened <= 0) {
-				removeCooldown(author.getId());
-				
-				if (containsCommand(event.getMessage())) {
-		        	execute(event, commandArgs(event.getMessage()));
-		        	setCooldown(author.getId());
-		        }
+			else {
+				execute(event, commandArgs(event.getMessage()));
+	        	setCooldown(author.getId(), getCommandName());
 			}
-		}
-		else {
-			if (containsCommand(event.getMessage())) {
-	        	execute(event, commandArgs(event.getMessage()));
-	        	setCooldown(author.getId());
-	        }
 		}
 	}
 	
-	protected long remainingCooldown(String UID) {
-		return cooldownCache.get(UID);
+	protected long remainingCooldown(String UID, String command) {
+		String key = UID + "-" + command;
+		return cooldownCache.get(key);
 	}
 	
-	protected void setCooldown(String UID) {
+	protected void setCooldown(String UID, String command) {
+		String key = UID + "-" + command;
 		long cooldownDuration = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()) + this.cooldown();
-		cooldownCache.put(UID, cooldownDuration);
+		cooldownCache.put(key, cooldownDuration);
 	}
 	
-	protected void removeCooldown(String UID) {
-		cooldownCache.remove(UID);
+	protected void removeCooldown(String UID, String command) {
+		String key = UID + "-" + command;
+		cooldownCache.remove(key);
 	}
 
 	protected boolean containsCommand(Message message) {
