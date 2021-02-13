@@ -43,5 +43,10 @@ public class PingCommand extends Command {
 	public boolean isOwnerCommand() {
 		return false;
 	}
+
+	@Override
+	public long cooldown() {
+		return 5;
+	}
 	
 }

@@ -64,12 +64,17 @@ public class UserinfoCommand extends Command {
 
 	@Override
 	public String getCommandName() {
-		return "profile";
+		return "userinfo";
 	}
 
 	@Override
 	public boolean isOwnerCommand() {
 		return false;
+	}
+
+	@Override
+	public long cooldown() {
+		return 5;
 	}
 
 }

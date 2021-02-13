@@ -53,12 +53,17 @@ public class GuildinfoCommand extends Command{
 
 	@Override
 	public String getCommandName() {
-		return "guild";
+		return "guildinfo";
 	}
 
 	@Override
 	public boolean isOwnerCommand() {
 		return false;
+	}
+
+	@Override
+	public long cooldown() {
+		return 5;
 	}
 
 }

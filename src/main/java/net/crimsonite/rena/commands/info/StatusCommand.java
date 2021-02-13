@@ -55,4 +55,9 @@ public class StatusCommand extends Command {
 		return false;
 	}
 
+	@Override
+	public long cooldown() {
+		return 5;
+	}
+
 }
