@@ -43,6 +43,17 @@ public class StatusCommand extends Command {
 				.addField("Users", jda.getUsers().size()+"", false);
 
 		channel.sendMessage(embed.build()).queue();
+		channel.sendMessageFormat(
+				"```yml\n" +
+				"**************************\n" +
+				"** Internal Information **\n" +
+				"**************************\n\n" +
+				"Shards: %d\n" +
+				"Threads : %d" +
+				"```",
+				jda.getShardInfo().getShardTotal(),
+				Thread.activeCount()
+				).queue();
 	}
 
 	@Override
