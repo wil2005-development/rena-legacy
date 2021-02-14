@@ -17,15 +17,16 @@
 
 package net.crimsonite.rena;
 
+import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
 
 import javax.security.auth.login.LoginException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.crimsonite.rena.commands.info.GuildinfoCommand;
 import net.crimsonite.rena.commands.info.PingCommand;
@@ -46,8 +47,8 @@ public class RenaBot {
 	
 	public static String prefix;
 	public static String alternativePrefix;
-	public static String ownerID;
 	public static String hostName;
+	public static int ownerID;
 	public static long startup;
 
 	final static Logger logger = LoggerFactory.getLogger(RenaBot.class);
@@ -56,17 +57,16 @@ public class RenaBot {
 		logger.info("Preparing bot for activation...");
 		
 		startup = System.currentTimeMillis();
-		
-		List<String> list;
 		try {
-			list = Files.readAllLines(Paths.get("config.txt"));
-
-			ownerID = list.get(1);
-			prefix = list.get(3);
-			alternativePrefix = list.get(4);
-			hostName = list.get(5);
+			ObjectMapper mapper = new ObjectMapper();
+			JsonNode configRoot = mapper.readTree(new File("config.json"));
+			
+			ownerID = configRoot.get("OWNER_ID").asInt();
+			prefix = configRoot.get("PREFIX").asText();
+			alternativePrefix = configRoot.get("ALTERNATIVE_PREFIX").asText();
+			hostName = configRoot.get("HOST").asText();
 	        
-			JDA jda = JDABuilder.createDefault(list.get(0))
+			JDA jda = JDABuilder.createDefault(configRoot.get("TOKEN").asText())
 				.setStatus(OnlineStatus.ONLINE)
 				.setActivity(Activity.playing("loading..."))
 				.enableIntents(GatewayIntent.GUILD_MEMBERS)
