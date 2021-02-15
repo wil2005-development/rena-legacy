@@ -34,8 +34,9 @@ public class DBUsers {
 	 * @param UID -The Unique ID of the user.
 	 * @param key -The db variable to be incremented.
 	 * @param val -The amount to increment.
+	 * @throws NullPointerException If the user is not found in the database.
 	 */
-	public static void incrementValue(String UID, String key, int val) {
+	public static void incrementValue(String UID, String key, int val) throws NullPointerException {
 		HashMap<String, String> obj = user.get(UID).run(conn);
 		int initialValue = Integer.parseInt(String.valueOf(obj.get(key)));
 		int incrementedValue = initialValue += val;
@@ -49,8 +50,9 @@ public class DBUsers {
 	 * @param UID -The Unique ID of the user.
 	 * @param key -The db variable to be decremented.
 	 * @param val -The amount to decrement.
+	 * @throws NullPointerException If the user is not found in the database.
 	 */
-	public static void decrementValue(String UID, String key, int val) {
+	public static void decrementValue(String UID, String key, int val) throws NullPointerException {
 		HashMap<String, String> obj = user.get(UID).run(conn);
 		int initialValue = Integer.parseInt(String.valueOf(obj.get(key)));
 		int decrementedValue = initialValue -= val;
@@ -64,8 +66,9 @@ public class DBUsers {
 	 * @param UID -The Unique ID of the user.
 	 * @param key -the db variable to be modified.
 	 * @param val -The value to exchange.
+	 * @throws NullPointerException If the user is not found in the database.
 	 */
-	public static void modifyDataString(String UID, String key, String val) {
+	public static void modifyDataString(String UID, String key, String val) throws NullPointerException {
 		user.get(UID).update(r.hashMap(key, val)).runNoReply(conn);
 	}
 	
@@ -75,8 +78,9 @@ public class DBUsers {
 	 * @param UID -The Unique ID of the user.
 	 * @param key -The db variable to be modified.
 	 * @param val =The value to exchange.
+	 * @throws NullPointerException If the user is not found in the database.
 	 */
-	public static void modifyDataInt(String UID, String key, int val) {
+	public static void modifyDataInt(String UID, String key, int val) throws NullPointerException {
 		HashMap<String, String> obj = user.get(UID).run(conn);
 		int initialValue = Integer.parseInt(String.valueOf(obj.get(key)));
 		
@@ -89,8 +93,9 @@ public class DBUsers {
 	 * @param UID -The Unique ID of the user.
 	 * @param key -The db variable to be modified.
 	 * @param val -The value to exchange.
+	 * @throws NullPointerException If the user is not found in the database.
 	 */
-	public static void modifyDataBoolean(String UID, String key, boolean val) {
+	public static void modifyDataBoolean(String UID, String key, boolean val) throws NullPointerException {
 		user.get(UID).update(r.hashMap(key, val)).runNoReply(conn);
 	}
 	
@@ -100,8 +105,9 @@ public class DBUsers {
 	 * @param UID -The Unique ID of the user.
 	 * @param key -The db variable to get.
 	 * @return value of key
+	 * @throws NullPointerException If the user is not found in the database.
 	 */
-	public static String getValueString(String UID, String key) {
+	public static String getValueString(String UID, String key) throws NullPointerException {
 		HashMap<String, String> obj = user.get(UID).run(conn);
 		
 		return String.valueOf(obj.get(key));
@@ -113,11 +119,12 @@ public class DBUsers {
 	 * @param UID -The Unique ID of the user.
 	 * @param key -The db variable to get.
 	 * @return value of key
+	 * @throws NullPointerException If the user is not found in the database.
 	 */
-	public static Integer getValueInt(String UID, String key) {
+	public static int getValueInt(String UID, String key) throws NullPointerException {
 		HashMap<String, String> obj = user.get(UID).run(conn);
 		
-		return Integer.valueOf(obj.get(key));
+		return Integer.parseInt(obj.get(key));
 	}
 	
 	/**
@@ -126,11 +133,12 @@ public class DBUsers {
 	 * @param UID -The Unique ID of the user.
 	 * @param key -The db variable to get.
 	 * @return value of key
+	 * @throws NullPointerException If the user is not found in the database.
 	 */
-	public static Boolean getValueBoolean(String UID, String key) {
+	public static Boolean getValueBoolean(String UID, String key) throws NullPointerException {
 		HashMap<String, String> obj = user.get(UID).run(conn);
 		
-		return Boolean.valueOf(obj.get(key));
+		return Boolean.parseBoolean(obj.get(key));
 	}
 
 }

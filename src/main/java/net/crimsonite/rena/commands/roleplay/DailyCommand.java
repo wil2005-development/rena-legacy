@@ -15,45 +15,34 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.crimsonite.rena.commands.info;
+package net.crimsonite.rena.commands.roleplay;
 
-import java.awt.Color;
-import java.time.format.DateTimeFormatter;
-
+import net.crimsonite.rena.database.DBUsers;
 import net.crimsonite.rena.utils.Command;
-import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-public class GuildinfoCommand extends Command{
+public class DailyCommand extends Command{
 
-	private static DateTimeFormatter format = DateTimeFormatter.ofPattern("MMMM d, yyyy");
-	
 	@Override
 	public void execute(MessageReceivedEvent event, String[] args) {
 		MessageChannel channel = event.getChannel();
-		Guild guild = event.getGuild();
 		User author = event.getAuthor();
-		Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
-		EmbedBuilder embed = new EmbedBuilder()
-				.setColor(roleColor)
-				.setTitle("Showing informations for " + guild.getName())
-				.setThumbnail(guild.getIconUrl())
-				.addField("ID", guild.getId(), false)
-				.addField("Date Created", guild.getTimeCreated().format(format), false)
-				.addField("Owner", guild.getOwner().getEffectiveName(), false)
-				.addField("Members", "" + guild.getMemberCount(), true)
-				.addField("Roles", "" + guild.getRoles().size(), true)
-				.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 		
-		channel.sendMessage(embed.build()).queue();
+		try {
+			DBUsers.incrementValue(author.getId(), "money", 100);
+			channel.sendMessageFormat("**You claimed your** G`%d` **daily!!!**", 100).queue();
+		}
+		catch (NullPointerException ignored) {
+			DBUsers.registerUser(author.getId());
+			channel.sendMessage("Oops! Try again?").queue();
+		}
 	}
 
 	@Override
 	public String getCommandName() {
-		return "guildinfo";
+		return "daily";
 	}
 
 	@Override
@@ -63,7 +52,7 @@ public class GuildinfoCommand extends Command{
 
 	@Override
 	public long cooldown() {
-		return 5;
+		return 86400;
 	}
 
 }

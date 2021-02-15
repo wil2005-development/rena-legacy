@@ -39,7 +39,7 @@ public class UserinfoCommand extends Command {
 			Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
 			EmbedBuilder embed = new EmbedBuilder()
 					.setColor(roleColor)
-					.setTitle(author.getName() + "'s Profile")
+					.setTitle(author.getName() + "'s User Info")
 					.setThumbnail(author.getEffectiveAvatarUrl())
 					.addField("ID", author.getId(), false)
 					.addField("Date Created", author.getTimeCreated().format(format), false)
@@ -52,7 +52,7 @@ public class UserinfoCommand extends Command {
 			Color roleColor = event.getGuild().retrieveMember(user).complete().getColor();
 			EmbedBuilder embed = new EmbedBuilder()
 					.setColor(roleColor)
-					.setTitle(user.getName() + "'s Profile")
+					.setTitle(user.getName() + "'s User Info")
 					.setThumbnail(user.getEffectiveAvatarUrl())
 					.addField("ID", user.getId(), false)
 					.addField("Date Created", user.getTimeCreated().format(format), false)
@@ -64,12 +64,17 @@ public class UserinfoCommand extends Command {
 
 	@Override
 	public String getCommandName() {
-		return "profile";
+		return "userinfo";
 	}
 
 	@Override
 	public boolean isOwnerCommand() {
 		return false;
+	}
+
+	@Override
+	public long cooldown() {
+		return 5;
 	}
 
 }

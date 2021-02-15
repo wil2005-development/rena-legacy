@@ -10,14 +10,12 @@ import net.crimsonite.rena.RenaBot;
 public class DBConnection {
 
 	private static final RethinkDB r = RethinkDB.r;
-
+		
 	/**
-	 * @param hostName
-	 * @param port
 	 * @return database connection
 	 */
 	public static final Connection conn() {
-		Connection connection = r.connection().hostname(RenaBot.hostName).port(RenaBot.port).connect();
+		Connection connection = r.connection().hostname(RenaBot.hostName).port(28015).connect();
 		
 		return connection;
 	}

@@ -19,15 +19,19 @@ repositories {
 }
 
 dependencies {
-	// MAIN
+	// CORE
 	implementation 'net.dv8tion:JDA:4.2.0_227'
-	//implementation 'com.jagrosh:jda-utilities:3.0.5'
+	/* implementation 'com.jagrosh:jda-utilities:3.0.5' */
 
 	// LOGGER
 	implementation 'ch.qos.logback:logback-classic:1.2.3'
 	
 	// DATABASE
 	implementation 'com.rethinkdb:rethinkdb-driver:2.3.3'
+	/* implementation 'redis.clients:jedis:3.5.1' */
+	
+	// FILE HANDLER
+	implementation 'com.fasterxml.jackson.core:jackson-databind:1.12.1'
 }
 
 task filterVersion(type: Copy) {
