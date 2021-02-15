@@ -121,10 +121,10 @@ public class DBUsers {
 	 * @return value of key
 	 * @throws NullPointerException If the user is not found in the database.
 	 */
-	public static Integer getValueInt(String UID, String key) throws NullPointerException {
+	public static int getValueInt(String UID, String key) throws NullPointerException {
 		HashMap<String, String> obj = user.get(UID).run(conn);
 		
-		return Integer.valueOf(obj.get(key));
+		return Integer.parseInt(obj.get(key));
 	}
 	
 	/**
@@ -138,7 +138,7 @@ public class DBUsers {
 	public static Boolean getValueBoolean(String UID, String key) throws NullPointerException {
 		HashMap<String, String> obj = user.get(UID).run(conn);
 		
-		return Boolean.valueOf(obj.get(key));
+		return Boolean.parseBoolean(obj.get(key));
 	}
 
 }
