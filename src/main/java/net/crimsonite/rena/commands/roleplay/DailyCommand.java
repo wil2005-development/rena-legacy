@@ -30,10 +30,14 @@ public class DailyCommand extends Command{
 		MessageChannel channel = event.getChannel();
 		User author = event.getAuthor();
 		
-		// TODO Add cooldown feature
-		
-		DBUsers.incrementValue(author.getId(), "money", 100);
-		channel.sendMessageFormat("**You claimed your** G`%d` **daily!!!**", 100).queue();
+		try {
+			DBUsers.incrementValue(author.getId(), "money", 100);
+			channel.sendMessageFormat("**You claimed your** G`%d` **daily!!!**", 100).queue();
+		}
+		catch (NullPointerException ignored) {
+			DBUsers.registerUser(author.getId());
+			channel.sendMessage("Oops! Try again?").queue();
+		}
 	}
 
 	@Override
