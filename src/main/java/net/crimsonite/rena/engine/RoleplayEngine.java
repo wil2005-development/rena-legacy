@@ -1,40 +1,50 @@
 package net.crimsonite.rena.engine;
 
+import java.io.File;
+import java.io.IOException;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import net.crimsonite.rena.database.DBUsers;
 
 public class RoleplayEngine {
 	
-	public class CommenceBattle {
+	public static class CommenceBattle {
 		
-		private String player;
-		private String enemy;
-		private int playerHP;
-		private int enemyHP;
-		private int playerMP;
-		private int enemyMP;
-		private int playerDef;
-		private int enemyDef;
-		private int playerAttk;
-		private int enemyAttk;
-		private int playerLevel;
-		private int playerExp;
+		private static String player;
+		private static String enemy;
+		private static int playerHP;
+		private static int enemyHP;
+		private static int playerMP;
+		private static int enemyMP;
+		private static int playerDef;
+		private static int enemyDef;
+		private static int playerAttk;
+		private static int enemyAttk;
+		private static int playerLevel;
+		private static int playerExp;
 		
-		public int attack(String player) {
-			playerHP = Integer.parseInt(DBUsers.getValueString(player, "HP"));
-			playerMP = Integer.parseInt(DBUsers.getValueString(player, "MP"));
-			playerDef = Integer.parseInt(DBUsers.getValueString(player, "Def"));
+		/**
+		 * @param player -The Discord UID of the player.
+		 * @param enemy -The name of the enemy.
+		 * @return damage -The damage dealt by the player.
+		 * @throws JsonProcessingException
+		 * @throws IOException
+		 */
+		public static int attack(String player, String enemy) throws JsonProcessingException, IOException {
+			ObjectMapper mapper = new ObjectMapper();
+			JsonNode enemyData = mapper.readTree(new File("./src/main/resources/rp_assets/enemy.json"));
+			
 			playerAttk = Integer.parseInt(DBUsers.getValueString(player, "Attk"));
+			int enemyDef = enemyData.get(enemy).get("Def").asInt();
+			int damage = playerAttk/(25/(25+enemyDef));
 			
-			while (playerHP > 0 || enemyHP > 0) {
-				// TODO Add complexity. The code below is just a demonstration on how the value should be returned.
-				enemyHP -= playerAttk;
-				playerHP -= enemyAttk;
-			}
-			
-			return 0; // The outcome
+			return damage;
 		}
 		
-		private boolean checkExp(int level, int exp) {
+		private static boolean checkExp(int level, int exp) {
 			int nextLevel = level += 1;
 			int requiredExpForNextLevel = 50*nextLevel*(nextLevel+1);
 			
@@ -45,7 +55,12 @@ public class RoleplayEngine {
 			return false;
 		}
 		
-		public void handleLevelup(String player) {
+		/**
+		 * Handles the levelup of the player.
+		 * 
+		 * @param -The Discord UID of the player.
+		 */
+		public static void handleLevelup(String player) {
 			playerLevel = Integer.parseInt(DBUsers.getValueString(player, "level"));
 			playerExp = Integer.parseInt(DBUsers.getValueString(player, "exp"));
 			
