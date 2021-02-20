@@ -30,11 +30,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.crimsonite.rena.commands.info.GuildinfoCommand;
 import net.crimsonite.rena.commands.info.PingCommand;
+import net.crimsonite.rena.commands.info.RoleinfoCommand;
 import net.crimsonite.rena.commands.info.StatusCommand;
 import net.crimsonite.rena.commands.info.UserinfoCommand;
 import net.crimsonite.rena.commands.misc.RollCommand;
 import net.crimsonite.rena.commands.roleplay.DailyCommand;
 import net.crimsonite.rena.commands.roleplay.ExpeditionCommand;
+import net.crimsonite.rena.commands.roleplay.LootCommand;
 import net.crimsonite.rena.commands.roleplay.ProfileCommand;
 import net.crimsonite.rena.database.DBConnection;
 import net.dv8tion.jda.api.JDA;
@@ -80,7 +82,9 @@ public class RenaBot {
 						new DailyCommand(),
 						new ProfileCommand(),
 						new RollCommand(),
-						new ExpeditionCommand()
+						new ExpeditionCommand(),
+						new RoleinfoCommand(),
+						new LootCommand()
 						)
 				.build();
 			
