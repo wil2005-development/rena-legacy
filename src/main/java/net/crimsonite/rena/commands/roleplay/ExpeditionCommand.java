@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.Random;
 
 import net.crimsonite.rena.database.DBUsers;
+import net.crimsonite.rena.engine.RoleplayEngine;
 import net.crimsonite.rena.utils.Command;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -28,6 +29,7 @@ public class ExpeditionCommand extends Command {
 			
 			DBUsers.incrementValue(author.getId(), "money", receivedMoney);
 			DBUsers.incrementValue(author.getId(), "exp", receivedExp);
+			RoleplayEngine.CommenceBattle.handleLevelup(author.getId());
 			
 			EmbedBuilder embed = new EmbedBuilder()
 					.setColor(roleColor)
