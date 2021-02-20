@@ -29,7 +29,7 @@ public class ExpeditionCommand extends Command {
 			
 			DBUsers.incrementValue(author.getId(), "money", receivedMoney);
 			DBUsers.incrementValue(author.getId(), "exp", receivedExp);
-			RoleplayEngine.CommenceBattle.handleLevelup(author.getId());
+			RoleplayEngine.Handler.handleLevelup(author.getId());
 			
 			EmbedBuilder embed = new EmbedBuilder()
 					.setColor(roleColor)

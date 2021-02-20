@@ -11,38 +11,10 @@ import net.crimsonite.rena.database.DBUsers;
 
 public class RoleplayEngine {
 	
-	public static class CommenceBattle {
+	public static class Handler {
 		
-		private static String player;
-		private static String enemy;
-		private static int playerHP;
-		private static int enemyHP;
-		private static int playerMP;
-		private static int enemyMP;
-		private static int playerDef;
-		private static int enemyDef;
-		private static int playerAttk;
-		private static int enemyAttk;
 		private static int playerLevel;
 		private static int playerExp;
-		
-		/**
-		 * @param player -The Discord UID of the player.
-		 * @param enemy -The name of the enemy.
-		 * @return damage -The damage dealt by the player.
-		 * @throws JsonProcessingException
-		 * @throws IOException
-		 */
-		public static int attack(String player, String enemy) throws JsonProcessingException, IOException {
-			ObjectMapper mapper = new ObjectMapper();
-			JsonNode enemyData = mapper.readTree(new File("./src/main/resources/rp_assets/enemy.json"));
-			
-			playerAttk = Integer.parseInt(DBUsers.getValueString(player, "Attk"));
-			int enemyDef = enemyData.get(enemy).get("Def").asInt();
-			int damage = playerAttk/(25/(25+enemyDef));
-			
-			return damage;
-		}
 		
 		private static boolean checkExp(int level, int exp) {
 			int nextLevel = level += 1;
@@ -75,7 +47,40 @@ public class RoleplayEngine {
 				DBUsers.incrementValue(player, "level", playerLevel);
 			}
 		}
+	}
+	// TODO move the exp handling outside of this class
+	public static class CommenceBattle {
 		
+		private static String player;
+		private static String enemy;
+		private static int playerHP;
+		private static int enemyHP;
+		private static int playerMP;
+		private static int enemyMP;
+		private static int playerDef;
+		private static int enemyDef;
+		private static int playerAttk;
+		private static int enemyAttk;
+		private static int playerLevel;
+		private static int playerExp;
+		
+		/**
+		 * @param player -The Discord UID of the player.
+		 * @param enemy -The name of the enemy.
+		 * @return damage -The damage dealt by the player.
+		 * @throws JsonProcessingException
+		 * @throws IOException
+		 */
+		public static int attack(String player, String enemy) throws JsonProcessingException, IOException {
+			ObjectMapper mapper = new ObjectMapper();
+			JsonNode enemyData = mapper.readTree(new File("./src/main/resources/rp_assets/enemy.json"));
+			
+			playerAttk = Integer.parseInt(DBUsers.getValueString(player, "Attk"));
+			int enemyDef = enemyData.get(enemy).get("Def").asInt();
+			int damage = playerAttk/(25/(25+enemyDef));
+			
+			return damage;
+		}
 	}
 
 }
