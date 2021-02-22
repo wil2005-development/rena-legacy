@@ -35,6 +35,7 @@ import net.crimsonite.rena.commands.info.UserinfoCommand;
 import net.crimsonite.rena.commands.misc.RollCommand;
 import net.crimsonite.rena.commands.roleplay.DailyCommand;
 import net.crimsonite.rena.commands.roleplay.ExpeditionCommand;
+import net.crimsonite.rena.commands.roleplay.HuntCommand;
 import net.crimsonite.rena.commands.roleplay.ProfileCommand;
 import net.crimsonite.rena.database.DBConnection;
 import net.dv8tion.jda.api.JDA;
@@ -80,7 +81,8 @@ public class RenaBot {
 						new DailyCommand(),
 						new ProfileCommand(),
 						new RollCommand(),
-						new ExpeditionCommand()
+						new ExpeditionCommand(),
+						new HuntCommand()
 						)
 				.build();
 			

@@ -59,8 +59,8 @@ public class RoleplayEngine {
 		private static int enemyMP;
 		private static int playerDef;
 		private static int enemyDef;
-		private static int playerAttk;
-		private static int enemyAttk;
+		private static int playerATK;
+		private static int enemyATK;
 		private static int playerLevel;
 		private static int playerExp;
 		
@@ -75,10 +75,10 @@ public class RoleplayEngine {
 			ObjectMapper mapper = new ObjectMapper();
 			JsonNode enemyData = mapper.readTree(new File("./src/main/resources/rp_assets/enemy.json"));
 			
-			playerAttk = Integer.parseInt(DBUsers.getValueString(player, "Attk"));
-			int enemyDef = enemyData.get(enemy).get("Def").asInt();
-			int damage = playerAttk/(25/(25+enemyDef));
-			
+			playerATK = Integer.parseInt(DBUsers.getValueString(player, "ATK"));
+			int enemyDef = enemyData.get(enemy).get("DEF").asInt();
+			int damage = playerATK*((25+enemyDef)/25);
+
 			return damage;
 		}
 	}
