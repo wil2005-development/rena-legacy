@@ -22,6 +22,7 @@ public class DBUsers {
 				r.hashMap("id", UID)
 				.with("level", 0)
 				.with("exp", 0)
+				.with("ATK", 0)
 				.with("money", 0)
 				.with("rep", 0)
 				.with("dailyStreak", 0)
