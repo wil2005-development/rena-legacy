@@ -33,8 +33,8 @@ public class RoleplayEngine {
 		 * @param -The Discord UID of the player.
 		 */
 		public static void handleLevelup(String player) {
-			playerLevel = Integer.parseInt(DBUsers.getValueString(player, "level"));
-			playerExp = Integer.parseInt(DBUsers.getValueString(player, "exp"));
+			playerLevel = Integer.parseInt(DBUsers.getValueString(player, "LEVEL"));
+			playerExp = Integer.parseInt(DBUsers.getValueString(player, "EXP"));
 			
 			boolean increment = checkExp(playerLevel, playerExp);
 			
@@ -44,7 +44,7 @@ public class RoleplayEngine {
 					increment = checkExp(playerLevel, playerExp);
 				}
 				
-				DBUsers.incrementValue(player, "level", playerLevel);
+				DBUsers.incrementValue(player, "LEVEL", playerLevel);
 			}
 		}
 	}

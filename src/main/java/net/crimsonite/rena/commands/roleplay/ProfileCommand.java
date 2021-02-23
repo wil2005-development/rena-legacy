@@ -23,10 +23,10 @@ public class ProfileCommand extends Command {
 						.setColor(roleColor)
 						.setTitle(author.getName() + "'s Profile")
 						.setThumbnail(author.getEffectiveAvatarUrl())
-						.addField("Level", DBUsers.getValueString(author.getId(), "level"), false)
-						.addField("Exp", DBUsers.getValueString(author.getId(), "exp"), true)
-						.addField("Rep", DBUsers.getValueString(author.getId(), "rep"), true)
-						.addField("Money", DBUsers.getValueString(author.getId(), "money"), true)
+						.addField("Level", DBUsers.getValueString(author.getId(), "LEVEL"), false)
+						.addField("Exp", DBUsers.getValueString(author.getId(), "EXP"), true)
+						.addField("Rep", DBUsers.getValueString(author.getId(), "REP"), true)
+						.addField("Money", DBUsers.getValueString(author.getId(), "MONEY"), true)
 						.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 				
 				channel.sendMessage(embed.build()).queue();
