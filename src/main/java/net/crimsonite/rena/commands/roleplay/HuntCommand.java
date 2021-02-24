@@ -30,12 +30,12 @@ public class HuntCommand extends Command {
 			ObjectMapper mapper = new ObjectMapper();
 			JsonNode jsonData = mapper.readTree(new File("./src/main/resources/rp_assets/enemy.json"));
 			String[] enemyList = {"Goblin", "Ogre"};
-			String selectedEnemy = enemyList[rng.nextInt(enemyList.length-1)+1];
+			String selectedEnemy = enemyList[rng.nextInt(enemyList.length)];
 			JsonNode enemyStat = jsonData.get(selectedEnemy);
 			int enemyHP = enemyStat.get("HP").asInt();
-			int playerHP = 15;
+			int playerHP = 100;
 			int rewardExp = enemyStat.get("EXP").asInt();
-			EmbedBuilder embed_first = new EmbedBuilder()
+			EmbedBuilder embedFirst = new EmbedBuilder()
 					.setColor(roleColor)
 					.setTitle("You encountered a " + selectedEnemy + "!!!")
 					.addField("Hp", String.valueOf(enemyHP), true)
@@ -44,23 +44,37 @@ public class HuntCommand extends Command {
 					.addField("Def", enemyStat.get("DEF").asText(), true)
 					.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 			
-			channel.sendMessage(embed_first.build()).queue();
+			channel.sendMessage(embedFirst.build()).queue();
 			
 			while (playerHP > 0 && enemyHP > 0) {
-				int dmg = RoleplayEngine.CommenceBattle.attack(event.getAuthor().getId(), selectedEnemy);
-				enemyHP -= dmg;	
+				int playerDMG = RoleplayEngine.CommenceBattle.attack(event.getAuthor().getId(), selectedEnemy, "PLAYER");
+				enemyHP -= playerDMG;
+				
+				int enemyDMG = RoleplayEngine.CommenceBattle.attack(event.getAuthor().getId(), selectedEnemy, "PLAYER");
+				playerHP -= enemyDMG;
 				
 				if (enemyHP <= 0) {
 					DBUsers.incrementValue(author.getId(), "EXP", rewardExp);
 					
-					EmbedBuilder embed_second = new EmbedBuilder()
+					EmbedBuilder embedSecond = new EmbedBuilder()
 							.setColor(roleColor)
 							.setTitle("You Won!!!")
 							.setDescription("You received the following:")
 							.addField("Exp", String.valueOf(rewardExp), true)
 							.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 					
-					channel.sendMessage(embed_second.build()).queue();
+					channel.sendMessage(embedSecond.build()).queue();
+				}
+				else if (playerHP <= 0) {
+					DBUsers.incrementValue(author.getId(), "EXP", rewardExp);
+					
+					EmbedBuilder embedSecond = new EmbedBuilder()
+							.setColor(roleColor)
+							.setTitle("You Lost!!!")
+							.setDescription("The enemy won, and you received nothing.")
+							.setFooter(author.getName(), author.getEffectiveAvatarUrl());
+					
+					channel.sendMessage(embedSecond.build()).queue();
 				}
 			}
 			RoleplayEngine.Handler.handleLevelup(author.getId());
