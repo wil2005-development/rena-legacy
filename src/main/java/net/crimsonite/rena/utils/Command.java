@@ -37,7 +37,11 @@ public abstract class Command extends ListenerAdapter {
 				long remainingCooldownShortened = remainingCooldown(author.getId(), command)-TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
 				
 				if (remainingCooldownShortened > 0) {
-					event.getChannel().sendMessageFormat("**Oi oi! Slow down!!!** *This command is on cooldown for* `%d`s.", remainingCooldownShortened).queue();
+					long hours = remainingCooldownShortened / 3600;
+					long minutes = (remainingCooldownShortened % 3600) / 60;
+					long seconds = remainingCooldownShortened % 60;
+					
+					event.getChannel().sendMessageFormat("**Oi oi! Slow down!!!** *This command is on cooldown for* `%02dh, %02dm, %02ds`.", hours, minutes, seconds).queue();
 					
 					return;
 				}

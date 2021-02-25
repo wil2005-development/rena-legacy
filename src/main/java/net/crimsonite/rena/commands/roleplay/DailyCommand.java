@@ -31,7 +31,7 @@ public class DailyCommand extends Command{
 		User author = event.getAuthor();
 		
 		try {
-			DBUsers.incrementValue(author.getId(), "money", 100);
+			DBUsers.incrementValue(author.getId(), "MONEY", 100);
 			channel.sendMessageFormat("**You claimed your** G`%d` **daily!!!**", 100).queue();
 		}
 		catch (NullPointerException ignored) {

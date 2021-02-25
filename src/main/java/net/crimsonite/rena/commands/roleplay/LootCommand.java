@@ -11,7 +11,7 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-public class ExpeditionCommand extends Command {
+public class LootCommand extends Command {
 
 	@Override
 	public void execute(MessageReceivedEvent event, String[] args) {
@@ -33,13 +33,14 @@ public class ExpeditionCommand extends Command {
 			
 			EmbedBuilder embed = new EmbedBuilder()
 					.setColor(roleColor)
-					.setTitle("Rewards")
+					.setTitle("Looted Goods")
 					.addField("Money", String.valueOf(receivedMoney), true)
 					.addField("Exp", String.valueOf(receivedExp), true)
 					.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 			
-			channel.sendMessage("**You went into an expedition to fulfill a commission...**").queue();
+			channel.sendMessage("**You went into an abandoned dungeon and got some loots**").queue();
 			channel.sendMessage(embed.build()).queue();
+			channel.sendMessage("**Sadly, there wasn't any item of value in there.**").queue();
 		}
 		catch (NullPointerException ignored) {
 			DBUsers.registerUser(author.getId());
@@ -49,12 +50,12 @@ public class ExpeditionCommand extends Command {
 
 	@Override
 	public String getCommandName() {
-		return "expedition";
+		return "loot";
 	}
 
 	@Override
 	public long cooldown() {
-		return 64800;
+		return 43200;
 	}
 
 	@Override
