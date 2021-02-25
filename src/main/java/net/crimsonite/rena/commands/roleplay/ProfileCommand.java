@@ -27,6 +27,10 @@ public class ProfileCommand extends Command {
 						.addField("Exp", DBUsers.getValueString(author.getId(), "EXP"), true)
 						.addField("Rep", DBUsers.getValueString(author.getId(), "REP"), true)
 						.addField("Money", DBUsers.getValueString(author.getId(), "MONEY"), true)
+						.addField("Hp", DBUsers.getValueString(author.getId(), "HP"), true)
+						.addField("Mp", DBUsers.getValueString(author.getId(), "MP"), true)
+						.addField("Atk", DBUsers.getValueString(author.getId(), "ATK"), true)
+						.addField("Def", DBUsers.getValueString(author.getId(), "DEF"), true)
 						.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 				
 				channel.sendMessage(embed.build()).queue();
