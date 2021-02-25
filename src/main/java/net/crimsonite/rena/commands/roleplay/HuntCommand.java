@@ -23,18 +23,21 @@ public class HuntCommand extends Command {
 	public void execute(MessageReceivedEvent event, String[] args) {
 		MessageChannel channel = event.getChannel();
 		User author = event.getAuthor();
-		Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
 		
 		try {
+			//TODO Clean this up, I guess?
 			Random rng = new Random();
+			Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
 			ObjectMapper mapper = new ObjectMapper();
 			JsonNode jsonData = mapper.readTree(new File("./src/main/resources/rp_assets/enemy.json"));
 			String[] enemyList = {"Goblin", "Ogre"};
 			String selectedEnemy = enemyList[rng.nextInt(enemyList.length)];
 			JsonNode enemyStat = jsonData.get(selectedEnemy);
+			JsonNode moneyList = enemyStat.get("MONEY");
 			int enemyHP = enemyStat.get("HP").asInt();
-			int playerHP = 100;
+			int playerHP = Integer.parseInt(DBUsers.getValueString(author.getId(), "HP"));
 			int rewardExp = enemyStat.get("EXP").asInt();
+			int rewardMoney = moneyList.get(rng.nextInt(moneyList.size())).asInt();
 			EmbedBuilder embedFirst = new EmbedBuilder()
 					.setColor(roleColor)
 					.setTitle("You encountered a " + selectedEnemy + "!!!")
@@ -46,6 +49,7 @@ public class HuntCommand extends Command {
 			
 			channel.sendMessage(embedFirst.build()).queue();
 			
+			// This loop will keep repeating itself unless either the player or enemy's HP reaches 0 or below
 			while (playerHP > 0 && enemyHP > 0) {
 				int playerDMG = RoleplayEngine.CommenceBattle.attack(event.getAuthor().getId(), selectedEnemy, "PLAYER");
 				enemyHP -= playerDMG;
@@ -55,19 +59,19 @@ public class HuntCommand extends Command {
 				
 				if (enemyHP <= 0) {
 					DBUsers.incrementValue(author.getId(), "EXP", rewardExp);
+					DBUsers.incrementValue(author.getId(), "MONEY", rewardMoney);
 					
 					EmbedBuilder embedSecond = new EmbedBuilder()
 							.setColor(roleColor)
 							.setTitle("You Won!!!")
 							.setDescription("You received the following:")
 							.addField("Exp", String.valueOf(rewardExp), true)
+							.addField("Money", String.valueOf(rewardMoney), true)
 							.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 					
 					channel.sendMessage(embedSecond.build()).queue();
 				}
-				else if (playerHP <= 0) {
-					DBUsers.incrementValue(author.getId(), "EXP", rewardExp);
-					
+				else if (playerHP <= 0) {					
 					EmbedBuilder embedSecond = new EmbedBuilder()
 							.setColor(roleColor)
 							.setTitle("You Lost!!!")
@@ -85,6 +89,10 @@ public class HuntCommand extends Command {
 		}
 		catch (IOException ignored) {
 			channel.sendMessage("*Huh? Something's weird is happening...*").queue();
+		}
+		catch (NullPointerException ignored) {
+			DBUsers.registerUser(author.getId());
+			channel.sendMessage("Oops! Try again?").queue();
 		}
 	}
 

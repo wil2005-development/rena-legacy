@@ -108,7 +108,6 @@ public class RoleplayEngine {
 					
 					break;	
 			}
-			System.out.println(damage);
 			
 			return damage;
 		}

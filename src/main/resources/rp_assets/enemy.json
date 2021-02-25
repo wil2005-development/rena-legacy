@@ -1,18 +1,20 @@
 {
 	"Goblin": {
+		"NAME": "Goblin",
 		"HP": 24,
 		"MP": 5,
 		"ATK": 10,
 		"DEF": 7,
 		"EXP": 5,
-		"MONEY": [12, 30]
+		"MONEY": [12, 18, 15, 30]
 	},
 	"Ogre": {
+		"NAME": "Ogre",
 		"HP": 50,
 		"MP": 15,
 		"ATK": 18,
 		"DEF": 15,
 		"EXP": 18,
-		"MONEY": [14, 33]
+		"MONEY": [14, 18, 28,33]
 	}
 }
