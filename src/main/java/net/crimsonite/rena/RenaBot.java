@@ -85,7 +85,7 @@ public class RenaBot {
 						new RollCommand(),
 						new ExpeditionCommand(),
 						new RoleinfoCommand(),
-						new LootCommand()
+						new LootCommand(),
 						new HuntCommand()
 						)
 				.build();
