@@ -18,13 +18,18 @@ public class DBUsers {
 	 * @param UID -The Unique ID of the user.
 	 */
 	public static void registerUser(String UID) {
+		// Roleplay stats are uppercased on purpose.
 		user.insert(r.array(
 				r.hashMap("id", UID)
-				.with("level", 0)
-				.with("exp", 0)
-				.with("money", 0)
-				.with("rep", 0)
-				.with("dailyStreak", 0)
+				.with("LEVEL", 0)
+				.with("EXP", 0)
+				.with("ATK", 0)
+				.with("DEF", 0)
+				.with("HP", 0)
+				.with("MP", 0)
+				.with("MONEY", 0)
+				.with("REP", 0)
+				.with("DAILYSTREAK", 0)
 				)).runNoReply(conn);
 	}
 	

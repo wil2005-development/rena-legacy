@@ -21,15 +21,15 @@ public class ExpeditionCommand extends Command {
 		try {
 			Random rng = new Random();
 			Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
-			int currentLevel = Integer.parseInt(DBUsers.getValueString(author.getId(), "level"));
+			int currentLevel = Integer.parseInt(DBUsers.getValueString(author.getId(), "LEVEL"));
 			int baseReceivedMoney = rng.nextInt(10-1)+1;
 			int baseReceivedExp = rng.nextInt(3-1)+1;
 			int receivedMoney = baseReceivedMoney+currentLevel*2;
 			int receivedExp = baseReceivedExp+currentLevel*2;
 			
-			DBUsers.incrementValue(author.getId(), "money", receivedMoney);
-			DBUsers.incrementValue(author.getId(), "exp", receivedExp);
-			RoleplayEngine.CommenceBattle.handleLevelup(author.getId());
+			DBUsers.incrementValue(author.getId(), "MONEY", receivedMoney);
+			DBUsers.incrementValue(author.getId(), "EXP", receivedExp);
+			RoleplayEngine.Handler.handleLevelup(author.getId());
 			
 			EmbedBuilder embed = new EmbedBuilder()
 					.setColor(roleColor)
