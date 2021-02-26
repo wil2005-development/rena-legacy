@@ -4,6 +4,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import com.jagrosh.jdautilities.commons.utils.FinderUtil;
+import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 
 import net.crimsonite.rena.utils.Command;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -36,7 +37,7 @@ public class RoleinfoCommand extends Command {
 						.setTitle("Informations for role: " + role.getName())
 						.addField("ID", role.getId(), false)
 						.addField("Date Created: ", role.getTimeCreated().format(format), false)
-						.addField("Color", String.valueOf(role.getColorRaw()), false)
+						.addField("Color", "#"+Integer.toHexString(role.getColorRaw()).toUpperCase(), false)
 						.addField("Guild", role.getGuild().getName(), false)
 						.addField("Permissions", role.getPermissions().toString(), false)
 						.setFooter(author.getName(), author.getEffectiveAvatarUrl());
