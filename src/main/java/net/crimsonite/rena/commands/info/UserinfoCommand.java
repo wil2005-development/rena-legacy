@@ -19,12 +19,18 @@ package net.crimsonite.rena.commands.info;
 
 import java.awt.Color;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.ListIterator;
+
+import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 
 import net.crimsonite.rena.utils.Command;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.utils.concurrent.Task;
 
 public class UserinfoCommand extends Command {
 	
@@ -34,7 +40,7 @@ public class UserinfoCommand extends Command {
 	public void execute(MessageReceivedEvent event, String[] args) {
 		MessageChannel channel = event.getChannel();
 		
-		if (event.getMessage().getMentionedUsers().isEmpty()) {
+		if (args.length == 1) {
 			User author = event.getAuthor();
 			Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
 			EmbedBuilder embed = new EmbedBuilder()
@@ -48,17 +54,25 @@ public class UserinfoCommand extends Command {
 			channel.sendMessage(embed.build()).queue();
 		}
 		else {
-			User user = event.getMessage().getMentionedUsers().get(0);
-			Color roleColor = event.getGuild().retrieveMember(user).complete().getColor();
-			EmbedBuilder embed = new EmbedBuilder()
-					.setColor(roleColor)
-					.setTitle(user.getName() + "'s User Info")
-					.setThumbnail(user.getEffectiveAvatarUrl())
-					.addField("ID", user.getId(), false)
-					.addField("Date Created", user.getTimeCreated().format(format), false)
-					.setFooter(user.getName(), user.getEffectiveAvatarUrl());
+			List<Member> listedMembers = FinderUtil.findMembers(args[1], event.getGuild());
 			
-			channel.sendMessage(embed.build()).queue();
+			if (listedMembers.isEmpty()) {
+				channel.sendMessage("*Err... I can't find that person. Try doing it again, I might've missed them*").queue();
+				event.getGuild().loadMembers();
+			}
+			else {
+				User user = listedMembers.get(0).getUser();
+				Color roleColor = event.getGuild().retrieveMember(user).complete().getColor();
+				EmbedBuilder embed = new EmbedBuilder()
+						.setColor(roleColor)
+						.setTitle(user.getName() + "'s User Info")
+						.setThumbnail(user.getEffectiveAvatarUrl())
+						.addField("ID", user.getId(), false)
+						.addField("Date Created", user.getTimeCreated().format(format), false)
+						.setFooter(user.getName(), user.getEffectiveAvatarUrl());
+				
+				channel.sendMessage(embed.build()).queue();
+			}
 		}
 	}
 
