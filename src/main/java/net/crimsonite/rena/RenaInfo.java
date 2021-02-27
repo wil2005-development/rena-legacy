@@ -19,7 +19,7 @@ package net.crimsonite.rena;
 
 public class RenaInfo {
 	
-	public static final String VERSION_STRING = "@version@";
+	public static final String VERSION_STRING = "@VERSION@";
 	public static final String GITHUB_URL = "https://github.com/Nhalrath/Rena";
 
 }

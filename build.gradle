@@ -38,7 +38,8 @@ task filterVersion(type: Copy) {
 	from 'src/main/java'
 	into 'build/filtered'
 	filter (ReplaceTokens, tokens:[
-		version: versionObject.toString()
+		VERSION: versionObject.toString(),
+		
 	])
 }
 
