@@ -36,8 +36,8 @@ import net.crimsonite.rena.commands.info.UserinfoCommand;
 import net.crimsonite.rena.commands.misc.RollCommand;
 import net.crimsonite.rena.commands.roleplay.DailyCommand;
 import net.crimsonite.rena.commands.roleplay.ExpeditionCommand;
-import net.crimsonite.rena.commands.roleplay.LootCommand;
 import net.crimsonite.rena.commands.roleplay.HuntCommand;
+import net.crimsonite.rena.commands.roleplay.LootCommand;
 import net.crimsonite.rena.commands.roleplay.ProfileCommand;
 import net.crimsonite.rena.database.DBConnection;
 import net.dv8tion.jda.api.JDA;
@@ -63,7 +63,7 @@ public class RenaBot {
 		startup = System.currentTimeMillis();
 		try {
 			ObjectMapper mapper = new ObjectMapper();
-			JsonNode configRoot = mapper.readTree(new File("config.json"));
+			JsonNode configRoot = mapper.readTree(new File("./config.json"));
 			
 			ownerID = configRoot.get("OWNER_ID").asInt();
 			prefix = configRoot.get("PREFIX").asText();
