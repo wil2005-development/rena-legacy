@@ -82,7 +82,7 @@ public class RoleplayEngine {
 			switch (type) {
 				case "PLAYER":
 					mapper = new ObjectMapper();
-					enemyData = mapper.readTree(new File("./src/main/resources/rp_assets/enemy.json"));
+					enemyData = mapper.readTree(new File("src/main/resources/rp_assets/enemy.json"));
 					
 					playerATK = Integer.parseInt(DBUsers.getValueString(player, "ATK"));
 					enemyDEF = enemyData.get(enemy).get("DEF").asInt();
@@ -91,7 +91,7 @@ public class RoleplayEngine {
 					break;
 				case "ENEMY":
 					mapper = new ObjectMapper();
-					enemyData = mapper.readTree(new File("./src/main/resources/rp_assets/enemy.json"));
+					enemyData = mapper.readTree(new File("src/main/resources/rp_assets/enemy.json"));
 					
 					enemyATK = enemyData.get(enemy).get("ATK").asInt();
 					playerDEF = Integer.parseInt(DBUsers.getValueString(player, "DEF"));
@@ -100,7 +100,7 @@ public class RoleplayEngine {
 					break;
 				default:
 					mapper = new ObjectMapper();
-					enemyData = mapper.readTree(new File("./src/main/resources/rp_assets/enemy.json"));
+					enemyData = mapper.readTree(new File("src/main/resources/rp_assets/enemy.json"));
 					
 					playerATK = Integer.parseInt(DBUsers.getValueString(player, "ATK"));
 					enemyDEF = enemyData.get(enemy).get("DEF").asInt();

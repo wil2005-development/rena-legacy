@@ -29,7 +29,7 @@ public class HuntCommand extends Command {
 			Random rng = new Random();
 			Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
 			ObjectMapper mapper = new ObjectMapper();
-			JsonNode jsonData = mapper.readTree(new File("./src/main/resources/rp_assets/enemy.json"));
+			JsonNode jsonData = mapper.readTree(new File("src/main/resources/rp_assets/enemy.json"));
 			String[] enemyList = {"Goblin", "Ogre"};
 			String selectedEnemy = enemyList[rng.nextInt(enemyList.length)];
 			JsonNode enemyStat = jsonData.get(selectedEnemy);
