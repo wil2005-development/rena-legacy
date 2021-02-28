@@ -17,8 +17,8 @@
 
 package net.crimsonite.rena.commands.roleplay;
 
+import net.crimsonite.rena.commands.Command;
 import net.crimsonite.rena.database.DBUsers;
-import net.crimsonite.rena.utils.Command;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;

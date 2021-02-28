@@ -5,8 +5,8 @@ import java.util.List;
 
 import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 
+import net.crimsonite.rena.commands.Command;
 import net.crimsonite.rena.database.DBUsers;
-import net.crimsonite.rena.utils.Command;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -16,17 +16,20 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 public class ProfileCommand extends Command {
 	
 	private static void sendEmbed(MessageReceivedEvent event, User user) {
-		User author = event.getAuthor();
 		Color roleColor = event.getGuild().retrieveMember(user).complete().getColor();
 		EmbedBuilder embed = new EmbedBuilder()
 				.setColor(roleColor)
 				.setTitle(user.getName() + "'s Profile")
 				.setThumbnail(user.getEffectiveAvatarUrl())
-				.addField("Level", DBUsers.getValueString(user.getId(), "level"), false)
-				.addField("Exp", DBUsers.getValueString(user.getId(), "exp"), true)
-				.addField("Rep", DBUsers.getValueString(user.getId(), "rep"), true)
-				.addField("Money", DBUsers.getValueString(user.getId(), "money"), true)
-				.setFooter(user.getName(), user.getEffectiveAvatarUrl());
+				.addField("Rep", DBUsers.getValueString(user.getId(), "REP"), false)
+				.addField("Level", DBUsers.getValueString(user.getId(), "LEVEL"), false)
+				.addField("Exp", DBUsers.getValueString(user.getId(), "EXP"), false)
+				.addField("Money", DBUsers.getValueString(user.getId(), "MONEY"), true)
+				.addField("Hp", DBUsers.getValueString(user.getId(), "HP"), true)
+				.addField("Mp", DBUsers.getValueString(user.getId(), "MP"), true)
+				.addField("Atk", DBUsers.getValueString(user.getId(), "ATK"), true)
+				.addField("Def", DBUsers.getValueString(user.getId(), "DEF"), true)
+				.setFooter(event.getAuthor().getName(), user.getEffectiveAvatarUrl());
 		
 		event.getChannel().sendMessage(embed.build()).queue();
 	}

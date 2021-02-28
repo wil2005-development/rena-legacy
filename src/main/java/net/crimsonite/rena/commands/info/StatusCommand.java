@@ -20,7 +20,7 @@ package net.crimsonite.rena.commands.info;
 import java.awt.Color;
 
 import net.crimsonite.rena.RenaInfo;
-import net.crimsonite.rena.utils.Command;
+import net.crimsonite.rena.commands.Command;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.MessageChannel;

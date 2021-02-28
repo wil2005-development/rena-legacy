@@ -9,9 +9,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import net.crimsonite.rena.commands.Command;
 import net.crimsonite.rena.database.DBUsers;
 import net.crimsonite.rena.engine.RoleplayEngine;
-import net.crimsonite.rena.utils.Command;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;

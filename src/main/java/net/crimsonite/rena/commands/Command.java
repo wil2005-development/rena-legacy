@@ -1,4 +1,4 @@
-package net.crimsonite.rena.utils;
+package net.crimsonite.rena.commands;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;

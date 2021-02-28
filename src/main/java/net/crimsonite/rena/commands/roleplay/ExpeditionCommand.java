@@ -3,9 +3,9 @@ package net.crimsonite.rena.commands.roleplay;
 import java.awt.Color;
 import java.util.Random;
 
+import net.crimsonite.rena.commands.Command;
 import net.crimsonite.rena.database.DBUsers;
 import net.crimsonite.rena.engine.RoleplayEngine;
-import net.crimsonite.rena.utils.Command;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;

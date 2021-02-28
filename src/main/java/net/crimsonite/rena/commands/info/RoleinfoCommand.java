@@ -4,9 +4,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import com.jagrosh.jdautilities.commons.utils.FinderUtil;
-import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 
-import net.crimsonite.rena.utils.Command;
+import net.crimsonite.rena.commands.Command;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.Role;
