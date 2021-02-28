@@ -13,10 +13,7 @@ import net.crimsonite.rena.database.DBUsers;
 public class RoleplayEngine {
 	
 	public static class Handler {
-		
-		private static int playerLevel;
-		private static int playerExp;
-		
+				
 		private static boolean checkExp(int level, int exp) {
 			int nextLevel = level += 1;
 			int requiredExpForNextLevel = 50*nextLevel*(nextLevel+1);
@@ -34,8 +31,8 @@ public class RoleplayEngine {
 		 * @param -The Discord UID of the player.
 		 */
 		public static void handleLevelup(String player) {
-			playerLevel = Integer.parseInt(DBUsers.getValueString(player, "LEVEL"));
-			playerExp = Integer.parseInt(DBUsers.getValueString(player, "EXP"));
+			int playerLevel = Integer.parseInt(DBUsers.getValueString(player, "LEVEL"));
+			int playerExp = Integer.parseInt(DBUsers.getValueString(player, "EXP"));
 			
 			boolean increment = checkExp(playerLevel, playerExp);
 			
@@ -49,21 +46,13 @@ public class RoleplayEngine {
 			}
 		}
 	}
-	// TODO move the exp handling outside of this class
+
 	public static class CommenceBattle {
 		
-		private static String player;
-		private static String enemy;
-		private static int playerHP;
-		private static int enemyHP;
-		private static int playerMP;
-		private static int enemyMP;
-		private static int playerDEF;
+		private static int enemyATK;
 		private static int enemyDEF;
 		private static int playerATK;
-		private static int enemyATK;
-		private static int playerLEVEL;
-		private static int playerEXP;
+		private static int playerDEF;
 		
 		/**
 		 * @param player -The Discord UID of the player.
@@ -76,6 +65,7 @@ public class RoleplayEngine {
 		public static int attack(String player, String enemy, String type) throws JsonProcessingException, IOException {
 			ObjectMapper mapper;
 			JsonNode enemyData;
+			
 			int criticalHIT = new Random().nextInt(20-1)+1;
 			int damage = 0;
 			
