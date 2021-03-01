@@ -36,7 +36,9 @@ public class UserinfoCommand extends Command {
 	
 	private static void sendEmbed(MessageReceivedEvent event, User user) {
 		User author = event.getAuthor();
+		
 		Color roleColor = event.getGuild().retrieveMember(user).complete().getColor();
+		
 		EmbedBuilder embed = new EmbedBuilder()
 				.setColor(roleColor)
 				.setTitle(user.getName() + "'s User Info")

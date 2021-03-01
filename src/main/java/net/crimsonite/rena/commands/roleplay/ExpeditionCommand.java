@@ -19,11 +19,14 @@ public class ExpeditionCommand extends Command {
 		User author = event.getAuthor();
 		
 		try {
-			Random rng = new Random();
 			Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
-			int currentLevel = Integer.parseInt(DBUsers.getValueString(author.getId(), "LEVEL"));
+			Random rng = new Random();
+			
 			int baseReceivedMoney = rng.nextInt(10-1)+1;
 			int baseReceivedExp = rng.nextInt(3-1)+1;
+			
+			int currentLevel = Integer.parseInt(DBUsers.getValueString(author.getId(), "LEVEL"));
+			
 			int receivedMoney = baseReceivedMoney+currentLevel*2;
 			int receivedExp = baseReceivedExp+currentLevel*2;
 			

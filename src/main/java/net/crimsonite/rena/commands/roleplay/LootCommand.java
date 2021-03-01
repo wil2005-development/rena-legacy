@@ -19,13 +19,16 @@ public class LootCommand extends Command {
 		User author = event.getAuthor();
 		
 		try {
-			Random rng = new Random();
 			Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
+			Random rng = new Random();
+			
 			int currentLevel = Integer.parseInt(DBUsers.getValueString(author.getId(), "LEVEL"));
-			int baseReceivedMoney = rng.nextInt(10-1)+1;
+			
 			int baseReceivedExp = rng.nextInt(3-1)+1;
-			int receivedMoney = baseReceivedMoney+currentLevel*2;
+			int baseReceivedMoney = rng.nextInt(10-1)+1;
+			
 			int receivedExp = baseReceivedExp+currentLevel*2;
+			int receivedMoney = baseReceivedMoney+currentLevel*2;
 			
 			DBUsers.incrementValue(author.getId(), "MONEY", receivedMoney);
 			DBUsers.incrementValue(author.getId(), "EXP", receivedExp);

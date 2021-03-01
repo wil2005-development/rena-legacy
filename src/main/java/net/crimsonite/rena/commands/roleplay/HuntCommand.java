@@ -25,19 +25,25 @@ public class HuntCommand extends Command {
 		User author = event.getAuthor();
 		
 		try {
-			//TODO Clean this up, I guess?
-			Random rng = new Random();
 			Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
+			
 			ObjectMapper mapper = new ObjectMapper();
+			Random rng = new Random();
+			
 			JsonNode jsonData = mapper.readTree(new File("src/main/resources/rp_assets/enemy.json"));
+			
 			String[] enemyList = {"Goblin", "Ogre"};
 			String selectedEnemy = enemyList[rng.nextInt(enemyList.length)];
+			
 			JsonNode enemyStat = jsonData.get(selectedEnemy);
 			JsonNode moneyList = enemyStat.get("MONEY");
+			
 			int enemyHP = enemyStat.get("HP").asInt();
 			int playerHP = Integer.parseInt(DBUsers.getValueString(author.getId(), "HP"));
+			
 			int rewardExp = enemyStat.get("EXP").asInt();
 			int rewardMoney = moneyList.get(rng.nextInt(moneyList.size())).asInt();
+			
 			EmbedBuilder embedFirst = new EmbedBuilder()
 					.setColor(roleColor)
 					.setTitle("You encountered a " + selectedEnemy + "!!!")

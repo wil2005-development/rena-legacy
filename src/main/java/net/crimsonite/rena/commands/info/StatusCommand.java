@@ -31,10 +31,12 @@ public class StatusCommand extends Command {
 
 	@Override
 	public void execute(MessageReceivedEvent event, String[] args) {
+		User author = event.getAuthor();
 		JDA jda = event.getJDA();
 		MessageChannel channel = event.getChannel();
-		User author = event.getAuthor();
+		
 		Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
+		
 		EmbedBuilder embed = new EmbedBuilder()
 				.setColor(roleColor)
 				.setTitle("Rena's Informations", RenaInfo.GITHUB_URL)

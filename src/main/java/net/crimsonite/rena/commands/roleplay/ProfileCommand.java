@@ -17,6 +17,7 @@ public class ProfileCommand extends Command {
 	
 	private static void sendEmbed(MessageReceivedEvent event, User user) {
 		Color roleColor = event.getGuild().retrieveMember(user).complete().getColor();
+		
 		EmbedBuilder embed = new EmbedBuilder()
 				.setColor(roleColor)
 				.setTitle(user.getName() + "'s Profile")
