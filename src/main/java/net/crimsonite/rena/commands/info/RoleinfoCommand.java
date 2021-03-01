@@ -30,11 +30,15 @@ public class RoleinfoCommand extends Command {
 			else {
 				Role role = listedRoles.get(0);
 				User author = event.getAuthor();
+				
 				DateTimeFormatter format = DateTimeFormatter.ofPattern("MMMM d, yyyy");
+				
 				EmbedBuilder embed = new EmbedBuilder()
 						.setColor(role.getColor())
 						.setTitle("Informations for role: " + role.getName())
 						.addField("ID", role.getId(), false)
+						.addField("Position", String.valueOf(role.getPosition()), false)
+						.addField("Mentionable", String.valueOf(role.isMentionable()), false)
 						.addField("Date Created: ", role.getTimeCreated().format(format), false)
 						.addField("Color", "#"+Integer.toHexString(role.getColorRaw()).toUpperCase(), false)
 						.addField("Guild", role.getGuild().getName(), false)
