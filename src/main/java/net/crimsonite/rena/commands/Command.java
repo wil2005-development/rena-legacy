@@ -3,6 +3,9 @@ package net.crimsonite.rena.commands;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.crimsonite.rena.RenaBot;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
@@ -13,22 +16,33 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public abstract class Command extends ListenerAdapter {
 	
+	final static Logger logger = LoggerFactory.getLogger(Command.class);
+	
 	private ConcurrentHashMap<String, Long> cooldownCache = new ConcurrentHashMap<>();
 	
 	public abstract void execute(MessageReceivedEvent event, String[] args);
-	public abstract String getCommandName();
-	public abstract long cooldown();
-	
-	// Reserved for future use
 	public abstract boolean isOwnerCommand();
+	public abstract long cooldown();
+	public abstract String getCommandName();
 	
 	@Override
 	public void onMessageReceived(MessageReceivedEvent event) {
 		User author = event.getAuthor();
 		
 		if (author.isBot()) {
+			logger.warn("{}: tried to access one of the commands.", event.getAuthor());
 			return;
 		}
+		
+		// For some reason, this doesn't work and is spamming the logs.
+		/*
+		if (isOwnerCommand()) {
+			if (!(author.getIdLong() == RenaBot.ownerID)) {
+				logger.warn("{}: tried to access a developer's command.", event.getAuthor());
+				return;
+			}
+		}
+		*/
 		
 		if (containsCommand(event.getMessage())) {
 			String command = getCommandName();
