@@ -31,8 +31,10 @@ public class DailyCommand extends Command{
 		User author = event.getAuthor();
 		
 		try {
-			DBUsers.incrementValue(author.getId(), "MONEY", 100);
-			channel.sendMessageFormat("**You claimed your** G`%d` **daily!!!**", 100).queue();
+			int level = DBUsers.getValueInt(author.getId(), "LEVEL");
+			int reward = 50 * level;
+			DBUsers.incrementValue(author.getId(), "MONEY", reward);
+			channel.sendMessageFormat("**You claimed your** G`%d` **daily!!!**", reward).queue();
 		}
 		catch (NullPointerException ignored) {
 			DBUsers.registerUser(author.getId());
