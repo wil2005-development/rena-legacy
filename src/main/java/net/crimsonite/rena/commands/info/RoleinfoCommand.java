@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2020-2021  Nhalrath
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package net.crimsonite.rena.commands.info;
 
 import java.time.format.DateTimeFormatter;
@@ -5,7 +22,7 @@ import java.util.List;
 
 import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 
-import net.crimsonite.rena.utils.Command;
+import net.crimsonite.rena.commands.Command;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.Role;
@@ -30,13 +47,17 @@ public class RoleinfoCommand extends Command {
 			else {
 				Role role = listedRoles.get(0);
 				User author = event.getAuthor();
+				
 				DateTimeFormatter format = DateTimeFormatter.ofPattern("MMMM d, yyyy");
+				
 				EmbedBuilder embed = new EmbedBuilder()
 						.setColor(role.getColor())
 						.setTitle("Informations for role: " + role.getName())
 						.addField("ID", role.getId(), false)
+						.addField("Position", String.valueOf(role.getPosition()), false)
+						.addField("Mentionable", String.valueOf(role.isMentionable()), false)
 						.addField("Date Created: ", role.getTimeCreated().format(format), false)
-						.addField("Color", String.valueOf(role.getColorRaw()), false)
+						.addField("Color", "#"+Integer.toHexString(role.getColorRaw()).toUpperCase(), false)
 						.addField("Guild", role.getGuild().getName(), false)
 						.addField("Permissions", role.getPermissions().toString(), false)
 						.setFooter(author.getName(), author.getEffectiveAvatarUrl());

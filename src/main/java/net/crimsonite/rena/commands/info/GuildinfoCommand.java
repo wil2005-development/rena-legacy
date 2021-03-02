@@ -20,7 +20,7 @@ package net.crimsonite.rena.commands.info;
 import java.awt.Color;
 import java.time.format.DateTimeFormatter;
 
-import net.crimsonite.rena.utils.Command;
+import net.crimsonite.rena.commands.Command;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageChannel;

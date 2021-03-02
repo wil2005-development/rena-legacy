@@ -36,8 +36,8 @@ import net.crimsonite.rena.commands.info.UserinfoCommand;
 import net.crimsonite.rena.commands.misc.RollCommand;
 import net.crimsonite.rena.commands.roleplay.DailyCommand;
 import net.crimsonite.rena.commands.roleplay.ExpeditionCommand;
-import net.crimsonite.rena.commands.roleplay.LootCommand;
 import net.crimsonite.rena.commands.roleplay.HuntCommand;
+import net.crimsonite.rena.commands.roleplay.LootCommand;
 import net.crimsonite.rena.commands.roleplay.ProfileCommand;
 import net.crimsonite.rena.database.DBConnection;
 import net.dv8tion.jda.api.JDA;
@@ -52,7 +52,7 @@ public class RenaBot {
 	public static String prefix;
 	public static String alternativePrefix;
 	public static String hostName;
-	public static int ownerID;
+	public static long ownerID;
 	public static long startup;
 
 	final static Logger logger = LoggerFactory.getLogger(RenaBot.class);
@@ -63,12 +63,12 @@ public class RenaBot {
 		startup = System.currentTimeMillis();
 		try {
 			ObjectMapper mapper = new ObjectMapper();
-			JsonNode configRoot = mapper.readTree(new File("config.json"));
+			JsonNode configRoot = mapper.readTree(new File("./config.json"));
 			
-			ownerID = configRoot.get("OWNER_ID").asInt();
 			prefix = configRoot.get("PREFIX").asText();
 			alternativePrefix = configRoot.get("ALTERNATIVE_PREFIX").asText();
 			hostName = configRoot.get("HOST").asText();
+			ownerID = configRoot.get("OWNER_ID").asLong();
 	        
 			JDA jda = JDABuilder.createDefault(configRoot.get("TOKEN").asText())
 				.setStatus(OnlineStatus.ONLINE)
@@ -76,17 +76,19 @@ public class RenaBot {
 				.enableIntents(GatewayIntent.GUILD_MEMBERS)
 				.setMemberCachePolicy(MemberCachePolicy.ALL)
 				.addEventListeners(
-						new PingCommand(),
-						new UserinfoCommand(),
-						new GuildinfoCommand(),
-						new StatusCommand(),
-						new DailyCommand(),
-						new ProfileCommand(),
-						new RollCommand(),
 						new ExpeditionCommand(),
-						new RoleinfoCommand(),
+						new UserinfoCommand(),
+						new DailyCommand(),
+						new GuildinfoCommand(),
+						new HuntCommand(),
 						new LootCommand(),
-						new HuntCommand()
+						new PingCommand(),
+						new ProfileCommand(),
+						new RoleinfoCommand(),
+						new RollCommand(),
+						new StatusCommand()
+						
+						// new ModifyAttributesCommand()
 						)
 				.build();
 			

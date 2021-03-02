@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2020-2021  Nhalrath
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package net.crimsonite.rena.commands.roleplay;
 
 import java.awt.Color;
@@ -9,9 +26,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import net.crimsonite.rena.commands.Command;
 import net.crimsonite.rena.database.DBUsers;
 import net.crimsonite.rena.engine.RoleplayEngine;
-import net.crimsonite.rena.utils.Command;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -25,19 +42,25 @@ public class HuntCommand extends Command {
 		User author = event.getAuthor();
 		
 		try {
-			//TODO Clean this up, I guess?
-			Random rng = new Random();
 			Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
+			
 			ObjectMapper mapper = new ObjectMapper();
-			JsonNode jsonData = mapper.readTree(new File("./src/main/resources/rp_assets/enemy.json"));
+			Random rng = new Random();
+			
+			JsonNode jsonData = mapper.readTree(new File("src/main/resources/rp_assets/enemy.json"));
+			
 			String[] enemyList = {"Goblin", "Ogre"};
 			String selectedEnemy = enemyList[rng.nextInt(enemyList.length)];
+			
 			JsonNode enemyStat = jsonData.get(selectedEnemy);
 			JsonNode moneyList = enemyStat.get("MONEY");
+			
 			int enemyHP = enemyStat.get("HP").asInt();
 			int playerHP = Integer.parseInt(DBUsers.getValueString(author.getId(), "HP"));
+			
 			int rewardExp = enemyStat.get("EXP").asInt();
 			int rewardMoney = moneyList.get(rng.nextInt(moneyList.size())).asInt();
+			
 			EmbedBuilder embedFirst = new EmbedBuilder()
 					.setColor(roleColor)
 					.setTitle("You encountered a " + selectedEnemy + "!!!")

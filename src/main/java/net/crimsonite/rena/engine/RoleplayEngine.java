@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2020-2021  Nhalrath
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package net.crimsonite.rena.engine;
 
 import java.io.File;
@@ -13,10 +30,7 @@ import net.crimsonite.rena.database.DBUsers;
 public class RoleplayEngine {
 	
 	public static class Handler {
-		
-		private static int playerLevel;
-		private static int playerExp;
-		
+				
 		private static boolean checkExp(int level, int exp) {
 			int nextLevel = level += 1;
 			int requiredExpForNextLevel = 50*nextLevel*(nextLevel+1);
@@ -34,8 +48,8 @@ public class RoleplayEngine {
 		 * @param -The Discord UID of the player.
 		 */
 		public static void handleLevelup(String player) {
-			playerLevel = Integer.parseInt(DBUsers.getValueString(player, "LEVEL"));
-			playerExp = Integer.parseInt(DBUsers.getValueString(player, "EXP"));
+			int playerLevel = Integer.parseInt(DBUsers.getValueString(player, "LEVEL"));
+			int playerExp = Integer.parseInt(DBUsers.getValueString(player, "EXP"));
 			
 			boolean increment = checkExp(playerLevel, playerExp);
 			
@@ -49,21 +63,13 @@ public class RoleplayEngine {
 			}
 		}
 	}
-	// TODO move the exp handling outside of this class
+
 	public static class CommenceBattle {
 		
-		private static String player;
-		private static String enemy;
-		private static int playerHP;
-		private static int enemyHP;
-		private static int playerMP;
-		private static int enemyMP;
-		private static int playerDEF;
+		private static int enemyATK;
 		private static int enemyDEF;
 		private static int playerATK;
-		private static int enemyATK;
-		private static int playerLEVEL;
-		private static int playerEXP;
+		private static int playerDEF;
 		
 		/**
 		 * @param player -The Discord UID of the player.
@@ -76,13 +82,14 @@ public class RoleplayEngine {
 		public static int attack(String player, String enemy, String type) throws JsonProcessingException, IOException {
 			ObjectMapper mapper;
 			JsonNode enemyData;
+			
 			int criticalHIT = new Random().nextInt(20-1)+1;
 			int damage = 0;
 			
 			switch (type) {
 				case "PLAYER":
 					mapper = new ObjectMapper();
-					enemyData = mapper.readTree(new File("./src/main/resources/rp_assets/enemy.json"));
+					enemyData = mapper.readTree(new File("src/main/resources/rp_assets/enemy.json"));
 					
 					playerATK = Integer.parseInt(DBUsers.getValueString(player, "ATK"));
 					enemyDEF = enemyData.get(enemy).get("DEF").asInt();
@@ -91,7 +98,7 @@ public class RoleplayEngine {
 					break;
 				case "ENEMY":
 					mapper = new ObjectMapper();
-					enemyData = mapper.readTree(new File("./src/main/resources/rp_assets/enemy.json"));
+					enemyData = mapper.readTree(new File("src/main/resources/rp_assets/enemy.json"));
 					
 					enemyATK = enemyData.get(enemy).get("ATK").asInt();
 					playerDEF = Integer.parseInt(DBUsers.getValueString(player, "DEF"));
@@ -100,7 +107,7 @@ public class RoleplayEngine {
 					break;
 				default:
 					mapper = new ObjectMapper();
-					enemyData = mapper.readTree(new File("./src/main/resources/rp_assets/enemy.json"));
+					enemyData = mapper.readTree(new File("src/main/resources/rp_assets/enemy.json"));
 					
 					playerATK = Integer.parseInt(DBUsers.getValueString(player, "ATK"));
 					enemyDEF = enemyData.get(enemy).get("DEF").asInt();

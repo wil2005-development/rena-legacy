@@ -19,9 +19,13 @@ package net.crimsonite.rena.commands.info;
 
 import java.awt.Color;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
-import net.crimsonite.rena.utils.Command;
+import com.jagrosh.jdautilities.commons.utils.FinderUtil;
+
+import net.crimsonite.rena.commands.Command;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -29,36 +33,48 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 public class UserinfoCommand extends Command {
 	
 	private static DateTimeFormatter format = DateTimeFormatter.ofPattern("MMMM d, yyyy");
+	
+	private static void sendEmbed(MessageReceivedEvent event, User user) {
+		User author = event.getAuthor();
+		
+		Color roleColor = event.getGuild().retrieveMember(user).complete().getColor();
+		
+		EmbedBuilder embed = new EmbedBuilder()
+				.setColor(roleColor)
+				.setTitle(user.getName() + "'s User Info")
+				.setThumbnail(user.getEffectiveAvatarUrl())
+				.addField("ID", user.getId(), false)
+				.addField("Date Created", user.getTimeCreated().format(format), false)
+				.setFooter(author.getName(), author.getEffectiveAvatarUrl());
+		
+		event.getChannel().sendMessage(embed.build()).queue();
+	}
 
 	@Override
 	public void execute(MessageReceivedEvent event, String[] args) {
 		MessageChannel channel = event.getChannel();
+		User author = event.getAuthor();
 		
-		if (event.getMessage().getMentionedUsers().isEmpty()) {
-			User author = event.getAuthor();
-			Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
-			EmbedBuilder embed = new EmbedBuilder()
-					.setColor(roleColor)
-					.setTitle(author.getName() + "'s User Info")
-					.setThumbnail(author.getEffectiveAvatarUrl())
-					.addField("ID", author.getId(), false)
-					.addField("Date Created", author.getTimeCreated().format(format), false)
-					.setFooter(author.getName(), author.getEffectiveAvatarUrl());
-			
-			channel.sendMessage(embed.build()).queue();
+		if (args.length == 1) {
+			sendEmbed(event, author);
 		}
-		else {
-			User user = event.getMessage().getMentionedUsers().get(0);
-			Color roleColor = event.getGuild().retrieveMember(user).complete().getColor();
-			EmbedBuilder embed = new EmbedBuilder()
-					.setColor(roleColor)
-					.setTitle(user.getName() + "'s User Info")
-					.setThumbnail(user.getEffectiveAvatarUrl())
-					.addField("ID", user.getId(), false)
-					.addField("Date Created", user.getTimeCreated().format(format), false)
-					.setFooter(user.getName(), user.getEffectiveAvatarUrl());
-			
-			channel.sendMessage(embed.build()).queue();
+		else if (args.length >= 2){
+			if (!event.getMessage().getMentionedMembers().isEmpty()) {
+				User user = event.getMessage().getMentionedMembers().get(0).getUser();
+				sendEmbed(event, user);
+			}
+			else {
+				List<Member> listedMembers = FinderUtil.findMembers(args[1], event.getGuild());
+				
+				if (listedMembers.isEmpty()) {
+					channel.sendMessage("*Err... I can't find that person. Try doing it again, I might've missed them*").queue();
+					event.getGuild().loadMembers();
+				}
+				else {
+					User user = listedMembers.get(0).getUser();
+					sendEmbed(event, user);
+				}
+			}
 		}
 	}
 

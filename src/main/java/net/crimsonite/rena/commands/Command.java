@@ -1,7 +1,27 @@
-package net.crimsonite.rena.utils;
+/*
+ * Copyright (C) 2020-2021  Nhalrath
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+package net.crimsonite.rena.commands;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import net.crimsonite.rena.RenaBot;
 import net.dv8tion.jda.api.MessageBuilder;
@@ -13,22 +33,33 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public abstract class Command extends ListenerAdapter {
 	
+	final static Logger logger = LoggerFactory.getLogger(Command.class);
+	
 	private ConcurrentHashMap<String, Long> cooldownCache = new ConcurrentHashMap<>();
 	
 	public abstract void execute(MessageReceivedEvent event, String[] args);
-	public abstract String getCommandName();
-	public abstract long cooldown();
-	
-	// Reserved for future use
 	public abstract boolean isOwnerCommand();
+	public abstract long cooldown();
+	public abstract String getCommandName();
 	
 	@Override
 	public void onMessageReceived(MessageReceivedEvent event) {
 		User author = event.getAuthor();
 		
 		if (author.isBot()) {
+			logger.warn("{}: tried to access one of the commands.", event.getAuthor());
 			return;
 		}
+		
+		// For some reason, this doesn't work and is spamming the logs.
+		/*
+		if (isOwnerCommand()) {
+			if (!(author.getIdLong() == RenaBot.ownerID)) {
+				logger.warn("{}: tried to access a developer's command.", event.getAuthor());
+				return;
+			}
+		}
+		*/
 		
 		if (containsCommand(event.getMessage())) {
 			String command = getCommandName();

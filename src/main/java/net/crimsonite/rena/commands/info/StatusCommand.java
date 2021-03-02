@@ -20,7 +20,7 @@ package net.crimsonite.rena.commands.info;
 import java.awt.Color;
 
 import net.crimsonite.rena.RenaInfo;
-import net.crimsonite.rena.utils.Command;
+import net.crimsonite.rena.commands.Command;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -31,10 +31,12 @@ public class StatusCommand extends Command {
 
 	@Override
 	public void execute(MessageReceivedEvent event, String[] args) {
+		User author = event.getAuthor();
 		JDA jda = event.getJDA();
 		MessageChannel channel = event.getChannel();
-		User author = event.getAuthor();
+		
 		Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
+		
 		EmbedBuilder embed = new EmbedBuilder()
 				.setColor(roleColor)
 				.setTitle("Rena's Informations", RenaInfo.GITHUB_URL)
