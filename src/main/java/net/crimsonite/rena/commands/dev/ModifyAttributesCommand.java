@@ -30,7 +30,7 @@ public class ModifyAttributesCommand extends Command {
 		String message = "```diff\n+SUCCESS: [%s]Operation executed successfully!```";
 		
 		try {
-			// For some reason, the switch-case 
+			// For some reason, the switch-case just doesn't work and is spamming the logs
 			if (args[1] == "BOOLEAN") {
 				DBUsers.modifyDataBoolean(args[2], args[3], Boolean.parseBoolean(args[4]));
 				channel.sendMessageFormat(message, args[1]).queue();

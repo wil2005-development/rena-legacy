@@ -28,7 +28,6 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import net.crimsonite.rena.commands.dev.ModifyAttributesCommand;
 import net.crimsonite.rena.commands.info.GuildinfoCommand;
 import net.crimsonite.rena.commands.info.PingCommand;
 import net.crimsonite.rena.commands.info.RoleinfoCommand;
