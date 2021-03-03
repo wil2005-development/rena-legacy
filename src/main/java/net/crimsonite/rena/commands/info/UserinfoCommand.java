@@ -34,18 +34,20 @@ public class UserinfoCommand extends Command {
 	
 	private static DateTimeFormatter format = DateTimeFormatter.ofPattern("MMMM d, yyyy");
 	
-	private static void sendEmbed(MessageReceivedEvent event, User user) {
-		User author = event.getAuthor();
+	private static void sendEmbed(MessageReceivedEvent event, Member member) {
+		User memberAsUser = member.getUser();
+		Member author = event.getMember();
 		
-		Color roleColor = event.getGuild().retrieveMember(user).complete().getColor();
+		Color roleColor = event.getGuild().retrieveMember(memberAsUser).complete().getColor();
 		
 		EmbedBuilder embed = new EmbedBuilder()
 				.setColor(roleColor)
-				.setTitle(user.getName() + "'s User Info")
-				.setThumbnail(user.getEffectiveAvatarUrl())
-				.addField("ID", user.getId(), false)
-				.addField("Date Created", user.getTimeCreated().format(format), false)
-				.setFooter(author.getName(), author.getEffectiveAvatarUrl());
+				.setTitle(member.getEffectiveName() + "'s User Info")
+				.setThumbnail(memberAsUser.getEffectiveAvatarUrl())
+				.addField("ID", member.getId(), false)
+				.addField("Date Created", member.getTimeCreated().format(format), false)
+				.addField("Date Joined", member.getTimeJoined().format(format),false)
+				.setFooter(author.getEffectiveName(), author.getUser().getEffectiveAvatarUrl());
 		
 		event.getChannel().sendMessage(embed.build()).queue();
 	}
@@ -53,15 +55,15 @@ public class UserinfoCommand extends Command {
 	@Override
 	public void execute(MessageReceivedEvent event, String[] args) {
 		MessageChannel channel = event.getChannel();
-		User author = event.getAuthor();
+		Member author = event.getMember();
 		
 		if (args.length == 1) {
 			sendEmbed(event, author);
 		}
 		else if (args.length >= 2){
 			if (!event.getMessage().getMentionedMembers().isEmpty()) {
-				User user = event.getMessage().getMentionedMembers().get(0).getUser();
-				sendEmbed(event, user);
+				Member member = event.getMessage().getMentionedMembers().get(0);
+				sendEmbed(event, member);
 			}
 			else {
 				List<Member> listedMembers = FinderUtil.findMembers(args[1], event.getGuild());
@@ -71,8 +73,8 @@ public class UserinfoCommand extends Command {
 					event.getGuild().loadMembers();
 				}
 				else {
-					User user = listedMembers.get(0).getUser();
-					sendEmbed(event, user);
+					Member member = listedMembers.get(0);
+					sendEmbed(event, member);
 				}
 			}
 		}
