@@ -76,7 +76,7 @@ public class KickCommand extends Command {
 
 	@Override
 	public long cooldown() {
-		return 0;
+		return 5;
 	}
 
 }
