@@ -47,7 +47,6 @@ public abstract class Command extends ListenerAdapter {
 		User author = event.getAuthor();
 		
 		if (author.isBot()) {
-			logger.warn("{}: tried to access one of the commands.", event.getAuthor());
 			return;
 		}
 		

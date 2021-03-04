@@ -34,6 +34,9 @@ import net.crimsonite.rena.commands.info.RoleinfoCommand;
 import net.crimsonite.rena.commands.info.StatusCommand;
 import net.crimsonite.rena.commands.info.UserinfoCommand;
 import net.crimsonite.rena.commands.misc.RollCommand;
+import net.crimsonite.rena.commands.moderation.BanCommand;
+import net.crimsonite.rena.commands.moderation.KickCommand;
+import net.crimsonite.rena.commands.moderation.UnbanCommand;
 import net.crimsonite.rena.commands.roleplay.DailyCommand;
 import net.crimsonite.rena.commands.roleplay.ExpeditionCommand;
 import net.crimsonite.rena.commands.roleplay.HuntCommand;
@@ -54,7 +57,7 @@ public class RenaBot {
 	public static String hostName;
 	public static long ownerID;
 	public static long startup;
-
+	
 	final static Logger logger = LoggerFactory.getLogger(RenaBot.class);
 	
 	protected RenaBot() {
@@ -76,18 +79,23 @@ public class RenaBot {
 				.enableIntents(GatewayIntent.GUILD_MEMBERS)
 				.setMemberCachePolicy(MemberCachePolicy.ALL)
 				.addEventListeners(
-						new ExpeditionCommand(),
 						new UserinfoCommand(),
-						new DailyCommand(),
+						new PingCommand(),
 						new GuildinfoCommand(),
+						new RoleinfoCommand(),
+						new StatusCommand(),
+						
+						new BanCommand(),
+						new KickCommand(),
+						new UnbanCommand(),
+						
+						new ExpeditionCommand(),
+						new DailyCommand(),
 						new HuntCommand(),
 						new LootCommand(),
-						new PingCommand(),
 						new ProfileCommand(),
-						new RoleinfoCommand(),
-						new RollCommand(),
-						new StatusCommand()
 						
+						new RollCommand()						
 						// new ModifyAttributesCommand()
 						)
 				.build();
