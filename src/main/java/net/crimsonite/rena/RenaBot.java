@@ -29,6 +29,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.crimsonite.rena.commands.info.GuildinfoCommand;
+import net.crimsonite.rena.commands.info.HelpCommand;
 import net.crimsonite.rena.commands.info.PingCommand;
 import net.crimsonite.rena.commands.info.RoleinfoCommand;
 import net.crimsonite.rena.commands.info.StatusCommand;
@@ -58,6 +59,8 @@ public class RenaBot {
 	public static long ownerID;
 	public static long startup;
 	
+	public static HelpCommand commandRegistry = new HelpCommand();
+	
 	final static Logger logger = LoggerFactory.getLogger(RenaBot.class);
 	
 	protected RenaBot() {
@@ -79,23 +82,24 @@ public class RenaBot {
 				.enableIntents(GatewayIntent.GUILD_MEMBERS)
 				.setMemberCachePolicy(MemberCachePolicy.ALL)
 				.addEventListeners(
-						new UserinfoCommand(),
-						new PingCommand(),
-						new GuildinfoCommand(),
-						new RoleinfoCommand(),
-						new StatusCommand(),
+						commandRegistry.registerCommand(new UserinfoCommand()),
+						commandRegistry.registerCommand(new GuildinfoCommand()),
+						commandRegistry.registerCommand(new HelpCommand()),
+						commandRegistry.registerCommand(new PingCommand()),
+						commandRegistry.registerCommand(new RoleinfoCommand()),
+						commandRegistry.registerCommand(new StatusCommand()),
 						
-						new BanCommand(),
-						new KickCommand(),
-						new UnbanCommand(),
+						commandRegistry.registerCommand(new BanCommand()),
+						commandRegistry.registerCommand(new KickCommand()),
+						commandRegistry.registerCommand(new UnbanCommand()),
 						
-						new ExpeditionCommand(),
-						new DailyCommand(),
-						new HuntCommand(),
-						new LootCommand(),
-						new ProfileCommand(),
+						commandRegistry.registerCommand(new ExpeditionCommand()),
+						commandRegistry.registerCommand(new DailyCommand()),
+						commandRegistry.registerCommand(new HuntCommand()),
+						commandRegistry.registerCommand(new LootCommand()),
+						commandRegistry.registerCommand(new ProfileCommand()),
 						
-						new RollCommand()						
+						commandRegistry.registerCommand(new RollCommand())						
 						// new ModifyAttributesCommand()
 						)
 				.build();
