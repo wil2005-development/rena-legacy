@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import net.crimsonite.rena.commands.dev.ModifyAttributesCommand;
 import net.crimsonite.rena.commands.info.GuildinfoCommand;
 import net.crimsonite.rena.commands.info.HelpCommand;
 import net.crimsonite.rena.commands.info.PingCommand;
@@ -82,6 +83,7 @@ public class RenaBot {
 				.enableIntents(GatewayIntent.GUILD_MEMBERS)
 				.setMemberCachePolicy(MemberCachePolicy.ALL)
 				.addEventListeners(
+						// Info Commands
 						commandRegistry.registerCommand(new UserinfoCommand()),
 						commandRegistry.registerCommand(new GuildinfoCommand()),
 						commandRegistry.registerCommand(new HelpCommand()),
@@ -89,18 +91,23 @@ public class RenaBot {
 						commandRegistry.registerCommand(new RoleinfoCommand()),
 						commandRegistry.registerCommand(new StatusCommand()),
 						
+						// Moderation Commands
 						commandRegistry.registerCommand(new BanCommand()),
 						commandRegistry.registerCommand(new KickCommand()),
 						commandRegistry.registerCommand(new UnbanCommand()),
 						
+						// Roleplaying Commands
 						commandRegistry.registerCommand(new ExpeditionCommand()),
 						commandRegistry.registerCommand(new DailyCommand()),
 						commandRegistry.registerCommand(new HuntCommand()),
 						commandRegistry.registerCommand(new LootCommand()),
 						commandRegistry.registerCommand(new ProfileCommand()),
 						
-						commandRegistry.registerCommand(new RollCommand())						
-						// new ModifyAttributesCommand()
+						// Miscellaneous Commands
+						commandRegistry.registerCommand(new RollCommand()),
+						
+						// Developer/Debug Command
+						new ModifyAttributesCommand()
 						)
 				.build();
 			

@@ -52,19 +52,14 @@ public abstract class Command extends ListenerAdapter {
 	public void onMessageReceived(MessageReceivedEvent event) {
 		User author = event.getAuthor();
 		
-		if (author.isBot()) {
+		if (author.isBot())
 			return;
-		}
 		
-		// For some reason, this doesn't work and is spamming the logs.
-		/*
 		if (isOwnerCommand()) {
-			if (!(author.getIdLong() == RenaBot.ownerID)) {
-				logger.warn("{}: tried to access a developer's command.", event.getAuthor());
+			if (author.getIdLong() != RenaBot.ownerID) {
 				return;
 			}
 		}
-		*/
 		
 		if (containsCommand(event.getMessage())) {
 			String command = getCommandName();
@@ -95,6 +90,8 @@ public abstract class Command extends ListenerAdapter {
 	        	setCooldown(author.getId(), getCommandName());
 			}
 		}
+		
+		return;
 	}
 	
 	protected long remainingCooldown(String UID, String command) {

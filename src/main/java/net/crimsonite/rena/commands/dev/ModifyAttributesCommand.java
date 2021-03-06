@@ -27,24 +27,40 @@ public class ModifyAttributesCommand extends Command {
 	@Override
 	public void execute(MessageReceivedEvent event, String[] args) {
 		MessageChannel channel = event.getChannel();
+		
 		String message = "```diff\n+SUCCESS: [%s]Operation executed successfully!```";
 		
 		try {
-			// For some reason, the switch-case just doesn't work and is spamming the logs
-			if (args[1] == "BOOLEAN") {
-				DBUsers.modifyDataBoolean(args[2], args[3], Boolean.parseBoolean(args[4]));
-				channel.sendMessageFormat(message, args[1]).queue();
-			}
-			else if (args[1] == "INT") {
-				DBUsers.modifyDataInt(args[2], args[3], Integer.parseInt(args[4]));
-				channel.sendMessageFormat(message, args[1]).queue();
-			}
-			else if (args[1] == "STRING") {
-				DBUsers.modifyDataString(args[2], args[3], args[4]);
-				channel.sendMessageFormat(message, args[1]).queue();
-			}
-			else {
-				channel.sendMessage("```diff\n-ERROR: Invalid Argument```").queue();
+			switch (args[1]) {
+				case "BOOLEAN":
+					DBUsers.modifyDataBoolean(args[2], args[3], Boolean.parseBoolean(args[4]));
+					channel.sendMessageFormat(message, args[1]).queue();
+					
+					break;
+				case "INT":
+					DBUsers.modifyDataInt(args[2], args[3], Integer.parseInt(args[4]));
+					channel.sendMessageFormat(message, args[1]).queue();
+					
+					break;
+				case "INT_INCREMENT":
+					DBUsers.incrementValue(args[2], args[3], Integer.parseInt(args[4]));
+					channel.sendMessageFormat(message, args[1]).queue();
+					
+					break;
+				case "INT_DECREMENT":
+					DBUsers.modifyDataInt(args[2], args[3], Integer.parseInt(args[4]));
+					channel.sendMessageFormat(message, args[1]).queue();
+					
+					break;
+				case "STRING":
+					DBUsers.modifyDataString(args[2], args[3], args[4]);
+					channel.sendMessageFormat(message, args[1]).queue();
+					
+					break;
+				default:
+					channel.sendMessage("```diff\n-ERROR: Invalid Argument```").queue();
+					
+					break;
 			}
 		}
 		catch (ArrayIndexOutOfBoundsException ignored) {
