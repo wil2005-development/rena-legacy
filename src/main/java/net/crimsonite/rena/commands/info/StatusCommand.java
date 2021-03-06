@@ -41,8 +41,10 @@ public class StatusCommand extends Command {
 				.setColor(roleColor)
 				.setTitle("Rena's Informations", RenaInfo.GITHUB_URL)
 				.addField("Version", RenaInfo.VERSION_STRING, false)
-				.addField("Guilds", jda.getGuilds().size()+"", false)
-				.addField("Users", jda.getUsers().size()+"", false);
+				.addField("Number of Commands", String.valueOf(HelpCommand.getCommandCount()), false)
+				.addField("Times Command Used", String.valueOf(Command.getTimesCommandUsed()), false)
+				.addField("Guilds", String.valueOf(jda.getGuilds().size()), false)
+				.addField("Users", String.valueOf(jda.getUsers().size()), false);
 
 		channel.sendMessage(embed.build()).queue();
 		channel.sendMessageFormat(

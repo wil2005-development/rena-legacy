@@ -37,10 +37,16 @@ public abstract class Command extends ListenerAdapter {
 	
 	private ConcurrentHashMap<String, Long> cooldownCache = new ConcurrentHashMap<>();
 	
+	private static long timesCommandUsed = 0;
+	
 	public abstract void execute(MessageReceivedEvent event, String[] args);
 	public abstract boolean isOwnerCommand();
 	public abstract long cooldown();
 	public abstract String getCommandName();
+	
+	public static long getTimesCommandUsed() {
+		return timesCommandUsed;
+	}
 	
 	@Override
 	public void onMessageReceived(MessageReceivedEvent event) {
@@ -62,6 +68,8 @@ public abstract class Command extends ListenerAdapter {
 		
 		if (containsCommand(event.getMessage())) {
 			String command = getCommandName();
+			
+			timesCommandUsed++;
 			
 			if (cooldownCache.containsKey(author.getId() + "-" + command)) {
 				long remainingCooldownShortened = remainingCooldown(author.getId(), command)-TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
