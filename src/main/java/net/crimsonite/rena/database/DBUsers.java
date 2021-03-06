@@ -102,11 +102,8 @@ public class DBUsers {
 	 * @param val =The value to exchange.
 	 * @throws NullPointerException If the user is not found in the database.
 	 */
-	public static void modifyDataInt(String UID, String key, int val) throws NullPointerException {
-		HashMap<String, String> obj = user.get(UID).run(conn);
-		int initialValue = Integer.parseInt(String.valueOf(obj.get(key)));
-		
-		user.get(UID).update(r.hashMap(key, initialValue+=val)).runNoReply(conn);
+	public static void modifyDataInt(String UID, String key, int val) throws NullPointerException {		
+		user.get(UID).update(r.hashMap(key, val)).runNoReply(conn);
 	}
 	
 	/**
