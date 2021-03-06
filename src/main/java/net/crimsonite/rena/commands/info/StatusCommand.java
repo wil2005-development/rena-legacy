@@ -18,6 +18,10 @@
 package net.crimsonite.rena.commands.info;
 
 import java.awt.Color;
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
+
+import com.sun.management.OperatingSystemMXBean;
 
 import net.crimsonite.rena.RenaInfo;
 import net.crimsonite.rena.commands.Command;
@@ -34,6 +38,9 @@ public class StatusCommand extends Command {
 		User author = event.getAuthor();
 		JDA jda = event.getJDA();
 		MessageChannel channel = event.getChannel();
+		
+		OperatingSystemMXBean operatingSystem = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+		MemoryMXBean memory = ManagementFactory.getMemoryMXBean();
 		
 		Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
 		
@@ -53,11 +60,26 @@ public class StatusCommand extends Command {
 				"** Internal Information **\n" +
 				"**************************\n\n" +
 				"Shards: %d\n" +
-				"Threads : %d" +
+				"Threads : %d\n" +
+				"** Debug **\n" +
+				"CPU Usage: %.2f%%\n" +
+				"Total Memory: %dmb\n" +
+				"Used memory: %dmb\n" +
+				"Available Memory: %dmb\n" +
+				"Max Heap Memory: %dmb\n" +
+				"Max Non-Heap Memory: %dmb\n" +
 				"```",
+				
+				// TODO Cleanup and move system informations to developer's command
 				jda.getShardInfo().getShardTotal(),
-				Thread.activeCount()
-				).queue();
+				Thread.activeCount(),
+				operatingSystem.getCpuLoad(),
+				operatingSystem.getTotalMemorySize() / (1024 * 1024),
+				((operatingSystem.getTotalMemorySize() / (1024 * 1024)) - (operatingSystem.getFreeMemorySize() / (1024 * 1024))),
+				operatingSystem.getFreeMemorySize() / (1024 * 1024),
+				memory.getHeapMemoryUsage().getMax() / (1024 * 1024),
+				memory.getNonHeapMemoryUsage().getMax() / (1024 * 1024))
+				.queue();
 	}
 
 	@Override
