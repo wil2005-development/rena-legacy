@@ -19,7 +19,6 @@ package net.crimsonite.rena.commands.info;
 
 import java.awt.Color;
 import java.lang.management.ManagementFactory;
-import java.lang.management.MemoryMXBean;
 
 import com.sun.management.OperatingSystemMXBean;
 
@@ -40,7 +39,13 @@ public class StatusCommand extends Command {
 		MessageChannel channel = event.getChannel();
 		
 		OperatingSystemMXBean operatingSystem = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
-		MemoryMXBean memory = ManagementFactory.getMemoryMXBean();
+		
+		long numberOfCommands = HelpCommand.getCommandCount();
+		long shards = jda.getShardInfo().getShardTotal();
+		long timesCommandUsed = Command.getTimesCommandUsed();
+		long threads = Thread.activeCount();
+		
+		double cpuLoad = operatingSystem.getCpuLoad();
 		
 		Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
 		
@@ -48,37 +53,24 @@ public class StatusCommand extends Command {
 				.setColor(roleColor)
 				.setTitle("Rena's Informations", RenaInfo.GITHUB_URL)
 				.addField("Version", RenaInfo.VERSION_STRING, false)
-				.addField("Number of Commands", String.valueOf(HelpCommand.getCommandCount()), false)
-				.addField("Times Command Used", String.valueOf(Command.getTimesCommandUsed()), false)
+				.addField("Number of Commands", String.valueOf(numberOfCommands), false)
+				.addField("Times Command Used", String.valueOf(timesCommandUsed), false)
 				.addField("Guilds", String.valueOf(jda.getGuilds().size()), false)
-				.addField("Users", String.valueOf(jda.getUsers().size()), false);
-
+				.addField("Users", String.valueOf(jda.getUsers().size()), false)
+				.addField("Shards", String.valueOf(shards), false);
 		channel.sendMessage(embed.build()).queue();
 		channel.sendMessageFormat(
 				"```yml\n" +
 				"**************************\n" +
 				"** Internal Information **\n" +
 				"**************************\n\n" +
-				"Shards: %d\n" +
 				"Threads : %d\n" +
-				"** Debug **\n" +
 				"CPU Usage: %.2f%%\n" +
-				"Total Memory: %dmb\n" +
-				"Used memory: %dmb\n" +
-				"Available Memory: %dmb\n" +
-				"Max Heap Memory: %dmb\n" +
-				"Max Non-Heap Memory: %dmb\n" +
 				"```",
 				
-				// TODO Cleanup and move system informations to developer's command
-				jda.getShardInfo().getShardTotal(),
-				Thread.activeCount(),
-				operatingSystem.getCpuLoad(),
-				operatingSystem.getTotalMemorySize() / (1024 * 1024),
-				((operatingSystem.getTotalMemorySize() / (1024 * 1024)) - (operatingSystem.getFreeMemorySize() / (1024 * 1024))),
-				operatingSystem.getFreeMemorySize() / (1024 * 1024),
-				memory.getHeapMemoryUsage().getMax() / (1024 * 1024),
-				memory.getNonHeapMemoryUsage().getMax() / (1024 * 1024))
+				threads,
+				cpuLoad
+				)
 				.queue();
 	}
 
