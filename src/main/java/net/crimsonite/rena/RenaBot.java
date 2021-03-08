@@ -29,6 +29,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.crimsonite.rena.commands.dev.ModifyAttributesCommand;
+import net.crimsonite.rena.commands.dev.ShutdownCommand;
+import net.crimsonite.rena.commands.dev.StatusReportCommand;
 import net.crimsonite.rena.commands.info.GuildinfoCommand;
 import net.crimsonite.rena.commands.info.HelpCommand;
 import net.crimsonite.rena.commands.info.PingCommand;
@@ -107,7 +109,9 @@ public class RenaBot {
 						commandRegistry.registerCommand(new RollCommand()),
 						
 						// Developer/Debug Command
-						new ModifyAttributesCommand()
+						new ModifyAttributesCommand(),
+						new ShutdownCommand(),
+						new StatusReportCommand()
 						)
 				.build();
 			
