@@ -56,9 +56,14 @@ public class DBUsers {
 	 * @param UID -The Unique ID of the user.
 	 * @param key -The db variable to be incremented.
 	 * @param val -The amount to increment.
+	 * @throws IllegalArgumentException If the provided value is a negative number
 	 * @throws NullPointerException If the user is not found in the database.
 	 */
-	public static void incrementValue(String UID, String key, int val) throws NullPointerException {
+	public static void incrementValue(String UID, String key, int val) throws IllegalArgumentException, NullPointerException {
+		if (val <= 0) {
+			throw new IllegalArgumentException("Value cannot be a negative number (%d).".formatted(val));
+		}
+		
 		HashMap<String, String> obj = user.get(UID).run(conn);
 		int initialValue = Integer.parseInt(String.valueOf(obj.get(key)));
 		int incrementedValue = initialValue += val;
@@ -72,9 +77,14 @@ public class DBUsers {
 	 * @param UID -The Unique ID of the user.
 	 * @param key -The db variable to be decremented.
 	 * @param val -The amount to decrement.
+	 * @throws IllegalArgumentException If the provided value is a negative number
 	 * @throws NullPointerException If the user is not found in the database.
 	 */
-	public static void decrementValue(String UID, String key, int val) throws NullPointerException {
+	public static void decrementValue(String UID, String key, int val) throws IllegalArgumentException, NullPointerException {
+		if (val <= 0) {
+			throw new IllegalArgumentException("Value cannot be a negative number (%d).".formatted(val));
+		}
+		
 		HashMap<String, String> obj = user.get(UID).run(conn);
 		int initialValue = Integer.parseInt(String.valueOf(obj.get(key)));
 		int decrementedValue = initialValue -= val;
