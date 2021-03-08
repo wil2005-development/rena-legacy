@@ -25,7 +25,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import net.crimsonite.rena.database.DBUsers;
+import net.crimsonite.rena.database.DBReadWrite;
+import net.crimsonite.rena.database.DBReadWrite.Table;
 
 public class RoleplayEngine {
 	
@@ -48,8 +49,8 @@ public class RoleplayEngine {
 		 * @param -The Discord UID of the player.
 		 */
 		public static void handleLevelup(String player) {
-			int playerLevel = Integer.parseInt(DBUsers.getValueString(player, "LEVEL"));
-			int playerExp = Integer.parseInt(DBUsers.getValueString(player, "EXP"));
+			int playerLevel = Integer.parseInt(DBReadWrite.getValueString(Table.USERS, player, "LEVEL"));
+			int playerExp = Integer.parseInt(DBReadWrite.getValueString(Table.USERS, player, "EXP"));
 			
 			boolean increment = checkExp(playerLevel, playerExp);
 			
@@ -59,7 +60,7 @@ public class RoleplayEngine {
 					increment = checkExp(playerLevel, playerExp);
 				}
 				
-				DBUsers.incrementValue(player, "LEVEL", playerLevel);
+				DBReadWrite.incrementValue(Table.USERS, player, "LEVEL", playerLevel);
 			}
 		}
 	}
@@ -91,7 +92,7 @@ public class RoleplayEngine {
 					mapper = new ObjectMapper();
 					enemyData = mapper.readTree(new File("src/main/resources/rp_assets/enemy.json"));
 					
-					playerATK = Integer.parseInt(DBUsers.getValueString(player, "ATK"));
+					playerATK = Integer.parseInt(DBReadWrite.getValueString(Table.USERS, player, "ATK"));
 					enemyDEF = enemyData.get(enemy).get("DEF").asInt();
 					damage = (playerATK+criticalHIT)*((25+enemyDEF)/25);
 					
@@ -101,7 +102,7 @@ public class RoleplayEngine {
 					enemyData = mapper.readTree(new File("src/main/resources/rp_assets/enemy.json"));
 					
 					enemyATK = enemyData.get(enemy).get("ATK").asInt();
-					playerDEF = Integer.parseInt(DBUsers.getValueString(player, "DEF"));
+					playerDEF = Integer.parseInt(DBReadWrite.getValueString(Table.USERS, player, "DEF"));
 					damage = (enemyATK+criticalHIT)*((25+playerDEF)/25);
 					
 					break;
@@ -109,7 +110,7 @@ public class RoleplayEngine {
 					mapper = new ObjectMapper();
 					enemyData = mapper.readTree(new File("src/main/resources/rp_assets/enemy.json"));
 					
-					playerATK = Integer.parseInt(DBUsers.getValueString(player, "ATK"));
+					playerATK = Integer.parseInt(DBReadWrite.getValueString(Table.USERS, player, "ATK"));
 					enemyDEF = enemyData.get(enemy).get("DEF").asInt();
 					damage = (playerATK+criticalHIT)*((25+enemyDEF)/25);
 					

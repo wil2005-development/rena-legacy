@@ -27,7 +27,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.crimsonite.rena.commands.Command;
-import net.crimsonite.rena.database.DBUsers;
+import net.crimsonite.rena.database.DBReadWrite;
+import net.crimsonite.rena.database.DBReadWrite.Table;
 import net.crimsonite.rena.engine.RoleplayEngine;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -56,7 +57,7 @@ public class HuntCommand extends Command {
 			JsonNode moneyList = enemyStat.get("MONEY");
 			
 			int enemyHP = enemyStat.get("HP").asInt();
-			int playerHP = Integer.parseInt(DBUsers.getValueString(author.getId(), "HP"));
+			int playerHP = Integer.parseInt(DBReadWrite.getValueString(Table.USERS, author.getId(), "HP"));
 			
 			int rewardExp = enemyStat.get("EXP").asInt();
 			int rewardMoney = moneyList.get(rng.nextInt(moneyList.size())).asInt();
@@ -81,8 +82,8 @@ public class HuntCommand extends Command {
 				playerHP -= enemyDMG;
 				
 				if (enemyHP <= 0) {
-					DBUsers.incrementValue(author.getId(), "EXP", rewardExp);
-					DBUsers.incrementValue(author.getId(), "MONEY", rewardMoney);
+					DBReadWrite.incrementValue(Table.USERS, author.getId(), "EXP", rewardExp);
+					DBReadWrite.incrementValue(Table.USERS, author.getId(), "MONEY", rewardMoney);
 					
 					EmbedBuilder embedSecond = new EmbedBuilder()
 							.setColor(roleColor)
@@ -114,7 +115,7 @@ public class HuntCommand extends Command {
 			channel.sendMessage("*Huh? Something's weird is happening...*").queue();
 		}
 		catch (NullPointerException ignored) {
-			DBUsers.registerUser(author.getId());
+			DBReadWrite.registerUser(author.getId());
 			channel.sendMessage("Oops! Try again?").queue();
 		}
 	}

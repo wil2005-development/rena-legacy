@@ -18,7 +18,8 @@
 package net.crimsonite.rena.commands.roleplay;
 
 import net.crimsonite.rena.commands.Command;
-import net.crimsonite.rena.database.DBUsers;
+import net.crimsonite.rena.database.DBReadWrite;
+import net.crimsonite.rena.database.DBReadWrite.Table;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -31,13 +32,13 @@ public class DailyCommand extends Command{
 		User author = event.getAuthor();
 		
 		try {
-			int level = DBUsers.getValueInt(author.getId(), "LEVEL");
+			int level = DBReadWrite.getValueInt(Table.USERS, author.getId(), "LEVEL");
 			int reward = 50 * level;
-			DBUsers.incrementValue(author.getId(), "MONEY", reward);
+			DBReadWrite.incrementValue(Table.USERS, author.getId(), "MONEY", reward);
 			channel.sendMessageFormat("**You claimed your** G`%d` **daily!!!**", reward).queue();
 		}
 		catch (NullPointerException ignored) {
-			DBUsers.registerUser(author.getId());
+			DBReadWrite.registerUser(author.getId());
 			channel.sendMessage("Oops! Try again?").queue();
 		}
 	}

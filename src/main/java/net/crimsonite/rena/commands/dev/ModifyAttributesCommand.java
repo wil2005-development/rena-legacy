@@ -18,7 +18,8 @@
 package net.crimsonite.rena.commands.dev;
 
 import net.crimsonite.rena.commands.Command;
-import net.crimsonite.rena.database.DBUsers;
+import net.crimsonite.rena.database.DBReadWrite;
+import net.crimsonite.rena.database.DBReadWrite.Table;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
@@ -33,27 +34,27 @@ public class ModifyAttributesCommand extends Command {
 		try {
 			switch (args[1]) {
 				case "BOOLEAN":
-					DBUsers.modifyDataBoolean(args[2], args[3], Boolean.parseBoolean(args[4]));
+					DBReadWrite.modifyDataBoolean(Table.USERS, args[2], args[3], Boolean.parseBoolean(args[4]));
 					channel.sendMessageFormat(message, args[1]).queue();
 					
 					break;
 				case "INT":
-					DBUsers.modifyDataInt(args[2], args[3], Integer.parseInt(args[4]));
+					DBReadWrite.modifyDataInt(Table.USERS, args[2], args[3], Integer.parseInt(args[4]));
 					channel.sendMessageFormat(message, args[1]).queue();
 					
 					break;
 				case "INT_INCREMENT":
-					DBUsers.incrementValue(args[2], args[3], Integer.parseInt(args[4]));
+					DBReadWrite.incrementValue(Table.USERS, args[2], args[3], Integer.parseInt(args[4]));
 					channel.sendMessageFormat(message, args[1]).queue();
 					
 					break;
 				case "INT_DECREMENT":
-					DBUsers.decrementValue(args[2], args[3], Integer.parseInt(args[4]));
+					DBReadWrite.decrementValue(Table.USERS, args[2], args[3], Integer.parseInt(args[4]));
 					channel.sendMessageFormat(message, args[1]).queue();
 					
 					break;
 				case "STRING":
-					DBUsers.modifyDataString(args[2], args[3], args[4]);
+					DBReadWrite.modifyDataString(Table.USERS, args[2], args[3], args[4]);
 					channel.sendMessageFormat(message, args[1]).queue();
 					
 					break;
