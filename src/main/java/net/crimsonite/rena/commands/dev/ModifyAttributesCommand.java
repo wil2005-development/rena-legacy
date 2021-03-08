@@ -28,7 +28,7 @@ public class ModifyAttributesCommand extends Command {
 	public void execute(MessageReceivedEvent event, String[] args) {
 		MessageChannel channel = event.getChannel();
 		
-		String message = "```diff\n+SUCCESS: [%s]Operation executed successfully!```";
+		String message = "```diff\n+SUCCESS: [%s] Operation executed successfully!```";
 		
 		try {
 			switch (args[1]) {
@@ -48,7 +48,7 @@ public class ModifyAttributesCommand extends Command {
 					
 					break;
 				case "INT_DECREMENT":
-					DBUsers.modifyDataInt(args[2], args[3], Integer.parseInt(args[4]));
+					DBUsers.decrementValue(args[2], args[3], Integer.parseInt(args[4]));
 					channel.sendMessageFormat(message, args[1]).queue();
 					
 					break;
