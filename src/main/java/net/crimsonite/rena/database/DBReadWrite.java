@@ -33,10 +33,10 @@ public class DBReadWrite {
 		USERS("users"),
 		GUILDS("users");
 
-		public final String TABLE_NAME;
+		public final String stringValue;
 		
-		Table(String TABLE_NAME) {
-			this.TABLE_NAME = TABLE_NAME;
+		Table(String stringValue) {
+			this.stringValue = stringValue;
 		}
 	}
 	
@@ -48,7 +48,7 @@ public class DBReadWrite {
 	 */
 	public static void registerUser(String UID) {
 		// Roleplay stats are uppercased on purpose.
-		db.table(Table.USERS.TABLE_NAME).insert(r.array(
+		db.table(Table.USERS.stringValue).insert(r.array(
 				r.hashMap("id", UID)
 				.with("LEVEL", 0)
 				.with("EXP", 0)
@@ -77,11 +77,11 @@ public class DBReadWrite {
 			throw new IllegalArgumentException("Value cannot be a negative number (%d).".formatted(val));
 		}
 		
-		HashMap<String, String> obj = db.table(table.TABLE_NAME).get(UID).run(conn);
+		HashMap<String, String> obj = db.table(table.stringValue).get(UID).run(conn);
 		int initialValue = Integer.parseInt(String.valueOf(obj.get(key)));
 		int incrementedValue = initialValue += val;
 		
-		db.table(table.TABLE_NAME).get(UID).update(r.hashMap(key, incrementedValue)).runNoReply(conn);
+		db.table(table.stringValue).get(UID).update(r.hashMap(key, incrementedValue)).runNoReply(conn);
 	}
 	
 	/**
@@ -99,11 +99,11 @@ public class DBReadWrite {
 			throw new IllegalArgumentException("Value cannot be a negative number (%d).".formatted(val));
 		}
 		
-		HashMap<String, String> obj = db.table(table.TABLE_NAME).get(UID).run(conn);
+		HashMap<String, String> obj = db.table(table.stringValue).get(UID).run(conn);
 		int initialValue = Integer.parseInt(String.valueOf(obj.get(key)));
 		int decrementedValue = initialValue -= val;
 		
-		db.table(table.TABLE_NAME).get(UID).update(r.hashMap(key, decrementedValue)).runNoReply(conn);
+		db.table(table.stringValue).get(UID).update(r.hashMap(key, decrementedValue)).runNoReply(conn);
 	}
 	
 	/**
@@ -116,7 +116,7 @@ public class DBReadWrite {
 	 * @throws NullPointerException If the user is not found in the database.
 	 */
 	public static void modifyDataString(Table table, String UID, String key, String val) throws NullPointerException {
-		db.table(table.TABLE_NAME).get(UID).update(r.hashMap(key, val)).runNoReply(conn);
+		db.table(table.stringValue).get(UID).update(r.hashMap(key, val)).runNoReply(conn);
 	}
 	
 	/**
@@ -129,7 +129,7 @@ public class DBReadWrite {
 	 * @throws NullPointerException If the user is not found in the database.
 	 */
 	public static void modifyDataInt(Table table, String UID, String key, int val) throws NullPointerException {		
-		db.table(table.TABLE_NAME).get(UID).update(r.hashMap(key, val)).runNoReply(conn);
+		db.table(table.stringValue).get(UID).update(r.hashMap(key, val)).runNoReply(conn);
 	}
 	
 	/**
@@ -142,7 +142,7 @@ public class DBReadWrite {
 	 * @throws NullPointerException If the user is not found in the database.
 	 */
 	public static void modifyDataBoolean(Table table, String UID, String key, boolean val) throws NullPointerException {
-		db.table(table.TABLE_NAME).get(UID).update(r.hashMap(key, val)).runNoReply(conn);
+		db.table(table.stringValue).get(UID).update(r.hashMap(key, val)).runNoReply(conn);
 	}
 	
 	/**
@@ -155,7 +155,7 @@ public class DBReadWrite {
 	 * @throws NullPointerException If the user is not found in the database.
 	 */
 	public static String getValueString(Table table, String UID, String key) throws NullPointerException {
-		HashMap<String, String> obj = db.table(table.TABLE_NAME).get(UID).run(conn);
+		HashMap<String, String> obj = db.table(table.stringValue).get(UID).run(conn);
 		
 		return String.valueOf(obj.get(key));
 	}
@@ -170,7 +170,7 @@ public class DBReadWrite {
 	 * @throws NullPointerException If the user is not found in the database.
 	 */
 	public static int getValueInt(Table table, String UID, String key) throws NullPointerException {
-		HashMap<String, String> obj = db.table(table.TABLE_NAME).get(UID).run(conn);
+		HashMap<String, String> obj = db.table(table.stringValue).get(UID).run(conn);
 		
 		return Integer.parseInt(obj.get(key));
 	}
@@ -185,7 +185,7 @@ public class DBReadWrite {
 	 * @throws NullPointerException If the user is not found in the database.
 	 */
 	public static Boolean getValueBoolean(Table table, String UID, String key) throws NullPointerException {
-		HashMap<String, String> obj = db.table(table.TABLE_NAME).get(UID).run(conn);
+		HashMap<String, String> obj = db.table(table.stringValue).get(UID).run(conn);
 		
 		return Boolean.parseBoolean(obj.get(key));
 	}
