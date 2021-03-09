@@ -18,7 +18,6 @@
 package net.crimsonite.rena.commands.roleplay;
 
 import java.awt.Color;
-import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
@@ -30,6 +29,7 @@ import net.crimsonite.rena.commands.Command;
 import net.crimsonite.rena.database.DBReadWrite;
 import net.crimsonite.rena.database.DBReadWrite.Table;
 import net.crimsonite.rena.engine.RoleplayEngine;
+import net.crimsonite.rena.engine.RoleplayEngine.CommenceBattle.AttackerType;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -48,7 +48,7 @@ public class HuntCommand extends Command {
 			ObjectMapper mapper = new ObjectMapper();
 			Random rng = new Random();
 			
-			JsonNode jsonData = mapper.readTree(new File("src/main/resources/rp_assets/enemy.json"));
+			JsonNode jsonData = mapper.readTree(getClass().getClassLoader().getResourceAsStream("rp_assets/enemy.json"));
 			
 			String[] enemyList = {"Goblin", "Ogre"};
 			String selectedEnemy = enemyList[rng.nextInt(enemyList.length)];
@@ -75,10 +75,10 @@ public class HuntCommand extends Command {
 			
 			// This loop will keep repeating itself unless either the player or enemy's HP reaches 0 or below
 			while (playerHP > 0 && enemyHP > 0) {
-				int playerDMG = RoleplayEngine.CommenceBattle.attack(event.getAuthor().getId(), selectedEnemy, "PLAYER");
+				int playerDMG = RoleplayEngine.CommenceBattle.attack(jsonData, event.getAuthor().getId(), selectedEnemy, AttackerType.PLAYER);
 				enemyHP -= playerDMG;
 				
-				int enemyDMG = RoleplayEngine.CommenceBattle.attack(event.getAuthor().getId(), selectedEnemy, "PLAYER");
+				int enemyDMG = RoleplayEngine.CommenceBattle.attack(jsonData, event.getAuthor().getId(), selectedEnemy, AttackerType.ENEMY_NORMAL);
 				playerHP -= enemyDMG;
 				
 				if (enemyHP <= 0) {
