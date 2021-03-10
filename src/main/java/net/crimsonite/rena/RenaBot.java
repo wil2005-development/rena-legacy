@@ -18,6 +18,7 @@
 package net.crimsonite.rena;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.security.auth.login.LoginException;
@@ -64,14 +65,15 @@ public class RenaBot {
 	
 	public static HelpCommand commandRegistry = new HelpCommand();
 	
-	final static Logger logger = LoggerFactory.getLogger(RenaBot.class);
+	private static final Logger logger = LoggerFactory.getLogger(RenaBot.class);
+	
+	private static ObjectMapper mapper = new ObjectMapper();
 	
 	protected RenaBot() {
 		logger.info("Preparing bot for activation...");
 		
 		startup = System.currentTimeMillis();
 		try {
-			ObjectMapper mapper = new ObjectMapper();
 			JsonNode configRoot = mapper.readTree(new File("./config.json"));
 			
 			prefix = configRoot.get("PREFIX").asText();
@@ -119,16 +121,37 @@ public class RenaBot {
 				logger.info("{} activated in {} second(s).", new Object[] {jda.getSelfUser().getName(), ((System.currentTimeMillis()-startup)/1000)});
 			}
 		}
+		catch (FileNotFoundException | NullPointerException ignored) {
+			logger.error("File \"config.json\" is not found within the directory.");
+			logger.info("Creating config file from templates...");
+			
+			try {
+				ObjectMapper objMapper = new ObjectMapper();
+				
+				JsonNode templateFileAsTree = mapper.readTree(getClass().getClassLoader().getResourceAsStream("templates/config.json"));
+				Object templateFileAsObject = objMapper.treeToValue(templateFileAsTree, Object.class);
+				
+				mapper.writeValue(new File("config.json"), templateFileAsObject);
+				
+				logger.info("Successfuly made a config file!");
+				logger.info("Fill them up before executing again.");
+				
+				System.exit(0);
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 		catch (IOException e) {
 			e.printStackTrace();
 		}
-		catch (InterruptedException e) {
+		catch (InterruptedException ignored) {
 			logger.error("Connection has been interrupted.");
 		}
-		catch (IllegalArgumentException e) {
+		catch (IllegalArgumentException ignored) {
 			logger.error("Failed to login, try checking if the Token and Intents are provided.");
 		}
-		catch (LoginException e) {
+		catch (LoginException ignored) {
 			logger.error("Failed to login, try checking if the provided Token is valid.");
 		}
 	}
@@ -138,7 +161,13 @@ public class RenaBot {
 		logger.info("Starting up...");
 		
 		new RenaBot();
-		DBConnection.conn();
+		
+		try {
+			DBConnection.conn();
+		}
+		catch (Exception ignored) {
+			logger.warn("Couldn't connect to database. Some commands might fail, but the bot will remain active.");
+		}
 	}
 
 }
