@@ -26,7 +26,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class ShutdownCommand extends Command {
 	
-	final static Logger logger = LoggerFactory.getLogger(ShutdownCommand.class);
+	private static final Logger logger = LoggerFactory.getLogger(ShutdownCommand.class);
 
 	@Override
 	public void execute(MessageReceivedEvent event, String[] args) {

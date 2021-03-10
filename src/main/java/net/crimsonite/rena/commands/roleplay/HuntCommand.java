@@ -39,14 +39,14 @@ public class HuntCommand extends Command {
 
 	@Override
 	public void execute(MessageReceivedEvent event, String[] args) {
-		MessageChannel channel = event.getChannel();
 		User author = event.getAuthor();
+		MessageChannel channel = event.getChannel();
 		
 		try {
-			Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
-			
 			ObjectMapper mapper = new ObjectMapper();
 			Random rng = new Random();
+			
+			Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
 			
 			JsonNode jsonData = mapper.readTree(getClass().getClassLoader().getResourceAsStream("rp_assets/enemy.json"));
 			
@@ -58,7 +58,6 @@ public class HuntCommand extends Command {
 			
 			int enemyHP = enemyStat.get("HP").asInt();
 			int playerHP = Integer.parseInt(DBReadWrite.getValueString(Table.USERS, author.getId(), "HP"));
-			
 			int rewardExp = enemyStat.get("EXP").asInt();
 			int rewardMoney = moneyList.get(rng.nextInt(moneyList.size())).asInt();
 			

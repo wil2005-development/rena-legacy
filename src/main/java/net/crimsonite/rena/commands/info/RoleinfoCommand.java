@@ -47,7 +47,6 @@ public class RoleinfoCommand extends Command {
 			else {
 				Role role = listedRoles.get(0);
 				User author = event.getAuthor();
-				
 				DateTimeFormatter format = DateTimeFormatter.ofPattern("MMMM d, yyyy");
 				
 				EmbedBuilder embed = new EmbedBuilder()

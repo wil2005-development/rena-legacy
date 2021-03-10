@@ -33,10 +33,11 @@ public class GuildinfoCommand extends Command{
 	
 	@Override
 	public void execute(MessageReceivedEvent event, String[] args) {
-		MessageChannel channel = event.getChannel();
-		Guild guild = event.getGuild();
 		User author = event.getAuthor();
+		Guild guild = event.getGuild();
+		MessageChannel channel = event.getChannel();
 		Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
+		
 		EmbedBuilder embed = new EmbedBuilder()
 				.setColor(roleColor)
 				.setTitle("Showing informations for " + guild.getName())

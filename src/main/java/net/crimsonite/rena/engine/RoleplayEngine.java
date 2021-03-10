@@ -50,12 +50,12 @@ public class RoleplayEngine {
 			int playerLevel = Integer.parseInt(DBReadWrite.getValueString(Table.USERS, player, "LEVEL"));
 			int playerExp = Integer.parseInt(DBReadWrite.getValueString(Table.USERS, player, "EXP"));
 			
-			boolean increment = checkExp(playerLevel, playerExp);
+			boolean canIncrement = checkExp(playerLevel, playerExp);
 			
-			if (increment) {
-				while (increment) {
+			if (canIncrement) {
+				while (canIncrement) {
 					playerLevel += 1;
-					increment = checkExp(playerLevel, playerExp);
+					canIncrement = checkExp(playerLevel, playerExp);
 				}
 				
 				DBReadWrite.incrementValue(Table.USERS, player, "LEVEL", playerLevel);
@@ -94,18 +94,21 @@ public class RoleplayEngine {
 				case PLAYER:					
 					playerATK = Integer.parseInt(DBReadWrite.getValueString(Table.USERS, player, "ATK"));
 					enemyDEF = enemyData.get(enemy).get("DEF").asInt();
+					
 					damage = (playerATK+criticalHIT)*((25+enemyDEF)/25);
 					
 					break;
 				case ENEMY_NORMAL:
 					enemyATK = enemyData.get(enemy).get("ATK").asInt();
 					playerDEF = Integer.parseInt(DBReadWrite.getValueString(Table.USERS, player, "DEF"));
+					
 					damage = (enemyATK+criticalHIT)*((25+playerDEF)/25);
 					
 					break;
 				default:
 					playerATK = Integer.parseInt(DBReadWrite.getValueString(Table.USERS, player, "ATK"));
 					enemyDEF = enemyData.get(enemy).get("DEF").asInt();
+					
 					damage = (playerATK+criticalHIT)*((25+enemyDEF)/25);
 					
 					break;	

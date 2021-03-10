@@ -57,22 +57,42 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
 public class RenaBot {
 	
-	public static String prefix;
-	public static String alternativePrefix;
-	public static String hostName;
 	public static long ownerID;
 	public static long startup;
-	
+	public static String alternativePrefix;
+	public static String hostName;
+	public static String prefix;
 	public static HelpCommand commandRegistry = new HelpCommand();
 	
+	private static ObjectMapper mapper = new ObjectMapper();
 	private static final Logger logger = LoggerFactory.getLogger(RenaBot.class);
 	
-	private static ObjectMapper mapper = new ObjectMapper();
+	private void generateConfigFile() {
+		logger.info("Generating config file from templates...");
+		
+		try {
+			ObjectMapper objMapper = new ObjectMapper();
+			
+			JsonNode templateFileAsTree = mapper.readTree(getClass().getClassLoader().getResourceAsStream("templates/config.json"));
+			Object templateFileAsObject = objMapper.treeToValue(templateFileAsTree, Object.class);
+			
+			mapper.writeValue(new File("config.json"), templateFileAsObject);
+			
+			logger.info("Successfuly made a config file!");
+			logger.info("Fill them up before executing again.");
+			
+			System.exit(0);
+		}
+		catch (IOException ignored) {
+			logger.error("Failed to generate config file.");;
+		}
+	}
 	
 	protected RenaBot() {
 		logger.info("Preparing bot for activation...");
 		
 		startup = System.currentTimeMillis();
+		
 		try {
 			JsonNode configRoot = mapper.readTree(new File("./config.json"));
 			
@@ -121,42 +141,30 @@ public class RenaBot {
 				logger.info("{} activated in {} second(s).", new Object[] {jda.getSelfUser().getName(), ((System.currentTimeMillis()-startup)/1000)});
 			}
 		}
-		catch (FileNotFoundException | NullPointerException ignored) {
+		catch (FileNotFoundException ignored) {
 			logger.error("File \"config.json\" is not found within the directory.");
-			logger.info("Creating config file from templates...");
 			
-			try {
-				ObjectMapper objMapper = new ObjectMapper();
-				
-				JsonNode templateFileAsTree = mapper.readTree(getClass().getClassLoader().getResourceAsStream("templates/config.json"));
-				Object templateFileAsObject = objMapper.treeToValue(templateFileAsTree, Object.class);
-				
-				mapper.writeValue(new File("config.json"), templateFileAsObject);
-				
-				logger.info("Successfuly made a config file!");
-				logger.info("Fill them up before executing again.");
-				
-				System.exit(0);
-			}
-			catch (IOException e) {
-				e.printStackTrace();
-			}
+			generateConfigFile();
+		}
+		catch (NullPointerException ignored) {
+			logger.error("A config variable returned a null value.");
+			
+			generateConfigFile();
 		}
 		catch (IOException e) {
 			e.printStackTrace();
 		}
+		catch (IllegalArgumentException ignored) {
+			logger.error("Failed to login, try checking if the Token and config variables are provided correctly.");
+		}
 		catch (InterruptedException ignored) {
 			logger.error("Connection has been interrupted.");
-		}
-		catch (IllegalArgumentException ignored) {
-			logger.error("Failed to login, try checking if the Token and Intents are provided.");
 		}
 		catch (LoginException ignored) {
 			logger.error("Failed to login, try checking if the provided Token is valid.");
 		}
 	}
 	
-	// Execute program
 	public static void main(String[] args) {
 		logger.info("Starting up...");
 		

@@ -26,8 +26,8 @@ import com.rethinkdb.net.Connection;
 public class DBReadWrite {
 	
 	private static Db db = DBConnection.db();
-	private static final RethinkDB r = RethinkDB.r;
 	private static final Connection conn = DBConnection.conn();
+	private static final RethinkDB r = RethinkDB.r;
 	
 	public enum Table {
 		USERS("users"),

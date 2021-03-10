@@ -47,7 +47,6 @@ public class StatusReportCommand extends Command {
 		long totalMemory = operatingSystem.getTotalMemorySize() / (1024 * 1024);
 		long usedMemory = totalMemory - freeMemory;
 		long threads = Thread.activeCount();
-		
 		double cpuLoad = operatingSystem.getCpuLoad();
 		
 		channel.sendMessageFormat(

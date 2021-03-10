@@ -37,6 +37,7 @@ public class StatusCommand extends Command {
 		User author = event.getAuthor();
 		JDA jda = event.getJDA();
 		MessageChannel channel = event.getChannel();
+		Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
 		
 		OperatingSystemMXBean operatingSystem = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 		
@@ -44,10 +45,7 @@ public class StatusCommand extends Command {
 		long shards = jda.getShardInfo().getShardTotal();
 		long timesCommandUsed = Command.getTimesCommandUsed();
 		long threads = Thread.activeCount();
-		
 		double cpuLoad = operatingSystem.getCpuLoad();
-		
-		Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
 		
 		EmbedBuilder embed = new EmbedBuilder()
 				.setColor(roleColor)

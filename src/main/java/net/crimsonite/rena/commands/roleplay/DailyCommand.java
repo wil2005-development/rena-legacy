@@ -28,17 +28,20 @@ public class DailyCommand extends Command{
 
 	@Override
 	public void execute(MessageReceivedEvent event, String[] args) {
-		MessageChannel channel = event.getChannel();
 		User author = event.getAuthor();
+		MessageChannel channel = event.getChannel();
 		
 		try {
 			int level = DBReadWrite.getValueInt(Table.USERS, author.getId(), "LEVEL");
 			int reward = 50 * level;
+			
 			DBReadWrite.incrementValue(Table.USERS, author.getId(), "MONEY", reward);
+			
 			channel.sendMessageFormat("**You claimed your** G`%d` **daily!!!**", reward).queue();
 		}
 		catch (NullPointerException ignored) {
 			DBReadWrite.registerUser(author.getId());
+			
 			channel.sendMessage("Oops! Try again?").queue();
 		}
 	}

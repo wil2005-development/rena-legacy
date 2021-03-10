@@ -20,9 +20,6 @@ package net.crimsonite.rena.commands;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import net.crimsonite.rena.RenaBot;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
@@ -33,17 +30,17 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public abstract class Command extends ListenerAdapter {
 	
-	final static Logger logger = LoggerFactory.getLogger(Command.class);
-	
-	private ConcurrentHashMap<String, Long> cooldownCache = new ConcurrentHashMap<>();
-	
-	private static long timesCommandUsed = 0;
-	
 	public abstract void execute(MessageReceivedEvent event, String[] args);
+	public abstract String getCommandName();
 	public abstract boolean isOwnerCommand();
 	public abstract long cooldown();
-	public abstract String getCommandName();
 	
+	private static long timesCommandUsed = 0;
+	private ConcurrentHashMap<String, Long> cooldownCache = new ConcurrentHashMap<>();
+	
+	/**
+	 * @return Number of times the command was called.
+	 */
 	public static long getTimesCommandUsed() {
 		return timesCommandUsed;
 	}
@@ -99,15 +96,15 @@ public abstract class Command extends ListenerAdapter {
 		return cooldownCache.get(key);
 	}
 	
+	protected void removeCooldown(String UID, String command) {
+		String key = UID + "-" + command;
+		cooldownCache.remove(key);
+	}
+	
 	protected void setCooldown(String UID, String command) {
 		String key = UID + "-" + command;
 		long cooldownDuration = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()) + this.cooldown();
 		cooldownCache.put(key, cooldownDuration);
-	}
-	
-	protected void removeCooldown(String UID, String command) {
-		String key = UID + "-" + command;
-		cooldownCache.remove(key);
 	}
 
 	protected boolean containsCommand(Message message) {

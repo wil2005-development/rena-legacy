@@ -33,18 +33,16 @@ public class LootCommand extends Command {
 
 	@Override
 	public void execute(MessageReceivedEvent event, String[] args) {
-		MessageChannel channel = event.getChannel();
 		User author = event.getAuthor();
+		MessageChannel channel = event.getChannel();
 		
 		try {
 			Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
 			Random rng = new Random();
 			
 			int currentLevel = Integer.parseInt(DBReadWrite.getValueString(Table.USERS, author.getId(), "LEVEL"));
-			
 			int baseReceivedExp = rng.nextInt(3-1)+1;
 			int baseReceivedMoney = rng.nextInt(10-1)+1;
-			
 			int receivedExp = baseReceivedExp+currentLevel*2;
 			int receivedMoney = baseReceivedMoney+currentLevel*2;
 			
@@ -65,6 +63,7 @@ public class LootCommand extends Command {
 		}
 		catch (NullPointerException ignored) {
 			DBReadWrite.registerUser(author.getId());
+			
 			channel.sendMessage("Oops! Try again?").queue();
 		}
 	}
