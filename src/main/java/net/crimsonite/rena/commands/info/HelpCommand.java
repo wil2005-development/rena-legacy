@@ -29,9 +29,8 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class HelpCommand extends Command {
 	
-	private static int numberOfCommands = 0;
-
 	private HashMap<String, Command> commands;
+	private static int numberOfCommands = 0;
 		
 	public HelpCommand() {
 		commands = new HashMap<>();

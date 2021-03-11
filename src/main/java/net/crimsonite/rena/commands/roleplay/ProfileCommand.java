@@ -23,7 +23,8 @@ import java.util.List;
 import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 
 import net.crimsonite.rena.commands.Command;
-import net.crimsonite.rena.database.DBUsers;
+import net.crimsonite.rena.database.DBReadWrite;
+import net.crimsonite.rena.database.DBReadWrite.Table;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -39,14 +40,14 @@ public class ProfileCommand extends Command {
 				.setColor(roleColor)
 				.setTitle(user.getName() + "'s Profile")
 				.setThumbnail(user.getEffectiveAvatarUrl())
-				.addField("Rep", DBUsers.getValueString(user.getId(), "REP"), false)
-				.addField("Level", DBUsers.getValueString(user.getId(), "LEVEL"), false)
-				.addField("Exp", DBUsers.getValueString(user.getId(), "EXP"), false)
-				.addField("Money", DBUsers.getValueString(user.getId(), "MONEY"), true)
-				.addField("Hp", DBUsers.getValueString(user.getId(), "HP"), true)
-				.addField("Mp", DBUsers.getValueString(user.getId(), "MP"), true)
-				.addField("Atk", DBUsers.getValueString(user.getId(), "ATK"), true)
-				.addField("Def", DBUsers.getValueString(user.getId(), "DEF"), true)
+				.addField("Rep", String.valueOf(DBReadWrite.getValueInt(Table.USERS, user.getId(), "REP")), false)
+				.addField("Level", String.valueOf(DBReadWrite.getValueInt(Table.USERS, user.getId(), "LEVEL")), false)
+				.addField("Exp", String.valueOf(DBReadWrite.getValueInt(Table.USERS, user.getId(), "EXP")), false)
+				.addField("Money", String.valueOf(DBReadWrite.getValueInt(Table.USERS, user.getId(), "MONEY")), true)
+				.addField("Hp", String.valueOf(DBReadWrite.getValueInt(Table.USERS, user.getId(), "HP")), true)
+				.addField("Mp", String.valueOf(DBReadWrite.getValueInt(Table.USERS, user.getId(), "MP")), true)
+				.addField("Atk", String.valueOf(DBReadWrite.getValueInt(Table.USERS, user.getId(), "ATK")), true)
+				.addField("Def", String.valueOf(DBReadWrite.getValueInt(Table.USERS, user.getId(), "DEF")), true)
 				.setFooter(event.getAuthor().getName(), user.getEffectiveAvatarUrl());
 		
 		event.getChannel().sendMessage(embed.build()).queue();
@@ -61,7 +62,7 @@ public class ProfileCommand extends Command {
 				sendEmbed(event, event.getAuthor());
 			}
 			catch (NullPointerException ignored) {
-				DBUsers.registerUser(event.getAuthor().getId());
+				DBReadWrite.registerUser(event.getAuthor().getId());
 				channel.sendMessage("Oops! Try again?").queue();
 			}
 		}
@@ -72,7 +73,7 @@ public class ProfileCommand extends Command {
 					sendEmbed(event, user);
 				}
 				catch (NullPointerException ignored) {
-					DBUsers.registerUser(event.getMessage().getMentionedUsers().get(0).getId());
+					DBReadWrite.registerUser(event.getMessage().getMentionedUsers().get(0).getId());
 					channel.sendMessage("Oops! Try again?").queue();
 				}
 			}
@@ -89,7 +90,7 @@ public class ProfileCommand extends Command {
 						sendEmbed(event, user);
 					}
 					catch (NullPointerException ignored) {
-						DBUsers.registerUser(listedMembers.get(0).getId());
+						DBReadWrite.registerUser(listedMembers.get(0).getId());
 						channel.sendMessage("Oops! Try again?").queue();
 					}
 				}

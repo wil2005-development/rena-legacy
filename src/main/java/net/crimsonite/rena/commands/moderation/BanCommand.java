@@ -30,8 +30,8 @@ public class BanCommand extends Command {
 
 	@Override
 	public void execute(MessageReceivedEvent event, String[] args) {
-		Member author = event.getMember();
 		List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
+		Member author = event.getMember();
 		MessageChannel channel = event.getChannel();
 		
 		if (mentionedMembers.isEmpty()) {

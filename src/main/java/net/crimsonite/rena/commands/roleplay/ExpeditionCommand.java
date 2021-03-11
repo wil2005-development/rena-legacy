@@ -21,7 +21,8 @@ import java.awt.Color;
 import java.util.Random;
 
 import net.crimsonite.rena.commands.Command;
-import net.crimsonite.rena.database.DBUsers;
+import net.crimsonite.rena.database.DBReadWrite;
+import net.crimsonite.rena.database.DBReadWrite.Table;
 import net.crimsonite.rena.engine.RoleplayEngine;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -32,8 +33,8 @@ public class ExpeditionCommand extends Command {
 
 	@Override
 	public void execute(MessageReceivedEvent event, String[] args) {
-		MessageChannel channel = event.getChannel();
 		User author = event.getAuthor();
+		MessageChannel channel = event.getChannel();
 		
 		try {
 			Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
@@ -41,14 +42,12 @@ public class ExpeditionCommand extends Command {
 			
 			int baseReceivedMoney = rng.nextInt(10-1)+1;
 			int baseReceivedExp = rng.nextInt(3-1)+1;
-			
-			int currentLevel = Integer.parseInt(DBUsers.getValueString(author.getId(), "LEVEL"));
-			
+			int currentLevel = DBReadWrite.getValueInt(Table.USERS, author.getId(), "LEVEL");
 			int receivedMoney = baseReceivedMoney+currentLevel*2;
 			int receivedExp = baseReceivedExp+currentLevel*2;
 			
-			DBUsers.incrementValue(author.getId(), "MONEY", receivedMoney);
-			DBUsers.incrementValue(author.getId(), "EXP", receivedExp);
+			DBReadWrite.incrementValue(Table.USERS, author.getId(), "MONEY", receivedMoney);
+			DBReadWrite.incrementValue(Table.USERS, author.getId(), "EXP", receivedExp);
 			RoleplayEngine.Handler.handleLevelup(author.getId());
 			
 			EmbedBuilder embed = new EmbedBuilder()
@@ -62,7 +61,8 @@ public class ExpeditionCommand extends Command {
 			channel.sendMessage(embed.build()).queue();
 		}
 		catch (NullPointerException ignored) {
-			DBUsers.registerUser(author.getId());
+			DBReadWrite.registerUser(author.getId());
+			
 			channel.sendMessage("Oops! Try again?").queue();
 		}
 	}
