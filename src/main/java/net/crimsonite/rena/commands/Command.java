@@ -71,7 +71,16 @@ public abstract class Command extends ListenerAdapter {
 					long minutes = (remainingCooldownShortened % 3600) / 60;
 					long seconds = remainingCooldownShortened % 60;
 					
-					event.getChannel().sendMessageFormat("**Oi oi! Slow down!!!** *This command is on cooldown for* `%02dh, %02dm, %02ds`.", hours, minutes, seconds).queue();
+					String timeFormat = "%dh, %dm, %ds".formatted(hours, minutes, seconds);
+					
+					if (hours == 0 && minutes == 0) {
+						timeFormat = "%ds".formatted(seconds);
+					}
+					else if (hours == 0) {
+						timeFormat = "%dm, %ds".formatted(hours, minutes);
+					}
+					
+					event.getChannel().sendMessageFormat("**Oi oi! Slow down!!!** *This command is on cooldown for* `%s`.", timeFormat).queue();
 					
 					return;
 				}
