@@ -19,9 +19,11 @@ package net.crimsonite.rena.commands.info;
 
 import java.awt.Color;
 import java.lang.management.ManagementFactory;
+import java.util.concurrent.TimeUnit;
 
 import com.sun.management.OperatingSystemMXBean;
 
+import net.crimsonite.rena.RenaBot;
 import net.crimsonite.rena.RenaInfo;
 import net.crimsonite.rena.commands.Command;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -45,17 +47,32 @@ public class StatusCommand extends Command {
 		long shards = jda.getShardInfo().getShardTotal();
 		long timesCommandUsed = Command.getTimesCommandUsed();
 		long threads = Thread.activeCount();
+		long totalUptimeInSeconds = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - RenaBot.startup);
+		long days = totalUptimeInSeconds / 86400;
+		long hours = (totalUptimeInSeconds % 86400) / 3600;
+		long minutes = (totalUptimeInSeconds % 3600) / 60;
 		double cpuLoad = operatingSystem.getCpuLoad();
+		
+		String timeFormat = "%dd, %dh, %dm".formatted(days, hours, minutes);
+		
+		if (days == 0 && hours == 0) {
+			timeFormat = "%dm".formatted(minutes);
+		}
+		else if (days == 0) {
+			timeFormat = "%dh, %dm".formatted(hours, minutes);
+		}
 		
 		EmbedBuilder embed = new EmbedBuilder()
 				.setColor(roleColor)
 				.setTitle("Rena's Informations", RenaInfo.GITHUB_URL)
 				.addField("Version", RenaInfo.VERSION_STRING, false)
+				.addField("Uptime", timeFormat, false)
 				.addField("Number of Commands", String.valueOf(numberOfCommands), false)
 				.addField("Times Command Used", String.valueOf(timesCommandUsed), false)
 				.addField("Guilds", String.valueOf(jda.getGuilds().size()), false)
 				.addField("Users", String.valueOf(jda.getUsers().size()), false)
 				.addField("Shards", String.valueOf(shards), false);
+		
 		channel.sendMessage(embed.build()).queue();
 		channel.sendMessageFormat(
 				"```yml\n" +
