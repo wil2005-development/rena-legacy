@@ -57,7 +57,7 @@ public class HuntCommand extends Command {
 			JsonNode moneyList = enemyStat.get("MONEY");
 			
 			int enemyHP = enemyStat.get("HP").asInt();
-			int playerHP = Integer.parseInt(DBReadWrite.getValueString(Table.USERS, author.getId(), "HP"));
+			int playerHP = DBReadWrite.getValueInt(Table.USERS, author.getId(), "HP");
 			int rewardExp = enemyStat.get("EXP").asInt();
 			int rewardMoney = moneyList.get(rng.nextInt(moneyList.size())).asInt();
 			

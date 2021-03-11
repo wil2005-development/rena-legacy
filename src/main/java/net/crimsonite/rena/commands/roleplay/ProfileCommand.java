@@ -40,14 +40,14 @@ public class ProfileCommand extends Command {
 				.setColor(roleColor)
 				.setTitle(user.getName() + "'s Profile")
 				.setThumbnail(user.getEffectiveAvatarUrl())
-				.addField("Rep", DBReadWrite.getValueString(Table.USERS, user.getId(), "REP"), false)
-				.addField("Level", DBReadWrite.getValueString(Table.USERS, user.getId(), "LEVEL"), false)
-				.addField("Exp", DBReadWrite.getValueString(Table.USERS, user.getId(), "EXP"), false)
-				.addField("Money", DBReadWrite.getValueString(Table.USERS, user.getId(), "MONEY"), true)
-				.addField("Hp", DBReadWrite.getValueString(Table.USERS, user.getId(), "HP"), true)
-				.addField("Mp", DBReadWrite.getValueString(Table.USERS, user.getId(), "MP"), true)
-				.addField("Atk", DBReadWrite.getValueString(Table.USERS, user.getId(), "ATK"), true)
-				.addField("Def", DBReadWrite.getValueString(Table.USERS, user.getId(), "DEF"), true)
+				.addField("Rep", String.valueOf(DBReadWrite.getValueInt(Table.USERS, user.getId(), "REP")), false)
+				.addField("Level", String.valueOf(DBReadWrite.getValueInt(Table.USERS, user.getId(), "LEVEL")), false)
+				.addField("Exp", String.valueOf(DBReadWrite.getValueInt(Table.USERS, user.getId(), "EXP")), false)
+				.addField("Money", String.valueOf(DBReadWrite.getValueInt(Table.USERS, user.getId(), "MONEY")), true)
+				.addField("Hp", String.valueOf(DBReadWrite.getValueInt(Table.USERS, user.getId(), "HP")), true)
+				.addField("Mp", String.valueOf(DBReadWrite.getValueInt(Table.USERS, user.getId(), "MP")), true)
+				.addField("Atk", String.valueOf(DBReadWrite.getValueInt(Table.USERS, user.getId(), "ATK")), true)
+				.addField("Def", String.valueOf(DBReadWrite.getValueInt(Table.USERS, user.getId(), "DEF")), true)
 				.setFooter(event.getAuthor().getName(), user.getEffectiveAvatarUrl());
 		
 		event.getChannel().sendMessage(embed.build()).queue();

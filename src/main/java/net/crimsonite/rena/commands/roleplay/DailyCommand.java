@@ -32,10 +32,10 @@ public class DailyCommand extends Command{
 		MessageChannel channel = event.getChannel();
 		
 		try {
-			int level = DBReadWrite.getValueInt(Table.USERS, author.getId(), "LEVEL");
-			int reward = 50 * level;
+			long level = DBReadWrite.getValueInt(Table.USERS, author.getId(), "LEVEL");
+			long reward = 50 * level;
 			
-			DBReadWrite.incrementValue(Table.USERS, author.getId(), "MONEY", reward);
+			DBReadWrite.incrementValue(Table.USERS, author.getId(), "MONEY", Integer.parseInt(String.valueOf(reward)));
 			
 			channel.sendMessageFormat("**You claimed your** G`%d` **daily!!!**", reward).queue();
 		}

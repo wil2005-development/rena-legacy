@@ -42,7 +42,7 @@ public class ExpeditionCommand extends Command {
 			
 			int baseReceivedMoney = rng.nextInt(10-1)+1;
 			int baseReceivedExp = rng.nextInt(3-1)+1;
-			int currentLevel = Integer.parseInt(DBReadWrite.getValueString(Table.USERS, author.getId(), "LEVEL"));
+			int currentLevel = DBReadWrite.getValueInt(Table.USERS, author.getId(), "LEVEL");
 			int receivedMoney = baseReceivedMoney+currentLevel*2;
 			int receivedExp = baseReceivedExp+currentLevel*2;
 			

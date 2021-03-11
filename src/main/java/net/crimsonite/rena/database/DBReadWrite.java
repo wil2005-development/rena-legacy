@@ -77,7 +77,7 @@ public class DBReadWrite {
 			throw new IllegalArgumentException("Value cannot be a negative number (%d).".formatted(val));
 		}
 		
-		HashMap<String, String> obj = db.table(table.stringValue).get(UID).run(conn);
+		HashMap<String, Long> obj = db.table(table.stringValue).get(UID).run(conn);
 		int initialValue = Integer.parseInt(String.valueOf(obj.get(key)));
 		int incrementedValue = initialValue += val;
 		
@@ -99,7 +99,7 @@ public class DBReadWrite {
 			throw new IllegalArgumentException("Value cannot be a negative number (%d).".formatted(val));
 		}
 		
-		HashMap<String, String> obj = db.table(table.stringValue).get(UID).run(conn);
+		HashMap<String, Long> obj = db.table(table.stringValue).get(UID).run(conn);
 		int initialValue = Integer.parseInt(String.valueOf(obj.get(key)));
 		int decrementedValue = initialValue -= val;
 		
@@ -157,7 +157,7 @@ public class DBReadWrite {
 	public static String getValueString(Table table, String UID, String key) throws NullPointerException {
 		HashMap<String, String> obj = db.table(table.stringValue).get(UID).run(conn);
 		
-		return String.valueOf(obj.get(key));
+		return obj.get(key);
 	}
 	
 	/**
@@ -170,9 +170,9 @@ public class DBReadWrite {
 	 * @throws NullPointerException If the user is not found in the database.
 	 */
 	public static int getValueInt(Table table, String UID, String key) throws NullPointerException {
-		HashMap<String, String> obj = db.table(table.stringValue).get(UID).run(conn);
+		HashMap<String, Long> obj = db.table(table.stringValue).get(UID).run(conn);
 		
-		return Integer.parseInt(obj.get(key));
+		return Integer.parseInt(String.valueOf(obj.get(key)));
 	}
 	
 	/**
@@ -185,9 +185,9 @@ public class DBReadWrite {
 	 * @throws NullPointerException If the user is not found in the database.
 	 */
 	public static Boolean getValueBoolean(Table table, String UID, String key) throws NullPointerException {
-		HashMap<String, String> obj = db.table(table.stringValue).get(UID).run(conn);
+		HashMap<String, Boolean> obj = db.table(table.stringValue).get(UID).run(conn);
 		
-		return Boolean.parseBoolean(obj.get(key));
+		return obj.get(key);
 	}
 
 }
