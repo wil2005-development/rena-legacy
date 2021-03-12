@@ -23,6 +23,7 @@ import java.util.List;
 import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 
 import net.crimsonite.rena.commands.Command;
+import net.crimsonite.rena.engine.I18n;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.Role;
@@ -36,13 +37,13 @@ public class RoleinfoCommand extends Command {
 		MessageChannel channel = event.getChannel();
 		
 		if (args.length == 1) {
-			channel.sendMessage("*You want me to look for nothing?!*").queue();
+			channel.sendMessage(I18n.getMessage("info.roleInfo.noRoleProvided")).queue();
 		}
 		else if (args.length >= 2) {
 			List<Role> listedRoles = FinderUtil.findRoles(args[1], event.getGuild());
 			
 			if (listedRoles.isEmpty()) {
-				channel.sendMessage("*There's no such role*").queue();
+				channel.sendMessage(I18n.getMessage("info.roleInfo.roleNotFound")).queue();
 			}
 			else {
 				Role role = listedRoles.get(0);
@@ -51,14 +52,14 @@ public class RoleinfoCommand extends Command {
 				
 				EmbedBuilder embed = new EmbedBuilder()
 						.setColor(role.getColor())
-						.setTitle("Informations for role: " + role.getName())
-						.addField("ID", role.getId(), false)
-						.addField("Position", String.valueOf(role.getPosition()), false)
-						.addField("Mentionable", String.valueOf(role.isMentionable()), false)
-						.addField("Date Created: ", role.getTimeCreated().format(format), false)
-						.addField("Color", "#"+Integer.toHexString(role.getColorRaw()).toUpperCase(), false)
-						.addField("Guild", role.getGuild().getName(), false)
-						.addField("Permissions", role.getPermissions().toString(), false)
+						.setTitle(I18n.getMessage("info.roleInfo.field_title").formatted(role.getName()))
+						.addField(I18n.getMessage("info.roleInfo.field_roleId"), role.getId(), false)
+						.addField(I18n.getMessage("info.roleInfo.field_rolePosition"), String.valueOf(role.getPosition()), false)
+						.addField(I18n.getMessage("info.roleInfo.field_roleMentionable"), String.valueOf(role.isMentionable()), false)
+						.addField(I18n.getMessage("info.roleInfo.field_roleDateCreated"), role.getTimeCreated().format(format), false)
+						.addField(I18n.getMessage("info.roleInfo.field_roleColor"), "#"+Integer.toHexString(role.getColorRaw()).toUpperCase(), false)
+						.addField(I18n.getMessage("info.roleInfo.field_roleGuild"), role.getGuild().getName(), false)
+						.addField(I18n.getMessage("info.roleInfo.field_rolePermissions"), role.getPermissions().toString(), false)
 						.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 				
 				channel.sendMessage(embed.build()).queue();

@@ -22,6 +22,68 @@
 		},
 		"ping": {
 			"pingMessage": "**Ping:** %dms | **Websocket:** %dms"
+		},
+		"roleInfo": {
+			"noRoleProvided": "*You want me to look for nothing?!*",
+			"roleNotFound": "*There's no such role*",
+			"field_title": "Informations for role: %s",
+			"field_roleId": "ID",
+			"field_rolePosition": "Position",
+			"field_roleMentionable": "Mentionable",
+			"field_roleDateCreated": "Date Created",
+			"field_roleColor": "Color",
+			"field_roleGuild": "Guild",
+			"field_rolePermissions": "Permissions"
+		},
+		"status": {
+			"field_title": "Rena's Informations",
+			"field_version": "Version",
+			"field_uptime": "Uptime",
+			"field_numberOfCommands": "Number of Commands",
+			"field_timesCommandUsed": "Times Command Used",
+			"field_guilds": "Guilds",
+			"field_users": "Users",
+			"field_shards": "Shards",
+			"cBlock_threads": "Threads : %d\n",
+			"cBlock_cpuUsage": "CPU Usage: %.2f%%\n"
+		},
+		"userInfo": {
+			"field_title": "%s's User Info",
+			"field_userId": "ID",
+			"field_userDateCreated": "Date Created",
+			"field_userDateJoined": "Date Joined",
+			"userNotFound": "*Err... I can't find that person. Try doing it again, I might've missed them*"
+		}
+	},
+	"misc": {
+		"dice": {
+			"unableToRoll": "*Sorry, I can't roll that for you*"
+		}
+	},
+	"moderation": {
+		"ban": {
+			"noMentionedMember": "**You have to mention a user to ban.**",
+			"multipleMentions": "**Hold on! You can only ban members one at a time.**",
+			"banWithReasonSuccess": "**Successfully banned %s! Reason: %s**",
+			"banSuccess": "**Successfully banned %s!**",
+			"unableToBan": "**Sorry, but you can't ban that person.**",
+			"noPermission": "**Sorry, but you dont have the permission to do that.\nRequired: BAN_MEMBERS permission**"
+		},
+		"kick": {
+			"noMentionedMember": "**You have to mention a user to kick.**",
+			"multipleMentions": "**Hold on! You can only kick members one at a time.**",
+			"kickWithReasonSuccess": "**Successfully kicked %s! Reason: %s**",
+			"kickSuccess": "**Successfully kicked %s!**",
+			"unableToKick": "**Sorry, but you can't kick that person.**",
+			"noPermission": "**Sorry, but you dont have the permission to do that.\nRequired: KICK_MEMBERS permission**"
+		},
+		"unban": {
+			"noIdProvided": "**You have to specify the ID of the user to unban.**",
+			"unbanSuccess": "**Successfully unbanned %s!**",
+			"unbanWithReasonSuccess": "**Successfully unbanned %s! Reason: %s**",
+			"noPermission": "**Sorry, but you dont have the permission to do that.\nRequired: BAN_MEMBERS permission**",
+			"invalidId": "**That is not a valid ID.**",
+			"userNotFound": "**That user isn't blacklisted from your server, maybe they does not exist at all.**"
 		}
 	}
 }

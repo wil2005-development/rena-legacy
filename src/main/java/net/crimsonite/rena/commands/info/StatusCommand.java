@@ -26,6 +26,7 @@ import com.sun.management.OperatingSystemMXBean;
 import net.crimsonite.rena.RenaBot;
 import net.crimsonite.rena.RenaInfo;
 import net.crimsonite.rena.commands.Command;
+import net.crimsonite.rena.engine.I18n;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -64,14 +65,14 @@ public class StatusCommand extends Command {
 		
 		EmbedBuilder embed = new EmbedBuilder()
 				.setColor(roleColor)
-				.setTitle("Rena's Informations", RenaInfo.GITHUB_URL)
-				.addField("Version", RenaInfo.VERSION_STRING, false)
-				.addField("Uptime", timeFormat, false)
-				.addField("Number of Commands", String.valueOf(numberOfCommands), false)
-				.addField("Times Command Used", String.valueOf(timesCommandUsed), false)
-				.addField("Guilds", String.valueOf(jda.getGuilds().size()), false)
-				.addField("Users", String.valueOf(jda.getUsers().size()), false)
-				.addField("Shards", String.valueOf(shards), false);
+				.setTitle(I18n.getMessage("info.status.field_title"), RenaInfo.GITHUB_URL)
+				.addField(I18n.getMessage("info.status.field_version"), RenaInfo.VERSION_STRING, false)
+				.addField(I18n.getMessage("info.status.field_uptime"), timeFormat, false)
+				.addField(I18n.getMessage("info.status.field_numberOfCommands"), String.valueOf(numberOfCommands), false)
+				.addField(I18n.getMessage("info.status.field_timesCommandUsed"), String.valueOf(timesCommandUsed), false)
+				.addField(I18n.getMessage("info.status.field_guilds"), String.valueOf(jda.getGuilds().size()), false)
+				.addField(I18n.getMessage("info.status.field_users"), String.valueOf(jda.getUsers().size()), false)
+				.addField(I18n.getMessage("info.status.field_shards"), String.valueOf(shards), false);
 		
 		channel.sendMessage(embed.build()).queue();
 		channel.sendMessageFormat(
@@ -79,8 +80,8 @@ public class StatusCommand extends Command {
 				"**************************\n" +
 				"** Internal Information **\n" +
 				"**************************\n\n" +
-				"Threads : %d\n" +
-				"CPU Usage: %.2f%%\n" +
+				I18n.getMessage("info.status.cBlock_threads") +
+				I18n.getMessage("info.status.cBlock_cpuUsage") +
 				"```",
 				
 				threads,

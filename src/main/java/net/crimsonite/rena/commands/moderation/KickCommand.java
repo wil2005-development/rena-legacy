@@ -20,6 +20,7 @@ package net.crimsonite.rena.commands.moderation;
 import java.util.List;
 
 import net.crimsonite.rena.commands.Command;
+import net.crimsonite.rena.engine.I18n;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -35,10 +36,10 @@ public class KickCommand extends Command {
 		MessageChannel channel = event.getChannel();
 		
 		if (mentionedMembers.isEmpty()) {
-			channel.sendMessage("**You have to mention a user to kick.**").queue();
+			channel.sendMessage(I18n.getMessage("moderation.kick.noMentionedMember")).queue();
 		}
 		else if (mentionedMembers.size() > 1) {
-			channel.sendMessage("**Hold on! You can only kick members one at a time.**").queue();
+			channel.sendMessage(I18n.getMessage("moderation.kick.multipleMentions")).queue();
 		}
 		else {
 			if (author.hasPermission(Permission.KICK_MEMBERS)) {
@@ -47,19 +48,19 @@ public class KickCommand extends Command {
 						String reason = args[2];
 						
 						mentionedMembers.get(0).kick(reason).complete();
-						channel.sendMessageFormat("**Successfully kicked %s! Reason: %s**", mentionedMembers.get(0).getUser().getName(), reason).queue();
+						channel.sendMessageFormat(I18n.getMessage("moderation.kick.kickWithReasonSuccess"), mentionedMembers.get(0).getUser().getName(), reason).queue();
 					}
 					else {
 						mentionedMembers.get(0).kick().complete();
-						channel.sendMessageFormat("**Successfully kicked %s!**", mentionedMembers.get(0).getUser().getName()).queue();
+						channel.sendMessageFormat(I18n.getMessage("moderation.kick.kickSuccess"), mentionedMembers.get(0).getUser().getName()).queue();
 					}
 				}
 				catch (HierarchyException ignored) {
-					channel.sendMessage("**Sorry, but you can't kick that person.**").queue();
+					channel.sendMessage(I18n.getMessage("moderation.kick.unableToKick")).queue();
 				}
 			}
 			else {
-				channel.sendMessage("**Sorry, but you dont have the permission to do that.\nRequired: KICK_MEMBERS permission**").queue();
+				channel.sendMessage(I18n.getMessage("moderation.kick.noPermission")).queue();
 			}
 		}
 	}

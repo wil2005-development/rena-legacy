@@ -24,6 +24,7 @@ import java.util.List;
 import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 
 import net.crimsonite.rena.commands.Command;
+import net.crimsonite.rena.engine.I18n;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -41,11 +42,11 @@ public class UserinfoCommand extends Command {
 		
 		EmbedBuilder embed = new EmbedBuilder()
 				.setColor(roleColor)
-				.setTitle(member.getEffectiveName() + "'s User Info")
+				.setTitle(I18n.getMessage("info.userInfo.field_title").formatted(member.getEffectiveName()))
 				.setThumbnail(memberAsUser.getEffectiveAvatarUrl())
-				.addField("ID", member.getId(), false)
-				.addField("Date Created", member.getTimeCreated().format(format), false)
-				.addField("Date Joined", member.getTimeJoined().format(format),false)
+				.addField(I18n.getMessage("info.userInfo.field_userId"), member.getId(), false)
+				.addField(I18n.getMessage("info.userInfo.field_userDateCreated"), member.getTimeCreated().format(format), false)
+				.addField(I18n.getMessage("info.userInfo.field_userDateJoined"), member.getTimeJoined().format(format),false)
 				.setFooter(author.getEffectiveName(), author.getUser().getEffectiveAvatarUrl());
 		
 		event.getChannel().sendMessage(embed.build()).queue();
@@ -68,7 +69,7 @@ public class UserinfoCommand extends Command {
 				List<Member> listedMembers = FinderUtil.findMembers(args[1], event.getGuild());
 				
 				if (listedMembers.isEmpty()) {
-					channel.sendMessage("*Err... I can't find that person. Try doing it again, I might've missed them*").queue();
+					channel.sendMessage(I18n.getMessage("info.userInfo.userNotFound")).queue();
 					event.getGuild().loadMembers();
 				}
 				else {
