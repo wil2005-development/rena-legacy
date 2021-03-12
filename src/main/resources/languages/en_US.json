@@ -1,0 +1,27 @@
+{
+	"command": {
+		"cooldownTime": "**Oi oi! Slow down!!!** *This command is on cooldown for* `%s`."
+	},
+	"info": {
+		"guildInfo": {
+			"field_title": "Showing informations for ",
+			"field_id": "ID",
+			"field_dateCreated": "Date Created",
+			"field_owner": "Owner",
+			"field_members": "Members",
+			"field_roles": "Roles"
+		},
+		"help": {
+			"field_title": "Help",
+			"field_cooldownDuration_S": "**Cooldown Duration:** %3$ds",
+			"field_cooldownDuration_MS": "**Cooldown Duration:** %2$dm, %3$ds",
+			"field_cooldownDuration_HMS": "**Cooldown Duration:** %1$dh, %2$dm, %3$ds",
+			"field_cooldownDuration_HM": "**Cooldown Duration:** %1$dh, %2$dm",
+			"field_cooldownDuration_H": "**Cooldown Duration:** %1$dh",
+			"field_commandDoesNotExist": "**That command doesn't seem to exist.**"
+		},
+		"ping": {
+			"pingMessage": "**Ping:** %dms | **Websocket:** %dms"
+		}
+	}
+}

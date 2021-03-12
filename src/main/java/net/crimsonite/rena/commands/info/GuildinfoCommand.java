@@ -21,6 +21,7 @@ import java.awt.Color;
 import java.time.format.DateTimeFormatter;
 
 import net.crimsonite.rena.commands.Command;
+import net.crimsonite.rena.engine.I18n;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -40,13 +41,13 @@ public class GuildinfoCommand extends Command{
 		
 		EmbedBuilder embed = new EmbedBuilder()
 				.setColor(roleColor)
-				.setTitle("Showing informations for " + guild.getName())
+				.setTitle(I18n.getMessage("info.guildInfo.field_title") + guild.getName())
 				.setThumbnail(guild.getIconUrl())
-				.addField("ID", guild.getId(), false)
-				.addField("Date Created", guild.getTimeCreated().format(format), false)
-				.addField("Owner", guild.getOwner().getEffectiveName(), false)
-				.addField("Members", "" + guild.getMemberCount(), true)
-				.addField("Roles", "" + guild.getRoles().size(), true)
+				.addField(I18n.getMessage("info.guildInfo.field_id"), guild.getId(), false)
+				.addField(I18n.getMessage("info.guildInfo.field_dateCreated"), guild.getTimeCreated().format(format), false)
+				.addField(I18n.getMessage("info.guildInfo.field_owner"), guild.getOwner().getEffectiveName(), false)
+				.addField(I18n.getMessage("info.guildInfo.field_members"), "" + guild.getMemberCount(), true)
+				.addField(I18n.getMessage("info.guildInfo.field_roles"), "" + guild.getRoles().size(), true)
 				.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 		
 		channel.sendMessage(embed.build()).queue();

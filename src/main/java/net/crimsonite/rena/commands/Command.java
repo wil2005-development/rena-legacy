@@ -21,6 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 import net.crimsonite.rena.RenaBot;
+import net.crimsonite.rena.engine.I18n;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Message;
@@ -80,7 +81,7 @@ public abstract class Command extends ListenerAdapter {
 						timeFormat = "%dm, %ds".formatted(hours, minutes);
 					}
 					
-					event.getChannel().sendMessageFormat("**Oi oi! Slow down!!!** *This command is on cooldown for* `%s`.", timeFormat).queue();
+					event.getChannel().sendMessageFormat(I18n.getMessage("command.cooldownTime"), timeFormat).queue();
 					
 					return;
 				}

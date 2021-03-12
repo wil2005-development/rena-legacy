@@ -22,6 +22,7 @@ import java.util.HashMap;
 
 import net.crimsonite.rena.RenaBot;
 import net.crimsonite.rena.commands.Command;
+import net.crimsonite.rena.engine.I18n;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -66,7 +67,7 @@ public class HelpCommand extends Command {
 			
 			EmbedBuilder embed = new EmbedBuilder()
 					.setColor(roleColor)
-					.setTitle("Help")
+					.setTitle(I18n.getMessage("info.help.field_title"))
 					.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 			
 			if (args.length >= 2) {
@@ -79,7 +80,22 @@ public class HelpCommand extends Command {
 				long cooldownMinutes = (cooldownTime % 3600) / 60;
 				long cooldownSeconds = cooldownTime % 60;
 				
-				String description = "**Cooldown Duration:** %02dh, %02dm, %02ds".formatted(cooldownHours, cooldownMinutes, cooldownSeconds);
+				String timeFormat = I18n.getMessage("info.help.field_cooldownDuration_HMS");
+				
+				if (cooldownHours == 0 && cooldownMinutes == 0) {
+					timeFormat = I18n.getMessage("info.help.field_cooldownDuration_S");
+				}
+				else if (cooldownSeconds == 0 && cooldownMinutes == 0) {
+					timeFormat = I18n.getMessage("info.help.field_cooldownDuration_H");
+				}
+				else if (cooldownHours == 0) {
+					timeFormat = I18n.getMessage("info.help.field_cooldownDuration_MS");
+				}
+				else if (cooldownSeconds == 0) {
+					timeFormat = I18n.getMessage("info.help.field_cooldownDuration_HM");
+				}
+				
+				String description = timeFormat.formatted(cooldownHours, cooldownMinutes, cooldownSeconds);
 				
 				embed.addField(commandName, description, false);
 			}
@@ -92,7 +108,22 @@ public class HelpCommand extends Command {
 					long cooldownMinutes = (cooldownTime % 3600) / 60;
 					long cooldownSeconds = cooldownTime % 60;
 					
-					String description = "**Cooldown Duration:** %02dh, %02dm, %02ds".formatted(cooldownHours, cooldownMinutes, cooldownSeconds);
+					String timeFormat = I18n.getMessage("info.help.field_cooldownDuration_HMS");
+					
+					if (cooldownHours == 0 && cooldownMinutes == 0) {
+						timeFormat = I18n.getMessage("info.help.field_cooldownDuration_S");
+					}
+					else if (cooldownSeconds == 0 && cooldownMinutes == 0) {
+						timeFormat = I18n.getMessage("info.help.field_cooldownDuration_H");
+					}
+					else if (cooldownHours == 0) {
+						timeFormat = I18n.getMessage("info.help.field_cooldownDuration_MS");
+					}
+					else if (cooldownSeconds == 0) {
+						timeFormat = I18n.getMessage("info.help.field_cooldownDuration_HM");
+					}
+					
+					String description = timeFormat.formatted(cooldownHours, cooldownMinutes, cooldownSeconds);
 					
 					embed.addField(commandName, description, false);
 				}
@@ -101,7 +132,7 @@ public class HelpCommand extends Command {
 			channel.sendMessage(embed.build()).queue();
 		}
 		catch (NullPointerException ignored) {
-			channel.sendMessage("**That command doesn't seem to exist.**").queue();
+			channel.sendMessage(I18n.getMessage("info.help.field_commandDoesNotExist")).queue();
 		}
 	}
 	

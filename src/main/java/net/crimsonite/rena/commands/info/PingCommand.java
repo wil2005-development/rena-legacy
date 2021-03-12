@@ -18,6 +18,7 @@
 package net.crimsonite.rena.commands.info;
 
 import net.crimsonite.rena.commands.Command;
+import net.crimsonite.rena.engine.I18n;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -29,8 +30,10 @@ public class PingCommand extends Command {
 		JDA jda = event.getJDA();
 		MessageChannel channel = event.getChannel();
 		
+		String message = I18n.getMessage("info.ping.pingMessage");
+		
 		jda.getRestPing().queue(
-				(ping) -> channel.sendMessageFormat("**Ping:** %dms | **Websocket:** %dms", ping, jda.getGatewayPing()).queue()
+				(ping) -> channel.sendMessageFormat(message, ping, jda.getGatewayPing()).queue()
 				);
 	}
 
