@@ -36,10 +36,10 @@ public class KickCommand extends Command {
 		MessageChannel channel = event.getChannel();
 		
 		if (mentionedMembers.isEmpty()) {
-			channel.sendMessage(I18n.getMessage("moderation.kick.noMentionedMember")).queue();
+			channel.sendMessage(I18n.getMessage("moderation.kick.no_mentioned_member")).queue();
 		}
 		else if (mentionedMembers.size() > 1) {
-			channel.sendMessage(I18n.getMessage("moderation.kick.multipleMentions")).queue();
+			channel.sendMessage(I18n.getMessage("moderation.kick.multiple_mentions")).queue();
 		}
 		else {
 			if (author.hasPermission(Permission.KICK_MEMBERS)) {
@@ -48,19 +48,19 @@ public class KickCommand extends Command {
 						String reason = args[2];
 						
 						mentionedMembers.get(0).kick(reason).complete();
-						channel.sendMessageFormat(I18n.getMessage("moderation.kick.kickWithReasonSuccess"), mentionedMembers.get(0).getUser().getName(), reason).queue();
+						channel.sendMessageFormat(I18n.getMessage("moderation.kick.kick_with_reason_success"), mentionedMembers.get(0).getUser().getName(), reason).queue();
 					}
 					else {
 						mentionedMembers.get(0).kick().complete();
-						channel.sendMessageFormat(I18n.getMessage("moderation.kick.kickSuccess"), mentionedMembers.get(0).getUser().getName()).queue();
+						channel.sendMessageFormat(I18n.getMessage("moderation.kick.kick_success"), mentionedMembers.get(0).getUser().getName()).queue();
 					}
 				}
 				catch (HierarchyException ignored) {
-					channel.sendMessage(I18n.getMessage("moderation.kick.unableToKick")).queue();
+					channel.sendMessage(I18n.getMessage("moderation.kick.unable_to_kick")).queue();
 				}
 			}
 			else {
-				channel.sendMessage(I18n.getMessage("moderation.kick.noPermission")).queue();
+				channel.sendMessage(I18n.getMessage("moderation.kick.no_permission")).queue();
 			}
 		}
 	}
