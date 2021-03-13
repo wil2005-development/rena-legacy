@@ -1,3 +1,6 @@
+commit_message: "l10n - new translations for %language% (%original_file_name%)"
+append_commit_message: false
+
 files:
   - source: /src/main/resources/languages/en_US.json
     translation: /src/main/resources/languages/%locale_with_underscore%.json
