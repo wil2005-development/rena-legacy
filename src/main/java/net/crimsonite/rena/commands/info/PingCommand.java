@@ -30,7 +30,7 @@ public class PingCommand extends Command {
 		JDA jda = event.getJDA();
 		MessageChannel channel = event.getChannel();
 		
-		String message = I18n.getMessage("info.ping.pingMessage");
+		String message = I18n.getMessage("info.ping.ping_message");
 		
 		jda.getRestPing().queue(
 				(ping) -> channel.sendMessageFormat(message, ping, jda.getGatewayPing()).queue()

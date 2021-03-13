@@ -27,27 +27,42 @@ public class I18n {
 		
 		try {
 			String[] keys = key.split("\\.");
-			String category;
-			String context;
+			String key1;
+			String key2;
+			String key3;
 			String messageKey;
+			
+			int keyLength = keys.length;
 			
 			ObjectMapper mapper = new ObjectMapper();
 			JsonNode resourceFile = mapper.readTree(I18n.class.getResourceAsStream("/languages/%s.json".formatted(locale)));
 			
-			if (keys.length == 2) {
-				context = keys[0];
-				messageKey = keys[1];
-				
-				message = resourceFile.get(context).get(messageKey).asText();
+			switch (keyLength) {
+				case 2:
+					key1 = keys[0];
+					messageKey = keys[1];
+					
+					message = resourceFile.get(key1).get(messageKey).asText();
+					
+					break;
+				case 3:
+					key1 = keys[0];
+					key2 = keys[1];
+					messageKey = keys[2];
+					
+					message = resourceFile.get(key1).get(key2).get(messageKey).asText();
+					
+					break;
+				case 4:
+					key1 = keys[0];
+					key2 = keys[1];
+					key3 = keys[2];
+					messageKey = keys[3];
+					
+					message = resourceFile.get(key1).get(key2).get(key3).get(messageKey).asText();
+					
+					break;
 			}
-			else if (keys.length == 3) {
-				category = keys[0];
-				context = keys[1];
-				messageKey = keys[2];
-				
-				message = resourceFile.get(category).get(context).get(messageKey).asText();
-			}
-			
 		}
 		catch (ArrayIndexOutOfBoundsException ignored) {
 			logger.warn("Invalid key sequence (%s)".formatted(key));

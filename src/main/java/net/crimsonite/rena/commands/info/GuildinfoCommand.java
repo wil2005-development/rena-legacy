@@ -41,13 +41,13 @@ public class GuildinfoCommand extends Command{
 		
 		EmbedBuilder embed = new EmbedBuilder()
 				.setColor(roleColor)
-				.setTitle(I18n.getMessage("info.guildInfo.field_title") + guild.getName())
+				.setTitle(I18n.getMessage("info.guild_info.embed.title") + guild.getName())
 				.setThumbnail(guild.getIconUrl())
-				.addField(I18n.getMessage("info.guildInfo.field_id"), guild.getId(), false)
-				.addField(I18n.getMessage("info.guildInfo.field_dateCreated"), guild.getTimeCreated().format(format), false)
-				.addField(I18n.getMessage("info.guildInfo.field_owner"), guild.getOwner().getEffectiveName(), false)
-				.addField(I18n.getMessage("info.guildInfo.field_members"), "" + guild.getMemberCount(), true)
-				.addField(I18n.getMessage("info.guildInfo.field_roles"), "" + guild.getRoles().size(), true)
+				.addField(I18n.getMessage("info.guild_info.embed.guild_id"), guild.getId(), false)
+				.addField(I18n.getMessage("info.guild_info.embed.date_created"), guild.getTimeCreated().format(format), false)
+				.addField(I18n.getMessage("info.guild_info.embed.guild_owner"), guild.getOwner().getEffectiveName(), false)
+				.addField(I18n.getMessage("info.guild_info.embed.guild_members"), "" + guild.getMemberCount(), true)
+				.addField(I18n.getMessage("info.guild_info.embed.guild_roles"), "" + guild.getRoles().size(), true)
 				.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 		
 		channel.sendMessage(embed.build()).queue();

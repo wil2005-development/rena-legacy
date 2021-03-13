@@ -65,14 +65,14 @@ public class StatusCommand extends Command {
 		
 		EmbedBuilder embed = new EmbedBuilder()
 				.setColor(roleColor)
-				.setTitle(I18n.getMessage("info.status.field_title"), RenaInfo.GITHUB_URL)
-				.addField(I18n.getMessage("info.status.field_version"), RenaInfo.VERSION_STRING, false)
-				.addField(I18n.getMessage("info.status.field_uptime"), timeFormat, false)
-				.addField(I18n.getMessage("info.status.field_numberOfCommands"), String.valueOf(numberOfCommands), false)
-				.addField(I18n.getMessage("info.status.field_timesCommandUsed"), String.valueOf(timesCommandUsed), false)
-				.addField(I18n.getMessage("info.status.field_guilds"), String.valueOf(jda.getGuilds().size()), false)
-				.addField(I18n.getMessage("info.status.field_users"), String.valueOf(jda.getUsers().size()), false)
-				.addField(I18n.getMessage("info.status.field_shards"), String.valueOf(shards), false);
+				.setTitle(I18n.getMessage("info.status.embed.title"), RenaInfo.GITHUB_URL)
+				.addField(I18n.getMessage("info.status.embed.version"), RenaInfo.VERSION_STRING, false)
+				.addField(I18n.getMessage("info.status.embed.uptime"), timeFormat, false)
+				.addField(I18n.getMessage("info.status.embed.number_of_commands"), String.valueOf(numberOfCommands), false)
+				.addField(I18n.getMessage("info.status.embed.times_command_used"), String.valueOf(timesCommandUsed), false)
+				.addField(I18n.getMessage("info.status.embed.guilds"), String.valueOf(jda.getGuilds().size()), false)
+				.addField(I18n.getMessage("info.status.embed.users"), String.valueOf(jda.getUsers().size()), false)
+				.addField(I18n.getMessage("info.status.embed.shards"), String.valueOf(shards), false);
 		
 		channel.sendMessage(embed.build()).queue();
 		channel.sendMessageFormat(
@@ -80,8 +80,8 @@ public class StatusCommand extends Command {
 				"**************************\n" +
 				"** Internal Information **\n" +
 				"**************************\n\n" +
-				I18n.getMessage("info.status.cBlock_threads") +
-				I18n.getMessage("info.status.cBlock_cpuUsage") +
+				I18n.getMessage("info.status.code_block.threads") +
+				I18n.getMessage("info.status.code_block.cpu_usage") +
 				"```",
 				
 				threads,

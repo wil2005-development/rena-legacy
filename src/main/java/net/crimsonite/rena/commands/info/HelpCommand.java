@@ -67,7 +67,7 @@ public class HelpCommand extends Command {
 			
 			EmbedBuilder embed = new EmbedBuilder()
 					.setColor(roleColor)
-					.setTitle(I18n.getMessage("info.help.field_title"))
+					.setTitle(I18n.getMessage("info.help.embed.title"))
 					.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 			
 			if (args.length >= 2) {
@@ -80,19 +80,19 @@ public class HelpCommand extends Command {
 				long cooldownMinutes = (cooldownTime % 3600) / 60;
 				long cooldownSeconds = cooldownTime % 60;
 				
-				String timeFormat = I18n.getMessage("info.help.field_cooldownDuration_HMS");
+				String timeFormat = I18n.getMessage("info.help.embed.cooldown_duration_HMS");
 				
 				if (cooldownHours == 0 && cooldownMinutes == 0) {
-					timeFormat = I18n.getMessage("info.help.field_cooldownDuration_S");
+					timeFormat = I18n.getMessage("info.help.embed.cooldown_duration_S");
 				}
 				else if (cooldownSeconds == 0 && cooldownMinutes == 0) {
-					timeFormat = I18n.getMessage("info.help.field_cooldownDuration_H");
+					timeFormat = I18n.getMessage("info.help.embed.cooldown_duration_H");
 				}
 				else if (cooldownHours == 0) {
-					timeFormat = I18n.getMessage("info.help.field_cooldownDuration_MS");
+					timeFormat = I18n.getMessage("info.help.embed.cooldown_duration_MS");
 				}
 				else if (cooldownSeconds == 0) {
-					timeFormat = I18n.getMessage("info.help.field_cooldownDuration_HM");
+					timeFormat = I18n.getMessage("info.help.embed.cooldown_duration_HM");
 				}
 				
 				String description = timeFormat.formatted(cooldownHours, cooldownMinutes, cooldownSeconds);
@@ -108,19 +108,19 @@ public class HelpCommand extends Command {
 					long cooldownMinutes = (cooldownTime % 3600) / 60;
 					long cooldownSeconds = cooldownTime % 60;
 					
-					String timeFormat = I18n.getMessage("info.help.field_cooldownDuration_HMS");
+					String timeFormat = I18n.getMessage("info.help.embed.cooldown_duration_HMS");
 					
 					if (cooldownHours == 0 && cooldownMinutes == 0) {
-						timeFormat = I18n.getMessage("info.help.field_cooldownDuration_S");
+						timeFormat = I18n.getMessage("info.help.embed.cooldown_duration_S");
 					}
 					else if (cooldownSeconds == 0 && cooldownMinutes == 0) {
-						timeFormat = I18n.getMessage("info.help.field_cooldownDuration_H");
+						timeFormat = I18n.getMessage("info.help.embed.cooldown_duration_H");
 					}
 					else if (cooldownHours == 0) {
-						timeFormat = I18n.getMessage("info.help.field_cooldownDuration_MS");
+						timeFormat = I18n.getMessage("info.help.embed.cooldown_duration_MS");
 					}
 					else if (cooldownSeconds == 0) {
-						timeFormat = I18n.getMessage("info.help.field_cooldownDuration_HM");
+						timeFormat = I18n.getMessage("info.help.embed.cooldown_duration_HM");
 					}
 					
 					String description = timeFormat.formatted(cooldownHours, cooldownMinutes, cooldownSeconds);
@@ -132,7 +132,7 @@ public class HelpCommand extends Command {
 			channel.sendMessage(embed.build()).queue();
 		}
 		catch (NullPointerException ignored) {
-			channel.sendMessage(I18n.getMessage("info.help.field_commandDoesNotExist")).queue();
+			channel.sendMessage(I18n.getMessage("info.help.command_does_not_exist")).queue();
 		}
 	}
 	

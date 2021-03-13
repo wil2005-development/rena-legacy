@@ -81,7 +81,7 @@ public abstract class Command extends ListenerAdapter {
 						timeFormat = "%dm, %ds".formatted(hours, minutes);
 					}
 					
-					event.getChannel().sendMessageFormat(I18n.getMessage("command.cooldownTime"), timeFormat).queue();
+					event.getChannel().sendMessageFormat(I18n.getMessage("command.cooldown_time"), timeFormat).queue();
 					
 					return;
 				}
