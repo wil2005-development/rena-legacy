@@ -58,7 +58,7 @@
 			}
 		},
 		"user_info": {
-		"user_not_found": "*Err... I can't find that person. Try doing it again, I might've missed them*",
+			"user_not_found": "*Err... I can't find that person. Try doing it again, I might've missed them*",
 			"embed": {
 				"title": "%s's User Info",
 				"user_id": "ID",
@@ -96,6 +96,21 @@
 			"no_permission": "**Sorry, but you dont have the permission to do that.\nRequired: BAN_MEMBERS permission**",
 			"invalid_id": "**That is not a valid ID.**",
 			"user_not_found": "**That user isn't blacklisted from your server, maybe they does not exist at all.**"
+		}
+	},
+	"roleplay": {
+		"daily": {
+			"claimed": "**You claimed your** G`%d` **daily!!!**",
+			"error": "Oops! Try again?"
+		},
+		"expedition": {
+			"dialogue": "**You went into an expedition to fulfill a commission...**",
+			"error": "Oops! Try again?",
+			"embed": {
+				"title": "Rewards",
+				"money": "Money",
+				"exp": "Exp"
+			}
 		}
 	}
 }
