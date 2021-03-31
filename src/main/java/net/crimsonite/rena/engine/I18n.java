@@ -8,6 +8,9 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import net.crimsonite.rena.database.DBReadWrite;
+import net.crimsonite.rena.database.DBReadWrite.Table;
+
 public class I18n {
 	
 	private static String defaultLanguage = "en";
@@ -72,6 +75,24 @@ public class I18n {
 		}
 		
 		return message;
+	}
+	
+	/**
+	 * @param user -The UID of the user.
+	 * @param key -The key for message to look for.
+	 * @return
+	 */
+	public static String getMessage(String user, String key) {
+		String language = defaultLanguage;
+		String country = defaultCountry;
+		
+		try {
+			language = DBReadWrite.getValueString(Table.USERS, user, "language");
+			country = DBReadWrite.getValueString(Table.USERS, user, "country");
+		}
+		catch (NullPointerException ignored) {}
+		
+		return getMessage(language, country, key);
 	}
 	
 	/**
