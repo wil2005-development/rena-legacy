@@ -111,6 +111,55 @@
 				"money": "Money",
 				"exp": "Exp"
 			}
+		},
+		"hunt": {
+			"error": {
+				"generic_error": "Oops! Try again?",
+				"json_processing_error": "*The monsters suddenly disappeared.*",
+				"io_error": "*Huh? Something's weird is happening...*"
+			},
+			"embed_encounter": {
+				"title": "You encountered a %s!!!",
+				"hp": "HP",
+				"mp": "MP",
+				"atk": "ATK",
+				"def": "DEF"
+			},
+			"embed_win": {
+				"title": "You Won!!!",
+				"description": "You won the following:",
+				"exp": "EXP",
+				"money": "Money"
+			},
+			"embed_lost": {
+				"title": "You Lost!!!",
+				"description": "The enemy won, and you received nothing."
+			}
+		},
+		"loot": {
+			"error": "Oops! Try again?",
+			"dialogue": "**You went into an abandoned dungeon and got some loots**",
+			"no_item": "**Sadly, there wasn't any item of value in there.**",
+			"embed": {
+				"title": "Looted Goods",
+				"money": "Money",
+				"exp": "EXP"
+			}
+		},
+		"profile": {
+			"error": "Oops! Try again?",
+			"player_not_found": "*Err... I can't find that person. Try doing it again, I might've missed them*",
+			"embed": {
+				"title": "%s's Profile",
+				"rep": "Rep",
+				"level": "Level",
+				"exp": "EXP",
+				"money": "Money",
+				"hp": "HP",
+				"mp": "MP",
+				"atk": "ATK",
+				"def": "DEF"
+			}
 		}
 	}
 }
