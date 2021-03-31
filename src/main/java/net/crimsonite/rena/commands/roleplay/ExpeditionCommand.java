@@ -23,6 +23,7 @@ import java.util.Random;
 import net.crimsonite.rena.commands.Command;
 import net.crimsonite.rena.database.DBReadWrite;
 import net.crimsonite.rena.database.DBReadWrite.Table;
+import net.crimsonite.rena.engine.I18n;
 import net.crimsonite.rena.engine.RoleplayEngine;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -52,18 +53,18 @@ public class ExpeditionCommand extends Command {
 			
 			EmbedBuilder embed = new EmbedBuilder()
 					.setColor(roleColor)
-					.setTitle("Rewards")
-					.addField("Money", String.valueOf(receivedMoney), true)
-					.addField("Exp", String.valueOf(receivedExp), true)
+					.setTitle(I18n.getMessage("roleplay.expedition.embed.title"))
+					.addField(I18n.getMessage("roleplay.expedition.embed.money"), String.valueOf(receivedMoney), true)
+					.addField(I18n.getMessage("roleplay.expedition.embed.exp"), String.valueOf(receivedExp), true)
 					.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 			
-			channel.sendMessage("**You went into an expedition to fulfill a commission...**").queue();
+			channel.sendMessage(I18n.getMessage("roleplay.expedition.dialogue")).queue();
 			channel.sendMessage(embed.build()).queue();
 		}
 		catch (NullPointerException ignored) {
 			DBReadWrite.registerUser(author.getId());
 			
-			channel.sendMessage("Oops! Try again?").queue();
+			channel.sendMessage(I18n.getMessage("roleplay.expedition.error")).queue();
 		}
 	}
 

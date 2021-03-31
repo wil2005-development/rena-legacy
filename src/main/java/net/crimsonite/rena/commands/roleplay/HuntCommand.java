@@ -28,6 +28,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.crimsonite.rena.commands.Command;
 import net.crimsonite.rena.database.DBReadWrite;
 import net.crimsonite.rena.database.DBReadWrite.Table;
+import net.crimsonite.rena.engine.I18n;
 import net.crimsonite.rena.engine.RoleplayEngine;
 import net.crimsonite.rena.engine.RoleplayEngine.CommenceBattle.AttackerType;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -63,11 +64,11 @@ public class HuntCommand extends Command {
 			
 			EmbedBuilder embedFirst = new EmbedBuilder()
 					.setColor(roleColor)
-					.setTitle("You encountered a " + selectedEnemy + "!!!")
-					.addField("Hp", String.valueOf(enemyHP), true)
-					.addField("Mp", enemyStat.get("MP").asText(), true)
-					.addField("Atk", enemyStat.get("ATK").asText(), true)
-					.addField("Def", enemyStat.get("DEF").asText(), true)
+					.setTitle(I18n.getMessage("roleplay.hunt.embed_encounter.title").formatted(selectedEnemy))
+					.addField(I18n.getMessage("roleplay.hunt.embed_encounter.hp"), String.valueOf(enemyHP), true)
+					.addField(I18n.getMessage("roleplay.hunt.embed_encounter.mp"), enemyStat.get("MP").asText(), true)
+					.addField(I18n.getMessage("roleplay.hunt.embed_encounter.atk"), enemyStat.get("ATK").asText(), true)
+					.addField(I18n.getMessage("roleplay.hunt.embed_encounter.def"), enemyStat.get("DEF").asText(), true)
 					.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 			
 			channel.sendMessage(embedFirst.build()).queue();
@@ -86,10 +87,10 @@ public class HuntCommand extends Command {
 					
 					EmbedBuilder embedSecond = new EmbedBuilder()
 							.setColor(roleColor)
-							.setTitle("You Won!!!")
-							.setDescription("You received the following:")
-							.addField("Exp", String.valueOf(rewardExp), true)
-							.addField("Money", String.valueOf(rewardMoney), true)
+							.setTitle(I18n.getMessage("roleplay.hunt.embed_win.title"))
+							.setDescription(I18n.getMessage("roleplay.hunt.embed_win.description"))
+							.addField(I18n.getMessage("roleplay.hunt.embed_win.exp"), String.valueOf(rewardExp), true)
+							.addField(I18n.getMessage("roleplay.hunt.embed_win.money"), String.valueOf(rewardMoney), true)
 							.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 					
 					channel.sendMessage(embedSecond.build()).queue();
@@ -97,8 +98,8 @@ public class HuntCommand extends Command {
 				else if (playerHP <= 0) {					
 					EmbedBuilder embedSecond = new EmbedBuilder()
 							.setColor(roleColor)
-							.setTitle("You Lost!!!")
-							.setDescription("The enemy won, and you received nothing.")
+							.setTitle(I18n.getMessage("roleplay.hunt.embed_lost.title"))
+							.setDescription(I18n.getMessage("roleplay.hunt.embed_lost.description"))
 							.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 					
 					channel.sendMessage(embedSecond.build()).queue();
@@ -108,14 +109,14 @@ public class HuntCommand extends Command {
 			
 		}
 		catch (JsonProcessingException ignored) {
-			channel.sendMessage("*The monsters suddenly disappeared.*").queue();
+			channel.sendMessage(I18n.getMessage("roleplay.hunt.error.json_processing_error")).queue();
 		}
 		catch (IOException ignored) {
-			channel.sendMessage("*Huh? Something's weird is happening...*").queue();
+			channel.sendMessage(I18n.getMessage("roleplay.hunt.error.io_error")).queue();
 		}
 		catch (NullPointerException ignored) {
 			DBReadWrite.registerUser(author.getId());
-			channel.sendMessage("Oops! Try again?").queue();
+			channel.sendMessage(I18n.getMessage("roleplay.hunt.error.generic_error")).queue();
 		}
 	}
 
