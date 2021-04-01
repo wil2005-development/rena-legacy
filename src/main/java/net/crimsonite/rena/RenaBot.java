@@ -47,6 +47,7 @@ import net.crimsonite.rena.commands.roleplay.ExpeditionCommand;
 import net.crimsonite.rena.commands.roleplay.HuntCommand;
 import net.crimsonite.rena.commands.roleplay.LootCommand;
 import net.crimsonite.rena.commands.roleplay.ProfileCommand;
+import net.crimsonite.rena.commands.userpreference.LanguagePreferenceCommand;
 import net.crimsonite.rena.database.DBConnection;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -126,6 +127,9 @@ public class RenaBot {
 						commandRegistry.registerCommand(new HuntCommand()),
 						commandRegistry.registerCommand(new LootCommand()),
 						commandRegistry.registerCommand(new ProfileCommand()),
+						
+						// User Preference Commands
+						commandRegistry.registerCommand(new LanguagePreferenceCommand()),
 						
 						// Miscellaneous Commands
 						commandRegistry.registerCommand(new RollCommand()),

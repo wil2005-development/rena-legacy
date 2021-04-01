@@ -20,6 +20,7 @@ package net.crimsonite.rena.commands.moderation;
 import java.util.List;
 
 import net.crimsonite.rena.commands.Command;
+import net.crimsonite.rena.engine.I18n;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -35,10 +36,10 @@ public class BanCommand extends Command {
 		MessageChannel channel = event.getChannel();
 		
 		if (mentionedMembers.isEmpty()) {
-			channel.sendMessage("**You have to mention a user to ban.**").queue();
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.ban.no_mentioned_member")).queue();
 		}
 		else if (mentionedMembers.size() > 1) {
-			channel.sendMessage("**Hold on! You can only ban members one at a time.**").queue();
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.ban.multiple_mentions")).queue();
 		}
 		else {
 			if (author.hasPermission(Permission.BAN_MEMBERS)) {
@@ -47,19 +48,19 @@ public class BanCommand extends Command {
 						String reason = args[2];
 						
 						mentionedMembers.get(0).ban(0, reason).complete();
-						channel.sendMessageFormat("**Successfully banned %s! Reason: %s**", mentionedMembers.get(0).getUser().getName(), reason).queue();
+						channel.sendMessageFormat(I18n.getMessage(event.getAuthor().getId(), "moderation.ban.ban_with_reason_success"), mentionedMembers.get(0).getUser().getName(), reason).queue();
 					}
 					else {
 						mentionedMembers.get(0).ban(0).complete();
-						channel.sendMessageFormat("**Successfully banned %s!**", mentionedMembers.get(0).getUser().getName()).queue();
+						channel.sendMessageFormat(I18n.getMessage(event.getAuthor().getId(), "moderation.ban.ban_success"), mentionedMembers.get(0).getUser().getName()).queue();
 					}
 				}
 				catch (HierarchyException ignored) {
-					channel.sendMessage("**Sorry, but you can't ban that person.**").queue();
+					channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.ban.unable_to_ban")).queue();
 				}
 			}
 			else {
-				channel.sendMessage("**Sorry, but you dont have the permission to do that.\nRequired: BAN_MEMBERS permission**").queue();
+				channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.ban.no_permission")).queue();
 			}
 		}
 	}

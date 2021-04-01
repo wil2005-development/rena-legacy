@@ -18,6 +18,7 @@
 package net.crimsonite.rena.commands.moderation;
 
 import net.crimsonite.rena.commands.Command;
+import net.crimsonite.rena.engine.I18n;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -34,27 +35,33 @@ public class UnbanCommand extends Command {
 		
 		try {
 			if (author.hasPermission(Permission.BAN_MEMBERS)) {	
-				User user = event.getJDA().retrieveUserById(args[1]).complete();
+				User user;
 				
-				if (args.length <= 2) {
+				if (args.length == 1) {
+					channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.unban.no_id_provided")).queue();
+				}
+				else if (args.length == 2) {
+					user = event.getJDA().retrieveUserById(args[1]).complete();
+					
 					event.getGuild().unban(user).complete();
-					channel.sendMessageFormat("**Successfully unbanned %s!**", user.getName()).queue();
+					channel.sendMessageFormat(I18n.getMessage(event.getAuthor().getId(), "moderation.unban.unban_success"), user.getName()).queue();
 				}
 				else {
+					user = event.getJDA().retrieveUserById(args[1]).complete();
 					String reason = args[2];
 					event.getGuild().unban(user).reason(reason).complete();
-					channel.sendMessageFormat("**Successfully unbanned %s! Reason: %s**", user.getName(), reason).queue();
+					channel.sendMessageFormat(I18n.getMessage(event.getAuthor().getId(), "moderation.unban.unban_with_reason_success"), user.getName(), reason).queue();
 				}
 			}
 			else {
-				channel.sendMessage("**Sorry, but you dont have the permission to do that.\nRequired: BAN_MEMBERS permission**").queue();
+				channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.unban.no_permission")).queue();
 			}
 		}
 		catch (IllegalArgumentException ignored) {
-			channel.sendMessage("**That is not a valid ID.**").queue();
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.unban.invalid_id")).queue();
 		}
 		catch (ErrorResponseException ignored) {
-			channel.sendMessage("**That user isn't blacklisted from your server, maybe they does not exist at all.**").queue();
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.unban.user_not_found")).queue();
 		}
 	}
 	

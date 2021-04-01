@@ -23,6 +23,7 @@ import java.util.Random;
 import net.crimsonite.rena.commands.Command;
 import net.crimsonite.rena.database.DBReadWrite;
 import net.crimsonite.rena.database.DBReadWrite.Table;
+import net.crimsonite.rena.engine.I18n;
 import net.crimsonite.rena.engine.RoleplayEngine;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -40,31 +41,31 @@ public class LootCommand extends Command {
 			Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
 			Random rng = new Random();
 			
-			int currentLevel = Integer.parseInt(DBReadWrite.getValueString(Table.USERS, author.getId(), "LEVEL"));
+			int currentLevel = DBReadWrite.getValueInt(Table.PLAYERS, author.getId(), "LEVEL");
 			int baseReceivedExp = rng.nextInt(3-1)+1;
 			int baseReceivedMoney = rng.nextInt(10-1)+1;
 			int receivedExp = baseReceivedExp+currentLevel*2;
 			int receivedMoney = baseReceivedMoney+currentLevel*2;
 			
-			DBReadWrite.incrementValue(Table.USERS, author.getId(), "MONEY", receivedMoney);
-			DBReadWrite.incrementValue(Table.USERS, author.getId(), "EXP", receivedExp);
+			DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "MONEY", receivedMoney);
+			DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "EXP", receivedExp);
 			RoleplayEngine.Handler.handleLevelup(author.getId());
 			
 			EmbedBuilder embed = new EmbedBuilder()
 					.setColor(roleColor)
-					.setTitle("Looted Goods")
-					.addField("Money", String.valueOf(receivedMoney), true)
-					.addField("Exp", String.valueOf(receivedExp), true)
+					.setTitle(I18n.getMessage(event.getAuthor().getId(), "roleplay.loot.embed.title"))
+					.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.loot.embed.money"), String.valueOf(receivedMoney), true)
+					.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.loot.embed.exp"), String.valueOf(receivedExp), true)
 					.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 			
-			channel.sendMessage("**You went into an abandoned dungeon and got some loots**").queue();
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.loot.dialogue")).queue();
 			channel.sendMessage(embed.build()).queue();
-			channel.sendMessage("**Sadly, there wasn't any item of value in there.**").queue();
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.loot.no_item")).queue();
 		}
 		catch (NullPointerException ignored) {
 			DBReadWrite.registerUser(author.getId());
 			
-			channel.sendMessage("Oops! Try again?").queue();
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.loot.error")).queue();
 		}
 	}
 

@@ -1,0 +1,165 @@
+{
+	"command": {
+		"cooldown_time": "**Oi oi! Slow down!!!** *This command is on cooldown for* `%s`."
+	},
+	"info": {
+		"guild_info": {
+			"embed": {
+				"title": "Showing informations for ",
+				"guild_id": "Guild ID",
+				"date_created": "Date Created",
+				"guild_owner": "Guild Owner",
+				"guild_members": "Members",
+				"guild_roles": "Roles"
+			}
+		},
+		"help": {
+			"command_does_not_exist": "**That command doesn't seem to exist.**",
+			"embed": {
+				"title": "Help",
+				"cooldown_duration_S": "**Cooldown Duration:** %3$ds",
+				"cooldown_duration_MS": "**Cooldown Duration:** %2$dm, %3$ds",
+				"cooldown_duration_HMS": "**Cooldown Duration:** %1$dh, %2$dm, %3$ds",
+				"cooldown_duration_HM": "**Cooldown Duration:** %1$dh, %2$dm",
+				"cooldown_duration_H": "**Cooldown Duration:** %1$dh"
+			}
+		},
+		"ping": {
+			"ping_message": "**Ping:** %dms | **Websocket:** %dms"
+		},
+		"role_info": {
+			"no_role_provided": "*You want me to look for nothing?!*",
+			"role_not_found": "*There's no such role*",
+			"embed": {
+				"title": "Informations for role: %s",
+				"role_id": "ID",
+				"position": "Position",
+				"mentionable": "Mentionable",
+				"date_created": "Date Created",
+				"role_color": "Color",
+				"guild": "Guild",
+				"permissions": "Permissions"
+			}
+		},
+		"status": {
+			"embed": {
+				"title": "Rena's Informations",
+				"version": "Version",
+				"uptime": "Uptime",
+				"number_of_commands": "Number of Commands",
+				"times_command_used": "Times Command Used",
+				"guilds": "Guilds",
+				"users": "Users",
+				"shards": "Shards"
+			},
+			"code_block": {
+				"threads": "Threads : %d\n",
+				"cpu_usage": "CPU Usage: %.2f%%\n"
+			}
+		},
+		"user_info": {
+			"user_not_found": "*Err... I can't find that person. Try doing it again, I might've missed them*",
+			"embed": {
+				"title": "%s's User Info",
+				"user_id": "ID",
+				"date_created": "Date Created",
+				"date_joined": "Date Joined"
+			}
+		}
+	},
+	"misc": {
+		"dice": {
+			"unable_to_roll": "*Sorry, I can't roll that for you*"
+		}
+	},
+	"moderation": {
+		"ban": {
+			"no_mentioned_member": "**You have to mention a user to ban.**",
+			"multiple_mentions": "**Hold on! You can only ban members one at a time.**",
+			"ban_with_reason_success": "**Successfully banned %s! Reason: %s**",
+			"ban_success": "**Successfully banned %s!**",
+			"unable_to_ban": "**Sorry, but you can't ban that person.**",
+			"no_permission": "**Sorry, but you dont have the permission to do that.\nRequired: BAN_MEMBERS permission**"
+		},
+		"kick": {
+			"no_mentioned_member": "**You have to mention a user to kick.**",
+			"multiple_mentions": "**Hold on! You can only kick members one at a time.**",
+			"kick_with_reason_success": "**Successfully kicked %s! Reason: %s**",
+			"kick_success": "**Successfully kicked %s!**",
+			"unable_to_kick": "**Sorry, but you can't kick that person.**",
+			"no_permission": "**Sorry, but you dont have the permission to do that.\nRequired: KICK_MEMBERS permission**"
+		},
+		"unban": {
+			"no_id_provided": "**You have to specify the ID of the user to unban.**",
+			"unban_success": "**Successfully unbanned %s!**",
+			"unban_with_reason_success": "**Successfully unbanned %s! Reason: %s**",
+			"no_permission": "**Sorry, but you dont have the permission to do that.\nRequired: BAN_MEMBERS permission**",
+			"invalid_id": "**That is not a valid ID.**",
+			"user_not_found": "**That user isn't blacklisted from your server, maybe they does not exist at all.**"
+		}
+	},
+	"roleplay": {
+		"daily": {
+			"claimed": "**You claimed your** G`%d` **daily!!!**",
+			"error": "Oops! Try again?"
+		},
+		"expedition": {
+			"dialogue": "**You went into an expedition to fulfill a commission...**",
+			"error": "Oops! Try again?",
+			"embed": {
+				"title": "Rewards",
+				"money": "Money",
+				"exp": "Exp"
+			}
+		},
+		"hunt": {
+			"error": {
+				"generic_error": "Oops! Try again?",
+				"json_processing_error": "*The monsters suddenly disappeared.*",
+				"io_error": "*Huh? Something's weird is happening...*"
+			},
+			"embed_encounter": {
+				"title": "You encountered a %s!!!",
+				"hp": "HP",
+				"mp": "MP",
+				"atk": "ATK",
+				"def": "DEF"
+			},
+			"embed_win": {
+				"title": "You Won!!!",
+				"description": "You won the following:",
+				"exp": "EXP",
+				"money": "Money"
+			},
+			"embed_lost": {
+				"title": "You Lost!!!",
+				"description": "The enemy won, and you received nothing."
+			}
+		},
+		"loot": {
+			"error": "Oops! Try again?",
+			"dialogue": "**You went into an abandoned dungeon and got some loots**",
+			"no_item": "**Sadly, there wasn't any item of value in there.**",
+			"embed": {
+				"title": "Looted Goods",
+				"money": "Money",
+				"exp": "EXP"
+			}
+		},
+		"profile": {
+			"error": "Oops! Try again?",
+			"player_not_found": "*Err... I can't find that person. Try doing it again, I might've missed them*",
+			"embed": {
+				"title": "%s's Profile",
+				"rep": "Rep",
+				"level": "Level",
+				"exp": "EXP",
+				"money": "Money",
+				"hp": "HP",
+				"mp": "MP",
+				"atk": "ATK",
+				"def": "DEF"
+			}
+		}
+	}
+}

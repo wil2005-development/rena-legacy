@@ -25,6 +25,7 @@ import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 import net.crimsonite.rena.commands.Command;
 import net.crimsonite.rena.database.DBReadWrite;
 import net.crimsonite.rena.database.DBReadWrite.Table;
+import net.crimsonite.rena.engine.I18n;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -38,16 +39,16 @@ public class ProfileCommand extends Command {
 		
 		EmbedBuilder embed = new EmbedBuilder()
 				.setColor(roleColor)
-				.setTitle(user.getName() + "'s Profile")
+				.setTitle(I18n.getMessage(event.getAuthor().getId(), "roleplay.profile.embed.title").formatted(user.getName()))
 				.setThumbnail(user.getEffectiveAvatarUrl())
-				.addField("Rep", String.valueOf(DBReadWrite.getValueInt(Table.USERS, user.getId(), "REP")), false)
-				.addField("Level", String.valueOf(DBReadWrite.getValueInt(Table.USERS, user.getId(), "LEVEL")), false)
-				.addField("Exp", String.valueOf(DBReadWrite.getValueInt(Table.USERS, user.getId(), "EXP")), false)
-				.addField("Money", String.valueOf(DBReadWrite.getValueInt(Table.USERS, user.getId(), "MONEY")), true)
-				.addField("Hp", String.valueOf(DBReadWrite.getValueInt(Table.USERS, user.getId(), "HP")), true)
-				.addField("Mp", String.valueOf(DBReadWrite.getValueInt(Table.USERS, user.getId(), "MP")), true)
-				.addField("Atk", String.valueOf(DBReadWrite.getValueInt(Table.USERS, user.getId(), "ATK")), true)
-				.addField("Def", String.valueOf(DBReadWrite.getValueInt(Table.USERS, user.getId(), "DEF")), true)
+				.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.profile.embed.rep"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "REP")), false)
+				.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.profile.embed.level"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "LEVEL")), false)
+				.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.profile.embed.exp"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "EXP")), false)
+				.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.profile.embed.money"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "MONEY")), true)
+				.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.profile.embed.hp"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "HP")), true)
+				.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.profile.embed.mp"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "MP")), true)
+				.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.profile.embed.atk"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "ATK")), true)
+				.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.profile.embed.def"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "DEF")), true)
 				.setFooter(event.getAuthor().getName(), user.getEffectiveAvatarUrl());
 		
 		event.getChannel().sendMessage(embed.build()).queue();
@@ -63,7 +64,7 @@ public class ProfileCommand extends Command {
 			}
 			catch (NullPointerException ignored) {
 				DBReadWrite.registerUser(event.getAuthor().getId());
-				channel.sendMessage("Oops! Try again?").queue();
+				channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.profile.error")).queue();
 			}
 		}
 		else if (args.length >= 2) {
@@ -74,14 +75,14 @@ public class ProfileCommand extends Command {
 				}
 				catch (NullPointerException ignored) {
 					DBReadWrite.registerUser(event.getMessage().getMentionedUsers().get(0).getId());
-					channel.sendMessage("Oops! Try again?").queue();
+					channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.profile.error")).queue();
 				}
 			}
 			else {
 				List<Member> listedMembers = FinderUtil.findMembers(args[1], event.getGuild());
 				
 				if (listedMembers.isEmpty()) {
-					channel.sendMessage("*Err... I can't find that person. Try doing it again, I might've missed them*").queue();
+					channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.profile.player_not_found")).queue();
 					event.getGuild().loadMembers();
 				}
 				else {
@@ -91,7 +92,7 @@ public class ProfileCommand extends Command {
 					}
 					catch (NullPointerException ignored) {
 						DBReadWrite.registerUser(listedMembers.get(0).getId());
-						channel.sendMessage("Oops! Try again?").queue();
+						channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.profile.error")).queue();
 					}
 				}
 			}

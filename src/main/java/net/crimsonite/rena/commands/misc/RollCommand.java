@@ -20,6 +20,7 @@ package net.crimsonite.rena.commands.misc;
 import java.util.Random;
 
 import net.crimsonite.rena.commands.Command;
+import net.crimsonite.rena.engine.I18n;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
@@ -37,7 +38,7 @@ public class RollCommand extends Command {
 				channel.sendMessageFormat(":game_die: %d (1-%d)", result, face).queue();
 			}
 			catch (NumberFormatException ignored) {
-				channel.sendMessageFormat("Sorry, I can't roll that for you").queue();
+				channel.sendMessageFormat(I18n.getMessage(event.getAuthor().getId(), "misc.dice.unable_to_roll")).queue();
 			}
 		}
 		else {
