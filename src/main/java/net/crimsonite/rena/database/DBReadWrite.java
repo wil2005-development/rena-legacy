@@ -31,6 +31,7 @@ public class DBReadWrite {
 	
 	public enum Table {
 		USERS("users"),
+		PLAYERS("players"),
 		GUILDS("users");
 
 		public final String stringValue;
@@ -49,6 +50,12 @@ public class DBReadWrite {
 	public static void registerUser(String UID) {
 		// Roleplay stats are uppercased on purpose.
 		db.table(Table.USERS.stringValue).insert(r.array(
+				r.hashMap("id", UID)
+				.with("Language", "en")
+				.with("Country", "US")
+				)).runNoReply(conn);
+		
+		db.table(Table.PLAYERS.stringValue).insert(r.array(
 				r.hashMap("id", UID)
 				.with("LEVEL", 0)
 				.with("EXP", 0)
