@@ -42,11 +42,11 @@ public class UserinfoCommand extends Command {
 		
 		EmbedBuilder embed = new EmbedBuilder()
 				.setColor(roleColor)
-				.setTitle(I18n.getMessage("info.user_info.embed.title").formatted(member.getEffectiveName()))
+				.setTitle(I18n.getMessage(event.getAuthor().getId(), "info.user_info.embed.title").formatted(member.getEffectiveName()))
 				.setThumbnail(memberAsUser.getEffectiveAvatarUrl())
-				.addField(I18n.getMessage("info.user_info.embed.user_id"), member.getId(), false)
-				.addField(I18n.getMessage("info.user_info.embed.date_created"), member.getTimeCreated().format(format), false)
-				.addField(I18n.getMessage("info.user_info.embed.date_joined"), member.getTimeJoined().format(format),false)
+				.addField(I18n.getMessage(event.getAuthor().getId(), "info.user_info.embed.user_id"), member.getId(), false)
+				.addField(I18n.getMessage(event.getAuthor().getId(), "info.user_info.embed.date_created"), member.getTimeCreated().format(format), false)
+				.addField(I18n.getMessage(event.getAuthor().getId(), "info.user_info.embed.date_joined"), member.getTimeJoined().format(format),false)
 				.setFooter(author.getEffectiveName(), author.getUser().getEffectiveAvatarUrl());
 		
 		event.getChannel().sendMessage(embed.build()).queue();
@@ -69,7 +69,7 @@ public class UserinfoCommand extends Command {
 				List<Member> listedMembers = FinderUtil.findMembers(args[1], event.getGuild());
 				
 				if (listedMembers.isEmpty()) {
-					channel.sendMessage(I18n.getMessage("info.user_info.user_not_found")).queue();
+					channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "info.user_info.user_not_found")).queue();
 					event.getGuild().loadMembers();
 				}
 				else {

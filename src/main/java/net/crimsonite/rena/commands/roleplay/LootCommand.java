@@ -41,31 +41,31 @@ public class LootCommand extends Command {
 			Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
 			Random rng = new Random();
 			
-			int currentLevel = DBReadWrite.getValueInt(Table.USERS, author.getId(), "LEVEL");
+			int currentLevel = DBReadWrite.getValueInt(Table.PLAYERS, author.getId(), "LEVEL");
 			int baseReceivedExp = rng.nextInt(3-1)+1;
 			int baseReceivedMoney = rng.nextInt(10-1)+1;
 			int receivedExp = baseReceivedExp+currentLevel*2;
 			int receivedMoney = baseReceivedMoney+currentLevel*2;
 			
-			DBReadWrite.incrementValue(Table.USERS, author.getId(), "MONEY", receivedMoney);
-			DBReadWrite.incrementValue(Table.USERS, author.getId(), "EXP", receivedExp);
+			DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "MONEY", receivedMoney);
+			DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "EXP", receivedExp);
 			RoleplayEngine.Handler.handleLevelup(author.getId());
 			
 			EmbedBuilder embed = new EmbedBuilder()
 					.setColor(roleColor)
-					.setTitle(I18n.getMessage("roleplay.loot.embed.title"))
-					.addField(I18n.getMessage("roleplay.loot.embed.money"), String.valueOf(receivedMoney), true)
-					.addField(I18n.getMessage("roleplay.loot.embed.exp"), String.valueOf(receivedExp), true)
+					.setTitle(I18n.getMessage(event.getAuthor().getId(), "roleplay.loot.embed.title"))
+					.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.loot.embed.money"), String.valueOf(receivedMoney), true)
+					.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.loot.embed.exp"), String.valueOf(receivedExp), true)
 					.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 			
-			channel.sendMessage(I18n.getMessage("roleplay.loot.dialogue")).queue();
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.loot.dialogue")).queue();
 			channel.sendMessage(embed.build()).queue();
-			channel.sendMessage(I18n.getMessage("roleplay.loot.no_item")).queue();
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.loot.no_item")).queue();
 		}
 		catch (NullPointerException ignored) {
 			DBReadWrite.registerUser(author.getId());
 			
-			channel.sendMessage(I18n.getMessage("roleplay.loot.error")).queue();
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.loot.error")).queue();
 		}
 	}
 

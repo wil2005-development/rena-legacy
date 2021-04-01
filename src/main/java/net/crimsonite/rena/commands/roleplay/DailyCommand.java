@@ -33,17 +33,17 @@ public class DailyCommand extends Command{
 		MessageChannel channel = event.getChannel();
 		
 		try {
-			long level = DBReadWrite.getValueInt(Table.USERS, author.getId(), "LEVEL");
+			long level = DBReadWrite.getValueInt(Table.PLAYERS, author.getId(), "LEVEL");
 			long reward = 50 * level;
 			
-			DBReadWrite.incrementValue(Table.USERS, author.getId(), "MONEY", Integer.parseInt(String.valueOf(reward)));
+			DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "MONEY", Integer.parseInt(String.valueOf(reward)));
 			
-			channel.sendMessageFormat(I18n.getMessage("roleplay.daily.claimed"), reward).queue();
+			channel.sendMessageFormat(I18n.getMessage(event.getAuthor().getId(), "roleplay.daily.claimed"), reward).queue();
 		}
 		catch (NullPointerException ignored) {
 			DBReadWrite.registerUser(author.getId());
 			
-			channel.sendMessage(I18n.getMessage("roleplay.daily.error")).queue();
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.daily.error")).queue();
 		}
 	}
 

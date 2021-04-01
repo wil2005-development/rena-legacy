@@ -38,30 +38,30 @@ public class UnbanCommand extends Command {
 				User user;
 				
 				if (args.length == 1) {
-					channel.sendMessage(I18n.getMessage("moderation.unban.no_id_provided")).queue();
+					channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.unban.no_id_provided")).queue();
 				}
 				else if (args.length == 2) {
 					user = event.getJDA().retrieveUserById(args[1]).complete();
 					
 					event.getGuild().unban(user).complete();
-					channel.sendMessageFormat(I18n.getMessage("moderation.unban.unban_success"), user.getName()).queue();
+					channel.sendMessageFormat(I18n.getMessage(event.getAuthor().getId(), "moderation.unban.unban_success"), user.getName()).queue();
 				}
 				else {
 					user = event.getJDA().retrieveUserById(args[1]).complete();
 					String reason = args[2];
 					event.getGuild().unban(user).reason(reason).complete();
-					channel.sendMessageFormat(I18n.getMessage("moderation.unban.unban_with_reason_success"), user.getName(), reason).queue();
+					channel.sendMessageFormat(I18n.getMessage(event.getAuthor().getId(), "moderation.unban.unban_with_reason_success"), user.getName(), reason).queue();
 				}
 			}
 			else {
-				channel.sendMessage(I18n.getMessage("moderation.unban.no_permission")).queue();
+				channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.unban.no_permission")).queue();
 			}
 		}
 		catch (IllegalArgumentException ignored) {
-			channel.sendMessage(I18n.getMessage("moderation.unban.invalid_id")).queue();
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.unban.invalid_id")).queue();
 		}
 		catch (ErrorResponseException ignored) {
-			channel.sendMessage(I18n.getMessage("moderation.unban.user_not_found")).queue();
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.unban.user_not_found")).queue();
 		}
 	}
 	

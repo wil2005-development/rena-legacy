@@ -38,7 +38,7 @@ public class RollCommand extends Command {
 				channel.sendMessageFormat(":game_die: %d (1-%d)", result, face).queue();
 			}
 			catch (NumberFormatException ignored) {
-				channel.sendMessageFormat(I18n.getMessage("misc.dice.unable_to_roll")).queue();
+				channel.sendMessageFormat(I18n.getMessage(event.getAuthor().getId(), "misc.dice.unable_to_roll")).queue();
 			}
 		}
 		else {

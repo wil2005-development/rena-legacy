@@ -36,10 +36,10 @@ public class BanCommand extends Command {
 		MessageChannel channel = event.getChannel();
 		
 		if (mentionedMembers.isEmpty()) {
-			channel.sendMessage(I18n.getMessage("moderation.ban.no_mentioned_member")).queue();
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.ban.no_mentioned_member")).queue();
 		}
 		else if (mentionedMembers.size() > 1) {
-			channel.sendMessage(I18n.getMessage("moderation.ban.multiple_mentions")).queue();
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.ban.multiple_mentions")).queue();
 		}
 		else {
 			if (author.hasPermission(Permission.BAN_MEMBERS)) {
@@ -48,19 +48,19 @@ public class BanCommand extends Command {
 						String reason = args[2];
 						
 						mentionedMembers.get(0).ban(0, reason).complete();
-						channel.sendMessageFormat(I18n.getMessage("moderation.ban.ban_with_reason_success"), mentionedMembers.get(0).getUser().getName(), reason).queue();
+						channel.sendMessageFormat(I18n.getMessage(event.getAuthor().getId(), "moderation.ban.ban_with_reason_success"), mentionedMembers.get(0).getUser().getName(), reason).queue();
 					}
 					else {
 						mentionedMembers.get(0).ban(0).complete();
-						channel.sendMessageFormat(I18n.getMessage("moderation.ban.ban_success"), mentionedMembers.get(0).getUser().getName()).queue();
+						channel.sendMessageFormat(I18n.getMessage(event.getAuthor().getId(), "moderation.ban.ban_success"), mentionedMembers.get(0).getUser().getName()).queue();
 					}
 				}
 				catch (HierarchyException ignored) {
-					channel.sendMessage(I18n.getMessage("moderation.ban.unable_to_ban")).queue();
+					channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.ban.unable_to_ban")).queue();
 				}
 			}
 			else {
-				channel.sendMessage(I18n.getMessage("moderation.ban.no_permission")).queue();
+				channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.ban.no_permission")).queue();
 			}
 		}
 	}

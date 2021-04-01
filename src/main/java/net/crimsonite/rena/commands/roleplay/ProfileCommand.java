@@ -39,16 +39,16 @@ public class ProfileCommand extends Command {
 		
 		EmbedBuilder embed = new EmbedBuilder()
 				.setColor(roleColor)
-				.setTitle(I18n.getMessage("roleplay.profile.embed.title").formatted(user.getName()))
+				.setTitle(I18n.getMessage(event.getAuthor().getId(), "roleplay.profile.embed.title").formatted(user.getName()))
 				.setThumbnail(user.getEffectiveAvatarUrl())
-				.addField(I18n.getMessage("roleplay.profile.embed.rep"), String.valueOf(DBReadWrite.getValueInt(Table.USERS, user.getId(), "REP")), false)
-				.addField(I18n.getMessage("roleplay.profile.embed.level"), String.valueOf(DBReadWrite.getValueInt(Table.USERS, user.getId(), "LEVEL")), false)
-				.addField(I18n.getMessage("roleplay.profile.embed.exp"), String.valueOf(DBReadWrite.getValueInt(Table.USERS, user.getId(), "EXP")), false)
-				.addField(I18n.getMessage("roleplay.profile.embed.money"), String.valueOf(DBReadWrite.getValueInt(Table.USERS, user.getId(), "MONEY")), true)
-				.addField(I18n.getMessage("roleplay.profile.embed.hp"), String.valueOf(DBReadWrite.getValueInt(Table.USERS, user.getId(), "HP")), true)
-				.addField(I18n.getMessage("roleplay.profile.embed.mp"), String.valueOf(DBReadWrite.getValueInt(Table.USERS, user.getId(), "MP")), true)
-				.addField(I18n.getMessage("roleplay.profile.embed.atk"), String.valueOf(DBReadWrite.getValueInt(Table.USERS, user.getId(), "ATK")), true)
-				.addField(I18n.getMessage("roleplay.profile.embed.def"), String.valueOf(DBReadWrite.getValueInt(Table.USERS, user.getId(), "DEF")), true)
+				.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.profile.embed.rep"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "REP")), false)
+				.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.profile.embed.level"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "LEVEL")), false)
+				.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.profile.embed.exp"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "EXP")), false)
+				.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.profile.embed.money"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "MONEY")), true)
+				.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.profile.embed.hp"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "HP")), true)
+				.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.profile.embed.mp"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "MP")), true)
+				.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.profile.embed.atk"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "ATK")), true)
+				.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.profile.embed.def"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "DEF")), true)
 				.setFooter(event.getAuthor().getName(), user.getEffectiveAvatarUrl());
 		
 		event.getChannel().sendMessage(embed.build()).queue();
@@ -64,7 +64,7 @@ public class ProfileCommand extends Command {
 			}
 			catch (NullPointerException ignored) {
 				DBReadWrite.registerUser(event.getAuthor().getId());
-				channel.sendMessage(I18n.getMessage("roleplay.profile.error")).queue();
+				channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.profile.error")).queue();
 			}
 		}
 		else if (args.length >= 2) {
@@ -75,14 +75,14 @@ public class ProfileCommand extends Command {
 				}
 				catch (NullPointerException ignored) {
 					DBReadWrite.registerUser(event.getMessage().getMentionedUsers().get(0).getId());
-					channel.sendMessage(I18n.getMessage("roleplay.profile.error")).queue();
+					channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.profile.error")).queue();
 				}
 			}
 			else {
 				List<Member> listedMembers = FinderUtil.findMembers(args[1], event.getGuild());
 				
 				if (listedMembers.isEmpty()) {
-					channel.sendMessage(I18n.getMessage("roleplay.profile.player_not_found")).queue();
+					channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.profile.player_not_found")).queue();
 					event.getGuild().loadMembers();
 				}
 				else {
@@ -92,7 +92,7 @@ public class ProfileCommand extends Command {
 					}
 					catch (NullPointerException ignored) {
 						DBReadWrite.registerUser(listedMembers.get(0).getId());
-						channel.sendMessage(I18n.getMessage("roleplay.profile.error")).queue();
+						channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.profile.error")).queue();
 					}
 				}
 			}

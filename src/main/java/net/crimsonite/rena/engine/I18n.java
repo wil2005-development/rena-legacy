@@ -87,10 +87,10 @@ public class I18n {
 		String country = defaultCountry;
 		
 		try {
-			language = DBReadWrite.getValueString(Table.USERS, user, "language");
-			country = DBReadWrite.getValueString(Table.USERS, user, "country");
+			language = DBReadWrite.getValueString(Table.USERS, user, "Language");
+			country = DBReadWrite.getValueString(Table.USERS, user, "Country");
 		}
-		catch (NullPointerException ignored) {}
+		catch (NullPointerException | IllegalArgumentException ignored) {}
 		
 		return getMessage(language, country, key);
 	}
