@@ -28,33 +28,52 @@ public class ModifyAttributesCommand extends Command {
 	@Override
 	public void execute(MessageReceivedEvent event, String[] args) {
 		MessageChannel channel = event.getChannel();
+		Table table = null;
 		
 		String message = "```diff\n+SUCCESS: [%s] Operation executed successfully!```";
 		
 		try {
+			switch (args[5]) {
+				case "USERS":
+					table = Table.USERS;
+					
+					break;
+				case "PLAYERS":
+					table = Table.PLAYERS;
+					
+					break;
+				case "GUILDS":
+					table = Table.GUILDS;
+					
+					break;
+				default:
+					channel.sendMessage("```diff\n-ERROR: Table not specified.```").queue();
+					
+					break;
+			}
 			switch (args[1]) {
 				case "BOOLEAN":
-					DBReadWrite.modifyDataBoolean(Table.USERS, args[2], args[3], Boolean.parseBoolean(args[4]));
+					DBReadWrite.modifyDataBoolean(table, args[2], args[3], Boolean.parseBoolean(args[4]));
 					channel.sendMessageFormat(message, args[1]).queue();
 					
 					break;
 				case "INT":
-					DBReadWrite.modifyDataInt(Table.USERS, args[2], args[3], Integer.parseInt(args[4]));
+					DBReadWrite.modifyDataInt(table, args[2], args[3], Integer.parseInt(args[4]));
 					channel.sendMessageFormat(message, args[1]).queue();
 					
 					break;
 				case "INT_INCREMENT":
-					DBReadWrite.incrementValue(Table.USERS, args[2], args[3], Integer.parseInt(args[4]));
+					DBReadWrite.incrementValue(table, args[2], args[3], Integer.parseInt(args[4]));
 					channel.sendMessageFormat(message, args[1]).queue();
 					
 					break;
 				case "INT_DECREMENT":
-					DBReadWrite.decrementValue(Table.USERS, args[2], args[3], Integer.parseInt(args[4]));
+					DBReadWrite.decrementValue(table, args[2], args[3], Integer.parseInt(args[4]));
 					channel.sendMessageFormat(message, args[1]).queue();
 					
 					break;
 				case "STRING":
-					DBReadWrite.modifyDataString(Table.USERS, args[2], args[3], args[4]);
+					DBReadWrite.modifyDataString(table, args[2], args[3], args[4]);
 					channel.sendMessageFormat(message, args[1]).queue();
 					
 					break;
