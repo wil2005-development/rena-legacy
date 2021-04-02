@@ -32,6 +32,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.crimsonite.rena.commands.dev.ModifyAttributesCommand;
 import net.crimsonite.rena.commands.dev.ShutdownCommand;
 import net.crimsonite.rena.commands.dev.StatusReportCommand;
+import net.crimsonite.rena.commands.info.AvatarCommand;
 import net.crimsonite.rena.commands.info.GuildinfoCommand;
 import net.crimsonite.rena.commands.info.HelpCommand;
 import net.crimsonite.rena.commands.info.PingCommand;
@@ -109,6 +110,7 @@ public class RenaBot {
 				.setMemberCachePolicy(MemberCachePolicy.ALL)
 				.addEventListeners(
 						// Info Commands
+						commandRegistry.registerCommand(new AvatarCommand()),
 						commandRegistry.registerCommand(new UserinfoCommand()),
 						commandRegistry.registerCommand(new GuildinfoCommand()),
 						commandRegistry.registerCommand(new HelpCommand()),

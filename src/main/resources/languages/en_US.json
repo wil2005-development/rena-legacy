@@ -3,6 +3,12 @@
 		"cooldown_time": "**Oi oi! Slow down!!!** *This command is on cooldown for* `%s`."
 	},
 	"info": {
+		"avatar": {
+			"user_not_found": "*Err... I can't find that person. Try doing it again, I might've missed them*",
+			"embed": {
+				"title": "Showing %s's Avatar"
+			}
+		},
 		"guild_info": {
 			"embed": {
 				"title": "Showing informations for ",
