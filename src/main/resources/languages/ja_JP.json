@@ -15,7 +15,7 @@
 				"guild_id": "ギルドID",
 				"date_created": "Date Created",
 				"guild_owner": "ギルドオーナー",
-				"guild_members": "メンバー",
+				"guild_members": "ギルドメンバー",
 				"guild_roles": "Roles"
 			}
 		},
@@ -55,7 +55,7 @@
 				"number_of_commands": "コマンドの回数",
 				"times_command_used": "Times Command Used",
 				"guilds": "ギルド",
-				"users": "ユーザーズ",
+				"users": "ユーザー",
 				"shards": "Shards"
 			},
 			"code_block": {
