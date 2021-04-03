@@ -86,7 +86,7 @@ public class RenaBot {
 			System.exit(0);
 		}
 		catch (IOException ignored) {
-			logger.error("Failed to generate config file.");;
+			logger.error("Failed to generate config file.");
 		}
 	}
 	
