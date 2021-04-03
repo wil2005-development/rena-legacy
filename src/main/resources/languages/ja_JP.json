@@ -15,7 +15,7 @@
 				"guild_id": "ギルドID",
 				"date_created": "Date Created",
 				"guild_owner": "ギルドオーナー",
-				"guild_members": "ギルドメンバー",
+				"guild_members": "メンバー",
 				"guild_roles": "Roles"
 			}
 		},
@@ -55,7 +55,7 @@
 				"number_of_commands": "コマンドの回数",
 				"times_command_used": "Times Command Used",
 				"guilds": "ギルド",
-				"users": "ユーザー",
+				"users": "ユーザーズ",
 				"shards": "Shards"
 			},
 			"code_block": {
@@ -114,7 +114,7 @@
 			"error": "Oops! Try again?",
 			"embed": {
 				"title": "Rewards",
-				"money": "Money",
+				"money": "金",
 				"exp": "Exp"
 			}
 		},
@@ -135,7 +135,7 @@
 				"title": "You Won!!!",
 				"description": "You won the following:",
 				"exp": "EXP",
-				"money": "Money"
+				"money": "金"
 			},
 			"embed_lost": {
 				"title": "You Lost!!!",
@@ -148,7 +148,7 @@
 			"no_item": "**Sadly, there wasn't any item of value in there.**",
 			"embed": {
 				"title": "Looted Goods",
-				"money": "Money",
+				"money": "金",
 				"exp": "EXP"
 			}
 		},
@@ -160,7 +160,7 @@
 				"rep": "Rep",
 				"level": "Level",
 				"exp": "EXP",
-				"money": "Money",
+				"money": "金",
 				"hp": "HP",
 				"mp": "MP",
 				"atk": "ATK",
