@@ -41,7 +41,7 @@ public class LanguagePreferenceCommand extends Command {
 			
 			String language = "en";
 			String country = "US";
-			List<String> validCombinations = new ArrayList<String>(Arrays.asList("en_US", "fil_PH"));
+			List<String> validCombinations = new ArrayList<String>(Arrays.asList("en_US", "fil_PH", "ja_JP"));
 			
 			for (String combination : validCombinations) {
 				if (args[1].contains(combination)) {

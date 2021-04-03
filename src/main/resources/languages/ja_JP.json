@@ -12,10 +12,10 @@
 		"guild_info": {
 			"embed": {
 				"title": "Showing informations for ",
-				"guild_id": "Guild ID",
+				"guild_id": "ギルドID",
 				"date_created": "Date Created",
-				"guild_owner": "Guild Owner",
-				"guild_members": "Members",
+				"guild_owner": "ギルドオーナー",
+				"guild_members": "ギルドメンバー",
 				"guild_roles": "Roles"
 			}
 		},
@@ -43,7 +43,7 @@
 				"mentionable": "Mentionable",
 				"date_created": "Date Created",
 				"role_color": "Color",
-				"guild": "Guild",
+				"guild": "ギルド",
 				"permissions": "Permissions"
 			}
 		},
@@ -52,10 +52,10 @@
 				"title": "Rena's Informations",
 				"version": "Version",
 				"uptime": "Uptime",
-				"number_of_commands": "Number of Commands",
+				"number_of_commands": "コマンドの回数",
 				"times_command_used": "Times Command Used",
-				"guilds": "Guilds",
-				"users": "Users",
+				"guilds": "ギルド",
+				"users": "ユーザー",
 				"shards": "Shards"
 			},
 			"code_block": {
