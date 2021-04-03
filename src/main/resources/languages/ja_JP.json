@@ -15,7 +15,7 @@
 				"guild_id": "ギルドID",
 				"date_created": "Date Created",
 				"guild_owner": "ギルドオーナー",
-				"guild_members": "ギルドメンバー",
+				"guild_members": "メンバー",
 				"guild_roles": "Roles"
 			}
 		},
