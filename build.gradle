@@ -20,7 +20,7 @@ repositories {
 
 dependencies {
 	// CORE
-	implementation 'net.dv8tion:JDA:4.2.0_227'
+	implementation 'net.dv8tion:JDA:4.2.0_247'
 	implementation 'com.jagrosh:jda-utilities-commons:3.0.5'
 
 	// LOGGER
