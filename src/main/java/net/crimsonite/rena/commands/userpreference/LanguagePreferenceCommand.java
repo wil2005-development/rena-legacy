@@ -17,6 +17,10 @@
 
 package net.crimsonite.rena.commands.userpreference;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import net.crimsonite.rena.commands.Command;
 import net.crimsonite.rena.database.DBReadWrite;
 import net.crimsonite.rena.database.DBReadWrite.Table;
@@ -33,29 +37,24 @@ public class LanguagePreferenceCommand extends Command {
 		MessageChannel channel = event.getChannel();
 		
 		try {
-			boolean languageCheck = false;
-			boolean countryCheck = false;
+			boolean combinationCheck = false;
 			
 			String language = "en";
 			String country = "US";
-			String[] supportedLanguages = {"en", "fil"};
-			String[] supportedCountries = {"US", "PH"};
+			List<String> validCombinations = new ArrayList<String>(Arrays.asList("en_US", "fil_PH"));
 			
-			for (String lang : supportedLanguages) {
-				if (args[1].contains(lang)) {
-					language = args[1];
-					languageCheck = true;
+			for (String combination : validCombinations) {
+				if (args[1].contains(combination)) {
+					String[] values = args[1].split("\\_");
+					
+					language = values[0];
+					country = values[1];
+					
+					combinationCheck = true;
 				}
 			}
 			
-			for (String countryItem : supportedCountries) {
-				if (args[2].contains(countryItem)) {
-					country = args[2];
-					countryCheck = true;
-				}
-			}
-			
-			if (languageCheck && countryCheck == true) {
+			if (combinationCheck == true) {
 				DBReadWrite.modifyDataString(Table.USERS, author.getId(), "Language", language);
 				DBReadWrite.modifyDataString(Table.USERS, author.getId(), "Country", country);
 				
@@ -85,7 +84,7 @@ public class LanguagePreferenceCommand extends Command {
 
 	@Override
 	public long cooldown() {
-		return 60;
+		return 0;
 	}
 
 }
