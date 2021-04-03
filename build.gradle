@@ -31,7 +31,7 @@ dependencies {
 	/* implementation 'redis.clients:jedis:3.5.1' */
 	
 	// FILE HANDLER
-	implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.1'
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.2'
 }
 
 task filterVersion(type: Copy) {
