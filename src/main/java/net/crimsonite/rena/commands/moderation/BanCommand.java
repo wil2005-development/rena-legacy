@@ -60,7 +60,7 @@ public class BanCommand extends Command {
 				}
 			}
 			else {
-				channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.ban.no_permission")).queue();
+				channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.ban.no_permission").formatted(":warning:")).queue();
 			}
 		}
 	}

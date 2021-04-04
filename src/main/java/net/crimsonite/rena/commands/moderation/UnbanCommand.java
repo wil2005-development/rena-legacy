@@ -54,7 +54,7 @@ public class UnbanCommand extends Command {
 				}
 			}
 			else {
-				channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.unban.no_permission")).queue();
+				channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.unban.no_permission").formatted(":warning:")).queue();
 			}
 		}
 		catch (IllegalArgumentException ignored) {

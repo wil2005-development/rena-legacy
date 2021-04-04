@@ -68,20 +68,26 @@ public abstract class Command extends ListenerAdapter {
 				long remainingCooldownShortened = remainingCooldown(author.getId(), command)-TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
 				
 				if (remainingCooldownShortened > 0) {
-					long hours = remainingCooldownShortened / 3600;
-					long minutes = (remainingCooldownShortened % 3600) / 60;
-					long seconds = remainingCooldownShortened % 60;
+					long cooldownHours = remainingCooldownShortened / 3600;
+					long cooldownMinutes = (remainingCooldownShortened % 3600) / 60;
+					long cooldownSeconds = remainingCooldownShortened % 60;
 					
-					String timeFormat = "%dh, %dm, %ds".formatted(hours, minutes, seconds);
+					String message = I18n.getMessage(event.getAuthor().getId(), "command.cooldown_duration_HMS");
 					
-					if (hours == 0 && minutes == 0) {
-						timeFormat = "%ds".formatted(seconds);
+					if (cooldownHours == 0 && cooldownMinutes == 0) {
+						message = I18n.getMessage(event.getAuthor().getId(), "command.cooldown_duration_S");
 					}
-					else if (hours == 0) {
-						timeFormat = "%dm, %ds".formatted(hours, minutes);
+					else if (cooldownSeconds == 0 && cooldownMinutes == 0) {
+						message = I18n.getMessage(event.getAuthor().getId(), "command.cooldown_duration_H");
+					}
+					else if (cooldownHours == 0) {
+						message = I18n.getMessage(event.getAuthor().getId(), "command.cooldown_duration_MS");
+					}
+					else if (cooldownSeconds == 0) {
+						message = I18n.getMessage(event.getAuthor().getId(), "command.embed.cooldown_duration_HM");
 					}
 					
-					event.getChannel().sendMessageFormat(I18n.getMessage("command.cooldown_time"), timeFormat).queue();
+					event.getChannel().sendMessageFormat(message.formatted(":stopwatch:", cooldownHours, cooldownMinutes, cooldownSeconds)).queue();
 					
 					return;
 				}

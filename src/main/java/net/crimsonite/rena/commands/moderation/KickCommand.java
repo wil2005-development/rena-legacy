@@ -60,7 +60,7 @@ public class KickCommand extends Command {
 				}
 			}
 			else {
-				channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.kick.no_permission")).queue();
+				channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.kick.no_permission").formatted(":warning:")).queue();
 			}
 		}
 	}
