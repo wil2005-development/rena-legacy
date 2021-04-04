@@ -1,6 +1,10 @@
 {
 	"command": {
-		"cooldown_time": "**Oi oi! Slow down!!!** *This command is on cooldown for* `%s`."
+		"cooldown_duration_S": "%1$s *Oi oi! Slow down!!! This command is on cooldown for **%4$ds**.*",
+		"cooldown_duration_MS": "%1$s *Oi oi! Slow down!!! This command is on cooldown for **%3$dm, %4ds**.*",
+		"cooldown_duration_HMS": "%1$s *Oi oi! Slow down!!! This command is on cooldown for **%2$dh, %3$dm, %4$ds**.*",
+		"cooldown_duration_HM": "%1$s *Oi oi! Slow down!!! This command is on cooldown for **%2$dh, %3$dm**.*",
+		"cooldown_duration_H": "%1$s *Oi oi! Slow down!!! This command is on cooldown for **%2$dh**.*"
 	},
 	"info": {
 		"avatar": {
@@ -85,7 +89,7 @@
 			"ban_with_reason_success": "**Successfully banned %s! Reason: %s**",
 			"ban_success": "**Successfully banned %s!**",
 			"unable_to_ban": "**Sorry, but you can't ban that person.**",
-			"no_permission": "**Sorry, but you dont have the permission to do that.\nRequired: BAN_MEMBERS permission**"
+			"no_permission": "%s **Sorry, but you dont have the permission to do that.\nRequired: BAN_MEMBERS permission**"
 		},
 		"kick": {
 			"no_mentioned_member": "**You have to mention a user to kick.**",
@@ -93,20 +97,20 @@
 			"kick_with_reason_success": "**Successfully kicked %s! Reason: %s**",
 			"kick_success": "**Successfully kicked %s!**",
 			"unable_to_kick": "**Sorry, but you can't kick that person.**",
-			"no_permission": "**Sorry, but you dont have the permission to do that.\nRequired: KICK_MEMBERS permission**"
+			"no_permission": "%s **Sorry, but you dont have the permission to do that.\nRequired: KICK_MEMBERS permission**"
 		},
 		"unban": {
 			"no_id_provided": "**You have to specify the ID of the user to unban.**",
 			"unban_success": "**Successfully unbanned %s!**",
 			"unban_with_reason_success": "**Successfully unbanned %s! Reason: %s**",
-			"no_permission": "**Sorry, but you dont have the permission to do that.\nRequired: BAN_MEMBERS permission**",
+			"no_permission": "%s **Sorry, but you dont have the permission to do that.\nRequired: BAN_MEMBERS permission**",
 			"invalid_id": "**That is not a valid ID.**",
 			"user_not_found": "**That user isn't blacklisted from your server, maybe they does not exist at all.**"
 		}
 	},
 	"roleplay": {
 		"daily": {
-			"claimed": "**You claimed your** G`%d` **daily!!!**",
+			"claimed": "*Congratulations! You claimed your **G%d** daily!!!*",
 			"error": "Oops! Try again?"
 		},
 		"expedition": {
