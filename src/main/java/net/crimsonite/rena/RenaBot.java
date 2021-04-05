@@ -32,6 +32,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.crimsonite.rena.commands.dev.ModifyAttributesCommand;
 import net.crimsonite.rena.commands.dev.ShutdownCommand;
 import net.crimsonite.rena.commands.dev.StatusReportCommand;
+import net.crimsonite.rena.commands.imageboard.DanbooruCommand;
+import net.crimsonite.rena.commands.imageboard.SafebooruCommand;
 import net.crimsonite.rena.commands.info.AvatarCommand;
 import net.crimsonite.rena.commands.info.GuildinfoCommand;
 import net.crimsonite.rena.commands.info.HelpCommand;
@@ -122,6 +124,13 @@ public class RenaBot {
 						commandRegistry.registerCommand(new BanCommand()),
 						commandRegistry.registerCommand(new KickCommand()),
 						commandRegistry.registerCommand(new UnbanCommand()),
+						
+						// Miscellaneous Commands
+						commandRegistry.registerCommand(new RollCommand()),
+						
+						// Imageboard Commands
+						commandRegistry.registerCommand(new DanbooruCommand()),
+						commandRegistry.registerCommand(new SafebooruCommand()),
 						
 						// Roleplaying Commands
 						commandRegistry.registerCommand(new ExpeditionCommand()),
