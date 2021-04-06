@@ -107,7 +107,7 @@ public class I18n {
 			language = DBReadWrite.getValueString(Table.USERS, user, "Language");
 			country = DBReadWrite.getValueString(Table.USERS, user, "Country");
 		}
-		catch (NullPointerException | IllegalArgumentException | ExceptionInInitializerError ignored) {}
+		catch (Exception | Error ignored) {}
 		
 		return getMessage(language, country, key);
 	}
