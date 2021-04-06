@@ -31,7 +31,7 @@ public class DanbooruCommand extends Command {
 		EmbedBuilder embed = null;
 		
 		try {
-			embed = ImageboardRequester.Unfiltered.getUnfilteredEmbed(Imageboard.DANBOORU, event, "https://danbooru.donmai.us/posts/random");
+			embed = ImageboardRequester.getEmbed(Imageboard.DANBOORU, event, "https://danbooru.donmai.us/posts/random", args);
 		}
 		catch (IOException ignored) {
 			embed = new EmbedBuilder()

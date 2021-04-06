@@ -31,7 +31,7 @@ public class SafebooruCommand extends Command {
 		EmbedBuilder embed = null;
 		
 		try {
-			embed = ImageboardRequester.Unfiltered.getUnfilteredEmbed(Imageboard.SAFEBOORU, event, "https://safebooru.donmai.us/posts/random");
+			embed = ImageboardRequester.getEmbed(Imageboard.SAFEBOORU, event, "https://safebooru.donmai.us/posts/random", args);
 		}
 		catch (IOException ignored) {
 			embed = new EmbedBuilder()
