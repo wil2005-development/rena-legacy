@@ -142,9 +142,6 @@ public class RenaBot {
 						// User Preference Commands
 						commandRegistry.registerCommand(new LanguagePreferenceCommand()),
 						
-						// Miscellaneous Commands
-						commandRegistry.registerCommand(new RollCommand()),
-						
 						// Developer/Debug Command
 						new ModifyAttributesCommand(),
 						new ShutdownCommand(),
