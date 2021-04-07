@@ -95,9 +95,10 @@ public class ImageboardRequester {
 				.build();
 		
 		Response response = client.newCall(request).execute();
+		JsonNode jsonData = mapper.readValue(response.body().string(), JsonNode.class);
 		
-		if (!imageboardType.isNsfw) {
-			imageUrl = mapper.readValue(response.body().string(), JsonNode.class).get("file_url").asText();
+		if (!(imageboardType.isNsfw || jsonData.get("rating").asText() == "e")) {
+			imageUrl = jsonData.get("file_url").asText();
 		}
 		else {
 			imageUrl = I18n.getMessage(event.getAuthor().getId(), "imageboard.imageboard_requester.image_is_nsfw");
@@ -166,7 +167,7 @@ public class ImageboardRequester {
 		Response response = client.newCall(request).execute();
 		JsonNode jsonValue = mapper.readValue(response.body().string(), JsonNode.class);
 		
-		if (!imageboardType.isNsfw) {
+		if (!(imageboardType.isNsfw || jsonValue.get("rating").asText() == "e")) {
 			embed = new EmbedBuilder()
 					.setColor(roleColor)
 					.setTitle(imageboardType.stringValue, jsonValue.get("file_url").asText())
