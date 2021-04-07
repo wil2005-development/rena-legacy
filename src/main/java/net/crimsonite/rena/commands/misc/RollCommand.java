@@ -33,11 +33,18 @@ public class RollCommand extends Command {
 		
 		if (args.length == 2) {
 			try {
-				int face = Integer.parseInt(args[1]);
-				int result = rng.nextInt(face-1)+1;
-				channel.sendMessageFormat(":game_die: %d (1-%d)", result, face).queue();
+				String[] die = args[1].split("d");
+				int numberOfDice = Integer.parseInt(die[0]);
+				int face = Integer.parseInt(die[1]);
+				int result = 0;
+				
+				for (int i = 0; i < numberOfDice; i++) {
+					result += rng.nextInt(face-1)+1;
+				}
+				
+				channel.sendMessageFormat(":game_die: %d (1-%d)", result, face * numberOfDice).queue();
 			}
-			catch (NumberFormatException ignored) {
+			catch (NumberFormatException | ArrayIndexOutOfBoundsException ignored) {
 				channel.sendMessageFormat(I18n.getMessage(event.getAuthor().getId(), "misc.dice.unable_to_roll")).queue();
 			}
 		}
