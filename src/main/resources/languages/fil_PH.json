@@ -6,6 +6,11 @@
 		"cooldown_duration_HM": "%1$s *Oi oi! Slow down!!! This command is on cooldown for **%2$dh, %3$dm**.*",
 		"cooldown_duration_H": "%1$s *Oi oi! Slow down!!! This command is on cooldown for **%2$dh**.*"
 	},
+	"imageboard": {
+		"imageboard_requester": {
+			"image_is_nsfw": "**Sorry, this image is only available for NSFW channels.**"
+		}
+	},
 	"info": {
 		"avatar": {
 			"user_not_found": "*Err... I can't find that person. Try doing it again, I might've missed them*",
