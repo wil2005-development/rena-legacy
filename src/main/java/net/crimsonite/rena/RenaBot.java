@@ -42,6 +42,7 @@ import net.crimsonite.rena.commands.info.RoleinfoCommand;
 import net.crimsonite.rena.commands.info.StatusCommand;
 import net.crimsonite.rena.commands.info.UserinfoCommand;
 import net.crimsonite.rena.commands.misc.DiceCommand;
+import net.crimsonite.rena.commands.misc.EightBallCommand;
 import net.crimsonite.rena.commands.moderation.BanCommand;
 import net.crimsonite.rena.commands.moderation.KickCommand;
 import net.crimsonite.rena.commands.moderation.UnbanCommand;
@@ -127,6 +128,7 @@ public class RenaBot {
 						
 						// Miscellaneous Commands
 						commandRegistry.registerCommand(new DiceCommand()),
+						commandRegistry.registerCommand(new EightBallCommand()),
 						
 						// Imageboard Commands
 						commandRegistry.registerCommand(new DanbooruCommand()),
