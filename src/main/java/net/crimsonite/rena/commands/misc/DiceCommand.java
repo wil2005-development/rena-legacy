@@ -24,7 +24,7 @@ import net.crimsonite.rena.engine.I18n;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-public class RollCommand extends Command {
+public class DiceCommand extends Command {
 
 	@Override
 	public void execute(MessageReceivedEvent event, String[] args) {
