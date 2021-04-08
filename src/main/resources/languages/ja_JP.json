@@ -85,6 +85,17 @@
 	"misc": {
 		"dice": {
 			"unable_to_roll": "*Sorry, I can't roll that for you*"
+		},
+		"8ball": {
+			"no_question": "*You didn't even ask a question!!!'*",
+			"answers": [
+				"*Yes!*",
+				"*No*",
+				"*Probably*",
+				"*Probably not*",
+				"*Not sure*",
+				"*Ask again...?*"
+			]
 		}
 	},
 	"moderation": {
