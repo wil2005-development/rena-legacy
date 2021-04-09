@@ -37,19 +37,40 @@ public class ProfileCommand extends Command {
 	private static void sendEmbed(MessageReceivedEvent event, User user) {
 		Color roleColor = event.getGuild().retrieveMember(user).complete().getColor();
 		
+		String defaultUserStatus = "";
+		String defaultUserBirthday = I18n.getMessage(user.getId(), "roleplay.profile.embed.no_birthday");
+		String userStatus = null;
+		String userBirthday = null;
+		
+		try {
+			userStatus = DBReadWrite.getValueString(Table.USERS, event.getAuthor().getId(), "Status");
+			userBirthday = DBReadWrite.getValueString(Table.PLAYERS, event.getAuthor().getId(), "Birthday");
+			
+			if (userStatus == null) {
+				userStatus = defaultUserStatus;
+			}
+			if(userBirthday == null) {
+				userBirthday = defaultUserBirthday;
+			}
+		}
+		catch (NullPointerException ignored) {}
+		
 		EmbedBuilder embed = new EmbedBuilder()
 				.setColor(roleColor)
-				.setTitle(I18n.getMessage(event.getAuthor().getId(), "roleplay.profile.embed.title").formatted(user.getName()))
+				.setTitle(I18n.getMessage(user.getId(), "roleplay.profile.embed.title").formatted(user.getName()))
+				.setDescription(userStatus)
 				.setThumbnail(user.getEffectiveAvatarUrl())
-				.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.profile.embed.rep"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "REP")), false)
-				.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.profile.embed.level"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "LEVEL")), false)
-				.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.profile.embed.exp"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "EXP")), false)
-				.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.profile.embed.money"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "MONEY")), true)
-				.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.profile.embed.hp"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "HP")), true)
-				.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.profile.embed.mp"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "MP")), true)
-				.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.profile.embed.atk"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "ATK")), true)
-				.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.profile.embed.def"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "DEF")), true)
-				.setFooter(event.getAuthor().getName(), user.getEffectiveAvatarUrl());
+				.addField(I18n.getMessage(user.getId(), "roleplay.profile.embed.rep"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "REP")), false)
+				.addField(I18n.getMessage(user.getId(), "roleplay.profile.embed.level"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "LEVEL")), false)
+				.addField(I18n.getMessage(user.getId(), "roleplay.profile.embed.exp"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "EXP")), false)
+				.addField(I18n.getMessage(user.getId(), "roleplay.profile.embed.money"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "MONEY")), true)
+				.addField(I18n.getMessage(user.getId(), "roleplay.profile.embed.hp"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "HP")), true)
+				.addField(I18n.getMessage(user.getId(), "roleplay.profile.embed.mp"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "MP")), true)
+				.addField(I18n.getMessage(user.getId(), "roleplay.profile.embed.atk"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "ATK")), true)
+				.addField(I18n.getMessage(user.getId(), "roleplay.profile.embed.def"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "DEF")), true)
+				.addBlankField(false)
+				.addField(I18n.getMessage(user.getId(), "roleplay.profile.embed.birthday"), userBirthday, false)
+				.setFooter(event.getAuthor().getName(), event.getAuthor().getEffectiveAvatarUrl());
 		
 		event.getChannel().sendMessage(embed.build()).queue();
 	}
