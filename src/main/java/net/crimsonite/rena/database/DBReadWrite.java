@@ -53,6 +53,8 @@ public class DBReadWrite {
 				r.hashMap("id", UID)
 				.with("Language", "en")
 				.with("Country", "US")
+				.with("Status", null)
+				.with("Birthday", null)
 				)).runNoReply(conn);
 		
 		db.table(Table.PLAYERS.stringValue).insert(r.array(
