@@ -184,7 +184,9 @@
 				"hp": "HP",
 				"mp": "MP",
 				"atk": "ATK",
-				"def": "DEF"
+				"def": "DEF",
+				"birthday": "Birthday",
+				"no_birthday": "Not set"
 			}
 		}
 	},
