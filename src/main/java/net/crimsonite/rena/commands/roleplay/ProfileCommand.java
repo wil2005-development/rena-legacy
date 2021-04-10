@@ -43,8 +43,8 @@ public class ProfileCommand extends Command {
 		String userBirthday = null;
 		
 		try {
-			userStatus = DBReadWrite.getValueString(Table.USERS, event.getAuthor().getId(), "Status");
-			userBirthday = DBReadWrite.getValueString(Table.PLAYERS, event.getAuthor().getId(), "Birthday");
+			userStatus = DBReadWrite.getValueString(Table.USERS, user.getId(), "Status");
+			userBirthday = DBReadWrite.getValueString(Table.PLAYERS, user.getId(), "Birthday");
 			
 			if (userStatus == null) {
 				userStatus = defaultUserStatus;
@@ -77,43 +77,78 @@ public class ProfileCommand extends Command {
 
 	@Override
 	public void execute(MessageReceivedEvent event, String[] args) {
+		User author = event.getAuthor();
 		MessageChannel channel = event.getChannel();
 		
 		if (args.length == 1) {
 			try {
-				sendEmbed(event, event.getAuthor());
+				sendEmbed(event, author);
 			}
 			catch (NullPointerException ignored) {
 				DBReadWrite.registerUser(event.getAuthor().getId());
-				channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.profile.error")).queue();
+				channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.profile.error")).queue();
 			}
 		}
 		else if (args.length >= 2) {
-			if (!event.getMessage().getMentionedMembers().isEmpty()) {
-				try {
-					User user = event.getMessage().getMentionedUsers().get(0);
-					sendEmbed(event, user);
+			if (args[1].equals("-set")) {
+				if (args.length == 2) {
+					channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.profile.nothing_to_set")).queue();
 				}
-				catch (NullPointerException ignored) {
-					DBReadWrite.registerUser(event.getMessage().getMentionedUsers().get(0).getId());
-					channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.profile.error")).queue();
+				else {
+					switch (args[2]) {
+						case "status":
+							if (args.length >= 4) {
+								String status = "";
+								
+								for (int i = 3; i < args.length; i++) {
+									status = status.concat(args[i] + " ");
+								}
+								
+								status = status.substring(0, status.length() - 1);
+								
+								DBReadWrite.modifyDataString(Table.USERS, author.getId(), "Status", status);
+								
+								channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.profile.set_status_success").formatted(status)).queue();
+							}
+							else {
+								channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.profile.set_status_failed")).queue();
+							}
+							
+							break;
+						default:
+							channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.profile.cannot_set")).queue();
+							
+							break;
+					}
 				}
 			}
 			else {
-				List<Member> listedMembers = FinderUtil.findMembers(args[1], event.getGuild());
-				
-				if (listedMembers.isEmpty()) {
-					channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.profile.player_not_found")).queue();
-					event.getGuild().loadMembers();
-				}
-				else {
+				if (!event.getMessage().getMentionedMembers().isEmpty()) {
 					try {
-						User user = listedMembers.get(0).getUser();
+						User user = event.getMessage().getMentionedUsers().get(0);
 						sendEmbed(event, user);
 					}
 					catch (NullPointerException ignored) {
-						DBReadWrite.registerUser(listedMembers.get(0).getId());
-						channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.profile.error")).queue();
+						DBReadWrite.registerUser(event.getMessage().getMentionedUsers().get(0).getId());
+						channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.profile.error")).queue();
+					}
+				}
+				else {
+					List<Member> listedMembers = FinderUtil.findMembers(args[1], event.getGuild());
+					
+					if (listedMembers.isEmpty()) {
+						channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.profile.player_not_found")).queue();
+						event.getGuild().loadMembers();
+					}
+					else {
+						try {
+							User user = listedMembers.get(0).getUser();
+							sendEmbed(event, user);
+						}
+						catch (NullPointerException ignored) {
+							DBReadWrite.registerUser(listedMembers.get(0).getId());
+							channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.profile.error")).queue();
+						}
 					}
 				}
 			}
