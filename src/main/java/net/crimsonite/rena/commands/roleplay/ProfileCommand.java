@@ -44,7 +44,7 @@ public class ProfileCommand extends Command {
 		
 		try {
 			userStatus = DBReadWrite.getValueString(Table.USERS, user.getId(), "Status");
-			userBirthday = DBReadWrite.getValueString(Table.PLAYERS, user.getId(), "Birthday");
+			userBirthday = DBReadWrite.getValueString(Table.USERS, user.getId(), "Birthday");
 			
 			if (userStatus == null) {
 				userStatus = defaultUserStatus;
@@ -112,6 +112,50 @@ public class ProfileCommand extends Command {
 							}
 							else {
 								channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.profile.set_status_failed")).queue();
+							}
+							
+							break;
+						case "birthday":
+							if (args.length >= 4) {
+								String[] birthdayAsArray = args[3].split("\\-");
+								String birthday = "";
+								
+								if (birthdayAsArray.length == 2) {
+									try {
+										int month = Integer.parseInt(birthdayAsArray[0]);
+										int day = Integer.parseInt(birthdayAsArray[1]);
+										
+										if (month > 12 || month < 0) {
+											channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.profile.invalid_month")).queue();
+											
+											return;
+										}
+										if(day > 31 || day < 0) {
+											channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.profile.invalid_day")).queue();
+											
+											return;
+										}
+										
+										birthday = "%1$s-%2$s".formatted(month, day);
+									}
+									catch (NumberFormatException ignored) {
+										channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.profile.illegal_birthday_number")).queue();
+										
+										return;
+									}
+								}
+								else {
+									channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.profile.illegal_birthday")).queue();
+									
+									return;
+								}
+																
+								DBReadWrite.modifyDataString(Table.USERS, author.getId(), "Birthday", birthday);
+								
+								channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.profile.set_birthday_success").formatted(birthday)).queue();
+							}
+							else {
+								channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.profile.set_birthday_failed").formatted(args[2])).queue();
 							}
 							
 							break;
