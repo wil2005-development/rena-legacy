@@ -177,6 +177,12 @@
 			"nothing_to_set": "*W-what are you even trying to set?*",
 			"set_status_success": "**Successfully set status to *%s***",
 			"set_status_failed": "**You didn't specify what to write in your status.**",
+			"set_birthday_success": "**Successfully set birthday to *%s***",
+			"set_birthday_failed": "**You didn't specify what to write in your birthday.**",
+			"invalid_month": "*Thats... not a valid month.*",
+			"invalid_day": "*That's... not a valid day.*",
+			"illegal_birthday": "*That's... not a valid birthday.*",
+			"illegal_birthday_number": "*That's not even a number!'*",
 			"cannot_set": "*Erm... I can't set that for you.*",
 			"player_not_found": "*Err... I can't find that person. Try doing it again, I might've missed them*",
 			"embed": {
