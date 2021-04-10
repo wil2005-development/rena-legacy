@@ -44,7 +44,6 @@ public class DBReadWrite {
 	/**
 	 * (Write)Registers the user to the database when called.
 	 * 
-	 * @param table -The table to modify.
 	 * @param UID -The Unique ID of the user.
 	 */
 	public static void registerUser(String UID) {
@@ -72,10 +71,22 @@ public class DBReadWrite {
 	}
 	
 	/**
+	 * (Write)Registers the guild to the database when called.
+	 * 
+	 * @param UID -The Unique ID of the guild.
+	 */
+	public static void registerGuild(String UID) {
+		db.table(Table.GUILDS.stringValue).insert(r.array(
+				r.hashMap("id", UID)
+				.with("Prefix", null)
+				)).runNoReply(conn);
+	}
+	
+	/**
 	 * (Write)Increments an integer value from db.
 	 * 
 	 * @param table -The table to modify.
-	 * @param UID -The Unique ID of the user.
+	 * @param UID -The Unique ID of the user/guild.
 	 * @param key -The db variable to be incremented.
 	 * @param val -The amount to increment.
 	 * @throws IllegalArgumentException If the provided value is a negative number
@@ -97,7 +108,7 @@ public class DBReadWrite {
 	 * (Write)Decrements an integer value from db.
 	 * 
 	 * @param table -The table to modify.
-	 * @param UID -The Unique ID of the user.
+	 * @param UID -The Unique ID of the user/guild.
 	 * @param key -The db variable to be decremented.
 	 * @param val -The amount to decrement.
 	 * @throws IllegalArgumentException If the provided value is a negative number
@@ -119,7 +130,7 @@ public class DBReadWrite {
 	 * (Write)Modifies a String value from db.
 	 * 
 	 * @param table -The table to modify.
-	 * @param UID -The Unique ID of the user.
+	 * @param UID -The Unique ID of the user/guild.
 	 * @param key -the db variable to be modified.
 	 * @param val -The value to exchange.
 	 * @throws NullPointerException If the user is not found in the database.
@@ -132,7 +143,7 @@ public class DBReadWrite {
 	 * (Write)Modifies an Int value from db.
 	 * 
 	 * @param table -The table to modify.
-	 * @param UID -The Unique ID of the user.
+	 * @param UID -The Unique ID of the user/guild.
 	 * @param key -The db variable to be modified.
 	 * @param val =The value to exchange.
 	 * @throws NullPointerException If the user is not found in the database.
@@ -145,7 +156,7 @@ public class DBReadWrite {
 	 * (Write)Modifies a Boolean value from db.
 	 * 
 	 * @param table -The table to modify.
-	 * @param UID -The Unique ID of the user.
+	 * @param UID -The Unique ID of the user/guild.
 	 * @param key -The db variable to be modified.
 	 * @param val -The value to exchange.
 	 * @throws NullPointerException If the user is not found in the database.
@@ -158,7 +169,7 @@ public class DBReadWrite {
 	 * (Read)Returns the String value of the specified key.
 	 * 
 	 * @param table -The table to modify.
-	 * @param UID -The Unique ID of the user.
+	 * @param UID -The Unique ID of the user/guild.
 	 * @param key -The db variable to get.
 	 * @return value of key
 	 * @throws NullPointerException If the user is not found in the database.
@@ -173,7 +184,7 @@ public class DBReadWrite {
 	 * (Read)Returns the Integer value of the specified key.
 	 * 
 	 * @param table -The table to modify.
-	 * @param UID -The Unique ID of the user.
+	 * @param UID -The Unique ID of the user/guild.
 	 * @param key -The db variable to get.
 	 * @return value of key
 	 * @throws NullPointerException If the user is not found in the database.
@@ -188,7 +199,7 @@ public class DBReadWrite {
 	 * (Read)Returns the Boolean value of the specified key.
 	 * 
 	 * @param table -The table to modify.
-	 * @param UID -The Unique ID of the user.
+	 * @param UID -The Unique ID of the user/guild.
 	 * @param key -The db variable to get.
 	 * @return value of key
 	 * @throws NullPointerException If the user is not found in the database.

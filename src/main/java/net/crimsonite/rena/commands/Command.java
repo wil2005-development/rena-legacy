@@ -21,6 +21,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 import net.crimsonite.rena.RenaBot;
+import net.crimsonite.rena.database.DBReadWrite;
+import net.crimsonite.rena.database.DBReadWrite.Table;
 import net.crimsonite.rena.engine.I18n;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
@@ -59,7 +61,7 @@ public abstract class Command extends ListenerAdapter {
 			}
 		}
 		
-		if (containsCommand(event.getMessage())) {
+		if (containsCommand(event.getMessage(), event)) {
 			String command = getCommandName();
 			
 			timesCommandUsed++;
@@ -123,8 +125,22 @@ public abstract class Command extends ListenerAdapter {
 		cooldownCache.put(key, cooldownDuration);
 	}
 
-	protected boolean containsCommand(Message message) {
-		return (RenaBot.prefix+getCommandName()).equalsIgnoreCase(commandArgs(message)[0]);
+	protected boolean containsCommand(Message message, MessageReceivedEvent event) {
+		String defaultPrefix = RenaBot.prefix;
+		String prefix = null;
+		
+		try {
+			prefix = DBReadWrite.getValueString(Table.GUILDS, event.getGuild().getId(), "Prefix");
+			
+			if (prefix == null) {
+				prefix = defaultPrefix;
+			}
+		}
+		catch (Exception | Error ignored) {
+			prefix = defaultPrefix;
+		}
+		
+		return (prefix+getCommandName()).equalsIgnoreCase(commandArgs(message)[0]);
 	}
 	
 	protected String[] commandArgs(Message message) {
