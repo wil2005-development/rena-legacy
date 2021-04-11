@@ -45,6 +45,7 @@ import net.crimsonite.rena.commands.misc.DiceCommand;
 import net.crimsonite.rena.commands.misc.EightBallCommand;
 import net.crimsonite.rena.commands.moderation.BanCommand;
 import net.crimsonite.rena.commands.moderation.KickCommand;
+import net.crimsonite.rena.commands.moderation.SetGuildPrefixCommand;
 import net.crimsonite.rena.commands.moderation.UnbanCommand;
 import net.crimsonite.rena.commands.roleplay.DailyCommand;
 import net.crimsonite.rena.commands.roleplay.ExpeditionCommand;
@@ -124,6 +125,7 @@ public class RenaBot {
 						// Moderation Commands
 						commandRegistry.registerCommand(new BanCommand()),
 						commandRegistry.registerCommand(new KickCommand()),
+						commandRegistry.registerCommand(new SetGuildPrefixCommand()),
 						commandRegistry.registerCommand(new UnbanCommand()),
 						
 						// Miscellaneous Commands
