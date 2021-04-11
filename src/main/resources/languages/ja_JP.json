@@ -115,6 +115,12 @@
 			"unable_to_kick": "**Sorry, but you can't kick that person.**",
 			"no_permission": "%s **Sorry, but you dont have the permission to do that.\nRequired: KICK_MEMBERS permission**"
 		},
+		"guild_prefix": {
+			"error": "Oops! Try again?",
+			"success": "**Successfuly set guild prefix to *%s***",
+			"failed": "**You can't set a prefix to nothing.**",
+			"no_permission": "%s **Sorry, but you dont have the permission to do that.\nRequired: ADMINISTRATOR permission**"
+		},
 		"unban": {
 			"no_id_provided": "**You have to specify the ID of the user to unban.**",
 			"unban_success": "**Successfully unbanned %s!**",
