@@ -32,7 +32,7 @@ public class DBReadWrite {
 	public enum Table {
 		USERS("users"),
 		PLAYERS("players"),
-		GUILDS("users");
+		GUILDS("guilds");
 
 		public final String stringValue;
 		
@@ -78,7 +78,7 @@ public class DBReadWrite {
 	public static void registerGuild(String UID) {
 		db.table(Table.GUILDS.stringValue).insert(r.array(
 				r.hashMap("id", UID)
-				.with("Prefix", null)
+				.with("Prefix", "~")
 				)).runNoReply(conn);
 	}
 	
