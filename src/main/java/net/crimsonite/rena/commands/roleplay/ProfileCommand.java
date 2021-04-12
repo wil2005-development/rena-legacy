@@ -203,6 +203,11 @@ public class ProfileCommand extends Command {
 	public String getCommandName() {
 		return "profile";
 	}
+	
+	@Override
+	public String getCommandCategory() {
+		return "Roleplay";
+	}
 
 	@Override
 	public long cooldown() {

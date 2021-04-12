@@ -69,6 +69,11 @@ public class UnbanCommand extends Command {
 	public String getCommandName() {
 		return "unban";
 	}
+	
+	@Override
+	public String getCommandCategory() {
+		return "Moderation";
+	}
 
 	@Override
 	public boolean isOwnerCommand() {

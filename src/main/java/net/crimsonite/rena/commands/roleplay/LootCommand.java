@@ -73,6 +73,11 @@ public class LootCommand extends Command {
 	public String getCommandName() {
 		return "loot";
 	}
+	
+	@Override
+	public String getCommandCategory() {
+		return "Roleplay";
+	}
 
 	@Override
 	public long cooldown() {

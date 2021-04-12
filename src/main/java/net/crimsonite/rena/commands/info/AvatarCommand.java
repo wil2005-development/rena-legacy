@@ -78,6 +78,11 @@ public class AvatarCommand extends Command {
 	public String getCommandName() {
 		return "avatar";
 	}
+	
+	@Override
+	public String getCommandCategory() {
+		return "Information";
+	}
 
 	@Override
 	public boolean isOwnerCommand() {

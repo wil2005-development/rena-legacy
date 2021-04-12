@@ -35,6 +35,7 @@ public abstract class Command extends ListenerAdapter {
 	
 	public abstract void execute(MessageReceivedEvent event, String[] args);
 	public abstract String getCommandName();
+	public abstract String getCommandCategory();
 	public abstract boolean isOwnerCommand();
 	public abstract long cooldown();
 	

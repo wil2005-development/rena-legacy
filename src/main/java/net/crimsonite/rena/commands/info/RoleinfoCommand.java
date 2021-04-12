@@ -71,6 +71,11 @@ public class RoleinfoCommand extends Command {
 	public String getCommandName() {
 		return "roleinfo";
 	}
+	
+	@Override
+	public String getCommandCategory() {
+		return "Information";
+	}
 
 	@Override
 	public long cooldown() {

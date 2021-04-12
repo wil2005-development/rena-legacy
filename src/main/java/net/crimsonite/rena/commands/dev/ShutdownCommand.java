@@ -42,6 +42,11 @@ public class ShutdownCommand extends Command {
 	public String getCommandName() {
 		return "shutdown";
 	}
+	
+	@Override
+	public String getCommandCategory() {
+		return "Dev";
+	}
 
 	@Override
 	public boolean isOwnerCommand() {

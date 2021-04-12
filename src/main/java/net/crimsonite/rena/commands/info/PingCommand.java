@@ -43,6 +43,11 @@ public class PingCommand extends Command {
 	}
 	
 	@Override
+	public String getCommandCategory() {
+		return "Information";
+	}
+	
+	@Override
 	public boolean isOwnerCommand() {
 		return false;
 	}

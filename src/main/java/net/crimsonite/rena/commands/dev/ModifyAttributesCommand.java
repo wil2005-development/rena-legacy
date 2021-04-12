@@ -98,6 +98,11 @@ public class ModifyAttributesCommand extends Command {
 	public String getCommandName() {
 		return "modify";
 	}
+	
+	@Override
+	public String getCommandCategory() {
+		return "Dev";
+	}
 
 	@Override
 	public long cooldown() {
