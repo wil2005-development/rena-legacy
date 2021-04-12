@@ -47,8 +47,8 @@ public class RoleplayEngine {
 		 * @param -The Discord UID of the player.
 		 */
 		public static void handleLevelup(String player) {
-			int playerLevel = DBReadWrite.getValueInt(Table.USERS, player, "LEVEL");
-			int playerExp = DBReadWrite.getValueInt(Table.USERS, player, "EXP");
+			int playerLevel = DBReadWrite.getValueInt(Table.PLAYERS, player, "LEVEL");
+			int playerExp = DBReadWrite.getValueInt(Table.PLAYERS, player, "EXP");
 			
 			boolean canIncrement = checkExp(playerLevel, playerExp);
 			
@@ -58,7 +58,7 @@ public class RoleplayEngine {
 					canIncrement = checkExp(playerLevel, playerExp);
 				}
 				
-				DBReadWrite.incrementValue(Table.USERS, player, "LEVEL", playerLevel);
+				DBReadWrite.incrementValue(Table.PLAYERS, player, "LEVEL", playerLevel);
 			}
 		}
 	}
@@ -92,7 +92,7 @@ public class RoleplayEngine {
 			
 			switch (type) {
 				case PLAYER:					
-					playerATK = DBReadWrite.getValueInt(Table.USERS, player, "ATK");
+					playerATK = DBReadWrite.getValueInt(Table.PLAYERS, player, "ATK");
 					enemyDEF = enemyData.get(enemy).get("DEF").asInt();
 					
 					damage = (playerATK+criticalHIT)*((25+enemyDEF)/25);
@@ -100,13 +100,13 @@ public class RoleplayEngine {
 					break;
 				case ENEMY_NORMAL:
 					enemyATK = enemyData.get(enemy).get("ATK").asInt();
-					playerDEF = DBReadWrite.getValueInt(Table.USERS, player, "DEF");
+					playerDEF = DBReadWrite.getValueInt(Table.PLAYERS, player, "DEF");
 					
 					damage = (enemyATK+criticalHIT)*((25+playerDEF)/25);
 					
 					break;
 				default:
-					playerATK = DBReadWrite.getValueInt(Table.USERS, player, "ATK");
+					playerATK = DBReadWrite.getValueInt(Table.PLAYERS, player, "ATK");
 					enemyDEF = enemyData.get(enemy).get("DEF").asInt();
 					
 					damage = (playerATK+criticalHIT)*((25+enemyDEF)/25);
