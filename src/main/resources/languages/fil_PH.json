@@ -115,6 +115,12 @@
 			"unable_to_kick": "**Sorry, but you can't kick that person.**",
 			"no_permission": "%s **Sorry, but you dont have the permission to do that.\nRequired: KICK_MEMBERS permission**"
 		},
+		"guild_prefix": {
+			"error": "Oops! Try again?",
+			"success": "**Successfuly set guild prefix to *%s***",
+			"failed": "**You can't set a prefix to nothing.**",
+			"no_permission": "%s **Sorry, but you dont have the permission to do that.\nRequired: ADMINISTRATOR permission**"
+		},
 		"unban": {
 			"no_id_provided": "**You have to specify the ID of the user to unban.**",
 			"unban_success": "**Successfully unbanned %s!**",
@@ -174,6 +180,16 @@
 		},
 		"profile": {
 			"error": "Oops! Try again?",
+			"nothing_to_set": "*W-what are you even trying to set?*",
+			"set_status_success": "**Successfully set status to *%s***",
+			"set_status_failed": "**You didn't specify what to write in your status.**",
+			"set_birthday_success": "**Successfully set birthday to *%s***",
+			"set_birthday_failed": "**You didn't specify what to write in your birthday.**",
+			"invalid_month": "*Thats... not a valid month.*",
+			"invalid_day": "*That's... not a valid day.*",
+			"illegal_birthday": "*That's... not a valid birthday.*",
+			"illegal_birthday_number": "*That's not even a number!'*",
+			"cannot_set": "*Erm... I can't set that for you.*",
 			"player_not_found": "*Err... I can't find that person. Try doing it again, I might've missed them*",
 			"embed": {
 				"title": "%s's Profile",
@@ -184,7 +200,9 @@
 				"hp": "HP",
 				"mp": "MP",
 				"atk": "ATK",
-				"def": "DEF"
+				"def": "DEF",
+				"birthday": "Birthday",
+				"no_birthday": "Not set"
 			}
 		}
 	},
