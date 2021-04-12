@@ -37,6 +37,19 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class HuntCommand extends Command {
+	
+	private static void checkHP(User author, MessageChannel channel, EmbedBuilder embedForVictory, EmbedBuilder embedForDefeat, int enemyHP, int playerHP, int rewardExp, int rewardMoney) {
+		if (enemyHP <= 0) {
+			DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "EXP", rewardExp);
+			DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "MONEY", rewardMoney);
+			
+			channel.sendMessage(embedForVictory.build()).queue();
+		}
+		else if (playerHP <= 0) {
+			
+			channel.sendMessage(embedForDefeat.build()).queue();
+		}
+	}
 
 	@Override
 	public void execute(MessageReceivedEvent event, String[] args) {
@@ -46,6 +59,7 @@ public class HuntCommand extends Command {
 		try {
 			ObjectMapper mapper = new ObjectMapper();
 			Random rng = new Random();
+			StringBuilder battleLog = new StringBuilder();
 			
 			Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
 			
@@ -58,7 +72,9 @@ public class HuntCommand extends Command {
 			JsonNode moneyList = enemyStat.get("MONEY");
 			
 			int enemyHP = enemyStat.get("HP").asInt();
+			int enemyDMG;
 			int playerHP = DBReadWrite.getValueInt(Table.PLAYERS, author.getId(), "HP");
+			int playerDMG;
 			int rewardExp = enemyStat.get("EXP").asInt();
 			int rewardMoney = moneyList.get(rng.nextInt(moneyList.size())).asInt();
 			
@@ -71,42 +87,42 @@ public class HuntCommand extends Command {
 					.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.hunt.embed_encounter.def"), enemyStat.get("DEF").asText(), true)
 					.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 			
+			EmbedBuilder embedForVictory = new EmbedBuilder()
+					.setColor(roleColor)
+					.setTitle(I18n.getMessage(event.getAuthor().getId(), "roleplay.hunt.embed_win.title"))
+					.setDescription(I18n.getMessage(event.getAuthor().getId(), "roleplay.hunt.embed_win.description"))
+					.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.hunt.embed_win.exp"), String.valueOf(rewardExp), true)
+					.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.hunt.embed_win.money"), String.valueOf(rewardMoney), true)
+					.setFooter(author.getName(), author.getEffectiveAvatarUrl());
+			
+			EmbedBuilder embedForDefeat = new EmbedBuilder()
+					.setColor(roleColor)
+					.setTitle(I18n.getMessage(event.getAuthor().getId(), "roleplay.hunt.embed_lost.title"))
+					.setDescription(I18n.getMessage(event.getAuthor().getId(), "roleplay.hunt.embed_lost.description"))
+					.setFooter(author.getName(), author.getEffectiveAvatarUrl());
+			
 			channel.sendMessage(embedFirst.build()).queue();
 			
-			// This loop will keep repeating itself unless either the player or enemy's HP reaches 0 or below
 			while (playerHP > 0 && enemyHP > 0) {
-				int playerDMG = RoleplayEngine.CommenceBattle.attack(jsonData, event.getAuthor().getId(), selectedEnemy, AttackerType.PLAYER);
+				String dialogue = "%1$s attacked and dealt %3$d damage to %2$s\n";
+				String status = "%1$s's HP: %3$d | %2$s's HP: %4$d\n\n";
+				checkHP(author, channel, embedForVictory, embedForDefeat, enemyHP, playerHP, rewardExp, rewardMoney);
+				
+				playerDMG = RoleplayEngine.CommenceBattle.attack(jsonData, event.getAuthor().getId(), selectedEnemy, AttackerType.PLAYER);
 				enemyHP -= playerDMG;
+				battleLog.append(dialogue.formatted(author.getName(), selectedEnemy, playerDMG));
+				battleLog.append(status.formatted(author.getName(), selectedEnemy, playerHP, enemyHP));
 				
-				int enemyDMG = RoleplayEngine.CommenceBattle.attack(jsonData, event.getAuthor().getId(), selectedEnemy, AttackerType.ENEMY_NORMAL);
+				enemyDMG = RoleplayEngine.CommenceBattle.attack(jsonData, event.getAuthor().getId(), selectedEnemy, AttackerType.ENEMY_NORMAL);
 				playerHP -= enemyDMG;
+				battleLog.append(dialogue.formatted(selectedEnemy, author.getName(), playerDMG));
+				battleLog.append(status.formatted(selectedEnemy, author.getName(), enemyHP, playerHP));
 				
-				if (enemyHP <= 0) {
-					DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "EXP", rewardExp);
-					DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "MONEY", rewardMoney);
-					
-					EmbedBuilder embedSecond = new EmbedBuilder()
-							.setColor(roleColor)
-							.setTitle(I18n.getMessage(event.getAuthor().getId(), "roleplay.hunt.embed_win.title"))
-							.setDescription(I18n.getMessage(event.getAuthor().getId(), "roleplay.hunt.embed_win.description"))
-							.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.hunt.embed_win.exp"), String.valueOf(rewardExp), true)
-							.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.hunt.embed_win.money"), String.valueOf(rewardMoney), true)
-							.setFooter(author.getName(), author.getEffectiveAvatarUrl());
-					
-					channel.sendMessage(embedSecond.build()).queue();
-				}
-				else if (playerHP <= 0) {					
-					EmbedBuilder embedSecond = new EmbedBuilder()
-							.setColor(roleColor)
-							.setTitle(I18n.getMessage(event.getAuthor().getId(), "roleplay.hunt.embed_lost.title"))
-							.setDescription(I18n.getMessage(event.getAuthor().getId(), "roleplay.hunt.embed_lost.description"))
-							.setFooter(author.getName(), author.getEffectiveAvatarUrl());
-					
-					channel.sendMessage(embedSecond.build()).queue();
-				}
+				checkHP(author, channel, embedForVictory, embedForDefeat, enemyHP, playerHP, rewardExp, rewardMoney);
 			}
 			RoleplayEngine.Handler.handleLevelup(author.getId());
 			
+			channel.sendMessage("Battle Logs:\n```\n%sEnd\n```".formatted(battleLog.toString())).queue();
 		}
 		catch (JsonProcessingException ignored) {
 			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.hunt.error.json_processing_error")).queue();
