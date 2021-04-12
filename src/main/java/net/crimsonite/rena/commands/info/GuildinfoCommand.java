@@ -57,6 +57,11 @@ public class GuildinfoCommand extends Command{
 	public String getCommandName() {
 		return "guildinfo";
 	}
+	
+	@Override
+	public String getCommandCategory() {
+		return "Information";
+	}
 
 	@Override
 	public boolean isOwnerCommand() {

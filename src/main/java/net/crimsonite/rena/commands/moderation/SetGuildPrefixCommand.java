@@ -66,6 +66,11 @@ public class SetGuildPrefixCommand extends Command {
 	public String getCommandName() {
 		return "set_prefix";
 	}
+	
+	@Override
+	public String getCommandCategory() {
+		return "Moderation";
+	}
 
 	@Override
 	public boolean isOwnerCommand() {

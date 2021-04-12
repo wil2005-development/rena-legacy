@@ -94,6 +94,11 @@ public class StatusCommand extends Command {
 	public String getCommandName() {
 		return "status";
 	}
+	
+	@Override
+	public String getCommandCategory() {
+		return "Information";
+	}
 
 	@Override
 	public boolean isOwnerCommand() {

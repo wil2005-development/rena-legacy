@@ -76,6 +76,11 @@ public class LanguagePreferenceCommand extends Command {
 	public String getCommandName() {
 		return "set_lang";
 	}
+	
+	@Override
+	public String getCommandCategory() {
+		return "Preference";
+	}
 
 	@Override
 	public boolean isOwnerCommand() {

@@ -84,6 +84,11 @@ public class UserinfoCommand extends Command {
 	public String getCommandName() {
 		return "userinfo";
 	}
+	
+	@Override
+	public String getCommandCategory() {
+		return "Information";
+	}
 
 	@Override
 	public boolean isOwnerCommand() {

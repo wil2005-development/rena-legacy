@@ -58,6 +58,11 @@ public class DiceCommand extends Command {
 	public String getCommandName() {
 		return "roll";
 	}
+	
+	@Override
+	public String getCommandCategory() {
+		return "Miscellaneous";
+	}
 
 	@Override
 	public long cooldown() {

@@ -18,7 +18,9 @@
 package net.crimsonite.rena.commands.info;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import net.crimsonite.rena.RenaBot;
 import net.crimsonite.rena.commands.Command;
@@ -99,33 +101,25 @@ public class HelpCommand extends Command {
 				
 				embed.addField(commandName, description, false);
 			}
-			else {	
+			else {
+				List<String> commandCategory = new ArrayList<>();
+				
 				for (Command command : RenaBot.commandRegistry.commands.values()) {
-					String commandName = command.getCommandName();
-					
-					long cooldownTime = command.cooldown();
-					long cooldownHours = cooldownTime / 3600;
-					long cooldownMinutes = (cooldownTime % 3600) / 60;
-					long cooldownSeconds = cooldownTime % 60;
-					
-					String timeFormat = I18n.getMessage(event.getAuthor().getId(), "info.help.embed.cooldown_duration_HMS");
-					
-					if (cooldownHours == 0 && cooldownMinutes == 0) {
-						timeFormat = I18n.getMessage(event.getAuthor().getId(), "info.help.embed.cooldown_duration_S");
+					if (!commandCategory.contains(command.getCommandCategory())) {
+						commandCategory.add(command.getCommandCategory());
 					}
-					else if (cooldownSeconds == 0 && cooldownMinutes == 0) {
-						timeFormat = I18n.getMessage(event.getAuthor().getId(), "info.help.embed.cooldown_duration_H");
-					}
-					else if (cooldownHours == 0) {
-						timeFormat = I18n.getMessage(event.getAuthor().getId(), "info.help.embed.cooldown_duration_MS");
-					}
-					else if (cooldownSeconds == 0) {
-						timeFormat = I18n.getMessage(event.getAuthor().getId(), "info.help.embed.cooldown_duration_HM");
+				}
+				
+				for (int i = 0; i < commandCategory.size(); i++) {
+					List<String> currentBatchOfCommands = new ArrayList<>();
+					
+					for (Command command : RenaBot.commandRegistry.commands.values()) {
+						if (command.getCommandCategory() == commandCategory.get(i)) {
+							currentBatchOfCommands.add(command.getCommandName());
+						}
 					}
 					
-					String description = timeFormat.formatted(cooldownHours, cooldownMinutes, cooldownSeconds);
-					
-					embed.addField(commandName, description, false);
+					embed.addField(commandCategory.get(i), currentBatchOfCommands.toString().replace(", ", "`, `").replaceAll("\\[|]", "`"), false);
 				}
 			}
 			
@@ -139,6 +133,11 @@ public class HelpCommand extends Command {
 	@Override
 	public String getCommandName() {
 		return "help";
+	}
+	
+	@Override
+	public String getCommandCategory() {
+		return "Information";
 	}
 
 	@Override

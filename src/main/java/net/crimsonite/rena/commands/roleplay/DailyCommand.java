@@ -51,6 +51,11 @@ public class DailyCommand extends Command{
 	public String getCommandName() {
 		return "daily";
 	}
+	
+	@Override
+	public String getCommandCategory() {
+		return "Roleplay";
+	}
 
 	@Override
 	public boolean isOwnerCommand() {

@@ -72,6 +72,11 @@ public class ExpeditionCommand extends Command {
 	public String getCommandName() {
 		return "expedition";
 	}
+	
+	@Override
+	public String getCommandCategory() {
+		return "Roleplay";
+	}
 
 	@Override
 	public long cooldown() {

@@ -45,6 +45,11 @@ public class SafebooruCommand extends Command {
 	public String getCommandName() {
 		return "safebooru";
 	}
+	
+	@Override
+	public String getCommandCategory() {
+		return "Imageboard";
+	}
 
 	@Override
 	public boolean isOwnerCommand() {

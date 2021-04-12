@@ -84,6 +84,11 @@ public class StatusReportCommand extends Command {
 	public String getCommandName() {
 		return "reports";
 	}
+	
+	@Override
+	public String getCommandCategory() {
+		return "Dev";
+	}
 
 	@Override
 	public boolean isOwnerCommand() {

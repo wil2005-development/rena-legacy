@@ -71,6 +71,11 @@ public class KickCommand extends Command {
 	}
 	
 	@Override
+	public String getCommandCategory() {
+		return "Moderation";
+	}
+	
+	@Override
 	public boolean isOwnerCommand() {
 		return false;
 	}

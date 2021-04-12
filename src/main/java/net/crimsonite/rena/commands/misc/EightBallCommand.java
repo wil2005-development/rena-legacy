@@ -46,6 +46,11 @@ public class EightBallCommand extends Command {
 	public String getCommandName() {
 		return "8ball";
 	}
+	
+	@Override
+	public String getCommandCategory() {
+		return "Miscellaneous";
+	}
 
 	@Override
 	public boolean isOwnerCommand() {
