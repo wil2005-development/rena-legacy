@@ -33,7 +33,6 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class InventoryCommand extends Command {
 	
-	@SuppressWarnings("unused")
 	private static String replaceItemIdWithName(String str) {
 		str = str.replace("ITEM_0X194", "ITEM_OX194")
 				.replace("SEED_OF_LIFE", "Seed of Life")
