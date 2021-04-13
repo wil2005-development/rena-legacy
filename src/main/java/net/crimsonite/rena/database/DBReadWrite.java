@@ -18,6 +18,7 @@
 package net.crimsonite.rena.database;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import com.rethinkdb.RethinkDB;
 import com.rethinkdb.gen.ast.Db;
@@ -67,6 +68,11 @@ public class DBReadWrite {
 				.with("MONEY", 0)
 				.with("REP", 0)
 				.with("DAILYSTREAK", 0)
+				.with("INVENTORY", r.hashMap("ITEM_0X194", 1)
+						.with("SEED_OF_LIFE", 5)
+						.with("SEED_OF_WISDOM", 6)
+						.with("ELIXIR_OF_LIFE", 1)
+						.with("ELIXIR_OF_MANA", 0))
 				)).runNoReply(conn);
 	}
 	
@@ -206,6 +212,21 @@ public class DBReadWrite {
 	 */
 	public static Boolean getValueBoolean(Table table, String UID, String key) throws NullPointerException {
 		HashMap<String, Boolean> obj = db.table(table.stringValue).get(UID).run(conn);
+		
+		return obj.get(key);
+	}
+	
+	/**
+	 * (Read)Returns the Map(String, Integer) value of the specified key.
+	 * 
+	 * @param table -The table to modify.
+	 * @param UID -The Unique ID of the user/guild.
+	 * @param key -The db variable to get.
+	 * @return value of key
+	 * @throws NullPointerException If the user is not found in the database.
+	 */
+	public static Map<String, Long> getValueMapSL(Table table, String UID, String key) throws NullPointerException {
+		HashMap<String, Map<String, Long>> obj = db.table(table.stringValue).get(UID).run(conn);
 		
 		return obj.get(key);
 	}
