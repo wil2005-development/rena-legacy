@@ -168,6 +168,18 @@
 				"description": "The enemy won, and you received nothing."
 			}
 		},
+		"inventory": {
+			"embed": {
+				"title": "Inventory",
+				"items": "Items"
+			},
+			"items": {
+				"seed_of_life": "Seed of Life",
+				"seed_of_wisdom": "Seed of Wisdom",
+				"elixir_of_life": "Elixir of Life",
+				"elixir_of_mana": "Elixir of Mana"
+			}
+		},
 		"loot": {
 			"error": "Oops! Try again?",
 			"dialogue": "**You went into an abandoned dungeon and got some loots**",
@@ -204,6 +216,12 @@
 				"birthday": "Birthday",
 				"no_birthday": "Not set"
 			}
+		},
+		"transfer": {
+			"invalid_amount": "**That is not a valid amount.**",
+			"not_enough_money": "**You don't have enough money.**",
+			"sent": "**Successfuly sent *G%1$d* to *%2$s*! *(%3$d%% Tax)***",
+			"failed": "**Failed to send money.**"
 		}
 	},
 	"user_preference": {
