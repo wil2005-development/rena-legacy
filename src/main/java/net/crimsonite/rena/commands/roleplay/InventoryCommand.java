@@ -26,6 +26,7 @@ import java.util.Map;
 import net.crimsonite.rena.commands.Command;
 import net.crimsonite.rena.database.DBReadWrite;
 import net.crimsonite.rena.database.DBReadWrite.Table;
+import net.crimsonite.rena.engine.I18n;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -33,12 +34,12 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class InventoryCommand extends Command {
 	
-	private static String replaceItemIdWithName(String str) {
+	private static String replaceItemIdWithName(User author, String str) {
 		str = str.replace("ITEM_0X194", "ITEM_OX194")
-				.replace("SEED_OF_LIFE", "Seed of Life")
-				.replace("SEED_OF_WISDOM", "Seed of Wisdom")
-				.replace("ELIXIR_OF_LIFE", "Elixr of Life")
-				.replace("ELIXIR_OF_MANA", "Elixr of Mana");
+				.replace("SEED_OF_LIFE", I18n.getMessage(author.getId(), "roleplay.inventory.items.seed_of_life"))
+				.replace("SEED_OF_WISDOM", I18n.getMessage(author.getId(), "roleplay.inventory.items.seed_of_wisdom"))
+				.replace("ELIXIR_OF_LIFE", I18n.getMessage(author.getId(), "roleplay.inventory.items.elixir_of_life"))
+				.replace("ELIXIR_OF_MANA", I18n.getMessage(author.getId(), "roleplay.inventory.items.elixir_of_mana"));
 		
 		return str;
 	}
@@ -53,7 +54,7 @@ public class InventoryCommand extends Command {
 		
 		EmbedBuilder embed = new EmbedBuilder()
 				.setColor(roleColor)
-				.setTitle("Inventory")
+				.setTitle(I18n.getMessage(author.getId(), "roleplay.inventory.embed.title"))
 				.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 		
 		Map<String, Long> itemList = DBReadWrite.getValueMapSL(Table.PLAYERS, author.getId(), "INVENTORY");
@@ -74,9 +75,9 @@ public class InventoryCommand extends Command {
 			itemField.append("`%1$s: %2$s`, ".formatted(item, amount));
 		}
 		
-		String currentItems = replaceItemIdWithName(itemField.toString());
+		String currentItems = replaceItemIdWithName(author, itemField.toString());
 		
-		embed.addField("Items", currentItems.substring(0, (currentItems.length() - 2)), false);
+		embed.addField(I18n.getMessage(author.getId(), "roleplay.inventory.embed.items"), currentItems.substring(0, (currentItems.length() - 2)), false);
 		
 		channel.sendMessage(embed.build()).queue();
 	}
