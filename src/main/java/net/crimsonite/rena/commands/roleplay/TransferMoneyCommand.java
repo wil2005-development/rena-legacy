@@ -35,14 +35,30 @@ public class TransferMoneyCommand extends Command {
 	private static void transferMoney(User author, Member member, int amount, MessageChannel channel) {
 		int amountAfterTax = Math.round((float) amount - (amount * 0.02f));
 		
-		try {
-			DBReadWrite.decrementValue(Table.PLAYERS, author.getId(), "MONEY", amount);
-			DBReadWrite.incrementValue(Table.PLAYERS, member.getId(), "MONEY", amountAfterTax);
+		if (amount <= 0 || amount >= 100_000) {
+			channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.transfer.invalid_amount")).queue();
 			
-			channel.sendMessage("sent %d after 2%% tax".formatted(amountAfterTax)).queue();
+			return;
+		}
+		
+		try {
+			int balance = DBReadWrite.getValueInt(Table.PLAYERS, author.getId(), "MONEY");
+			DBReadWrite.getValueInt(Table.PLAYERS, member.getId(), "MONEY");
+			
+			if (balance < amount) {
+				channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.transfer.not_enough_money")).queue();
+				
+				return;
+			}
+			else {
+				DBReadWrite.decrementValue(Table.PLAYERS, author.getId(), "MONEY", amount);
+				DBReadWrite.incrementValue(Table.PLAYERS, member.getId(), "MONEY", amountAfterTax);
+				
+				channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.transfer.sent").formatted(amountAfterTax, member.getEffectiveName(), 2)).queue();
+			}
 		}
 		catch (NullPointerException e) {
-			channel.sendMessage("failed").queue();
+			channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.transfer.failed")).queue();
 		}
 	}
 
