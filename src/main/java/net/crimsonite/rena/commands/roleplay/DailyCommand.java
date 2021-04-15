@@ -46,18 +46,20 @@ public class DailyCommand extends Command{
 			
 			String dailyStreakDialogue;
 			
-			if (!event.getMessage().getMentionedMembers().isEmpty()) {
-				recepient = event.getMessage().getMentionedMembers().get(0).getUser();
-			}
-			else {
-				List<Member> listedMembers = FinderUtil.findMembers(args[1], event.getGuild());
-				
-				if (listedMembers.isEmpty()) {
-					channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "info.user_info.user_not_found")).queue();
-					event.getGuild().loadMembers();
+			if (args.length >= 2) {
+				if (!event.getMessage().getMentionedMembers().isEmpty()) {
+					recepient = event.getMessage().getMentionedMembers().get(0).getUser();
 				}
 				else {
-					recepient = listedMembers.get(0).getUser();
+					List<Member> listedMembers = FinderUtil.findMembers(args[1], event.getGuild());
+					
+					if (listedMembers.isEmpty()) {
+						channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "info.user_info.user_not_found")).queue();
+						event.getGuild().loadMembers();
+					}
+					else {
+						recepient = listedMembers.get(0).getUser();
+					}
 				}
 			}
 			
