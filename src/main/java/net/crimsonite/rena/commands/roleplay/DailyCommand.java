@@ -17,12 +17,16 @@
 
 package net.crimsonite.rena.commands.roleplay;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 
 import net.crimsonite.rena.commands.Command;
 import net.crimsonite.rena.database.DBReadWrite;
 import net.crimsonite.rena.database.DBReadWrite.Table;
 import net.crimsonite.rena.engine.I18n;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -32,6 +36,7 @@ public class DailyCommand extends Command{
 	@Override
 	public void execute(MessageReceivedEvent event, String[] args) {
 		User author = event.getAuthor();
+		User recepient = author;
 		MessageChannel channel = event.getChannel();
 		
 		try {
@@ -40,6 +45,21 @@ public class DailyCommand extends Command{
 			int currentTimeInInteger = Integer.parseInt(String.valueOf(currentTime));
 			
 			String dailyStreakDialogue;
+			
+			if (!event.getMessage().getMentionedMembers().isEmpty()) {
+				recepient = event.getMessage().getMentionedMembers().get(0).getUser();
+			}
+			else {
+				List<Member> listedMembers = FinderUtil.findMembers(args[1], event.getGuild());
+				
+				if (listedMembers.isEmpty()) {
+					channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "info.user_info.user_not_found")).queue();
+					event.getGuild().loadMembers();
+				}
+				else {
+					recepient = listedMembers.get(0).getUser();
+				}
+			}
 			
 			if (currentTime < (lastClaim + 24)) {
 				DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "DAILY_STREAK", 1);
@@ -56,9 +76,11 @@ public class DailyCommand extends Command{
 			long level = DBReadWrite.getValueInt(Table.PLAYERS, author.getId(), "LEVEL");
 			long reward = (50 + dailyStreak) * level;
 			
-			DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "MONEY", Integer.parseInt(String.valueOf(reward)));
+			DBReadWrite.incrementValue(Table.PLAYERS, recepient.getId(), "MONEY", Integer.parseInt(String.valueOf(reward)));
 			DBReadWrite.modifyDataInt(Table.PLAYERS, author.getId(), "LAST_DAILY_CLAIM", currentTimeInInteger);
 			
+			//TODO change dialogues when giving away daily for someone.
+			//TODO handle error for users trying to claim daily with 0 level.
 			channel.sendMessageFormat(I18n.getMessage(event.getAuthor().getId(), "roleplay.daily.claimed"), reward).queue();
 			channel.sendMessage(dailyStreakDialogue.formatted(dailyStreak)).queue();
 		}
