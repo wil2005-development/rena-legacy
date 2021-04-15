@@ -135,7 +135,7 @@
 			"daily_streak_increment": "*Welcome back! You got another Streak! **Daily Streak: %d***",
 			"daily_streak_reset": "*You've been away for more than a day... **Streak was reset to %d**'*",
 			"claimed": "*Congratulations! You claimed your **G%d** daily!!!*",
-			"error": "Oops! Try again?"
+			"not_registered": "*Oops! You're not allowed to claim a daily yet. Come again tomorrow, but first, let me register you to the central guild.*"
 		},
 		"expedition": {
 			"dialogue": "**You went into an expedition to fulfill a commission...**",

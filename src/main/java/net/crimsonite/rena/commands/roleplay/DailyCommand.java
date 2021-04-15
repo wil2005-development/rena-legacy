@@ -89,7 +89,7 @@ public class DailyCommand extends Command{
 		catch (NullPointerException ignored) {
 			DBReadWrite.registerUser(author.getId());
 			
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.daily.error")).queue();
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.daily.not_registered")).queue();
 		}
 	}
 
