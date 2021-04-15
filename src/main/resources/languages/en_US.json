@@ -132,6 +132,8 @@
 	},
 	"roleplay": {
 		"daily": {
+			"daily_streak_increment": "*Welcome back! You got another Streak! **Daily Streak: %d***",
+			"daily_streak_reset": "*You've been away for more than a day... **Streak was reset to %d**'*",
 			"claimed": "*Congratulations! You claimed your **G%d** daily!!!*",
 			"error": "Oops! Try again?"
 		},
