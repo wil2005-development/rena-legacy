@@ -59,7 +59,7 @@ public class DBReadWrite {
 		
 		db.table(Table.PLAYERS.stringValue).insert(r.array(
 				r.hashMap("id", UID)
-				.with("LEVEL", 0)
+				.with("LEVEL", 1)
 				.with("EXP", 0)
 				.with("ATK", 6)
 				.with("DEF", 3)
@@ -175,7 +175,7 @@ public class DBReadWrite {
 	/**
 	 * (Read)Returns the String value of the specified key.
 	 * 
-	 * @param table -The table to modify.
+	 * @param table -The table to look for.
 	 * @param UID -The Unique ID of the user/guild.
 	 * @param key -The db variable to get.
 	 * @return value of key
@@ -190,7 +190,7 @@ public class DBReadWrite {
 	/**
 	 * (Read)Returns the Integer value of the specified key.
 	 * 
-	 * @param table -The table to modify.
+	 * @param table -The table to look for.
 	 * @param UID -The Unique ID of the user/guild.
 	 * @param key -The db variable to get.
 	 * @return value of key
@@ -205,13 +205,13 @@ public class DBReadWrite {
 	/**
 	 * (Read)Returns the Boolean value of the specified key.
 	 * 
-	 * @param table -The table to modify.
+	 * @param table -The table to look for.
 	 * @param UID -The Unique ID of the user/guild.
 	 * @param key -The db variable to get.
 	 * @return value of key
 	 * @throws NullPointerException If the user is not found in the database.
 	 */
-	public static Boolean getValueBoolean(Table table, String UID, String key) throws NullPointerException {
+	public static boolean getValueBoolean(Table table, String UID, String key) throws NullPointerException {
 		HashMap<String, Boolean> obj = db.table(table.stringValue).get(UID).run(conn);
 		
 		return obj.get(key);
@@ -220,7 +220,7 @@ public class DBReadWrite {
 	/**
 	 * (Read)Returns the Map(String, Integer) value of the specified key.
 	 * 
-	 * @param table -The table to modify.
+	 * @param table -The table to look for.
 	 * @param UID -The Unique ID of the user/guild.
 	 * @param key -The db variable to get.
 	 * @return value of key
@@ -231,5 +231,5 @@ public class DBReadWrite {
 		
 		return obj.get(key);
 	}
-
+	
 }
