@@ -17,6 +17,8 @@
 
 package net.crimsonite.rena.commands.roleplay;
 
+import java.util.concurrent.TimeUnit;
+
 import net.crimsonite.rena.commands.Command;
 import net.crimsonite.rena.database.DBReadWrite;
 import net.crimsonite.rena.database.DBReadWrite.Table;
@@ -33,12 +35,32 @@ public class DailyCommand extends Command{
 		MessageChannel channel = event.getChannel();
 		
 		try {
+			long lastClaim = DBReadWrite.getValueInt(Table.PLAYERS, author.getId(), "LAST_DAILY_CLAIM");
+			long currentTime = TimeUnit.MILLISECONDS.toHours(System.currentTimeMillis());
+			int currentTimeInInteger = Integer.parseInt(String.valueOf(currentTime));
+			
+			String dailyStreakDialogue;
+			
+			if (currentTime < (lastClaim + 24)) {
+				DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "DAILY_STREAK", 1);
+				
+				dailyStreakDialogue = I18n.getMessage("roleplay.daily.daily_streak_increment");
+			}
+			else {
+				DBReadWrite.modifyDataInt(Table.PLAYERS, author.getId(), "DAILY_STREAK", 0);
+				
+				dailyStreakDialogue = I18n.getMessage("roleplay.daily.daily_streak_reset");
+			}
+			
+			long dailyStreak = DBReadWrite.getValueInt(Table.PLAYERS, author.getId(), "DAILY_STREAK");
 			long level = DBReadWrite.getValueInt(Table.PLAYERS, author.getId(), "LEVEL");
-			long reward = 50 * level;
+			long reward = (50 + dailyStreak) * level;
 			
 			DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "MONEY", Integer.parseInt(String.valueOf(reward)));
+			DBReadWrite.modifyDataInt(Table.PLAYERS, author.getId(), "LAST_DAILY_CLAIM", currentTimeInInteger);
 			
 			channel.sendMessageFormat(I18n.getMessage(event.getAuthor().getId(), "roleplay.daily.claimed"), reward).queue();
+			channel.sendMessage(dailyStreakDialogue.formatted(dailyStreak)).queue();
 		}
 		catch (NullPointerException ignored) {
 			DBReadWrite.registerUser(author.getId());
