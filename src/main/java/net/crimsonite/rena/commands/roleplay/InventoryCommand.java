@@ -18,6 +18,7 @@
 package net.crimsonite.rena.commands.roleplay;
 
 import java.awt.Color;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,10 +52,12 @@ public class InventoryCommand extends Command {
 		MessageChannel channel = event.getChannel();
 		
 		StringBuilder itemField = new StringBuilder();
+		InputStream icon = getClass().getClassLoader().getResourceAsStream("assets/icons/inventory_icon.png");
 		
 		EmbedBuilder embed = new EmbedBuilder()
 				.setColor(roleColor)
 				.setTitle(I18n.getMessage(author.getId(), "roleplay.inventory.embed.title"))
+				.setThumbnail("attachment://inventory_icon.png")
 				.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 		
 		Map<String, Long> itemList = DBReadWrite.getValueMapSL(Table.PLAYERS, author.getId(), "INVENTORY");
@@ -79,7 +82,7 @@ public class InventoryCommand extends Command {
 		
 		embed.addField(I18n.getMessage(author.getId(), "roleplay.inventory.embed.items"), currentItems.substring(0, (currentItems.length() - 2)), false);
 		
-		channel.sendMessage(embed.build()).queue();
+		channel.sendFile(icon, "inventory_icon.png").embed(embed.build()).queue();
 	}
 
 	@Override
