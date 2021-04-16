@@ -63,7 +63,7 @@ public class RoleplayEngine {
 		}
 	}
 
-	public static class CommenceBattle {
+	public static class Battle {
 		
 		private static int enemyATK;
 		private static int enemyDEF;

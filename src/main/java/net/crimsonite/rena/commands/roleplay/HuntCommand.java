@@ -30,7 +30,7 @@ import net.crimsonite.rena.database.DBReadWrite;
 import net.crimsonite.rena.database.DBReadWrite.Table;
 import net.crimsonite.rena.engine.I18n;
 import net.crimsonite.rena.engine.RoleplayEngine;
-import net.crimsonite.rena.engine.RoleplayEngine.CommenceBattle.AttackerType;
+import net.crimsonite.rena.engine.RoleplayEngine.Battle.AttackerType;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -108,12 +108,12 @@ public class HuntCommand extends Command {
 				String status = "%1$s's HP: %3$d | %2$s's HP: %4$d\n\n";
 				checkHP(author, channel, embedForVictory, embedForDefeat, enemyHP, playerHP, rewardExp, rewardMoney);
 				
-				playerDMG = RoleplayEngine.CommenceBattle.attack(jsonData, event.getAuthor().getId(), selectedEnemy, AttackerType.PLAYER);
+				playerDMG = RoleplayEngine.Battle.attack(jsonData, event.getAuthor().getId(), selectedEnemy, AttackerType.PLAYER);
 				enemyHP -= playerDMG;
 				battleLog.append(dialogue.formatted(author.getName(), selectedEnemy, playerDMG));
 				battleLog.append(status.formatted(author.getName(), selectedEnemy, playerHP, enemyHP));
 				
-				enemyDMG = RoleplayEngine.CommenceBattle.attack(jsonData, event.getAuthor().getId(), selectedEnemy, AttackerType.ENEMY_NORMAL);
+				enemyDMG = RoleplayEngine.Battle.attack(jsonData, event.getAuthor().getId(), selectedEnemy, AttackerType.ENEMY_NORMAL);
 				playerHP -= enemyDMG;
 				battleLog.append(dialogue.formatted(selectedEnemy, author.getName(), playerDMG));
 				battleLog.append(status.formatted(selectedEnemy, author.getName(), enemyHP, playerHP));
