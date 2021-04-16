@@ -29,6 +29,8 @@ import net.crimsonite.rena.database.DBReadWrite.Table;
 public class RoleplayEngine {
 	
 	public static class Handler {
+		
+		private static final int LEVEL_CAP = 50;
 				
 		private static boolean checkExp(int level, int exp) {
 			int nextLevel = level += 1;
@@ -49,11 +51,13 @@ public class RoleplayEngine {
 		public static void handleLevelup(String player) {
 			int playerLevel = DBReadWrite.getValueInt(Table.PLAYERS, player, "LEVEL");
 			int playerExp = DBReadWrite.getValueInt(Table.PLAYERS, player, "EXP");
+			int playerHP = DBReadWrite.getValueInt(Table.PLAYERS, player, "HP");
+			int playerMP = DBReadWrite.getValueInt(Table.PLAYERS, player, "MP");
 			
 			boolean canIncrement = checkExp(playerLevel, playerExp);
 			
 			if (canIncrement) {
-				while (canIncrement) {
+				while (canIncrement && playerLevel <= LEVEL_CAP) {
 					playerLevel += 1;
 					canIncrement = checkExp(playerLevel, playerExp);
 				}
