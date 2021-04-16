@@ -54,7 +54,7 @@ public class DailyCommand extends Command{
 					List<Member> listedMembers = FinderUtil.findMembers(args[1], event.getGuild());
 					
 					if (listedMembers.isEmpty()) {
-						channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "info.user_info.user_not_found")).queue();
+						channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.daily.user_not_found")).queue();
 						event.getGuild().loadMembers();
 					}
 					else {
@@ -81,15 +81,16 @@ public class DailyCommand extends Command{
 			DBReadWrite.incrementValue(Table.PLAYERS, recepient.getId(), "MONEY", Integer.parseInt(String.valueOf(reward)));
 			DBReadWrite.modifyDataInt(Table.PLAYERS, author.getId(), "LAST_DAILY_CLAIM", currentTimeInInteger);
 			
-			//TODO change dialogues when giving away daily for someone.
-			//TODO handle error for users trying to claim daily with 0 level.
 			channel.sendMessageFormat(I18n.getMessage(event.getAuthor().getId(), "roleplay.daily.claimed"), reward).queue();
 			channel.sendMessage(dailyStreakDialogue.formatted(dailyStreak)).queue();
 		}
-		catch (NullPointerException ignored) {
+		catch (NullPointerException e) {
 			DBReadWrite.registerUser(author.getId());
 			
 			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.daily.not_registered")).queue();
+		}
+		catch (IllegalArgumentException e) {
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.daily.not_qualified")).queue();
 		}
 	}
 
