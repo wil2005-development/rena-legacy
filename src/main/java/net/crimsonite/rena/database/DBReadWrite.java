@@ -59,20 +59,27 @@ public class DBReadWrite {
 		
 		db.table(Table.PLAYERS.stringValue).insert(r.array(
 				r.hashMap("id", UID)
-				.with("LEVEL", 1)
+				.with("LEVEL", 0)
 				.with("EXP", 0)
+				
 				.with("ATK", 6)
 				.with("DEF", 3)
 				.with("HP", 10)
 				.with("MP", 0)
+				
+				.with("VIT", 0)
+				.with("INT", 0)
+				.with("WIS", 0)
+				
 				.with("MONEY", 0)
 				.with("REP", 0)
 				.with("DAILY_STREAK", 0)
 				.with("LAST_DAILY_CLAIM", 0)
+				
 				.with("INVENTORY", r.hashMap("ITEM_0X194", 1)
-						.with("SEED_OF_LIFE", 5)
-						.with("SEED_OF_WISDOM", 6)
-						.with("ELIXIR_OF_LIFE", 1)
+						.with("SEED_OF_LIFE", 0)
+						.with("SEED_OF_WISDOM", 0)
+						.with("ELIXIR_OF_LIFE", 0)
 						.with("ELIXIR_OF_MANA", 0))
 				)).runNoReply(conn);
 	}
