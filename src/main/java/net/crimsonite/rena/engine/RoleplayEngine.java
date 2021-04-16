@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import net.crimsonite.rena.database.DBReadWrite;
 import net.crimsonite.rena.database.DBReadWrite.Table;
+import net.crimsonite.rena.utils.RandomGenerator;
 
 public class RoleplayEngine {
 	
@@ -49,20 +50,27 @@ public class RoleplayEngine {
 		 * @param -The Discord UID of the player.
 		 */
 		public static void handleLevelup(String player) {
-			int playerLevel = DBReadWrite.getValueInt(Table.PLAYERS, player, "LEVEL");
-			int playerExp = DBReadWrite.getValueInt(Table.PLAYERS, player, "EXP");
+			int playerLEVEL = DBReadWrite.getValueInt(Table.PLAYERS, player, "LEVEL");
+			int playerEXP = DBReadWrite.getValueInt(Table.PLAYERS, player, "EXP");
 			int playerHP = DBReadWrite.getValueInt(Table.PLAYERS, player, "HP");
 			int playerMP = DBReadWrite.getValueInt(Table.PLAYERS, player, "MP");
+			int playerVIT = DBReadWrite.getValueInt(Table.PLAYERS, player, "VIT");
+			int playerWIS = DBReadWrite.getValueInt(Table.PLAYERS, player, "WIS");
 			
-			boolean canIncrement = checkExp(playerLevel, playerExp);
+			boolean canIncrement = checkExp(playerLEVEL, playerEXP);
 			
 			if (canIncrement) {
-				while (canIncrement && playerLevel <= LEVEL_CAP) {
-					playerLevel += 1;
-					canIncrement = checkExp(playerLevel, playerExp);
+				while (canIncrement && playerLEVEL <= LEVEL_CAP) {
+					playerLEVEL += 1;
+					playerHP += (RandomGenerator.randomInt(1, playerVIT) * 2);
+					playerMP += (RandomGenerator.randomInt(1, playerWIS) * 2);
+					
+					canIncrement = checkExp(playerLEVEL, playerEXP);
 				}
 				
-				DBReadWrite.incrementValue(Table.PLAYERS, player, "LEVEL", playerLevel);
+				DBReadWrite.incrementValue(Table.PLAYERS, player, "LEVEL", playerLEVEL);
+				DBReadWrite.incrementValue(Table.PLAYERS, player, "HP", playerHP);
+				DBReadWrite.incrementValue(Table.PLAYERS, player, "MP", playerMP);
 			}
 		}
 	}
