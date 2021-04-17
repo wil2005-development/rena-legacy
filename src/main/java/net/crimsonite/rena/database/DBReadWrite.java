@@ -71,7 +71,7 @@ public class DBReadWrite {
 				.with("STR", 3)
 				.with("AGI", 0)
 				.with("INT", 0)
-				.with("WIS", 1)
+				.with("WIS", 2)
 				.with("LUK", 0)
 				
 				.with("MONEY", 0)
