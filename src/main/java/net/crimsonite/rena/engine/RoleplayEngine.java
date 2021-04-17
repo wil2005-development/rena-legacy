@@ -61,14 +61,13 @@ public class RoleplayEngine {
 			
 			if (canIncrement) {
 				while (canIncrement) {
+					canIncrement = canIncrementLevel(playerLEVEL, playerEXP);
+					
 					playerLEVEL += 1;
 					playerHP += (RandomGenerator.randomInt(((playerVIT/ playerLEVEL) + 1), ((playerVIT / playerLEVEL) + 1) * 2));
 					playerMP += (RandomGenerator.randomInt(((playerWIS / playerLEVEL) + 1), ((playerWIS / playerLEVEL) + 1) * 2));
 					playerVIT += RandomGenerator.randomInt(1, ((playerVIT / playerLEVEL) + 1));
 					playerWIS += RandomGenerator.randomInt(1, ((playerWIS / playerLEVEL) + 1));
-					
-					
-					canIncrement = canIncrementLevel(playerLEVEL, playerEXP);
 				}
 				
 				DBReadWrite.incrementValue(Table.PLAYERS, player, "LEVEL", playerLEVEL);
