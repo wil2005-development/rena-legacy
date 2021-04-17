@@ -17,8 +17,10 @@
 
 package net.crimsonite.rena.commands.userpreference;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import net.crimsonite.rena.commands.Command;
@@ -41,7 +43,15 @@ public class LanguagePreferenceCommand extends Command {
 			
 			String language = "en";
 			String country = "US";
-			List<String> validCombinations = new ArrayList<String>(Arrays.asList("en_US", "fil_PH", "ja_JP"));
+			String line;
+			
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream("languages/languages.txt");
+			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+			List<String> validCombinations = new ArrayList<>();
+			
+			while ((line = reader.readLine()) != null) {
+				validCombinations.add(line);
+			}
 			
 			for (String combination : validCombinations) {
 				if (args[1].contains(combination)) {
@@ -64,10 +74,7 @@ public class LanguagePreferenceCommand extends Command {
 				channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "user_preference.language_preference.set_lang_failed")).queue();
 			}
 		}
-		catch (ArrayIndexOutOfBoundsException ignored) {
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "user_preference.language_preference.error")).queue();
-		}
-		catch (IllegalArgumentException ignored) {
+		catch (Exception e) {
 			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "user_preference.language_preference.error")).queue();
 		}
 	}

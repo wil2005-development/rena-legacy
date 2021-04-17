@@ -18,7 +18,12 @@
 package net.crimsonite.rena.commands.roleplay;
 
 import java.awt.Color;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -30,8 +35,9 @@ import net.crimsonite.rena.database.DBReadWrite;
 import net.crimsonite.rena.database.DBReadWrite.Table;
 import net.crimsonite.rena.engine.I18n;
 import net.crimsonite.rena.engine.RoleplayEngine;
-import net.crimsonite.rena.engine.RoleplayEngine.Handler;
 import net.crimsonite.rena.engine.RoleplayEngine.Battle.AttackerType;
+import net.crimsonite.rena.engine.RoleplayEngine.Handler;
+import net.crimsonite.rena.utils.RandomGenerator;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -59,15 +65,25 @@ public class HuntCommand extends Command {
 		
 		try {
 			ObjectMapper mapper = new ObjectMapper();
-			Random rng = new Random();
 			StringBuilder battleLog = new StringBuilder();
 			
 			Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
 			
-			JsonNode jsonData = mapper.readTree(getClass().getClassLoader().getResourceAsStream("rp_assets/enemy.json"));
+			JsonNode jsonData = mapper.readTree(getClass().getClassLoader().getResourceAsStream("assets/enemy.json"));
 			
-			String[] enemyList = {"Goblin", "Ogre"};
-			String selectedEnemy = enemyList[rng.nextInt(enemyList.length)];
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream("assets/enemy_list.txt");
+			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+			List<String> enemyList = new ArrayList<>();
+			
+			try {
+				String line;
+				while ((line = reader.readLine()) != null) {
+					enemyList.add(line);
+				}
+			}
+			catch (IOException e) {}
+			
+			String selectedEnemy = enemyList.get(RandomGenerator.randomInt(enemyList.size()));
 			
 			JsonNode enemyStat = jsonData.get(selectedEnemy);
 			JsonNode moneyList = enemyStat.get("MONEY");
@@ -77,7 +93,7 @@ public class HuntCommand extends Command {
 			int playerHP = DBReadWrite.getValueInt(Table.PLAYERS, author.getId(), "HP");
 			int playerDMG;
 			int rewardExp = enemyStat.get("EXP").asInt();
-			int rewardMoney = moneyList.get(rng.nextInt(moneyList.size())).asInt();
+			int rewardMoney = moneyList.get(RandomGenerator.randomInt(moneyList.size())).asInt();
 			
 			EmbedBuilder embedFirst = new EmbedBuilder()
 					.setColor(roleColor)
