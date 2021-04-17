@@ -111,11 +111,21 @@ public class HuntCommand extends Command {
 				
 				playerDMG = RoleplayEngine.Battle.attack(jsonData, event.getAuthor().getId(), selectedEnemy, AttackerType.PLAYER);
 				enemyHP -= playerDMG;
+				
+				if (enemyHP < 0) {
+					enemyHP = 0;
+				}
+				
 				battleLog.append(dialogue.formatted(author.getName(), selectedEnemy, playerDMG));
 				battleLog.append(status.formatted(author.getName(), selectedEnemy, playerHP, enemyHP));
 				
 				enemyDMG = RoleplayEngine.Battle.attack(jsonData, event.getAuthor().getId(), selectedEnemy, AttackerType.ENEMY_NORMAL);
 				playerHP -= enemyDMG;
+				
+				if (playerHP < 0) {
+					playerHP = 0;
+				}
+				
 				battleLog.append(dialogue.formatted(selectedEnemy, author.getName(), playerDMG));
 				battleLog.append(status.formatted(selectedEnemy, author.getName(), enemyHP, playerHP));
 				
