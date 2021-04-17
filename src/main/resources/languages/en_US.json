@@ -172,6 +172,15 @@
 				"description": "The enemy won, and you received nothing."
 			}
 		},
+		"insight": {
+			"nothing_to_predict": "*Better go home if you have nothing to ask for.*",
+			"cannot_predict": "*Sorry, but the Oracle can't predict that for you.*",
+			"embed": {
+				"title": "The Oracle has spoken",
+				"next_exp": "Required EXP for next Level",
+				"next_exp_value": "%1$d (%2$d more)"
+			}
+		},
 		"inventory": {
 			"embed": {
 				"title": "Inventory",
@@ -217,6 +226,12 @@
 				"mp": "MP",
 				"atk": "ATK",
 				"def": "DEF",
+				"vit": "VIT",
+				"str": "STR",
+				"agi": "AGI",
+				"int": "INT",
+				"wis": "WIS",
+				"luk": "LUK",
 				"birthday": "Birthday",
 				"no_birthday": "Not set"
 			}
