@@ -30,6 +30,7 @@ import net.crimsonite.rena.database.DBReadWrite;
 import net.crimsonite.rena.database.DBReadWrite.Table;
 import net.crimsonite.rena.engine.I18n;
 import net.crimsonite.rena.engine.RoleplayEngine;
+import net.crimsonite.rena.engine.RoleplayEngine.Handler;
 import net.crimsonite.rena.engine.RoleplayEngine.Battle.AttackerType;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -38,9 +39,9 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class HuntCommand extends Command {
 	
-	private static void checkHP(User author, MessageChannel channel, EmbedBuilder embedForVictory, EmbedBuilder embedForDefeat, int enemyHP, int playerHP, int rewardExp, int rewardMoney) {
+	private static void checkHP(User author, MessageChannel channel, EmbedBuilder embedForVictory, EmbedBuilder embedForDefeat, int enemyHP, int playerHP, int rewardEXP, int rewardMoney) {
 		if (enemyHP <= 0) {
-			DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "EXP", rewardExp);
+			Handler.giveExp(author.getId(), rewardEXP);
 			DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "MONEY", rewardMoney);
 			
 			channel.sendMessage(embedForVictory.build()).queue();

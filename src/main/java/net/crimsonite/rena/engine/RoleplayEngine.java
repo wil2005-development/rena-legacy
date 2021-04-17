@@ -33,11 +33,11 @@ public class RoleplayEngine {
 		
 		private static final int LEVEL_CAP = 50;
 				
-		private static boolean checkExp(int level, int exp) {
+		private static boolean canIncrementLevel(int level, int exp) {
 			int nextLevel = level += 1;
 			int requiredExpForNextLevel = 50*nextLevel*(nextLevel+1);
 			
-			if (exp >= requiredExpForNextLevel) {
+			if (exp >= requiredExpForNextLevel && level < LEVEL_CAP) {
 				return true;
 			}
 			
@@ -47,7 +47,7 @@ public class RoleplayEngine {
 		/**
 		 * Handles the levelup of the player.
 		 * 
-		 * @param -The Discord UID of the player.
+		 * @param player The Discord UID of the player.
 		 */
 		public static void handleLevelup(String player) {
 			int playerLEVEL = DBReadWrite.getValueInt(Table.PLAYERS, player, "LEVEL");
@@ -57,20 +57,50 @@ public class RoleplayEngine {
 			int playerVIT = DBReadWrite.getValueInt(Table.PLAYERS, player, "VIT");
 			int playerWIS = DBReadWrite.getValueInt(Table.PLAYERS, player, "WIS");
 			
-			boolean canIncrement = checkExp(playerLEVEL, playerEXP);
+			boolean canIncrement = canIncrementLevel(playerLEVEL, playerEXP);
 			
 			if (canIncrement) {
-				while (canIncrement && playerLEVEL <= LEVEL_CAP) {
+				while (canIncrement) {
 					playerLEVEL += 1;
-					playerHP += (RandomGenerator.randomInt(1, playerVIT) * 2);
-					playerMP += (RandomGenerator.randomInt(1, playerWIS) * 2);
+					playerHP += (RandomGenerator.randomInt(((playerVIT/ playerLEVEL) + 1), ((playerVIT / playerLEVEL) + 1) * 2));
+					playerMP += (RandomGenerator.randomInt(((playerWIS / playerLEVEL) + 1), ((playerWIS / playerLEVEL) + 1) * 2));
+					playerVIT += RandomGenerator.randomInt(1, ((playerVIT / playerLEVEL) + 1));
+					playerWIS += RandomGenerator.randomInt(1, ((playerWIS / playerLEVEL) + 1));
 					
-					canIncrement = checkExp(playerLEVEL, playerEXP);
+					
+					canIncrement = canIncrementLevel(playerLEVEL, playerEXP);
 				}
 				
 				DBReadWrite.incrementValue(Table.PLAYERS, player, "LEVEL", playerLEVEL);
 				DBReadWrite.incrementValue(Table.PLAYERS, player, "HP", playerHP);
 				DBReadWrite.incrementValue(Table.PLAYERS, player, "MP", playerMP);
+				DBReadWrite.incrementValue(Table.PLAYERS, player, "VIT", playerVIT);
+				DBReadWrite.incrementValue(Table.PLAYERS, player, "WIS", playerWIS);
+			}
+		}
+		
+		/**
+		 * @param player The Discord UID of the player.
+		 * @return Exp required for next level.
+		 */
+		public static int getRequiredExpForNextLevel(String player) {
+			int playerLevel = DBReadWrite.getValueInt(Table.PLAYERS, player, "LEVEL");
+			
+			int nextLevel = playerLevel += 1;
+			int requiredExpForNextLevel = 50*nextLevel*(nextLevel+1);
+			
+			return requiredExpForNextLevel;
+		}
+		
+		/**
+		 * @param player The Dicord UID of the player.
+		 * @param amount The amount of Exp to give.
+		 */
+		public static void giveExp(String player, int amount) {
+			int playerLevel = DBReadWrite.getValueInt(Table.PLAYERS, player, "LEVEL");
+			
+			if (playerLevel < LEVEL_CAP) {
+				DBReadWrite.incrementValue(Table.PLAYERS, player, "EXP", amount);
 			}
 		}
 	}
@@ -88,11 +118,11 @@ public class RoleplayEngine {
 		}
 		
 		/**
-		 * @param enemyDB -A place which to look for enemy data.
-		 * @param player -The Discord UID of the player.
-		 * @param enemy -The name of the enemy.
-		 * @param type -The type which is doing the action.
-		 * @return damage -The damage dealt by the type.
+		 * @param enemyDB A place which to look for enemy data.
+		 * @param player The Discord UID of the player.
+		 * @param enemy The name of the enemy.
+		 * @param type The type which is doing the action.
+		 * @return damage The damage dealt by the type.
 		 * @throws JsonProcessingException
 		 * @throws IOException
 		 */
