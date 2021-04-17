@@ -50,6 +50,7 @@ import net.crimsonite.rena.commands.moderation.UnbanCommand;
 import net.crimsonite.rena.commands.roleplay.DailyCommand;
 import net.crimsonite.rena.commands.roleplay.ExpeditionCommand;
 import net.crimsonite.rena.commands.roleplay.HuntCommand;
+import net.crimsonite.rena.commands.roleplay.InsightCommand;
 import net.crimsonite.rena.commands.roleplay.InventoryCommand;
 import net.crimsonite.rena.commands.roleplay.LootCommand;
 import net.crimsonite.rena.commands.roleplay.ProfileCommand;
@@ -142,6 +143,7 @@ public class RenaBot {
 						commandRegistry.registerCommand(new ExpeditionCommand()),
 						commandRegistry.registerCommand(new DailyCommand()),
 						commandRegistry.registerCommand(new HuntCommand()),
+						commandRegistry.registerCommand(new InsightCommand()),
 						commandRegistry.registerCommand(new InventoryCommand()),
 						commandRegistry.registerCommand(new LootCommand()),
 						commandRegistry.registerCommand(new ProfileCommand()),
