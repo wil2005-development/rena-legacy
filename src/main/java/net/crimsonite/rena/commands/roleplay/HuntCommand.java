@@ -24,7 +24,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -142,14 +141,14 @@ public class HuntCommand extends Command {
 					playerHP = 0;
 				}
 				
-				battleLog.append(dialogue.formatted(selectedEnemy, author.getName(), playerDMG));
-				battleLog.append(status.formatted(selectedEnemy, author.getName(), enemyHP, playerHP));
+				battleLog.append(dialogue.formatted(selectedEnemy, author.getName(), enemyDMG));
+				battleLog.append(status.formatted(author.getName(), selectedEnemy, playerHP, enemyHP));
 				
 				checkHP(author, channel, embedForVictory, embedForDefeat, enemyHP, playerHP, rewardExp, rewardMoney);
 			}
 			RoleplayEngine.Handler.handleLevelup(author.getId());
 			
-			channel.sendMessage("Battle Logs:\n```\n%sEnd\n```".formatted(battleLog.toString())).queue();
+			channel.sendFile("Battle Logs:\n%sEnd".formatted(battleLog.toString()).getBytes(), "BattleLogs.txt").queue();
 		}
 		catch (JsonProcessingException ignored) {
 			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.hunt.error.json_processing_error")).queue();
