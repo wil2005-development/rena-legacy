@@ -128,29 +128,32 @@ public class RoleplayEngine {
 		public static int attack(JsonNode enemyDB, String player, String enemy, AttackerType type) throws JsonProcessingException, IOException {
 			JsonNode enemyData = enemyDB;
 			
-			int criticalHIT = new Random().nextInt(20-1)+1;
-			int damage = 0;
+			int playerLUK = DBReadWrite.getValueInt(Table.PLAYERS, player, "LUK");
+			int playerSTR = DBReadWrite.getValueInt(Table.PLAYERS, player, "STR");
+			int defaultCriticalHit = new Random().nextInt(20-1)+1;
+			int playerCriticalHit = RandomGenerator.randomInt(1, (playerLUK + 1));
+			int damage;
 			
 			switch (type) {
 				case PLAYER:					
 					playerATK = DBReadWrite.getValueInt(Table.PLAYERS, player, "ATK");
 					enemyDEF = enemyData.get(enemy).get("DEF").asInt();
 					
-					damage = (playerATK+criticalHIT)*((25+enemyDEF)/25);
+					damage = (int) (2 * Math.pow((playerATK + playerSTR + playerCriticalHit), 2)) / ((playerATK + playerSTR + playerCriticalHit) + enemyDEF);
 					
 					break;
 				case ENEMY_NORMAL:
 					enemyATK = enemyData.get(enemy).get("ATK").asInt();
 					playerDEF = DBReadWrite.getValueInt(Table.PLAYERS, player, "DEF");
 					
-					damage = (enemyATK+criticalHIT)*((25+playerDEF)/25);
+					damage = (int) (2 * Math.pow((enemyATK + defaultCriticalHit), 2)) / ((enemyATK + defaultCriticalHit) + playerDEF);
 					
 					break;
 				default:
 					playerATK = DBReadWrite.getValueInt(Table.PLAYERS, player, "ATK");
 					enemyDEF = enemyData.get(enemy).get("DEF").asInt();
 					
-					damage = (playerATK+criticalHIT)*((25+enemyDEF)/25);
+					damage = (int) (2 * Math.pow((playerATK + playerSTR + playerCriticalHit), 2)) / ((playerATK + playerSTR + playerCriticalHit) + enemyDEF);
 					
 					break;	
 			}
