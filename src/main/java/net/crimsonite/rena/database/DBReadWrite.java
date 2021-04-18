@@ -69,10 +69,10 @@ public class DBReadWrite {
 				
 				.with("VIT", 5)
 				.with("STR", 3)
-				.with("AGI", 0)
-				.with("INT", 0)
+				.with("AGI", 1)
+				.with("INT", 1)
 				.with("WIS", 2)
-				.with("LUK", 0)
+				.with("LUK", 1)
 				
 				.with("MONEY", 0)
 				.with("REP", 0)
