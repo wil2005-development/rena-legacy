@@ -39,6 +39,7 @@ import net.crimsonite.rena.commands.info.GuildinfoCommand;
 import net.crimsonite.rena.commands.info.HelpCommand;
 import net.crimsonite.rena.commands.info.PingCommand;
 import net.crimsonite.rena.commands.info.RoleinfoCommand;
+import net.crimsonite.rena.commands.info.ShardInfoCommand;
 import net.crimsonite.rena.commands.info.StatusCommand;
 import net.crimsonite.rena.commands.info.UserinfoCommand;
 import net.crimsonite.rena.commands.misc.DiceCommand;
@@ -66,6 +67,8 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
 public class RenaBot {
 	
+	public static boolean useSharding;
+	public static int totalShards;
 	public static long ownerID;
 	public static long startup;
 	public static String alternativePrefix;
@@ -103,14 +106,19 @@ public class RenaBot {
 		startup = System.currentTimeMillis();
 		
 		try {
+			JDA jda = null;
+			
 			JsonNode configRoot = mapper.readTree(new File("./config.json"));
 			
 			prefix = configRoot.get("PREFIX").asText();
 			alternativePrefix = configRoot.get("ALTERNATIVE_PREFIX").asText();
 			hostName = configRoot.get("HOST").asText();
 			ownerID = configRoot.get("OWNER_ID").asLong();
+			totalShards = configRoot.get("SHARD_COUNT").asInt();
+			useSharding = configRoot.get("USE_SHARDING").asBoolean();
+			
 	        
-			JDA jda = JDABuilder.createDefault(configRoot.get("TOKEN").asText())
+			JDABuilder jdaBuilder = JDABuilder.createDefault(configRoot.get("TOKEN").asText())
 				.setStatus(OnlineStatus.ONLINE)
 				.setActivity(Activity.playing("loading..."))
 				.enableIntents(GatewayIntent.GUILD_MEMBERS)
@@ -123,17 +131,18 @@ public class RenaBot {
 						commandRegistry.registerCommand(new HelpCommand()),
 						commandRegistry.registerCommand(new PingCommand()),
 						commandRegistry.registerCommand(new RoleinfoCommand()),
+						commandRegistry.registerCommand(new ShardInfoCommand()),
 						commandRegistry.registerCommand(new StatusCommand()),
 						
 						// Moderation Commands
+						commandRegistry.registerCommand(new UnbanCommand()),
 						commandRegistry.registerCommand(new BanCommand()),
 						commandRegistry.registerCommand(new KickCommand()),
 						commandRegistry.registerCommand(new SetGuildPrefixCommand()),
-						commandRegistry.registerCommand(new UnbanCommand()),
 						
 						// Miscellaneous Commands
-						commandRegistry.registerCommand(new DiceCommand()),
 						commandRegistry.registerCommand(new EightBallCommand()),
+						commandRegistry.registerCommand(new DiceCommand()),
 						
 						// Imageboard Commands
 						commandRegistry.registerCommand(new DanbooruCommand()),
@@ -141,10 +150,10 @@ public class RenaBot {
 						
 						// Roleplaying Commands
 						commandRegistry.registerCommand(new ExpeditionCommand()),
-						commandRegistry.registerCommand(new DailyCommand()),
-						commandRegistry.registerCommand(new HuntCommand()),
 						commandRegistry.registerCommand(new InsightCommand()),
 						commandRegistry.registerCommand(new InventoryCommand()),
+						commandRegistry.registerCommand(new DailyCommand()),
+						commandRegistry.registerCommand(new HuntCommand()),
 						commandRegistry.registerCommand(new LootCommand()),
 						commandRegistry.registerCommand(new ProfileCommand()),
 						commandRegistry.registerCommand(new TransferMoneyCommand()),
@@ -156,11 +165,18 @@ public class RenaBot {
 						new ModifyAttributesCommand(),
 						new ShutdownCommand(),
 						new StatusReportCommand()
-						)
-				.build();
+						);
+			
+			// TODO Use shard manager next time.
+			if (useSharding) {
+				for (int i = 0; i < totalShards; i++) {
+					logger.info("Loading shard %d...".formatted(i));
+					jda = jdaBuilder.useSharding(i, totalShards).build();
+				}
+			}
 			
 			if (jda.awaitReady() != null) {
-				logger.info("{} activated in {} second(s).", new Object[] {jda.getSelfUser().getName(), ((System.currentTimeMillis()-startup)/1000)});
+				logger.info("%1$s activated in %2$d second(s).".formatted(jda.getSelfUser().getName(), ((System.currentTimeMillis()-startup)/1000)));
 			}
 		}
 		catch (FileNotFoundException ignored) {
