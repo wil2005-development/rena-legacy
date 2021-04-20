@@ -20,6 +20,8 @@ package net.crimsonite.rena;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.security.auth.login.LoginException;
 
@@ -58,11 +60,9 @@ import net.crimsonite.rena.commands.roleplay.ProfileCommand;
 import net.crimsonite.rena.commands.roleplay.TransferMoneyCommand;
 import net.crimsonite.rena.commands.userpreference.LanguagePreferenceCommand;
 import net.crimsonite.rena.database.DBConnection;
-import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
-import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
 public class RenaBot {
@@ -75,6 +75,7 @@ public class RenaBot {
 	public static String hostName;
 	public static String prefix;
 	public static HelpCommand commandRegistry = new HelpCommand();
+	public static DefaultShardManagerBuilder jdaBuilder;
 	
 	private static ObjectMapper mapper = new ObjectMapper();
 	private static final Logger logger = LoggerFactory.getLogger(RenaBot.class);
@@ -106,8 +107,6 @@ public class RenaBot {
 		startup = System.currentTimeMillis();
 		
 		try {
-			JDA jda = null;
-			
 			JsonNode configRoot = mapper.readTree(new File("./config.json"));
 			
 			prefix = configRoot.get("PREFIX").asText();
@@ -115,12 +114,10 @@ public class RenaBot {
 			hostName = configRoot.get("HOST").asText();
 			ownerID = configRoot.get("OWNER_ID").asLong();
 			totalShards = configRoot.get("SHARD_COUNT").asInt();
-			useSharding = configRoot.get("USE_SHARDING").asBoolean();
-			
+			useSharding = configRoot.get("USE_SHARDING").asBoolean();			
 	        
-			JDABuilder jdaBuilder = JDABuilder.createDefault(configRoot.get("TOKEN").asText())
+			jdaBuilder = DefaultShardManagerBuilder.createDefault(configRoot.get("TOKEN").asText())
 				.setStatus(OnlineStatus.ONLINE)
-				.setActivity(Activity.playing("loading..."))
 				.enableIntents(GatewayIntent.GUILD_MEMBERS)
 				.setMemberCachePolicy(MemberCachePolicy.ALL)
 				.addEventListeners(
@@ -164,27 +161,33 @@ public class RenaBot {
 						// Developer/Debug Command
 						new ModifyAttributesCommand(),
 						new ShutdownCommand(),
-						new StatusReportCommand()
+						new StatusReportCommand(),
+						
+						// Event Listener
+						new ReadyListener()
 						);
 			
-			// TODO Use shard manager next time.
 			if (useSharding) {
+				logger.info("Loading (%d) shards...".formatted(totalShards));
+				
+				List<Integer> shardIds = new ArrayList<>();
+				
 				for (int i = 0; i < totalShards; i++) {
-					logger.info("Loading shard %d...".formatted(i));
-					jda = jdaBuilder.useSharding(i, totalShards).build();
+					shardIds.add(i);
 				}
+				
+				jdaBuilder.setShardsTotal(totalShards)
+							.setShards(shardIds);
 			}
 			
-			if (jda.awaitReady() != null) {
-				logger.info("%1$s activated in %2$d second(s).".formatted(jda.getSelfUser().getName(), ((System.currentTimeMillis()-startup)/1000)));
-			}
+			jdaBuilder.build();
 		}
-		catch (FileNotFoundException ignored) {
+		catch (FileNotFoundException e) {
 			logger.error("File \"config.json\" is not found within the directory.");
 			
 			generateConfigFile();
 		}
-		catch (NullPointerException ignored) {
+		catch (NullPointerException e) {
 			logger.error("A config variable returned a null value.");
 			
 			generateConfigFile();
@@ -192,13 +195,11 @@ public class RenaBot {
 		catch (IOException e) {
 			e.printStackTrace();
 		}
-		catch (IllegalArgumentException ignored) {
+		catch (IllegalArgumentException e) {
+			e.printStackTrace();
 			logger.error("Failed to login, try checking if the Token and config variables are provided correctly.");
 		}
-		catch (InterruptedException ignored) {
-			logger.error("Connection has been interrupted.");
-		}
-		catch (LoginException ignored) {
+		catch (LoginException e) {
 			logger.error("Failed to login, try checking if the provided Token is valid.");
 		}
 	}
