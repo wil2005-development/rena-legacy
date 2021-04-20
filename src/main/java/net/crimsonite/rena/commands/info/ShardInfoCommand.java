@@ -26,6 +26,7 @@ import net.dv8tion.jda.api.JDA.ShardInfo;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.sharding.ShardManager;
 
 public class ShardInfoCommand extends Command {
 
@@ -36,16 +37,16 @@ public class ShardInfoCommand extends Command {
 		JDA jda = event.getJDA();
 		MessageChannel channel = event.getChannel();
 		ShardInfo shardInfo = jda.getShardInfo();
-		//ShardManager shardManager = jda.getShardManager();
+		ShardManager shardManager = jda.getShardManager();
 		
 		EmbedBuilder embed = new EmbedBuilder()
 				.setColor(roleColor)
 				.setTitle("Shard %s".formatted(jda.getShardInfo().getShardString()))
 				.addField("Shard ID", "#" + shardInfo.getShardId(), false)
-				.addField("Average Gateway Ping", "null", true)
+				.addField("Average Gateway Ping", "%dm/s".formatted(Math.round(shardManager.getAverageGatewayPing())), true)
 				.addBlankField(true)
-				.addField("Total Shards", "null", true)
-				.addField("Online Shards", "null", true)
+				.addField("Total Shards", String.valueOf(shardManager.getShardsTotal()), true)
+				.addField("Online Shards", String.valueOf(shardManager.getShardsRunning()), true)
 				.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 		
 		channel.sendMessage(embed.build()).queue();
