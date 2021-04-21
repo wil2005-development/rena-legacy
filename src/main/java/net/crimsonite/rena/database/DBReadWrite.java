@@ -18,6 +18,7 @@
 package net.crimsonite.rena.database;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import com.rethinkdb.RethinkDB;
 import com.rethinkdb.gen.ast.Db;
@@ -60,13 +61,29 @@ public class DBReadWrite {
 				r.hashMap("id", UID)
 				.with("LEVEL", 0)
 				.with("EXP", 0)
+				
 				.with("ATK", 6)
 				.with("DEF", 3)
 				.with("HP", 10)
-				.with("MP", 0)
+				.with("MP", 5)
+				
+				.with("VIT", 5)
+				.with("STR", 3)
+				.with("AGI", 1)
+				.with("INT", 1)
+				.with("WIS", 2)
+				.with("LUK", 1)
+				
 				.with("MONEY", 0)
 				.with("REP", 0)
-				.with("DAILYSTREAK", 0)
+				.with("DAILY_STREAK", 0)
+				.with("LAST_DAILY_CLAIM", 0)
+				
+				.with("INVENTORY", r.hashMap("ITEM_0X194", 1)
+						.with("SEED_OF_LIFE", 0)
+						.with("SEED_OF_WISDOM", 0)
+						.with("ELIXIR_OF_LIFE", 0)
+						.with("ELIXIR_OF_MANA", 0))
 				)).runNoReply(conn);
 	}
 	
@@ -168,7 +185,7 @@ public class DBReadWrite {
 	/**
 	 * (Read)Returns the String value of the specified key.
 	 * 
-	 * @param table -The table to modify.
+	 * @param table -The table to look for.
 	 * @param UID -The Unique ID of the user/guild.
 	 * @param key -The db variable to get.
 	 * @return value of key
@@ -183,7 +200,7 @@ public class DBReadWrite {
 	/**
 	 * (Read)Returns the Integer value of the specified key.
 	 * 
-	 * @param table -The table to modify.
+	 * @param table -The table to look for.
 	 * @param UID -The Unique ID of the user/guild.
 	 * @param key -The db variable to get.
 	 * @return value of key
@@ -198,16 +215,31 @@ public class DBReadWrite {
 	/**
 	 * (Read)Returns the Boolean value of the specified key.
 	 * 
-	 * @param table -The table to modify.
+	 * @param table -The table to look for.
 	 * @param UID -The Unique ID of the user/guild.
 	 * @param key -The db variable to get.
 	 * @return value of key
 	 * @throws NullPointerException If the user is not found in the database.
 	 */
-	public static Boolean getValueBoolean(Table table, String UID, String key) throws NullPointerException {
+	public static boolean getValueBoolean(Table table, String UID, String key) throws NullPointerException {
 		HashMap<String, Boolean> obj = db.table(table.stringValue).get(UID).run(conn);
 		
 		return obj.get(key);
 	}
-
+	
+	/**
+	 * (Read)Returns the Map(String, Integer) value of the specified key.
+	 * 
+	 * @param table -The table to look for.
+	 * @param UID -The Unique ID of the user/guild.
+	 * @param key -The db variable to get.
+	 * @return value of key
+	 * @throws NullPointerException If the user is not found in the database.
+	 */
+	public static Map<String, Long> getValueMapSL(Table table, String UID, String key) throws NullPointerException {
+		HashMap<String, Map<String, Long>> obj = db.table(table.stringValue).get(UID).run(conn);
+		
+		return obj.get(key);
+	}
+	
 }

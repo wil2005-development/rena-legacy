@@ -18,8 +18,12 @@
 package net.crimsonite.rena.commands.roleplay;
 
 import java.awt.Color;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.Random;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -30,7 +34,9 @@ import net.crimsonite.rena.database.DBReadWrite;
 import net.crimsonite.rena.database.DBReadWrite.Table;
 import net.crimsonite.rena.engine.I18n;
 import net.crimsonite.rena.engine.RoleplayEngine;
-import net.crimsonite.rena.engine.RoleplayEngine.CommenceBattle.AttackerType;
+import net.crimsonite.rena.engine.RoleplayEngine.Battle.AttackerType;
+import net.crimsonite.rena.engine.RoleplayEngine.Handler;
+import net.crimsonite.rena.utils.RandomGenerator;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -38,9 +44,9 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class HuntCommand extends Command {
 	
-	private static void checkHP(User author, MessageChannel channel, EmbedBuilder embedForVictory, EmbedBuilder embedForDefeat, int enemyHP, int playerHP, int rewardExp, int rewardMoney) {
+	private static void checkHP(User author, MessageChannel channel, EmbedBuilder embedForVictory, EmbedBuilder embedForDefeat, int enemyHP, int playerHP, int rewardEXP, int rewardMoney) {
 		if (enemyHP <= 0) {
-			DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "EXP", rewardExp);
+			Handler.giveExp(author.getId(), rewardEXP);
 			DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "MONEY", rewardMoney);
 			
 			channel.sendMessage(embedForVictory.build()).queue();
@@ -58,15 +64,25 @@ public class HuntCommand extends Command {
 		
 		try {
 			ObjectMapper mapper = new ObjectMapper();
-			Random rng = new Random();
 			StringBuilder battleLog = new StringBuilder();
 			
 			Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
 			
-			JsonNode jsonData = mapper.readTree(getClass().getClassLoader().getResourceAsStream("rp_assets/enemy.json"));
+			JsonNode jsonData = mapper.readTree(getClass().getClassLoader().getResourceAsStream("assets/enemy.json"));
 			
-			String[] enemyList = {"Goblin", "Ogre"};
-			String selectedEnemy = enemyList[rng.nextInt(enemyList.length)];
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream("assets/enemy_list.txt");
+			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+			List<String> enemyList = new ArrayList<>();
+			
+			try {
+				String line;
+				while ((line = reader.readLine()) != null) {
+					enemyList.add(line);
+				}
+			}
+			catch (IOException e) {}
+			
+			String selectedEnemy = enemyList.get(RandomGenerator.randomInt(enemyList.size()));
 			
 			JsonNode enemyStat = jsonData.get(selectedEnemy);
 			JsonNode moneyList = enemyStat.get("MONEY");
@@ -76,7 +92,7 @@ public class HuntCommand extends Command {
 			int playerHP = DBReadWrite.getValueInt(Table.PLAYERS, author.getId(), "HP");
 			int playerDMG;
 			int rewardExp = enemyStat.get("EXP").asInt();
-			int rewardMoney = moneyList.get(rng.nextInt(moneyList.size())).asInt();
+			int rewardMoney = moneyList.get(RandomGenerator.randomInt(moneyList.size())).asInt();
 			
 			EmbedBuilder embedFirst = new EmbedBuilder()
 					.setColor(roleColor)
@@ -108,21 +124,31 @@ public class HuntCommand extends Command {
 				String status = "%1$s's HP: %3$d | %2$s's HP: %4$d\n\n";
 				checkHP(author, channel, embedForVictory, embedForDefeat, enemyHP, playerHP, rewardExp, rewardMoney);
 				
-				playerDMG = RoleplayEngine.CommenceBattle.attack(jsonData, event.getAuthor().getId(), selectedEnemy, AttackerType.PLAYER);
+				playerDMG = RoleplayEngine.Battle.attack(jsonData, event.getAuthor().getId(), selectedEnemy, AttackerType.PLAYER);
 				enemyHP -= playerDMG;
+				
+				if (enemyHP < 0) {
+					enemyHP = 0;
+				}
+				
 				battleLog.append(dialogue.formatted(author.getName(), selectedEnemy, playerDMG));
 				battleLog.append(status.formatted(author.getName(), selectedEnemy, playerHP, enemyHP));
 				
-				enemyDMG = RoleplayEngine.CommenceBattle.attack(jsonData, event.getAuthor().getId(), selectedEnemy, AttackerType.ENEMY_NORMAL);
+				enemyDMG = RoleplayEngine.Battle.attack(jsonData, event.getAuthor().getId(), selectedEnemy, AttackerType.ENEMY_NORMAL);
 				playerHP -= enemyDMG;
-				battleLog.append(dialogue.formatted(selectedEnemy, author.getName(), playerDMG));
-				battleLog.append(status.formatted(selectedEnemy, author.getName(), enemyHP, playerHP));
+				
+				if (playerHP < 0) {
+					playerHP = 0;
+				}
+				
+				battleLog.append(dialogue.formatted(selectedEnemy, author.getName(), enemyDMG));
+				battleLog.append(status.formatted(author.getName(), selectedEnemy, playerHP, enemyHP));
 				
 				checkHP(author, channel, embedForVictory, embedForDefeat, enemyHP, playerHP, rewardExp, rewardMoney);
 			}
 			RoleplayEngine.Handler.handleLevelup(author.getId());
 			
-			channel.sendMessage("Battle Logs:\n```\n%sEnd\n```".formatted(battleLog.toString())).queue();
+			channel.sendFile("Battle Logs:\n%sEnd".formatted(battleLog.toString()).getBytes(), "BattleLogs.txt").queue();
 		}
 		catch (JsonProcessingException ignored) {
 			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.hunt.error.json_processing_error")).queue();

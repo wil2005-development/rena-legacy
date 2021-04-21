@@ -20,6 +20,8 @@ package net.crimsonite.rena;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.security.auth.login.LoginException;
 
@@ -39,6 +41,7 @@ import net.crimsonite.rena.commands.info.GuildinfoCommand;
 import net.crimsonite.rena.commands.info.HelpCommand;
 import net.crimsonite.rena.commands.info.PingCommand;
 import net.crimsonite.rena.commands.info.RoleinfoCommand;
+import net.crimsonite.rena.commands.info.ShardInfoCommand;
 import net.crimsonite.rena.commands.info.StatusCommand;
 import net.crimsonite.rena.commands.info.UserinfoCommand;
 import net.crimsonite.rena.commands.misc.DiceCommand;
@@ -50,25 +53,29 @@ import net.crimsonite.rena.commands.moderation.UnbanCommand;
 import net.crimsonite.rena.commands.roleplay.DailyCommand;
 import net.crimsonite.rena.commands.roleplay.ExpeditionCommand;
 import net.crimsonite.rena.commands.roleplay.HuntCommand;
+import net.crimsonite.rena.commands.roleplay.InsightCommand;
+import net.crimsonite.rena.commands.roleplay.InventoryCommand;
 import net.crimsonite.rena.commands.roleplay.LootCommand;
 import net.crimsonite.rena.commands.roleplay.ProfileCommand;
+import net.crimsonite.rena.commands.roleplay.TransferMoneyCommand;
 import net.crimsonite.rena.commands.userpreference.LanguagePreferenceCommand;
 import net.crimsonite.rena.database.DBConnection;
-import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
-import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
 public class RenaBot {
 	
+	public static boolean useSharding;
+	public static int totalShards;
 	public static long ownerID;
 	public static long startup;
 	public static String alternativePrefix;
 	public static String hostName;
 	public static String prefix;
 	public static HelpCommand commandRegistry = new HelpCommand();
+	public static DefaultShardManagerBuilder jdaBuilder;
 	
 	private static ObjectMapper mapper = new ObjectMapper();
 	private static final Logger logger = LoggerFactory.getLogger(RenaBot.class);
@@ -106,10 +113,11 @@ public class RenaBot {
 			alternativePrefix = configRoot.get("ALTERNATIVE_PREFIX").asText();
 			hostName = configRoot.get("HOST").asText();
 			ownerID = configRoot.get("OWNER_ID").asLong();
+			totalShards = configRoot.get("SHARD_COUNT").asInt();
+			useSharding = configRoot.get("USE_SHARDING").asBoolean();			
 	        
-			JDA jda = JDABuilder.createDefault(configRoot.get("TOKEN").asText())
+			jdaBuilder = DefaultShardManagerBuilder.createDefault(configRoot.get("TOKEN").asText())
 				.setStatus(OnlineStatus.ONLINE)
-				.setActivity(Activity.playing("loading..."))
 				.enableIntents(GatewayIntent.GUILD_MEMBERS)
 				.setMemberCachePolicy(MemberCachePolicy.ALL)
 				.addEventListeners(
@@ -120,17 +128,18 @@ public class RenaBot {
 						commandRegistry.registerCommand(new HelpCommand()),
 						commandRegistry.registerCommand(new PingCommand()),
 						commandRegistry.registerCommand(new RoleinfoCommand()),
+						commandRegistry.registerCommand(new ShardInfoCommand()),
 						commandRegistry.registerCommand(new StatusCommand()),
 						
 						// Moderation Commands
+						commandRegistry.registerCommand(new UnbanCommand()),
 						commandRegistry.registerCommand(new BanCommand()),
 						commandRegistry.registerCommand(new KickCommand()),
 						commandRegistry.registerCommand(new SetGuildPrefixCommand()),
-						commandRegistry.registerCommand(new UnbanCommand()),
 						
 						// Miscellaneous Commands
-						commandRegistry.registerCommand(new DiceCommand()),
 						commandRegistry.registerCommand(new EightBallCommand()),
+						commandRegistry.registerCommand(new DiceCommand()),
 						
 						// Imageboard Commands
 						commandRegistry.registerCommand(new DanbooruCommand()),
@@ -138,10 +147,13 @@ public class RenaBot {
 						
 						// Roleplaying Commands
 						commandRegistry.registerCommand(new ExpeditionCommand()),
+						commandRegistry.registerCommand(new InsightCommand()),
+						commandRegistry.registerCommand(new InventoryCommand()),
 						commandRegistry.registerCommand(new DailyCommand()),
 						commandRegistry.registerCommand(new HuntCommand()),
 						commandRegistry.registerCommand(new LootCommand()),
 						commandRegistry.registerCommand(new ProfileCommand()),
+						commandRegistry.registerCommand(new TransferMoneyCommand()),
 						
 						// User Preference Commands
 						commandRegistry.registerCommand(new LanguagePreferenceCommand()),
@@ -149,20 +161,33 @@ public class RenaBot {
 						// Developer/Debug Command
 						new ModifyAttributesCommand(),
 						new ShutdownCommand(),
-						new StatusReportCommand()
-						)
-				.build();
+						new StatusReportCommand(),
+						
+						// Event Listener
+						new ReadyListener()
+						);
 			
-			if (jda.awaitReady() != null) {
-				logger.info("{} activated in {} second(s).", new Object[] {jda.getSelfUser().getName(), ((System.currentTimeMillis()-startup)/1000)});
+			if (useSharding) {
+				logger.info("Loading (%d) shards...".formatted(totalShards));
+				
+				List<Integer> shardIds = new ArrayList<>();
+				
+				for (int i = 0; i < totalShards; i++) {
+					shardIds.add(i);
+				}
+				
+				jdaBuilder.setShardsTotal(totalShards)
+							.setShards(shardIds);
 			}
+			
+			jdaBuilder.build();
 		}
-		catch (FileNotFoundException ignored) {
+		catch (FileNotFoundException e) {
 			logger.error("File \"config.json\" is not found within the directory.");
 			
 			generateConfigFile();
 		}
-		catch (NullPointerException ignored) {
+		catch (NullPointerException e) {
 			logger.error("A config variable returned a null value.");
 			
 			generateConfigFile();
@@ -170,13 +195,11 @@ public class RenaBot {
 		catch (IOException e) {
 			e.printStackTrace();
 		}
-		catch (IllegalArgumentException ignored) {
+		catch (IllegalArgumentException e) {
+			e.printStackTrace();
 			logger.error("Failed to login, try checking if the Token and config variables are provided correctly.");
 		}
-		catch (InterruptedException ignored) {
-			logger.error("Connection has been interrupted.");
-		}
-		catch (LoginException ignored) {
+		catch (LoginException e) {
 			logger.error("Failed to login, try checking if the provided Token is valid.");
 		}
 	}

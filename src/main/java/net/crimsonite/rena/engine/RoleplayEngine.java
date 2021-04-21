@@ -25,16 +25,32 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import net.crimsonite.rena.database.DBReadWrite;
 import net.crimsonite.rena.database.DBReadWrite.Table;
+import net.crimsonite.rena.utils.RandomGenerator;
 
 public class RoleplayEngine {
 	
+	public static enum Item {
+		SEED_OF_LIFE("SEED_OF_LIFE"),
+		SEED_OF_WISDOM("SEED_OF_WISDOM"),
+		ELIXIR_OF_LIFE("ELIXIR_OF_LIFE"),
+		ELIXIR_OF_MANA("ELIXIR_OF_MANA");
+		
+		public final String stringValue;
+
+		Item(String stringValue) {
+			this.stringValue = stringValue;
+		}
+	}
+	
 	public static class Handler {
+		
+		private static final int LEVEL_CAP = 50;
 				
-		private static boolean checkExp(int level, int exp) {
+		private static boolean canIncrementLevel(int level, int exp) {
 			int nextLevel = level += 1;
 			int requiredExpForNextLevel = 50*nextLevel*(nextLevel+1);
 			
-			if (exp >= requiredExpForNextLevel) {
+			if (exp >= requiredExpForNextLevel && level < LEVEL_CAP) {
 				return true;
 			}
 			
@@ -44,26 +60,73 @@ public class RoleplayEngine {
 		/**
 		 * Handles the levelup of the player.
 		 * 
-		 * @param -The Discord UID of the player.
+		 * @param player The Discord UID of the player.
 		 */
 		public static void handleLevelup(String player) {
-			int playerLevel = DBReadWrite.getValueInt(Table.PLAYERS, player, "LEVEL");
-			int playerExp = DBReadWrite.getValueInt(Table.PLAYERS, player, "EXP");
+			int playerLEVEL = DBReadWrite.getValueInt(Table.PLAYERS, player, "LEVEL");
+			int playerEXP = DBReadWrite.getValueInt(Table.PLAYERS, player, "EXP");
+			int playerHP = DBReadWrite.getValueInt(Table.PLAYERS, player, "HP");
+			int playerMP = DBReadWrite.getValueInt(Table.PLAYERS, player, "MP");
+			int playerVIT = DBReadWrite.getValueInt(Table.PLAYERS, player, "VIT");
+			int playerWIS = DBReadWrite.getValueInt(Table.PLAYERS, player, "WIS");
 			
-			boolean canIncrement = checkExp(playerLevel, playerExp);
+			boolean canIncrement = canIncrementLevel(playerLEVEL, playerEXP);
 			
 			if (canIncrement) {
 				while (canIncrement) {
-					playerLevel += 1;
-					canIncrement = checkExp(playerLevel, playerExp);
+					canIncrement = canIncrementLevel(playerLEVEL, playerEXP);
+					
+					playerLEVEL += 1;
+					playerHP += (RandomGenerator.randomInt(((playerVIT/ playerLEVEL) + 1), ((playerVIT / playerLEVEL) + 1) * 2));
+					playerMP += (RandomGenerator.randomInt(((playerWIS / playerLEVEL) + 1), ((playerWIS / playerLEVEL) + 1) * 2));
+					playerVIT += RandomGenerator.randomInt(1, ((playerVIT / playerLEVEL) + 1));
+					playerWIS += RandomGenerator.randomInt(1, ((playerWIS / playerLEVEL) + 1));
 				}
 				
-				DBReadWrite.incrementValue(Table.PLAYERS, player, "LEVEL", playerLevel);
+				DBReadWrite.incrementValue(Table.PLAYERS, player, "LEVEL", playerLEVEL);
+				DBReadWrite.incrementValue(Table.PLAYERS, player, "HP", playerHP);
+				DBReadWrite.incrementValue(Table.PLAYERS, player, "MP", playerMP);
+				DBReadWrite.incrementValue(Table.PLAYERS, player, "VIT", playerVIT);
+				DBReadWrite.incrementValue(Table.PLAYERS, player, "WIS", playerWIS);
 			}
+		}
+		
+		/**
+		 * @param player The Discord UID of the player.
+		 * @return Exp required for next level.
+		 */
+		public static int getRequiredExpForNextLevel(String player) {
+			int playerLevel = DBReadWrite.getValueInt(Table.PLAYERS, player, "LEVEL");
+			
+			int nextLevel = playerLevel += 1;
+			int requiredExpForNextLevel = 50*nextLevel*(nextLevel+1);
+			
+			return requiredExpForNextLevel;
+		}
+		
+		/**
+		 * @param player The Discord UID of the player.
+		 * @param amount The amount of Exp to give.
+		 */
+		public static void giveExp(String player, int amount) {
+			int playerLevel = DBReadWrite.getValueInt(Table.PLAYERS, player, "LEVEL");
+			
+			if (playerLevel < LEVEL_CAP) {
+				DBReadWrite.incrementValue(Table.PLAYERS, player, "EXP", amount);
+			}
+		}
+		
+		/**
+		 * @param player The Discord UID of the player.
+		 * @param item The item to give.
+		 * @param amount The amount of item to give.
+		 */
+		public static void giveItem(String player, Item item, int amount) {
+			DBReadWrite.incrementValue(Table.PLAYERS, player, item.stringValue, amount);
 		}
 	}
 
-	public static class CommenceBattle {
+	public static class Battle {
 		
 		private static int enemyATK;
 		private static int enemyDEF;
@@ -76,40 +139,43 @@ public class RoleplayEngine {
 		}
 		
 		/**
-		 * @param enemyDB -A place which to look for enemy data.
-		 * @param player -The Discord UID of the player.
-		 * @param enemy -The name of the enemy.
-		 * @param type -The type which is doing the action.
-		 * @return damage -The damage dealt by the type.
+		 * @param enemyDB A place which to look for enemy data.
+		 * @param player The Discord UID of the player.
+		 * @param enemy The name of the enemy.
+		 * @param type The type which is doing the action.
+		 * @return damage The damage dealt by the type.
 		 * @throws JsonProcessingException
 		 * @throws IOException
 		 */
 		public static int attack(JsonNode enemyDB, String player, String enemy, AttackerType type) throws JsonProcessingException, IOException {
 			JsonNode enemyData = enemyDB;
 			
-			int criticalHIT = new Random().nextInt(20-1)+1;
-			int damage = 0;
+			int playerLUK = DBReadWrite.getValueInt(Table.PLAYERS, player, "LUK");
+			int playerSTR = DBReadWrite.getValueInt(Table.PLAYERS, player, "STR");
+			int defaultCriticalHit = new Random().nextInt(20-1)+1;
+			int playerCriticalHit = RandomGenerator.randomInt(1, (playerLUK + 1));
+			int damage;
 			
 			switch (type) {
 				case PLAYER:					
 					playerATK = DBReadWrite.getValueInt(Table.PLAYERS, player, "ATK");
 					enemyDEF = enemyData.get(enemy).get("DEF").asInt();
 					
-					damage = (playerATK+criticalHIT)*((25+enemyDEF)/25);
+					damage = (int) (2 * Math.pow((playerATK + playerSTR + playerCriticalHit), 2)) / ((playerATK + playerSTR + playerCriticalHit) + enemyDEF);
 					
 					break;
 				case ENEMY_NORMAL:
 					enemyATK = enemyData.get(enemy).get("ATK").asInt();
 					playerDEF = DBReadWrite.getValueInt(Table.PLAYERS, player, "DEF");
 					
-					damage = (enemyATK+criticalHIT)*((25+playerDEF)/25);
+					damage = (int) (2 * Math.pow((enemyATK + defaultCriticalHit), 2)) / ((enemyATK + defaultCriticalHit) + playerDEF);
 					
 					break;
 				default:
 					playerATK = DBReadWrite.getValueInt(Table.PLAYERS, player, "ATK");
 					enemyDEF = enemyData.get(enemy).get("DEF").asInt();
 					
-					damage = (playerATK+criticalHIT)*((25+enemyDEF)/25);
+					damage = (int) (2 * Math.pow((playerATK + playerSTR + playerCriticalHit), 2)) / ((playerATK + playerSTR + playerCriticalHit) + enemyDEF);
 					
 					break;	
 			}
