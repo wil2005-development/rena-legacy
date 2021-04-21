@@ -27,6 +27,7 @@ import net.crimsonite.rena.engine.I18n;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -52,6 +53,11 @@ public abstract class Command extends ListenerAdapter {
 	@Override
 	public void onMessageReceived(MessageReceivedEvent event) {
 		User author = event.getAuthor();
+		MessageChannel channel = event.getChannel();
+		
+		if (event.getChannelType() != ChannelType.TEXT) {
+			return;
+		}
 		
 		if (author.isBot())
 			return;
@@ -90,7 +96,7 @@ public abstract class Command extends ListenerAdapter {
 						message = I18n.getMessage(event.getAuthor().getId(), "command.embed.cooldown_duration_HM");
 					}
 					
-					event.getChannel().sendMessageFormat(message.formatted(":stopwatch:", cooldownHours, cooldownMinutes, cooldownSeconds)).queue();
+					channel.sendMessageFormat(message.formatted(":stopwatch:", cooldownHours, cooldownMinutes, cooldownSeconds)).queue();
 					
 					return;
 				}
