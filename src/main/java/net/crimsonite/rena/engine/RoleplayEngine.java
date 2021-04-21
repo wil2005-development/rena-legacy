@@ -29,6 +29,19 @@ import net.crimsonite.rena.utils.RandomGenerator;
 
 public class RoleplayEngine {
 	
+	public static enum Item {
+		SEED_OF_LIFE("SEED_OF_LIFE"),
+		SEED_OF_WISDOM("SEED_OF_WISDOM"),
+		ELIXIR_OF_LIFE("ELIXIR_OF_LIFE"),
+		ELIXIR_OF_MANA("ELIXIR_OF_MANA");
+		
+		public final String stringValue;
+
+		Item(String stringValue) {
+			this.stringValue = stringValue;
+		}
+	}
+	
 	public static class Handler {
 		
 		private static final int LEVEL_CAP = 50;
@@ -92,7 +105,7 @@ public class RoleplayEngine {
 		}
 		
 		/**
-		 * @param player The Dicord UID of the player.
+		 * @param player The Discord UID of the player.
 		 * @param amount The amount of Exp to give.
 		 */
 		public static void giveExp(String player, int amount) {
@@ -101,6 +114,15 @@ public class RoleplayEngine {
 			if (playerLevel < LEVEL_CAP) {
 				DBReadWrite.incrementValue(Table.PLAYERS, player, "EXP", amount);
 			}
+		}
+		
+		/**
+		 * @param player The Discord UID of the player.
+		 * @param item The item to give.
+		 * @param amount The amount of item to give.
+		 */
+		public static void giveItem(String player, Item item, int amount) {
+			DBReadWrite.incrementValue(Table.PLAYERS, player, item.stringValue, amount);
 		}
 	}
 
