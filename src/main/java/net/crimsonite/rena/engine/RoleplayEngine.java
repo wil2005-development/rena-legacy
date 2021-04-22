@@ -44,6 +44,8 @@ public class RoleplayEngine {
 	
 	public static class Handler {
 		
+		@SuppressWarnings("unused")
+		private static final int ITEM_CAP = 250; // Future feature.
 		private static final int LEVEL_CAP = 50;
 				
 		private static boolean canIncrementLevel(int level, int exp) {
