@@ -17,34 +17,57 @@
 
 package net.crimsonite.rena;
 
+import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.security.auth.login.LoginException;
 
-import net.dv8tion.jda.api.JDABuilder;
+import org.junit.Test;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import net.crimsonite.rena.database.DBConnection;
+import net.dv8tion.jda.api.OnlineStatus;
+import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
 public class RenaTest {
 	
-	private static String token;
-	
-	public static void main(String[] args) {
-		List<String> list;
-		try {
-			list = Files.readAllLines(Paths.get("config.txt"));
-			token = list.get(0);
-			
-			JDABuilder.createLight(token).build();
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-		catch (LoginException e) {
-			e.printStackTrace();
-		}
-		
+	@Test
+	public void conn() {
+		DBConnection.conn();
 	}
+	
+	@Test
+	public void start() throws JsonProcessingException, IOException, LoginException, IllegalArgumentException {
+		ObjectMapper mapper = new ObjectMapper();
+		JsonNode configRoot = mapper.readTree(new File("./config.json"));
+		
+		int totalShards = configRoot.get("SHARD_COUNT").asInt();
+		boolean useSharding = configRoot.get("USE_SHARDING").asBoolean();			
+        
+		DefaultShardManagerBuilder jdaBuilder = DefaultShardManagerBuilder.createDefault(configRoot.get("TOKEN").asText())
+			.setStatus(OnlineStatus.ONLINE)
+			.enableIntents(GatewayIntent.GUILD_MEMBERS)
+			.setMemberCachePolicy(MemberCachePolicy.ALL);
+			
+			if (useSharding) {				
+				List<Integer> shardIds = new ArrayList<>();
+				
+				for (int i = 0; i < totalShards; i++) {
+					shardIds.add(i);
+				}
+				
+				jdaBuilder.setShardsTotal(totalShards)
+							.setShards(shardIds);
+			}
+			
+			jdaBuilder.build();
+		}
 
 }
