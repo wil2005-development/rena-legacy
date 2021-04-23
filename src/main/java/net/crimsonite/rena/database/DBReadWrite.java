@@ -84,6 +84,9 @@ public class DBReadWrite {
 						.with("SEED_OF_WISDOM", 0)
 						.with("ELIXIR_OF_LIFE", 0)
 						.with("ELIXIR_OF_MANA", 0))
+				
+				.with("ACHIEVEMENTS", r.hashMap("OWNER", false)
+						.with("DEDICATED", false))
 				)).runNoReply(conn);
 	}
 	
