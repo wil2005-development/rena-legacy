@@ -125,6 +125,31 @@ public class DBReadWrite {
 	}
 	
 	/**
+	 * (Untested)
+	 * (Write)Increments an integer value from db.
+	 * 
+	 * @param table The table to modify.
+	 * @param UID The Unique ID of the user/guild.
+	 * @param map The map to look for.
+	 * @param key The db variable to be incremented.
+	 * @param val The amount to increment.
+	 * @throws IllegalArgumentException If the provided value is a negative number
+	 * @throws NullPointerException If the user is not found in the database.
+	 */
+	public static void incrementValueFromMap(Table table, String UID, String map, String key, int val) throws IllegalArgumentException, NullPointerException {
+		if (val <= 0) {
+			throw new IllegalArgumentException("Value cannot be a negative number (%d).".formatted(val));
+		}
+		
+		HashMap<String, Map<String, Long>> obj = db.table(table.stringValue).get(UID).run(conn);
+		Map<String, Long> mapValue = obj.get(map);
+		int initialValue = Integer.parseInt(String.valueOf(mapValue.get(key)));
+		int incrementedValue = initialValue += val;
+		
+		db.table(table.stringValue).get(UID).update(r.array(map, r.hashMap(key, incrementedValue))).runNoReply(conn);
+	}
+	
+	/**
 	 * (Write)Decrements an integer value from db.
 	 * 
 	 * @param table -The table to modify.
@@ -144,6 +169,31 @@ public class DBReadWrite {
 		int decrementedValue = initialValue -= val;
 		
 		db.table(table.stringValue).get(UID).update(r.hashMap(key, decrementedValue)).runNoReply(conn);
+	}
+	
+	/**
+	 * (Untested)
+	 * (Write)Decrements an integer value from db.
+	 * 
+	 * @param table The table to modify.
+	 * @param UID The Unique ID of the user/guild.
+	 * @param map The map to look for
+	 * @param key The db variable to be decremented.
+	 * @param val The amount to decrement.
+	 * @throws IllegalArgumentException If the provided value is a negative number
+	 * @throws NullPointerException If the user is not found in the database.
+	 */
+	public static void decrementValueFromMap(Table table, String UID, String map, String key, int val) throws IllegalArgumentException, NullPointerException {
+		if (val <= 0) {
+			throw new IllegalArgumentException("Value cannot be a negative number (%d).".formatted(val));
+		}
+		
+		HashMap<String, Map<String, Long>> obj = db.table(table.stringValue).get(UID).run(conn);
+		Map<String, Long> mapValue = obj.get(map);
+		int initialValue = Integer.parseInt(String.valueOf(mapValue.get(key)));
+		int decrementedValue = initialValue -= val;
+		
+		db.table(table.stringValue).get(UID).update(r.array(map, r.hashMap(key, decrementedValue))).runNoReply(conn);
 	}
 	
 	/**
