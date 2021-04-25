@@ -241,6 +241,11 @@
 			"not_enough_money": "**You don't have enough money.**",
 			"sent": "**Successfuly sent *G%1$d* to *%2$s*! *(%3$d%% Tax)***",
 			"failed": "**Failed to send money.**"
+		},
+		"use_item": {
+			"no_item_used": "*You can't use nothing!*",
+			"item_not_found": "*You can't use a nonexistent item!",
+			"lack_item": "*You don't have any of that.*"
 		}
 	},
 	"user_preference": {
