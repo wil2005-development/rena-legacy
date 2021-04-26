@@ -243,6 +243,7 @@
 			"failed": "**Failed to send money.**"
 		},
 		"use_item": {
+			"success": "**Successfully consumed %1$d %2$s(s)**",
 			"no_item_used": "*You can't use nothing!*",
 			"item_not_found": "*You can't use a nonexistent item!",
 			"lack_item": "*You don't have any of that.*"
