@@ -146,7 +146,7 @@ public class DBReadWrite {
 		int initialValue = Integer.parseInt(String.valueOf(mapValue.get(key)));
 		int incrementedValue = initialValue += val;
 		
-		db.table(table.stringValue).get(UID).update(r.array(map, r.hashMap(key, incrementedValue))).runNoReply(conn);
+		db.table(table.stringValue).get(UID).update(r.hashMap(map, r.hashMap(key, incrementedValue))).runNoReply(conn);
 	}
 	
 	/**
@@ -193,7 +193,7 @@ public class DBReadWrite {
 		int initialValue = Integer.parseInt(String.valueOf(mapValue.get(key)));
 		int decrementedValue = initialValue -= val;
 		
-		db.table(table.stringValue).get(UID).update(r.array(map, r.hashMap(key, decrementedValue))).runNoReply(conn);
+		db.table(table.stringValue).get(UID).update(r.hashMap(map, r.hashMap(key, decrementedValue))).runNoReply(conn);
 	}
 	
 	/**
