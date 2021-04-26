@@ -58,6 +58,7 @@ import net.crimsonite.rena.commands.roleplay.InventoryCommand;
 import net.crimsonite.rena.commands.roleplay.LootCommand;
 import net.crimsonite.rena.commands.roleplay.ProfileCommand;
 import net.crimsonite.rena.commands.roleplay.TransferMoneyCommand;
+import net.crimsonite.rena.commands.roleplay.UseItemCommand;
 import net.crimsonite.rena.commands.userpreference.LanguagePreferenceCommand;
 import net.crimsonite.rena.database.DBConnection;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -149,6 +150,7 @@ public class RenaBot {
 						commandRegistry.registerCommand(new ExpeditionCommand()),
 						commandRegistry.registerCommand(new InsightCommand()),
 						commandRegistry.registerCommand(new InventoryCommand()),
+						commandRegistry.registerCommand(new UseItemCommand()),
 						commandRegistry.registerCommand(new DailyCommand()),
 						commandRegistry.registerCommand(new HuntCommand()),
 						commandRegistry.registerCommand(new LootCommand()),
