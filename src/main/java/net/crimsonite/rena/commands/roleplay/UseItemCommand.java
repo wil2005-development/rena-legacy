@@ -34,7 +34,24 @@ public class UseItemCommand extends Command {
 	private static void useItem(User author, String item, int amount) {
 		DBReadWrite.decrementValueFromMap(Table.PLAYERS, author.getId(), "INVENTORY", item, 1);
 		
-		// TODO do something.
+		switch(item) {
+			case "SEED_OF_LIFE":
+				DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "VIT", 3);
+				
+				break;
+			case "SEED_OF_WISDOM":
+				DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "WIS", 3);
+				
+				break;
+			case "ELIXIR_OF_LIFE":
+				DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "HP", 100);
+				
+				break;
+			case "ELIXIR_OF_MANA":
+				DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "MP", 80);
+				
+				break;
+		}
 	}
 
 	@Override
@@ -51,7 +68,7 @@ public class UseItemCommand extends Command {
 				if (inventory.get(item) >= 1) {
 					useItem(author, item, 1);
 					
-					// TODO Success message.
+					channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.use_item.success").formatted(1, item)).queue();
 				}
 				else {
 					channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.use_item.lack_item")).queue();
