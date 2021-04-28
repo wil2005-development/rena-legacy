@@ -36,8 +36,41 @@ public class RandomGenerator {
 	 * @param max Maximum number to generate.
 	 * @return Randomly generated number.
 	 */
+	public static float randomFloat(float max) {
+		return defaultRNG.nextFloat() * max;
+	}
+	
+	/**
+	 * @param min Minimum number to generate.
+	 * @param max Maximum number to generate.
+	 * @return Randomly generated number.
+	 */
+	public static float randomFloat(float min, float max) {
+		return (((defaultRNG.nextFloat() * max) - min) + min);
+	}
+	
+	/**
+	 * @param max Maximum number to generate.
+	 * @return Randomly generated number.
+	 */
 	public static int randomInt(int max) {
 		return defaultRNG.nextInt(max);
+	}
+	
+	/**
+	 * @param percentage The chance of getting a True value.
+	 * @return True if the generated number is less than or equal to the percentage given,
+	 * otherwise, False.
+	 */
+	public static boolean randomChance(float percentage) {
+		boolean res = false;
+		float n = randomFloat(100);
+		
+		if (n <= percentage) {
+			res = true;
+		}
+		
+		return res;
 	}
 	
 }
