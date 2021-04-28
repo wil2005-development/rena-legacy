@@ -124,7 +124,7 @@ public class RoleplayEngine {
 		 * @param amount The amount of item to give.
 		 */
 		public static void giveItem(String player, Item item, int amount) {
-			DBReadWrite.incrementValue(Table.PLAYERS, player, item.stringValue, amount);
+			DBReadWrite.incrementValueFromMap(Table.PLAYERS, player, "INVENTORY", item.stringValue, amount);
 		}
 	}
 
