@@ -6,7 +6,10 @@
 		"ATK": 10,
 		"DEF": 7,
 		"EXP": 5,
-		"MONEY": [12, 18, 15, 30]
+		"MONEY": [12, 18, 15, 30],
+		"DROPS": {
+			"POTION": {"AMOUNT": 1, "RATE": 50}
+		}
 	},
 	"Ogre": {
 		"NAME": "Ogre",
@@ -16,5 +19,8 @@
 		"DEF": 15,
 		"EXP": 18,
 		"MONEY": [14, 18, 28,33]
+		"DROPS": {
+			"POTION": {"AMOUNT": 1, "RATE": 52}
+		}
 	}
 }
