@@ -213,7 +213,7 @@
 			"invalid_month": "*Thats... not a valid month.*",
 			"invalid_day": "*That's... not a valid day.*",
 			"illegal_birthday": "*That's... not a valid birthday.*",
-			"illegal_birthday_number": "*That's not even a number!'*",
+			"illegal_birthday_number": "*That's not even a number!*",
 			"cannot_set": "*Erm... I can't set that for you.*",
 			"player_not_found": "*Err... I can't find that person. Try doing it again, I might've missed them*",
 			"embed": {
