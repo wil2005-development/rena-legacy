@@ -8,7 +8,7 @@
 		"EXP": 5,
 		"MONEY": [12, 18, 15, 30],
 		"DROPS": {
-			"POTION": {"AMOUNT": 1, "RATE": 50}
+			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 50.0}
 		}
 	},
 	"Ogre": {
@@ -20,7 +20,7 @@
 		"EXP": 18,
 		"MONEY": [14, 18, 28,33],
 		"DROPS": {
-			"POTION": {"AMOUNT": 1, "RATE": 52}
+			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 52.0}
 		}
 	}
 }
