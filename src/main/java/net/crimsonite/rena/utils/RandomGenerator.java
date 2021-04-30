@@ -36,6 +36,14 @@ public class RandomGenerator {
 	 * @param max Maximum number to generate.
 	 * @return Randomly generated number.
 	 */
+	public static int randomInt(int max) {
+		return defaultRNG.nextInt(max);
+	}
+	
+	/**
+	 * @param max Maximum number to generate.
+	 * @return Randomly generated number.
+	 */
 	public static float randomFloat(float max) {
 		return defaultRNG.nextFloat() * max;
 	}
@@ -53,8 +61,33 @@ public class RandomGenerator {
 	 * @param max Maximum number to generate.
 	 * @return Randomly generated number.
 	 */
-	public static int randomInt(int max) {
-		return defaultRNG.nextInt(max);
+	public static double randomDouble(double max) {
+		return defaultRNG.nextDouble() * max;
+	}
+	
+	/**
+	 * @param min Minimum number to generate.
+	 * @param max Maximum number to generate.
+	 * @return Randomly generated number.
+	 */
+	public static double randomDouble(double min, double max) {
+		return (((defaultRNG.nextDouble() * max) - min) + min);
+	}
+	
+	/**
+	 * @param percentage The chance of getting a True value.
+	 * @return True if the generated number is less than or equal to the percentage given,
+	 * otherwise, False.
+	 */
+	public static boolean randomChance(double percentage) {
+		boolean res = false;
+		double n = randomDouble(100);
+		
+		if (n <= percentage) {
+			res = true;
+		}
+		
+		return res;
 	}
 	
 	/**
@@ -63,14 +96,7 @@ public class RandomGenerator {
 	 * otherwise, False.
 	 */
 	public static boolean randomChance(float percentage) {
-		boolean res = false;
-		float n = randomFloat(100);
-		
-		if (n <= percentage) {
-			res = true;
-		}
-		
-		return res;
+		return randomChance(percentage);
 	}
 	
 }
