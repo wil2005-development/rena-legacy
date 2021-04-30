@@ -100,8 +100,6 @@ public class HuntCommand extends Command {
 					itemRewards.put((String) item.get("ID"), (Integer) item.get("AMOUNT"));
 				}
 			}
-			
-			System.out.print(itemRewards.toString());
 						
 			int enemyHP = enemyStat.get("HP").asInt();
 			int enemyDMG;
