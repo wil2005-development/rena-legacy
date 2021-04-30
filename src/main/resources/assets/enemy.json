@@ -18,7 +18,7 @@
 		"ATK": 18,
 		"DEF": 15,
 		"EXP": 18,
-		"MONEY": [14, 18, 28,33]
+		"MONEY": [14, 18, 28,33],
 		"DROPS": {
 			"POTION": {"AMOUNT": 1, "RATE": 52}
 		}
