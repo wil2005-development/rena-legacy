@@ -23,7 +23,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -87,6 +89,20 @@ public class HuntCommand extends Command {
 			JsonNode enemyStat = jsonData.get(selectedEnemy);
 			JsonNode moneyList = enemyStat.get("MONEY");
 			
+			@SuppressWarnings("unchecked")
+			Map<String, Map<String, ?>> drops = mapper.convertValue(enemyStat.get("DROPS"), Map.class);
+			Map<String, Integer> itemRewards = new HashMap<String, Integer>();
+			
+			for (Map<String, ?> item : drops.values()) {
+				
+				if (RandomGenerator.randomChance((Double) item.get("RATE")))
+				{
+					itemRewards.put((String) item.get("ID"), (Integer) item.get("AMOUNT"));
+				}
+			}
+			
+			System.out.print(itemRewards.toString());
+						
 			int enemyHP = enemyStat.get("HP").asInt();
 			int enemyDMG;
 			int playerHP = DBReadWrite.getValueInt(Table.PLAYERS, author.getId(), "HP");
