@@ -1,2 +1,2 @@
-with you at Shard #%d
-Dairy foods are great! [Shard #%d]
+with you at Shard #%1$d
+Dairy foods are great! [Shard #%1$d]
