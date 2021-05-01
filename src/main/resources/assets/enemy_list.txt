@@ -9,8 +9,7 @@ Satori
 Cobra
 Serpent
 Aswang
-Skeletons
-Rat King
+Skeleton
 Giant Rat
 Cultist
 Spider
