@@ -81,6 +81,7 @@
 		"MONEY": [4, 9, 13, 16],
 		"DROPS": {
 			"DROP_01": {"ID": "POTION", "AMOUNT": 2, "RATE": 88.0}
+		}
 	},
 	"Satori": {},
 	"Cobra": {}, 
