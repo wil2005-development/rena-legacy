@@ -22,7 +22,7 @@
 		"DROPS": {
 			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 52.0}
 		}
-	}
+	},
 	"Wraith": {
 		"NAME": "Wraith",
 		"HP": 12,
