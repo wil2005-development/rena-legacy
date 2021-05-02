@@ -165,7 +165,8 @@
 				"title": "You Won!!!",
 				"description": "You won the following:",
 				"exp": "EXP",
-				"money": "Money"
+				"money": "Money",
+				"items": "Items"
 			},
 			"embed_lost": {
 				"title": "You Lost!!!",
