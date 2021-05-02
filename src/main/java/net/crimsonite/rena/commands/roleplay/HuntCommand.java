@@ -51,6 +51,8 @@ public class HuntCommand extends Command {
 			Handler.giveExp(author.getId(), rewardEXP);
 			DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "MONEY", rewardMoney);
 			
+			// TODO Add rewards to player's inventory.
+			
 			channel.sendMessage(embedForVictory.build()).queue();
 		}
 		else if (playerHP <= 0) {
@@ -100,6 +102,16 @@ public class HuntCommand extends Command {
 					itemRewards.put((String) item.get("ID"), (Integer) item.get("AMOUNT"));
 				}
 			}
+			
+			List<String> itemRewardsKeySet = new ArrayList<>(itemRewards.keySet());
+			
+			StringBuilder rewardsDialogue = new StringBuilder();
+			
+			for (int i = 0; i < itemRewardsKeySet.size(); i++) {
+				rewardsDialogue.append("%1$s: %1%d, ".formatted(itemRewardsKeySet, itemRewards.get(itemRewardsKeySet.get(i))));
+			}
+			
+			rewardsDialogue.substring(0, (rewardsDialogue.length() - 2));
 						
 			int enemyHP = enemyStat.get("HP").asInt();
 			int enemyDMG;
@@ -123,6 +135,7 @@ public class HuntCommand extends Command {
 					.setDescription(I18n.getMessage(event.getAuthor().getId(), "roleplay.hunt.embed_win.description"))
 					.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.hunt.embed_win.exp"), String.valueOf(rewardExp), true)
 					.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.hunt.embed_win.money"), String.valueOf(rewardMoney), true)
+					.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.hunt.embed_win.items"), rewardsDialogue.toString(), true)
 					.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 			
 			EmbedBuilder embedForDefeat = new EmbedBuilder()
