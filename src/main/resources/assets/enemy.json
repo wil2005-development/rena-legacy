@@ -18,7 +18,7 @@
 		"ATK": 18,
 		"DEF": 15,
 		"EXP": 18,
-		"MONEY": [14, 18, 28,33],
+		"MONEY": [14, 18, 28, 33],
 		"DROPS": {
 			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 52.0}
 		}
@@ -44,7 +44,7 @@
 		"EXP": 30,
 		"MONEY": [20, 21, 29, 41],
 		"DROPS": {
-			"DROP_01": {"ID": "POTION", "AMOUNT": 2, "RATE": 79.0}
+			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 79.0}
 		}
 	},
 	"Naga": {
@@ -68,7 +68,7 @@
 		"EXP": 51,
 		"MONEY": [25, 33, 41, 54],
 		"DROPS": {
-			"DROP_01": {"ID": "POTION", "AMOUNT": 2, "RATE": 88.0}
+			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 88.0}
 		}
 	},
 	"White Lady": {
@@ -80,20 +80,163 @@
 		"EXP": 5,
 		"MONEY": [4, 9, 13, 16],
 		"DROPS": {
-			"DROP_01": {"ID": "POTION", "AMOUNT": 2, "RATE": 88.0}
+			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 100.0}
 		}
 	},
-	"Satori": {},
-	"Cobra": {}, 
-	"Serpent": {},
-	"Aswang": {},
-	"Skeleton": {},
-	"Giant Rat": {},
-	"Cultist": {},
-	"Spider": {},
-	"Black Widow": {},
-	"Mimic": {},
-	"Troll": {},
-	"She-Troll": {},
-	"Lizardman": {}
+	"Satori": {
+		"NAME": "Satori",
+		"HP": 13,
+		"MP": 33,
+		"ATK": 9,
+		"DEF": 22,
+		"EXP": 20,
+		"MONEY": [11, 15, 24, 32],
+		"DROPS": {
+			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 23.0}
+		}
+	},
+	"Cobra": {
+		"NAME": "Cobra",
+		"HP": 15,
+		"MP": 20,
+		"ATK": 15,
+		"DEF": 9,
+		"EXP": 15,
+		"MONEY": [4, 10, 14, 17],
+		"DROPS": {
+			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 33.0}
+		}
+	},
+	"Serpent": {
+		"NAME": "Serpent",
+		"HP": 30,
+		"MP": 20,
+		"ATK": 20,
+		"DEF": 15,
+		"EXP": 41,
+		"MONEY": [8, 20, 28, 56],
+		"DROPS": {
+			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 66.0}
+		}
+	},
+	"Aswang": {
+		"NAME": "Aswang",
+		"HP": 10,
+		"MP": 9,
+		"ATK": 30,
+		"DEF": 9,
+		"EXP": 18,
+		"MONEY": [4, 10, 14, 17],
+		"DROPS": {
+			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 45.0}
+		}
+	},
+	"Skeleton": {
+		"NAME": "Skeleton",
+		"HP": 15,
+		"MP": 10,
+		"ATK": 15,
+		"DEF": 10,
+		"EXP": 15,
+		"MONEY": [4, 10, 15, 17],
+		"DROPS": {
+			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 56.0}
+		}
+	},
+	"Giant Rat": {
+		"NAME": "Giant Rat",
+		"HP": 25,
+		"MP": 13,
+		"ATK": 15,
+		"DEF": 25,
+		"EXP": 36,
+		"MONEY": [9, 18, 27, 36],
+		"DROPS": {
+			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 75.0}
+		}
+	},
+	"Cultist": {
+		"NAME": "Cultist",
+		"HP": 30,
+		"MP": 20,
+		"ATK": 15,
+		"DEF": 2,
+		"EXP": 35,
+		"MONEY": [5, 10, 25, 35],
+		"DROPS": {
+			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 90.0}
+		}
+	},
+	"Spider": {
+		"NAME": "Spider",
+		"HP": 7,
+		"MP": 14,
+		"ATK": 15,
+		"DEF": 5,
+		"EXP": 9,
+		"MONEY": [2, 5, 7, 13],
+		"DROPS": {
+			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 47.0}
+		}
+	},
+	"Black Widow": {
+		"NAME": "Black Widow",
+		"HP": 15,
+		"MP": 28,
+		"ATK": 30,
+		"DEF": 10,
+		"EXP": 36,
+		"MONEY": [4, 10, 14, 26],
+		"DROPS": {
+			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 47.0}
+		}
+	},
+	"Mimic": {
+		"NAME": "Mimic",
+		"HP": 18,
+		"MP": 20,
+		"ATK": 15,
+		"DEF": 10,
+		"EXP": 23,
+		"MONEY": [10, 25, 50, 80],
+		"DROPS": {
+			"DROP_01": {"ID": "POTION", "AMOUNT": 3, "RATE": 90.0}
+		}
+	},
+	"Troll": {
+		"NAME": "Troll",
+		"HP": 75,
+		"MP": 15,
+		"ATK": 25,
+		"DEF": 25,
+		"EXP": 35,
+		"MONEY": [18, 26, 35, 44],
+		"DROPS": {
+			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 65.0}
+		}
+	},
+	"She-Troll": {
+		"NAME": "She-Troll",
+		"HP": 70,
+		"MP": 20,
+		"ATK": 25,
+		"DEF": 30,
+		"EXP": 35,
+		"MONEY": [18, 26, 35, 44],
+		"DROPS": {
+			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 65.0}
+		}
+	},
+	"Lizardman": {
+		"NAME": "Lizardman",
+		"HP": 55,
+		"MP": 25,
+		"ATK": 25,
+		"DEF": 25,
+		"EXP": 45,
+		"MONEY": [20, 24, 35, 48],
+		"DROPS": {
+			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 78.0}
+		}
+	}
 }
