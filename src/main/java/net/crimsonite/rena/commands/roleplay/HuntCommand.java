@@ -46,18 +46,85 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class HuntCommand extends Command {
 	
-	private static void checkHP(User author, MessageChannel channel, EmbedBuilder embedForVictory, EmbedBuilder embedForDefeat, int enemyHP, int playerHP, int rewardEXP, int rewardMoney) {
+	private static EmbedBuilder embedForVictory(MessageReceivedEvent event, int rewardExp, int rewardMoney, String rewardItem) {
+		User author = event.getAuthor();
+		Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
+		
+		EmbedBuilder embed = new EmbedBuilder()
+				.setColor(roleColor)
+				.setTitle(I18n.getMessage(author.getId(), "roleplay.hunt.embed_win.title"))
+				.setDescription(I18n.getMessage(author.getId(), "roleplay.hunt.embed_win.description"))
+				.addField(I18n.getMessage(author.getId(), "roleplay.hunt.embed_win.exp"), String.valueOf(rewardExp), true)
+				.addField(I18n.getMessage(author.getId(), "roleplay.hunt.embed_win.money"), String.valueOf(rewardMoney), true)
+				.addField(I18n.getMessage(author.getId(), "roleplay.hunt.embed_win.items"), rewardItem, false)
+				.setFooter(author.getName(), author.getEffectiveAvatarUrl());
+		
+		return embed;
+	}
+	
+	private static EmbedBuilder embedForDefeat(MessageReceivedEvent event) {
+		User author = event.getAuthor();
+		Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
+		
+		EmbedBuilder embed = new EmbedBuilder()
+				.setColor(roleColor)
+				.setTitle(I18n.getMessage(author.getId(), "roleplay.hunt.embed_lost.title"))
+				.setDescription(I18n.getMessage(author.getId(), "roleplay.hunt.embed_lost.description"))
+				.setFooter(author.getName(), author.getEffectiveAvatarUrl());
+		
+		return embed;
+	}
+	
+	private static void checkHP(MessageReceivedEvent event, int enemyHP, int playerHP, int rewardEXP, int rewardMoney, Map<String, Map<String, ?>> drops) {
+		User author = event.getAuthor();
+		MessageChannel channel = event.getChannel();
+		
+		// Intentionally put here for more entropy.
+		Map<String, Integer> itemRewards = new HashMap<String, Integer>();
+		
+		for (Map<String, ?> item : drops.values()) {
+			
+			if (RandomGenerator.randomChance((Double) item.get("RATE")))
+			{
+				itemRewards.put((String) item.get("ID"), (Integer) item.get("AMOUNT"));
+			}
+		}
+		
+		List<String> itemRewardsKeySet = new ArrayList<>(itemRewards.keySet());
+		
+		StringBuilder stringBuilder = new StringBuilder();
+		String rewardItem;
+		
+		for (int i = 0; i < itemRewardsKeySet.size(); i++) {
+			stringBuilder.append("%1$s: %2$d, ".formatted(itemRewardsKeySet.get(i), itemRewards.get(itemRewardsKeySet.get(i))));
+		}
+		
+		if (stringBuilder.length() != 0) {
+			String temporaryString = stringBuilder.toString();
+			
+			rewardItem = temporaryString.substring(0, (temporaryString.length() - 2));;
+		}
+		else {
+			stringBuilder.append("None");
+			rewardItem = stringBuilder.toString();
+		}
+		
 		if (enemyHP <= 0) {
 			Handler.giveExp(author.getId(), rewardEXP);
 			DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "MONEY", rewardMoney);
 			
-			// TODO Add rewards to player's inventory.
+			if (itemRewards != null) {
+				for (int i = 0; i < itemRewards.size(); i++) {
+					List<String> items = new ArrayList<>(itemRewards.keySet());
+					DBReadWrite.incrementValueFromMap(Table.PLAYERS, author.getId(), "INVENTORY", items.get(i), itemRewards.get(items.get(i)).intValue());
+				}
+			}
 			
-			channel.sendMessage(embedForVictory.build()).queue();
+			channel.sendMessage(embedForVictory(event, rewardEXP, rewardMoney, rewardItem).build()).queue();
 		}
 		else if (playerHP <= 0) {
 			
-			channel.sendMessage(embedForDefeat.build()).queue();
+			channel.sendMessage(embedForDefeat(event).build()).queue();
 		}
 	}
 
@@ -93,25 +160,6 @@ public class HuntCommand extends Command {
 			
 			@SuppressWarnings("unchecked")
 			Map<String, Map<String, ?>> drops = mapper.convertValue(enemyStat.get("DROPS"), Map.class);
-			Map<String, Integer> itemRewards = new HashMap<String, Integer>();
-			
-			for (Map<String, ?> item : drops.values()) {
-				
-				if (RandomGenerator.randomChance((Double) item.get("RATE")))
-				{
-					itemRewards.put((String) item.get("ID"), (Integer) item.get("AMOUNT"));
-				}
-			}
-			
-			List<String> itemRewardsKeySet = new ArrayList<>(itemRewards.keySet());
-			
-			StringBuilder rewardsDialogue = new StringBuilder();
-			
-			for (int i = 0; i < itemRewardsKeySet.size(); i++) {
-				rewardsDialogue.append("%1$s: %1%d, ".formatted(itemRewardsKeySet, itemRewards.get(itemRewardsKeySet.get(i))));
-			}
-			
-			rewardsDialogue.substring(0, (rewardsDialogue.length() - 2));
 						
 			int enemyHP = enemyStat.get("HP").asInt();
 			int enemyDMG;
@@ -129,27 +177,12 @@ public class HuntCommand extends Command {
 					.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.hunt.embed_encounter.def"), enemyStat.get("DEF").asText(), true)
 					.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 			
-			EmbedBuilder embedForVictory = new EmbedBuilder()
-					.setColor(roleColor)
-					.setTitle(I18n.getMessage(event.getAuthor().getId(), "roleplay.hunt.embed_win.title"))
-					.setDescription(I18n.getMessage(event.getAuthor().getId(), "roleplay.hunt.embed_win.description"))
-					.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.hunt.embed_win.exp"), String.valueOf(rewardExp), true)
-					.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.hunt.embed_win.money"), String.valueOf(rewardMoney), true)
-					.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.hunt.embed_win.items"), rewardsDialogue.toString(), true)
-					.setFooter(author.getName(), author.getEffectiveAvatarUrl());
-			
-			EmbedBuilder embedForDefeat = new EmbedBuilder()
-					.setColor(roleColor)
-					.setTitle(I18n.getMessage(event.getAuthor().getId(), "roleplay.hunt.embed_lost.title"))
-					.setDescription(I18n.getMessage(event.getAuthor().getId(), "roleplay.hunt.embed_lost.description"))
-					.setFooter(author.getName(), author.getEffectiveAvatarUrl());
-			
 			channel.sendMessage(embedFirst.build()).queue();
 			
 			while (playerHP > 0 && enemyHP > 0) {
 				String dialogue = "%1$s attacked and dealt %3$d damage to %2$s\n";
 				String status = "%1$s's HP: %3$d | %2$s's HP: %4$d\n\n";
-				checkHP(author, channel, embedForVictory, embedForDefeat, enemyHP, playerHP, rewardExp, rewardMoney);
+				checkHP(event, enemyHP, playerHP, rewardExp, rewardMoney, drops);
 				
 				playerDMG = RoleplayEngine.Battle.attack(jsonData, event.getAuthor().getId(), selectedEnemy, AttackerType.PLAYER);
 				enemyHP -= playerDMG;
@@ -171,7 +204,7 @@ public class HuntCommand extends Command {
 				battleLog.append(dialogue.formatted(selectedEnemy, author.getName(), enemyDMG));
 				battleLog.append(status.formatted(author.getName(), selectedEnemy, playerHP, enemyHP));
 				
-				checkHP(author, channel, embedForVictory, embedForDefeat, enemyHP, playerHP, rewardExp, rewardMoney);
+				checkHP(event, enemyHP, playerHP, rewardExp, rewardMoney, drops);
 			}
 			RoleplayEngine.Handler.handleLevelup(author.getId());
 			
