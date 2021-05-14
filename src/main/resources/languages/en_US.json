@@ -251,6 +251,12 @@
 		}
 	},
 	"user_preference": {
+		"preference": {
+			"invalid_action": "**That's not a valid action.**",
+			"invalid_option": "**That's not a valid option.**",
+			"no_action": "**You didn't provide an action to do.**",
+			"no_option": "**You didn't provide an option.**"
+		},
 		"language_preference": {
 			"error": "*Seems like an unexpected error has occured. Hurry, and report it to my master!*",
 			"set_lang_success": "**Language successfully changed to %1$s_%2$s!**",
