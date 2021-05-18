@@ -59,7 +59,7 @@ import net.crimsonite.rena.commands.roleplay.LootCommand;
 import net.crimsonite.rena.commands.roleplay.ProfileCommand;
 import net.crimsonite.rena.commands.roleplay.TransferMoneyCommand;
 import net.crimsonite.rena.commands.roleplay.UseItemCommand;
-import net.crimsonite.rena.commands.userpreference.LanguagePreferenceCommand;
+import net.crimsonite.rena.commands.userpreference.PreferenceCommand;
 import net.crimsonite.rena.database.DBConnection;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -158,7 +158,7 @@ public class RenaBot {
 						commandRegistry.registerCommand(new TransferMoneyCommand()),
 						
 						// User Preference Commands
-						commandRegistry.registerCommand(new LanguagePreferenceCommand()),
+						commandRegistry.registerCommand(new PreferenceCommand()),
 						
 						// Developer/Debug Command
 						new ModifyAttributesCommand(),
