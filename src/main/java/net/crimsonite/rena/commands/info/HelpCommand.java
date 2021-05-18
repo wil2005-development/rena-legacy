@@ -22,6 +22,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.crimsonite.rena.RenaBot;
 import net.crimsonite.rena.commands.Command;
 import net.crimsonite.rena.engine.I18n;
@@ -34,6 +37,7 @@ public class HelpCommand extends Command {
 	
 	private HashMap<String, Command> commands;
 	private static int numberOfCommands = 0;
+	private static final Logger logger = LoggerFactory.getLogger(HelpCommand.class);
 		
 	public HelpCommand() {
 		commands = new HashMap<>();
@@ -53,8 +57,11 @@ public class HelpCommand extends Command {
 	 * @return the command passed
 	 */
 	public Command registerCommand(Command command) {
-		commands.put(command.getCommandName(), command);
+		String commandName = command.getCommandName();
+		commands.put(commandName, command);
 		numberOfCommands++;
+		
+		logger.info("%1$s loaded.".formatted(commandName));
 		
 		return command;
 	}
