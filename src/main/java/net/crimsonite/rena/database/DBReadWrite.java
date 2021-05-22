@@ -83,7 +83,8 @@ public class DBReadWrite {
 						.with("SEED_OF_LIFE", 0)
 						.with("SEED_OF_WISDOM", 0)
 						.with("ELIXIR_OF_LIFE", 0)
-						.with("ELIXIR_OF_MANA", 0))
+						.with("ELIXIR_OF_MANA", 0)
+						.with("POTION", 0))
 				
 				.with("ACHIEVEMENTS", r.hashMap("OWNER", false)
 						.with("DEDICATED", false))
@@ -118,7 +119,7 @@ public class DBReadWrite {
 		}
 		
 		HashMap<String, Long> obj = db.table(table.stringValue).get(UID).run(conn);
-		int initialValue = Integer.parseInt(String.valueOf(obj.get(key)));
+		int initialValue = obj.get(key).intValue();
 		int incrementedValue = initialValue += val;
 		
 		db.table(table.stringValue).get(UID).update(r.hashMap(key, incrementedValue)).runNoReply(conn);
@@ -143,7 +144,7 @@ public class DBReadWrite {
 		
 		HashMap<String, Map<String, Long>> obj = db.table(table.stringValue).get(UID).run(conn);
 		Map<String, Long> mapValue = obj.get(map);
-		int initialValue = Integer.parseInt(String.valueOf(mapValue.get(key)));
+		int initialValue = mapValue.get(key).intValue();
 		int incrementedValue = initialValue += val;
 		
 		db.table(table.stringValue).get(UID).update(r.hashMap(map, r.hashMap(key, incrementedValue))).runNoReply(conn);
@@ -165,7 +166,7 @@ public class DBReadWrite {
 		}
 		
 		HashMap<String, Long> obj = db.table(table.stringValue).get(UID).run(conn);
-		int initialValue = Integer.parseInt(String.valueOf(obj.get(key)));
+		int initialValue = obj.get(key).intValue();
 		int decrementedValue = initialValue -= val;
 		
 		db.table(table.stringValue).get(UID).update(r.hashMap(key, decrementedValue)).runNoReply(conn);
@@ -190,7 +191,7 @@ public class DBReadWrite {
 		
 		HashMap<String, Map<String, Long>> obj = db.table(table.stringValue).get(UID).run(conn);
 		Map<String, Long> mapValue = obj.get(map);
-		int initialValue = Integer.parseInt(String.valueOf(mapValue.get(key)));
+		int initialValue = mapValue.get(key).intValue();
 		int decrementedValue = initialValue -= val;
 		
 		db.table(table.stringValue).get(UID).update(r.hashMap(map, r.hashMap(key, decrementedValue))).runNoReply(conn);
@@ -262,7 +263,7 @@ public class DBReadWrite {
 	public static int getValueInt(Table table, String UID, String key) throws NullPointerException {
 		HashMap<String, Long> obj = db.table(table.stringValue).get(UID).run(conn);
 		
-		return Integer.parseInt(String.valueOf(obj.get(key)));
+		return obj.get(key).intValue();
 	}
 	
 	/**

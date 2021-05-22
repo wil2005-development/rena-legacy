@@ -116,7 +116,7 @@ public class HuntCommand extends Command {
 			if (itemRewards != null) {
 				for (int i = 0; i < itemRewards.size(); i++) {
 					List<String> items = new ArrayList<>(itemRewards.keySet());
-					DBReadWrite.incrementValueFromMap(Table.PLAYERS, author.getId(), "INVENTORY", items.get(i), itemRewards.get(items.get(i)).intValue());
+					DBReadWrite.incrementValueFromMap(Table.PLAYERS, author.getId(), "INVENTORY", items.get(i), itemRewards.get(items.get(i)));
 				}
 			}
 			
