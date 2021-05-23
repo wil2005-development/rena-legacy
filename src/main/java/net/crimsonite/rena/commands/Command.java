@@ -20,7 +20,7 @@ package net.crimsonite.rena.commands;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
-import net.crimsonite.rena.RenaBot;
+import net.crimsonite.rena.RenaConfig;
 import net.crimsonite.rena.database.DBReadWrite;
 import net.crimsonite.rena.database.DBReadWrite.Table;
 import net.crimsonite.rena.engine.I18n;
@@ -63,7 +63,7 @@ public abstract class Command extends ListenerAdapter {
 			return;
 		
 		if (isOwnerCommand()) {
-			if (author.getIdLong() != RenaBot.ownerID) {
+			if (author.getIdLong() != RenaConfig.getOwnerId()) {
 				return;
 			}
 		}
@@ -133,7 +133,7 @@ public abstract class Command extends ListenerAdapter {
 	}
 
 	protected boolean containsCommand(Message message, MessageReceivedEvent event) {
-		String defaultPrefix = RenaBot.prefix;
+		String defaultPrefix = RenaConfig.getPrefix();
 		String prefix = null;
 		
 		try {

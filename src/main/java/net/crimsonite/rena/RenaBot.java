@@ -18,7 +18,6 @@
 package net.crimsonite.rena;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,13 +67,8 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
 public class RenaBot {
 	
-	public static boolean useSharding;
-	public static int totalShards;
-	public static long ownerID;
-	public static long startup;
-	public static String alternativePrefix;
-	public static String hostName;
-	public static String prefix;
+	public static final long startup = System.currentTimeMillis();
+	
 	public static HelpCommand commandRegistry = new HelpCommand();
 	public static DefaultShardManagerBuilder jdaBuilder;
 	
@@ -84,11 +78,9 @@ public class RenaBot {
 	private void generateConfigFile() {
 		logger.info("Generating config file from templates...");
 		
-		try {
-			ObjectMapper objMapper = new ObjectMapper();
-			
+		try {			
 			JsonNode templateFileAsTree = mapper.readTree(getClass().getClassLoader().getResourceAsStream("templates/config.json"));
-			Object templateFileAsObject = objMapper.treeToValue(templateFileAsTree, Object.class);
+			Object templateFileAsObject = mapper.treeToValue(templateFileAsTree, Object.class);
 			
 			mapper.writeValue(new File("config.json"), templateFileAsObject);
 			
@@ -104,20 +96,9 @@ public class RenaBot {
 	
 	protected RenaBot() {
 		logger.info("Preparing bot for activation...");
-		
-		startup = System.currentTimeMillis();
-		
+				
 		try {
-			JsonNode configRoot = mapper.readTree(new File("./config.json"));
-			
-			prefix = configRoot.get("PREFIX").asText();
-			alternativePrefix = configRoot.get("ALTERNATIVE_PREFIX").asText();
-			hostName = configRoot.get("HOST").asText();
-			ownerID = configRoot.get("OWNER_ID").asLong();
-			totalShards = configRoot.get("SHARD_COUNT").asInt();
-			useSharding = configRoot.get("USE_SHARDING").asBoolean();			
-	        
-			jdaBuilder = DefaultShardManagerBuilder.createDefault(configRoot.get("TOKEN").asText())
+			jdaBuilder = DefaultShardManagerBuilder.createDefault(RenaConfig.TOKEN)
 				.setStatus(OnlineStatus.ONLINE)
 				.enableIntents(GatewayIntent.GUILD_MEMBERS)
 				.setMemberCachePolicy(MemberCachePolicy.ALL)
@@ -169,7 +150,9 @@ public class RenaBot {
 						new ReadyListener()
 						);
 			
-			if (useSharding) {
+			if (RenaConfig.isSharding()) {
+				int totalShards = RenaConfig.getTotalShards();
+				
 				logger.info("Loading (%d) shards...".formatted(totalShards));
 				
 				List<Integer> shardIds = new ArrayList<>();
@@ -184,18 +167,10 @@ public class RenaBot {
 			
 			jdaBuilder.build();
 		}
-		catch (FileNotFoundException e) {
-			logger.error("File \"config.json\" is not found within the directory.");
-			
-			generateConfigFile();
-		}
 		catch (NullPointerException e) {
 			logger.error("A config variable returned a null value.");
 			
 			generateConfigFile();
-		}
-		catch (IOException e) {
-			e.printStackTrace();
 		}
 		catch (IllegalArgumentException e) {
 			e.printStackTrace();

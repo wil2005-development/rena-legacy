@@ -21,7 +21,7 @@ import com.rethinkdb.RethinkDB;
 import com.rethinkdb.gen.ast.Db;
 import com.rethinkdb.net.Connection;
 
-import net.crimsonite.rena.RenaBot;
+import net.crimsonite.rena.RenaConfig;
 
 public class DBConnection {
 
@@ -31,7 +31,7 @@ public class DBConnection {
 	 * @return database connection
 	 */
 	public static final Connection conn() {
-		Connection connection = r.connection().hostname(RenaBot.hostName).port(28015).connect();
+		Connection connection = r.connection().hostname(RenaConfig.getHostName()).port(28015).connect();
 		
 		return connection;
 	}

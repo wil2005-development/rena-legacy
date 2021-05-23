@@ -33,7 +33,8 @@ public class RoleplayEngine {
 		SEED_OF_LIFE("SEED_OF_LIFE"),
 		SEED_OF_WISDOM("SEED_OF_WISDOM"),
 		ELIXIR_OF_LIFE("ELIXIR_OF_LIFE"),
-		ELIXIR_OF_MANA("ELIXIR_OF_MANA");
+		ELIXIR_OF_MANA("ELIXIR_OF_MANA"),
+		POTION("POTION");
 		
 		public final String stringValue;
 
