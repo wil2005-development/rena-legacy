@@ -41,10 +41,29 @@ import net.crimsonite.rena.engine.RoleplayEngine.Handler;
 import net.crimsonite.rena.utils.RandomGenerator;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.MessageReaction.ReactionEmote;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 
 public class HuntCommand extends Command {
+	
+	private MessageReceivedEvent messageEvent;
+	private JsonNode jsonData;
+	private Map<String, Map<String, ?>> drops;
+	private long timer;
+	private StringBuilder battleLog;
+	private long dialogueId = 0;
+	private long huntPlayer = 0;
+	private String selectedEnemy;
+	private int enemyHP;
+	private int enemyDMG;
+	private int playerHP;
+	private int playerDMG;
+	private int rewardExp;
+	private int rewardMoney;
+	private boolean huntAccepted = false;
+	private boolean locked = true;
 	
 	private static EmbedBuilder embedForVictory(MessageReceivedEvent event, int rewardExp, int rewardMoney, String rewardItem) {
 		User author = event.getAuthor();
@@ -73,6 +92,56 @@ public class HuntCommand extends Command {
 				.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 		
 		return embed;
+	}
+	
+	private void throwAttack(MessageReactionAddEvent event, User author) {
+		MessageChannel channel = event.getChannel();
+		
+		String selectedEnemy = this.selectedEnemy;
+		int enemyHP = this.enemyHP;
+		int enemyDMG = this.enemyDMG;
+		int playerHP = this.playerHP;
+		int playerDMG = this.playerDMG;
+		int rewardExp = this.rewardExp;
+		int rewardMoney = this.rewardMoney;
+		
+		if (event.getMessageIdLong() == this.dialogueId && event.getUserIdLong() == this.huntPlayer) {
+			try {
+				while (playerHP > 0 && enemyHP > 0) {
+					String dialogue = "%1$s attacked and dealt %3$d damage to %2$s\n";
+					String status = "%1$s's HP: %3$d | %2$s's HP: %4$d\n\n";
+					checkHP(messageEvent, enemyHP, playerHP, rewardExp, rewardMoney, drops);
+					
+					playerDMG = RoleplayEngine.Battle.attack(jsonData, author.getId(), selectedEnemy, AttackerType.PLAYER);
+					enemyHP -= playerDMG;
+					
+					if (enemyHP < 0) {
+						enemyHP = 0;
+					}
+					
+					battleLog.append(dialogue.formatted(author.getName(), selectedEnemy, playerDMG));
+					battleLog.append(status.formatted(author.getName(), selectedEnemy, playerHP, enemyHP));
+					
+					enemyDMG = RoleplayEngine.Battle.attack(jsonData, author.getId(), selectedEnemy, AttackerType.ENEMY_NORMAL);
+					playerHP -= enemyDMG;
+					
+					if (playerHP < 0) {
+						playerHP = 0;
+					}
+					
+					battleLog.append(dialogue.formatted(selectedEnemy, author.getName(), enemyDMG));
+					battleLog.append(status.formatted(author.getName(), selectedEnemy, playerHP, enemyHP));
+					
+					checkHP(messageEvent, enemyHP, playerHP, rewardExp, rewardMoney, drops);
+				}
+				RoleplayEngine.Handler.handleLevelup(author.getId());
+				
+				channel.sendFile("Battle Logs:\n%sEnd".formatted(battleLog.toString()).getBytes(), "BattleLogs.txt").queue();
+			}
+			catch(IOException e) {
+				channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.hunt.error.io_error")).queue();
+			}
+		}
 	}
 	
 	private static void checkHP(MessageReceivedEvent event, int enemyHP, int playerHP, int rewardEXP, int rewardMoney, Map<String, Map<String, ?>> drops) {
@@ -127,19 +196,25 @@ public class HuntCommand extends Command {
 			channel.sendMessage(embedForDefeat(event).build()).queue();
 		}
 	}
-
+	
 	@Override
+	@SuppressWarnings("unchecked")
 	public void execute(MessageReceivedEvent event, String[] args) {
 		User author = event.getAuthor();
 		MessageChannel channel = event.getChannel();
 		
+		this.huntPlayer = author.getIdLong();
+		this.messageEvent = event;
+		this.timer = System.currentTimeMillis();
+		this.locked = false;
+		
 		try {
 			ObjectMapper mapper = new ObjectMapper();
-			StringBuilder battleLog = new StringBuilder();
+			this.battleLog = new StringBuilder();
 			
 			Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
 			
-			JsonNode jsonData = mapper.readTree(getClass().getClassLoader().getResourceAsStream("assets/enemy.json"));
+			this.jsonData = mapper.readTree(getClass().getClassLoader().getResourceAsStream("assets/enemy.json"));
 			
 			InputStream inputStream = getClass().getClassLoader().getResourceAsStream("assets/enemy_list.txt");
 			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -153,20 +228,17 @@ public class HuntCommand extends Command {
 			}
 			catch (IOException e) {}
 			
-			String selectedEnemy = enemyList.get(RandomGenerator.randomInt(enemyList.size()));
+			this.selectedEnemy = enemyList.get(RandomGenerator.randomInt(enemyList.size()));
 			
 			JsonNode enemyStat = jsonData.get(selectedEnemy);
 			JsonNode moneyList = enemyStat.get("MONEY");
 			
-			@SuppressWarnings("unchecked")
-			Map<String, Map<String, ?>> drops = mapper.convertValue(enemyStat.get("DROPS"), Map.class);
+			this.drops = mapper.convertValue(enemyStat.get("DROPS"), Map.class);
 						
-			int enemyHP = enemyStat.get("HP").asInt();
-			int enemyDMG;
-			int playerHP = DBReadWrite.getValueInt(Table.PLAYERS, author.getId(), "HP");
-			int playerDMG;
-			int rewardExp = enemyStat.get("EXP").asInt();
-			int rewardMoney = moneyList.get(RandomGenerator.randomInt(moneyList.size())).asInt();
+			this.enemyHP = enemyStat.get("HP").asInt();
+			this.playerHP = DBReadWrite.getValueInt(Table.PLAYERS, author.getId(), "HP");
+			this.rewardExp = enemyStat.get("EXP").asInt();
+			this.rewardMoney = moneyList.get(RandomGenerator.randomInt(moneyList.size())).asInt();
 			
 			EmbedBuilder embedFirst = new EmbedBuilder()
 					.setColor(roleColor)
@@ -177,38 +249,11 @@ public class HuntCommand extends Command {
 					.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.hunt.embed_encounter.def"), enemyStat.get("DEF").asText(), true)
 					.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 			
-			channel.sendMessage(embedFirst.build()).queue();
-			
-			while (playerHP > 0 && enemyHP > 0) {
-				String dialogue = "%1$s attacked and dealt %3$d damage to %2$s\n";
-				String status = "%1$s's HP: %3$d | %2$s's HP: %4$d\n\n";
-				checkHP(event, enemyHP, playerHP, rewardExp, rewardMoney, drops);
-				
-				playerDMG = RoleplayEngine.Battle.attack(jsonData, event.getAuthor().getId(), selectedEnemy, AttackerType.PLAYER);
-				enemyHP -= playerDMG;
-				
-				if (enemyHP < 0) {
-					enemyHP = 0;
-				}
-				
-				battleLog.append(dialogue.formatted(author.getName(), selectedEnemy, playerDMG));
-				battleLog.append(status.formatted(author.getName(), selectedEnemy, playerHP, enemyHP));
-				
-				enemyDMG = RoleplayEngine.Battle.attack(jsonData, event.getAuthor().getId(), selectedEnemy, AttackerType.ENEMY_NORMAL);
-				playerHP -= enemyDMG;
-				
-				if (playerHP < 0) {
-					playerHP = 0;
-				}
-				
-				battleLog.append(dialogue.formatted(selectedEnemy, author.getName(), enemyDMG));
-				battleLog.append(status.formatted(author.getName(), selectedEnemy, playerHP, enemyHP));
-				
-				checkHP(event, enemyHP, playerHP, rewardExp, rewardMoney, drops);
-			}
-			RoleplayEngine.Handler.handleLevelup(author.getId());
-			
-			channel.sendFile("Battle Logs:\n%sEnd".formatted(battleLog.toString()).getBytes(), "BattleLogs.txt").queue();
+			channel.sendMessage(embedFirst.build()).queue((dialogue)->{
+					this.dialogueId = dialogue.getIdLong();
+					channel.addReactionById(dialogue.getIdLong(), "\u2705").queue();
+					channel.addReactionById(dialogue.getIdLong(), "\u274C").queue();
+			});
 		}
 		catch (JsonProcessingException ignored) {
 			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.hunt.error.json_processing_error")).queue();
@@ -219,6 +264,39 @@ public class HuntCommand extends Command {
 		catch (NullPointerException ignored) {
 			DBReadWrite.registerUser(author.getId());
 			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.hunt.error.generic_error")).queue();
+		}
+	}
+	
+	@Override
+	public void onMessageReactionAdd(MessageReactionAddEvent event) {
+		User author = event.getUser();
+		MessageChannel channel = event.getChannel();
+		
+		long currentTime = System.currentTimeMillis();
+		long timeout = 5000;
+		
+		if(!this.locked) {
+			if (event.getMessageIdLong() == this.dialogueId && author.getIdLong() == this.huntPlayer) {
+				while (currentTime < (this.timer + timeout)) {
+					if (event.getReactionEmote().equals(ReactionEmote.fromUnicode("\u2705", event.getJDA()))) {
+						channel.sendMessage("You attacked the monster").queue();
+						this.huntAccepted = true;
+						
+						break;
+					}
+					else if (event.getReactionEmote().equals(ReactionEmote.fromUnicode("\u274C", event.getJDA()))) {
+						channel.sendMessage("You ran away").queue();
+						this.huntAccepted = false;
+						
+						break;
+					}
+				}
+				this.locked = true;
+				
+				if (this.huntAccepted) {
+					throwAttack(event, author);
+				}
+			}
 		}
 	}
 
@@ -234,7 +312,7 @@ public class HuntCommand extends Command {
 
 	@Override
 	public long cooldown() {
-		return 28800;
+		return 15;//28800;
 	}
 
 	@Override
