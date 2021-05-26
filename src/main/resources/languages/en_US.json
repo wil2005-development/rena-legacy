@@ -149,6 +149,8 @@
 			}
 		},
 		"hunt": {
+			"attack": "**You attacked the monster confidently!**",
+			"run": "**You ran away knowing that the monster is stronger than you...**",
 			"error": {
 				"generic_error": "Oops! Try again?",
 				"json_processing_error": "*The monsters suddenly disappeared.*",

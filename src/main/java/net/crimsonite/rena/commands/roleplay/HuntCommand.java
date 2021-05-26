@@ -279,13 +279,13 @@ public class HuntCommand extends Command {
 			if (event.getMessageIdLong() == this.dialogueId && author.getIdLong() == this.huntPlayer) {
 				while (currentTime < (this.timer + timeout)) {
 					if (event.getReactionEmote().equals(ReactionEmote.fromUnicode("\u2705", event.getJDA()))) {
-						channel.sendMessage("You attacked the monster").queue();
+						channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.hunt.attack")).queue();
 						this.huntAccepted = true;
 						
 						break;
 					}
 					else if (event.getReactionEmote().equals(ReactionEmote.fromUnicode("\u274C", event.getJDA()))) {
-						channel.sendMessage("You ran away").queue();
+						channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.hunt.run")).queue();
 						this.huntAccepted = false;
 						
 						break;
