@@ -34,6 +34,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.crimsonite.rena.commands.Command;
 import net.crimsonite.rena.database.DBReadWrite;
 import net.crimsonite.rena.database.DBReadWrite.Table;
+import net.crimsonite.rena.engine.Cooldown;
 import net.crimsonite.rena.engine.I18n;
 import net.crimsonite.rena.engine.RoleplayEngine;
 import net.crimsonite.rena.engine.RoleplayEngine.Battle.AttackerType;
@@ -62,7 +63,6 @@ public class HuntCommand extends Command {
 	private int playerDMG;
 	private int rewardExp;
 	private int rewardMoney;
-	private boolean huntAccepted = false;
 	private boolean locked = true;
 	
 	private static EmbedBuilder embedForVictory(MessageReceivedEvent event, int rewardExp, int rewardMoney, String rewardItem) {
@@ -272,28 +272,33 @@ public class HuntCommand extends Command {
 		User author = event.getUser();
 		MessageChannel channel = event.getChannel();
 		
+		boolean huntAccepted = false;
 		long currentTime = System.currentTimeMillis();
-		long timeout = 5000;
+		long timeout = 60_000;
 		
 		if(!this.locked) {
 			if (event.getMessageIdLong() == this.dialogueId && author.getIdLong() == this.huntPlayer) {
 				while (currentTime < (this.timer + timeout)) {
 					if (event.getReactionEmote().equals(ReactionEmote.fromUnicode("\u2705", event.getJDA()))) {
 						channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.hunt.attack")).queue();
-						this.huntAccepted = true;
+						huntAccepted = true;
 						
 						break;
 					}
 					else if (event.getReactionEmote().equals(ReactionEmote.fromUnicode("\u274C", event.getJDA()))) {
 						channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.hunt.run")).queue();
-						this.huntAccepted = false;
+						Cooldown.removeCooldown(author.getId(), getCommandName());
+						huntAccepted = false;
 						
 						break;
 					}
 				}
 				this.locked = true;
 				
-				if (this.huntAccepted) {
+				channel.removeReactionById(this.dialogueId, "\u2705").queue();
+				channel.removeReactionById(this.dialogueId, "\u274C").queue();
+				
+				if (huntAccepted) {
 					throwAttack(event, author);
 				}
 			}
@@ -312,7 +317,7 @@ public class HuntCommand extends Command {
 
 	@Override
 	public long cooldown() {
-		return 15;//28800;
+		return 28800;
 	}
 
 	@Override
