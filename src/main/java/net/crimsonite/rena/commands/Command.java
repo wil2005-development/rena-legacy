@@ -17,12 +17,12 @@
 
 package net.crimsonite.rena.commands;
 
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 import net.crimsonite.rena.RenaConfig;
 import net.crimsonite.rena.database.DBReadWrite;
 import net.crimsonite.rena.database.DBReadWrite.Table;
+import net.crimsonite.rena.engine.Cooldown;
 import net.crimsonite.rena.engine.I18n;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
@@ -41,7 +41,7 @@ public abstract class Command extends ListenerAdapter {
 	public abstract long cooldown();
 	
 	private static long timesCommandUsed = 0;
-	private ConcurrentHashMap<String, Long> cooldownCache = new ConcurrentHashMap<>();
+	//private ConcurrentHashMap<String, Long> cooldownCache = new ConcurrentHashMap<>();
 	
 	/**
 	 * @return Number of times the command was called.
@@ -73,8 +73,8 @@ public abstract class Command extends ListenerAdapter {
 			
 			timesCommandUsed++;
 			
-			if (cooldownCache.containsKey(author.getId() + "-" + command)) {
-				long remainingCooldownShortened = remainingCooldown(author.getId(), command)-TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
+			if (Cooldown.getCooldownCache().containsKey(author.getId() + "-" + command)) {
+				long remainingCooldownShortened = Cooldown.getRemainingCooldown(author.getId(), command)-TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
 				
 				if (remainingCooldownShortened > 0) {
 					long cooldownHours = remainingCooldownShortened / 3600;
@@ -101,35 +101,19 @@ public abstract class Command extends ListenerAdapter {
 					return;
 				}
 				else if (remainingCooldownShortened <= 0) {
-					removeCooldown(author.getId(), command);
+					Cooldown.removeCooldown(author.getId(), command);
 					
 					execute(event, commandArgs(event.getMessage()));
-		        	setCooldown(author.getId(), getCommandName());
+		        	Cooldown.setCooldown(author.getId(), getCommandName(), this.cooldown());
 				}
 			}
 			else {
 				execute(event, commandArgs(event.getMessage()));
-	        	setCooldown(author.getId(), getCommandName());
+	        	Cooldown.setCooldown(author.getId(), getCommandName(), this.cooldown());
 			}
 		}
 		
 		return;
-	}
-	
-	protected long remainingCooldown(String UID, String command) {
-		String key = UID + "-" + command;
-		return cooldownCache.get(key);
-	}
-	
-	protected void removeCooldown(String UID, String command) {
-		String key = UID + "-" + command;
-		cooldownCache.remove(key);
-	}
-	
-	protected void setCooldown(String UID, String command) {
-		String key = UID + "-" + command;
-		long cooldownDuration = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()) + this.cooldown();
-		cooldownCache.put(key, cooldownDuration);
 	}
 
 	protected boolean containsCommand(Message message, MessageReceivedEvent event) {
