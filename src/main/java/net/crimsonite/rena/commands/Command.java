@@ -20,10 +20,10 @@ package net.crimsonite.rena.commands;
 import java.util.concurrent.TimeUnit;
 
 import net.crimsonite.rena.RenaConfig;
-import net.crimsonite.rena.database.DBReadWrite;
-import net.crimsonite.rena.database.DBReadWrite.Table;
-import net.crimsonite.rena.engine.Cooldown;
-import net.crimsonite.rena.engine.I18n;
+import net.crimsonite.rena.core.Cooldown;
+import net.crimsonite.rena.core.I18n;
+import net.crimsonite.rena.core.database.DBReadWrite;
+import net.crimsonite.rena.core.database.DBReadWrite.Table;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Message;

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.crimsonite.rena.commands.roleplay;
+package net.crimsonite.rena.commands.games;
 
 import java.awt.Color;
 import java.io.BufferedReader;
@@ -32,13 +32,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.crimsonite.rena.commands.Command;
-import net.crimsonite.rena.database.DBReadWrite;
-import net.crimsonite.rena.database.DBReadWrite.Table;
-import net.crimsonite.rena.engine.Cooldown;
-import net.crimsonite.rena.engine.I18n;
-import net.crimsonite.rena.engine.RoleplayEngine;
-import net.crimsonite.rena.engine.RoleplayEngine.Battle.AttackerType;
-import net.crimsonite.rena.engine.RoleplayEngine.Handler;
+import net.crimsonite.rena.core.Cooldown;
+import net.crimsonite.rena.core.I18n;
+import net.crimsonite.rena.core.PlayerManager;
+import net.crimsonite.rena.core.PlayerManager.Handler;
+import net.crimsonite.rena.core.PlayerManager.Battle.AttackerType;
+import net.crimsonite.rena.core.database.DBReadWrite;
+import net.crimsonite.rena.core.database.DBReadWrite.Table;
 import net.crimsonite.rena.utils.RandomGenerator;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -112,7 +112,7 @@ public class HuntCommand extends Command {
 					String status = "%1$s's HP: %3$d | %2$s's HP: %4$d\n\n";
 					checkHP(messageEvent, enemyHP, playerHP, rewardExp, rewardMoney, drops);
 					
-					playerDMG = RoleplayEngine.Battle.attack(jsonData, author.getId(), selectedEnemy, AttackerType.PLAYER);
+					playerDMG = PlayerManager.Battle.attack(jsonData, author.getId(), selectedEnemy, AttackerType.PLAYER);
 					enemyHP -= playerDMG;
 					
 					if (enemyHP < 0) {
@@ -122,7 +122,7 @@ public class HuntCommand extends Command {
 					battleLog.append(dialogue.formatted(author.getName(), selectedEnemy, playerDMG));
 					battleLog.append(status.formatted(author.getName(), selectedEnemy, playerHP, enemyHP));
 					
-					enemyDMG = RoleplayEngine.Battle.attack(jsonData, author.getId(), selectedEnemy, AttackerType.ENEMY_NORMAL);
+					enemyDMG = PlayerManager.Battle.attack(jsonData, author.getId(), selectedEnemy, AttackerType.ENEMY_NORMAL);
 					playerHP -= enemyDMG;
 					
 					if (playerHP < 0) {
@@ -134,7 +134,7 @@ public class HuntCommand extends Command {
 					
 					checkHP(messageEvent, enemyHP, playerHP, rewardExp, rewardMoney, drops);
 				}
-				RoleplayEngine.Handler.handleLevelup(author.getId());
+				PlayerManager.Handler.handleLevelup(author.getId());
 				
 				channel.sendFile("Battle Logs:\n%sEnd".formatted(battleLog.toString()).getBytes(), "BattleLogs.txt").queue();
 			}
@@ -312,7 +312,7 @@ public class HuntCommand extends Command {
 	
 	@Override
 	public String getCommandCategory() {
-		return "Roleplay";
+		return "Games";
 	}
 
 	@Override
