@@ -41,7 +41,6 @@ public abstract class Command extends ListenerAdapter {
 	public abstract long cooldown();
 	
 	private static long timesCommandUsed = 0;
-	//private ConcurrentHashMap<String, Long> cooldownCache = new ConcurrentHashMap<>();
 	
 	/**
 	 * @return Number of times the command was called.
