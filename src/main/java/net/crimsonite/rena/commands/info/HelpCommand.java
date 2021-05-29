@@ -19,14 +19,10 @@ package net.crimsonite.rena.commands.info;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import net.crimsonite.rena.RenaBot;
 import net.crimsonite.rena.commands.Command;
+import net.crimsonite.rena.core.CommandRegistry;
 import net.crimsonite.rena.core.I18n;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -34,37 +30,6 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class HelpCommand extends Command {
-	
-	private HashMap<String, Command> commands;
-	private static int numberOfCommands = 0;
-	private static final Logger logger = LoggerFactory.getLogger(HelpCommand.class);
-		
-	public HelpCommand() {
-		commands = new HashMap<>();
-	}
-	
-	/**
-	 * @return the number of registered commands
-	 */
-	public static int getCommandCount() {
-		return numberOfCommands;
-	}
-	
-	/**
-	 * Registers and returns the command passed
-	 * 
-	 * @param command
-	 * @return the command passed
-	 */
-	public Command registerCommand(Command command) {
-		String commandName = command.getCommandName();
-		commands.put(commandName, command);
-		numberOfCommands++;
-		
-		logger.info("%1$s loaded.".formatted(commandName));
-		
-		return command;
-	}
 	
 	@Override
 	public void execute(MessageReceivedEvent event, String[] args) {
@@ -80,7 +45,7 @@ public class HelpCommand extends Command {
 					.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 			
 			if (args.length >= 2) {
-				Command command = RenaBot.commandRegistry.commands.get(args[1]);
+				Command command = CommandRegistry.getRegisteredCommands().get(args[1]);
 				
 				String commandName = command.getCommandName();
 				
@@ -111,7 +76,7 @@ public class HelpCommand extends Command {
 			else {
 				List<String> commandCategory = new ArrayList<>();
 				
-				for (Command command : RenaBot.commandRegistry.commands.values()) {
+				for (Command command : CommandRegistry.getRegisteredCommands().values()) {
 					if (!commandCategory.contains(command.getCommandCategory())) {
 						commandCategory.add(command.getCommandCategory());
 					}
@@ -120,7 +85,7 @@ public class HelpCommand extends Command {
 				for (int i = 0; i < commandCategory.size(); i++) {
 					List<String> currentBatchOfCommands = new ArrayList<>();
 					
-					for (Command command : RenaBot.commandRegistry.commands.values()) {
+					for (Command command : CommandRegistry.getRegisteredCommands().values()) {
 						if (command.getCommandCategory() == commandCategory.get(i)) {
 							currentBatchOfCommands.add(command.getCommandName());
 						}

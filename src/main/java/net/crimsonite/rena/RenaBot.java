@@ -17,8 +17,6 @@
 
 package net.crimsonite.rena;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,9 +24,6 @@ import javax.security.auth.login.LoginException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.crimsonite.rena.commands.dev.ModifyAttributesCommand;
 import net.crimsonite.rena.commands.dev.ShutdownCommand;
@@ -59,40 +54,21 @@ import net.crimsonite.rena.commands.moderation.KickCommand;
 import net.crimsonite.rena.commands.moderation.SetGuildPrefixCommand;
 import net.crimsonite.rena.commands.moderation.UnbanCommand;
 import net.crimsonite.rena.commands.userpreference.PreferenceCommand;
+import net.crimsonite.rena.core.CommandRegistry;
 import net.crimsonite.rena.core.database.DBConnection;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
-public class RenaBot {
+public class RenaBot extends CommandRegistry {
 	
-	public static final long startup = System.currentTimeMillis();
-	
-	public static HelpCommand commandRegistry = new HelpCommand();
-	public static DefaultShardManagerBuilder jdaBuilder;
-	
-	private static ObjectMapper mapper = new ObjectMapper();
 	private static final Logger logger = LoggerFactory.getLogger(RenaBot.class);
 	
-	private void generateConfigFile() {
-		logger.info("Generating config file from templates...");
-		
-		try {			
-			JsonNode templateFileAsTree = mapper.readTree(getClass().getClassLoader().getResourceAsStream("templates/config.json"));
-			Object templateFileAsObject = mapper.treeToValue(templateFileAsTree, Object.class);
-			
-			mapper.writeValue(new File("config.json"), templateFileAsObject);
-			
-			logger.info("Successfuly made a config file!");
-			logger.info("Fill them up before executing again.");
-			
-			System.exit(0);
-		}
-		catch (IOException ignored) {
-			logger.error("Failed to generate config file.");
-		}
-	}
+	private static boolean dbIsActive;
+	private static DefaultShardManagerBuilder jdaBuilder;
+	
+	private static final long startupTime = System.currentTimeMillis();
 	
 	protected RenaBot() {
 		logger.info("Preparing bot for activation...");
@@ -101,54 +77,59 @@ public class RenaBot {
 			jdaBuilder = DefaultShardManagerBuilder.createDefault(RenaConfig.TOKEN)
 				.setStatus(OnlineStatus.ONLINE)
 				.enableIntents(GatewayIntent.GUILD_MEMBERS)
-				.setMemberCachePolicy(MemberCachePolicy.ALL)
-				.addEventListeners(
-						// Info Commands
-						commandRegistry.registerCommand(new AvatarCommand()),
-						commandRegistry.registerCommand(new UserinfoCommand()),
-						commandRegistry.registerCommand(new GuildinfoCommand()),
-						commandRegistry.registerCommand(new HelpCommand()),
-						commandRegistry.registerCommand(new PingCommand()),
-						commandRegistry.registerCommand(new RoleinfoCommand()),
-						commandRegistry.registerCommand(new ShardInfoCommand()),
-						commandRegistry.registerCommand(new StatusCommand()),
-						
-						// Moderation Commands
-						commandRegistry.registerCommand(new UnbanCommand()),
-						commandRegistry.registerCommand(new BanCommand()),
-						commandRegistry.registerCommand(new KickCommand()),
-						commandRegistry.registerCommand(new SetGuildPrefixCommand()),
-						
-						// Miscellaneous Commands
-						commandRegistry.registerCommand(new EightBallCommand()),
-						commandRegistry.registerCommand(new DiceCommand()),
-						
-						// Imageboard Commands
-						commandRegistry.registerCommand(new DanbooruCommand()),
-						commandRegistry.registerCommand(new SafebooruCommand()),
-						
+				.setMemberCachePolicy(MemberCachePolicy.ALL);
+			
+			if (dbIsActive) {
+				jdaBuilder.addEventListeners(
 						// Roleplaying Commands
-						commandRegistry.registerCommand(new ExpeditionCommand()),
-						commandRegistry.registerCommand(new InsightCommand()),
-						commandRegistry.registerCommand(new InventoryCommand()),
-						commandRegistry.registerCommand(new UseItemCommand()),
-						commandRegistry.registerCommand(new DailyCommand()),
-						commandRegistry.registerCommand(new HuntCommand()),
-						commandRegistry.registerCommand(new LootCommand()),
-						commandRegistry.registerCommand(new ProfileCommand()),
-						commandRegistry.registerCommand(new TransferMoneyCommand()),
+						registerCommand(new ExpeditionCommand()),
+						registerCommand(new InsightCommand()),
+						registerCommand(new InventoryCommand()),
+						registerCommand(new UseItemCommand()),
+						registerCommand(new DailyCommand()),
+						registerCommand(new HuntCommand()),
+						registerCommand(new LootCommand()),
+						registerCommand(new ProfileCommand()),
+						registerCommand(new TransferMoneyCommand()),
 						
 						// User Preference Commands
-						commandRegistry.registerCommand(new PreferenceCommand()),
-						
-						// Developer/Debug Command
-						new ModifyAttributesCommand(),
-						new ShutdownCommand(),
-						new StatusReportCommand(),
-						
-						// Event Listener
-						new ReadyListener()
+						registerCommand(new PreferenceCommand())
 						);
+			}
+			
+			jdaBuilder.addEventListeners(
+					// Info Commands
+					registerCommand(new AvatarCommand()),
+					registerCommand(new UserinfoCommand()),
+					registerCommand(new GuildinfoCommand()),
+					registerCommand(new HelpCommand()),
+					registerCommand(new PingCommand()),
+					registerCommand(new RoleinfoCommand()),
+					registerCommand(new ShardInfoCommand()),
+					registerCommand(new StatusCommand()),
+					
+					// Moderation Commands
+					registerCommand(new UnbanCommand()),
+					registerCommand(new BanCommand()),
+					registerCommand(new KickCommand()),
+					registerCommand(new SetGuildPrefixCommand()),
+					
+					// Miscellaneous Commands
+					registerCommand(new EightBallCommand()),
+					registerCommand(new DiceCommand()),
+					
+					// Imageboard Commands
+					registerCommand(new DanbooruCommand()),
+					registerCommand(new SafebooruCommand()),
+					
+					// Developer/Debug Command
+					new ModifyAttributesCommand(),
+					new ShutdownCommand(),
+					new StatusReportCommand(),
+					
+					// Event Listener
+					new ReadyListener()
+					);
 			
 			if (RenaConfig.isSharding()) {
 				int totalShards = RenaConfig.getTotalShards();
@@ -169,8 +150,6 @@ public class RenaBot {
 		}
 		catch (NullPointerException e) {
 			logger.error("A config variable returned a null value.");
-			
-			generateConfigFile();
 		}
 		catch (IllegalArgumentException e) {
 			e.printStackTrace();
@@ -184,14 +163,25 @@ public class RenaBot {
 	public static void main(String[] args) {
 		logger.info("Starting up...");
 		
-		new RenaBot();
-		
 		try {
 			DBConnection.conn();
+			dbIsActive = true;
 		}
 		catch (Exception ignored) {
 			logger.warn("Couldn't connect to database. Some commands might fail, but the bot will remain active.");
+			dbIsActive = false;
 		}
+		
+		new RenaBot();
+	}
+	
+	/**
+	 * Gives the time when the bot was executed.
+	 * 
+	 * @return time since the bot was executed.
+	 */
+	public static long getStartupTime() {
+		return startupTime;
 	}
 
 }

@@ -23,7 +23,7 @@ import java.lang.management.MemoryMXBean;
 import com.sun.management.OperatingSystemMXBean;
 
 import net.crimsonite.rena.commands.Command;
-import net.crimsonite.rena.commands.info.HelpCommand;
+import net.crimsonite.rena.core.CommandRegistry;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -41,7 +41,7 @@ public class StatusReportCommand extends Command {
 		long freeMemory = operatingSystem.getFreeMemorySize() / (1024 * 1024);
 		long heapMemoryUsage = memory.getHeapMemoryUsage().getMax() / (1024 * 1024);
 		long nonHeapMemoryUsage = memory.getNonHeapMemoryUsage().getMax() / (1024 * 1024);
-		long numberOfCommands = HelpCommand.getCommandCount();
+		long numberOfCommands = CommandRegistry.getRegisteredCommandCount();
 		long shards = jda.getShardInfo().getShardTotal();
 		long timesCommandUsed = Command.getTimesCommandUsed();
 		long totalMemory = operatingSystem.getTotalMemorySize() / (1024 * 1024);
@@ -51,9 +51,9 @@ public class StatusReportCommand extends Command {
 		
 		channel.sendMessageFormat(
 				"```yml\n" +
-				"******************************\n" +
-				"** System Reports for Debug **\n" +
-				"******************************\n\n" +
+				"********************\n" +
+				"** System Reports **\n" +
+				"********************\n\n" +
 				"Shards: %d\n" +
 				"Command Count: %d\n" +
 				"Times Command Used: %d\n\n" +

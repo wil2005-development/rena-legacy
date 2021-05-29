@@ -71,7 +71,7 @@ public class ReadyListener extends ListenerAdapter {
 		
 		event.getJDA().getPresence().setActivity(Activity.playing(quote.formatted(shardId)));
 		
-		logger.info("Shard #%1$d activated in %2$d second(s).".formatted(shardId, ((System.currentTimeMillis()-RenaBot.startup)/1000)));
+		logger.info("Shard #%1$d activated in %2$d second(s).".formatted(shardId, ((System.currentTimeMillis()-RenaBot.getStartupTime())/1000)));
 	}
 	
 }
