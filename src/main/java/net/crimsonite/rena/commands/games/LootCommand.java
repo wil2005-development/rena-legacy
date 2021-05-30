@@ -53,19 +53,19 @@ public class LootCommand extends Command {
 			
 			EmbedBuilder embed = new EmbedBuilder()
 					.setColor(roleColor)
-					.setTitle(I18n.getMessage(event.getAuthor().getId(), "roleplay.loot.embed.title"))
-					.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.loot.embed.money"), String.valueOf(receivedMoney), true)
-					.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.loot.embed.exp"), String.valueOf(receivedExp), true)
+					.setTitle(I18n.getMessage(event.getAuthor().getId(), "game.loot.embed.title"))
+					.addField(I18n.getMessage(event.getAuthor().getId(), "game.loot.embed.money"), String.valueOf(receivedMoney), true)
+					.addField(I18n.getMessage(event.getAuthor().getId(), "game.loot.embed.exp"), String.valueOf(receivedExp), true)
 					.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 			
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.loot.dialogue")).queue();
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.loot.dialogue")).queue();
 			channel.sendMessage(embed.build()).queue();
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.loot.no_item")).queue();
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.loot.no_item")).queue();
 		}
 		catch (NullPointerException ignored) {
 			DBReadWrite.registerUser(author.getId());
 			
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.loot.error")).queue();
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.loot.error")).queue();
 		}
 	}
 

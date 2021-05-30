@@ -71,11 +71,11 @@ public class HuntCommand extends Command {
 		
 		EmbedBuilder embed = new EmbedBuilder()
 				.setColor(roleColor)
-				.setTitle(I18n.getMessage(author.getId(), "roleplay.hunt.embed_win.title"))
-				.setDescription(I18n.getMessage(author.getId(), "roleplay.hunt.embed_win.description"))
-				.addField(I18n.getMessage(author.getId(), "roleplay.hunt.embed_win.exp"), String.valueOf(rewardExp), true)
-				.addField(I18n.getMessage(author.getId(), "roleplay.hunt.embed_win.money"), String.valueOf(rewardMoney), true)
-				.addField(I18n.getMessage(author.getId(), "roleplay.hunt.embed_win.items"), rewardItem, false)
+				.setTitle(I18n.getMessage(author.getId(), "game.hunt.embed_win.title"))
+				.setDescription(I18n.getMessage(author.getId(), "game.hunt.embed_win.description"))
+				.addField(I18n.getMessage(author.getId(), "game.hunt.embed_win.exp"), String.valueOf(rewardExp), true)
+				.addField(I18n.getMessage(author.getId(), "game.hunt.embed_win.money"), String.valueOf(rewardMoney), true)
+				.addField(I18n.getMessage(author.getId(), "game.hunt.embed_win.items"), rewardItem, false)
 				.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 		
 		return embed;
@@ -87,8 +87,8 @@ public class HuntCommand extends Command {
 		
 		EmbedBuilder embed = new EmbedBuilder()
 				.setColor(roleColor)
-				.setTitle(I18n.getMessage(author.getId(), "roleplay.hunt.embed_lost.title"))
-				.setDescription(I18n.getMessage(author.getId(), "roleplay.hunt.embed_lost.description"))
+				.setTitle(I18n.getMessage(author.getId(), "game.hunt.embed_lost.title"))
+				.setDescription(I18n.getMessage(author.getId(), "game.hunt.embed_lost.description"))
 				.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 		
 		return embed;
@@ -139,7 +139,7 @@ public class HuntCommand extends Command {
 				channel.sendFile("Battle Logs:\n%sEnd".formatted(battleLog.toString()).getBytes(), "BattleLogs.txt").queue();
 			}
 			catch(IOException e) {
-				channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.hunt.error.io_error")).queue();
+				channel.sendMessage(I18n.getMessage(author.getId(), "game.hunt.error.io_error")).queue();
 			}
 		}
 	}
@@ -242,11 +242,11 @@ public class HuntCommand extends Command {
 			
 			EmbedBuilder embedFirst = new EmbedBuilder()
 					.setColor(roleColor)
-					.setTitle(I18n.getMessage(event.getAuthor().getId(), "roleplay.hunt.embed_encounter.title").formatted(selectedEnemy))
-					.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.hunt.embed_encounter.hp"), String.valueOf(enemyHP), true)
-					.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.hunt.embed_encounter.mp"), enemyStat.get("MP").asText(), true)
-					.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.hunt.embed_encounter.atk"), enemyStat.get("ATK").asText(), true)
-					.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.hunt.embed_encounter.def"), enemyStat.get("DEF").asText(), true)
+					.setTitle(I18n.getMessage(event.getAuthor().getId(), "game.hunt.embed_encounter.title").formatted(selectedEnemy))
+					.addField(I18n.getMessage(event.getAuthor().getId(), "game.hunt.embed_encounter.hp"), String.valueOf(enemyHP), true)
+					.addField(I18n.getMessage(event.getAuthor().getId(), "game.hunt.embed_encounter.mp"), enemyStat.get("MP").asText(), true)
+					.addField(I18n.getMessage(event.getAuthor().getId(), "game.hunt.embed_encounter.atk"), enemyStat.get("ATK").asText(), true)
+					.addField(I18n.getMessage(event.getAuthor().getId(), "game.hunt.embed_encounter.def"), enemyStat.get("DEF").asText(), true)
 					.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 			
 			channel.sendMessage(embedFirst.build()).queue((dialogue)->{
@@ -256,14 +256,14 @@ public class HuntCommand extends Command {
 			});
 		}
 		catch (JsonProcessingException ignored) {
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.hunt.error.json_processing_error")).queue();
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.hunt.error.json_processing_error")).queue();
 		}
 		catch (IOException ignored) {
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.hunt.error.io_error")).queue();
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.hunt.error.io_error")).queue();
 		}
 		catch (NullPointerException ignored) {
 			DBReadWrite.registerUser(author.getId());
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.hunt.error.generic_error")).queue();
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.hunt.error.generic_error")).queue();
 		}
 	}
 	
@@ -280,13 +280,13 @@ public class HuntCommand extends Command {
 			if (event.getMessageIdLong() == this.dialogueId && author.getIdLong() == this.huntPlayer) {
 				while (currentTime < (this.timer + timeout)) {
 					if (event.getReactionEmote().equals(ReactionEmote.fromUnicode("\u2705", event.getJDA()))) {
-						channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.hunt.attack")).queue();
+						channel.sendMessage(I18n.getMessage(author.getId(), "game.hunt.attack")).queue();
 						huntAccepted = true;
 						
 						break;
 					}
 					else if (event.getReactionEmote().equals(ReactionEmote.fromUnicode("\u274C", event.getJDA()))) {
-						channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.hunt.run")).queue();
+						channel.sendMessage(I18n.getMessage(author.getId(), "game.hunt.run")).queue();
 						Cooldown.removeCooldown(author.getId(), getCommandName());
 						huntAccepted = false;
 						

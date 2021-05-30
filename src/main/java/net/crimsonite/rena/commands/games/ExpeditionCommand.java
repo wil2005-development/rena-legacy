@@ -53,18 +53,18 @@ public class ExpeditionCommand extends Command {
 			
 			EmbedBuilder embed = new EmbedBuilder()
 					.setColor(roleColor)
-					.setTitle(I18n.getMessage(event.getAuthor().getId(), "roleplay.expedition.embed.title"))
-					.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.expedition.embed.money"), String.valueOf(receivedMoney), true)
-					.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.expedition.embed.exp"), String.valueOf(receivedExp), true)
+					.setTitle(I18n.getMessage(event.getAuthor().getId(), "game.expedition.embed.title"))
+					.addField(I18n.getMessage(event.getAuthor().getId(), "game.expedition.embed.money"), String.valueOf(receivedMoney), true)
+					.addField(I18n.getMessage(event.getAuthor().getId(), "game.expedition.embed.exp"), String.valueOf(receivedExp), true)
 					.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 			
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.expedition.dialogue")).queue();
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.expedition.dialogue")).queue();
 			channel.sendMessage(embed.build()).queue();
 		}
 		catch (NullPointerException ignored) {
 			DBReadWrite.registerUser(author.getId());
 			
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.expedition.error")).queue();
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.expedition.error")).queue();
 		}
 	}
 

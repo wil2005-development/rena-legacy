@@ -68,18 +68,18 @@ public class UseItemCommand extends Command {
 				if (inventory.get(item) >= 1) {
 					useItem(author, item, 1);
 					
-					channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.use_item.success").formatted(1, item)).queue();
+					channel.sendMessage(I18n.getMessage(author.getId(), "game.use_item.success").formatted(1, item)).queue();
 				}
 				else {
-					channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.use_item.lack_item")).queue();
+					channel.sendMessage(I18n.getMessage(author.getId(), "game.use_item.lack_item")).queue();
 				}
 			}
 			else {
-				channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.use_item.item_not_found")).queue();
+				channel.sendMessage(I18n.getMessage(author.getId(), "game.use_item.item_not_found")).queue();
 			}
 		}
 		else {
-			channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.use_item.no_item_used")).queue();
+			channel.sendMessage(I18n.getMessage(author.getId(), "game.use_item.no_item_used")).queue();
 		}
 		
 	}

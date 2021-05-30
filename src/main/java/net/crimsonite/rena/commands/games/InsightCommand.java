@@ -22,7 +22,7 @@ public class InsightCommand extends Command {
 		
 		EmbedBuilder embed = new EmbedBuilder()
 				.setColor(roleColor)
-				.setTitle(I18n.getMessage(author.getId(), "roleplay.insight.embed.title"))
+				.setTitle(I18n.getMessage(author.getId(), "game.insight.embed.title"))
 				.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 		
 		if (args.length >= 2) {
@@ -34,15 +34,15 @@ public class InsightCommand extends Command {
 					int requiredExpForNextLevel = Handler.getRequiredExpForNextLevel(author.getId());
 					int expNeededForNextLevel = (requiredExpForNextLevel - currentExp);
 					
-					String fieldName = I18n.getMessage(author.getId(), "roleplay.insight.embed.next_exp");
-					String fieldValue = I18n.getMessage(author.getId(), "roleplay.insight.embed.next_exp_value").formatted(requiredExpForNextLevel, expNeededForNextLevel);
+					String fieldName = I18n.getMessage(author.getId(), "game.insight.embed.next_exp");
+					String fieldValue = I18n.getMessage(author.getId(), "game.insight.embed.next_exp_value").formatted(requiredExpForNextLevel, expNeededForNextLevel);
 					
 					embed.addField(fieldName, fieldValue, false);
 					flag = true;
 					
 					break;
 				default:
-					channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.insight.cannot_predict")).queue();
+					channel.sendMessage(I18n.getMessage(author.getId(), "game.insight.cannot_predict")).queue();
 					
 					break;
 			}
@@ -52,7 +52,7 @@ public class InsightCommand extends Command {
 			}
 		}
 		else {
-			channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.insight.nothing_to_predict")).queue();
+			channel.sendMessage(I18n.getMessage(author.getId(), "game.insight.nothing_to_predict")).queue();
 		}
 	}
 

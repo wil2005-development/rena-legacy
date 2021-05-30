@@ -23,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 
 import net.crimsonite.rena.commands.Command;
+import net.crimsonite.rena.core.Cooldown;
 import net.crimsonite.rena.core.I18n;
 import net.crimsonite.rena.core.database.DBReadWrite;
 import net.crimsonite.rena.core.database.DBReadWrite.Table;
@@ -40,9 +41,12 @@ public class DailyCommand extends Command{
 		MessageChannel channel = event.getChannel();
 		
 		try {
-			long lastClaim = DBReadWrite.getValueInt(Table.PLAYERS, author.getId(), "LAST_DAILY_CLAIM");
 			long currentTime = TimeUnit.MILLISECONDS.toHours(System.currentTimeMillis());
 			int currentTimeInInteger = Integer.parseInt(String.valueOf(currentTime));
+			long lastClaim = DBReadWrite.getValueInt(Table.PLAYERS, author.getId(), "LAST_DAILY_CLAIM");
+			long dailyStreak = DBReadWrite.getValueInt(Table.PLAYERS, author.getId(), "DAILY_STREAK");
+			long level = DBReadWrite.getValueInt(Table.PLAYERS, author.getId(), "LEVEL");
+			long reward = (50 + dailyStreak) * level;
 			
 			String dailyStreakDialogue;
 			
@@ -54,7 +58,7 @@ public class DailyCommand extends Command{
 					List<Member> listedMembers = FinderUtil.findMembers(args[1], event.getGuild());
 					
 					if (listedMembers.isEmpty()) {
-						channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.daily.user_not_found")).queue();
+						channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.daily.user_not_found")).queue();
 						event.getGuild().loadMembers();
 					}
 					else {
@@ -66,31 +70,28 @@ public class DailyCommand extends Command{
 			if (currentTime < (lastClaim + 24)) {
 				DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "DAILY_STREAK", 1);
 				
-				dailyStreakDialogue = I18n.getMessage("roleplay.daily.daily_streak_increment");
+				dailyStreakDialogue = I18n.getMessage("game.daily.daily_streak_increment");
 			}
 			else {
 				DBReadWrite.modifyDataInt(Table.PLAYERS, author.getId(), "DAILY_STREAK", 0);
 				
-				dailyStreakDialogue = I18n.getMessage("roleplay.daily.daily_streak_reset");
+				dailyStreakDialogue = I18n.getMessage("game.daily.daily_streak_reset");
 			}
 			
-			long dailyStreak = DBReadWrite.getValueInt(Table.PLAYERS, author.getId(), "DAILY_STREAK");
-			long level = DBReadWrite.getValueInt(Table.PLAYERS, author.getId(), "LEVEL");
-			long reward = (50 + dailyStreak) * level;
-			
-			DBReadWrite.incrementValue(Table.PLAYERS, recepient.getId(), "MONEY", Integer.parseInt(String.valueOf(reward)));
+			DBReadWrite.incrementValue(Table.PLAYERS, recepient.getId(), "MONEY", (int) reward);
 			DBReadWrite.modifyDataInt(Table.PLAYERS, author.getId(), "LAST_DAILY_CLAIM", currentTimeInInteger);
 			
-			channel.sendMessageFormat(I18n.getMessage(event.getAuthor().getId(), "roleplay.daily.claimed"), reward).queue();
+			channel.sendMessageFormat(I18n.getMessage(event.getAuthor().getId(), "game.daily.claimed"), reward).queue();
 			channel.sendMessage(dailyStreakDialogue.formatted(dailyStreak)).queue();
 		}
 		catch (NullPointerException e) {
 			DBReadWrite.registerUser(author.getId());
 			
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.daily.not_registered")).queue();
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.daily.not_registered")).queue();
 		}
 		catch (IllegalArgumentException e) {
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.daily.not_qualified")).queue();
+			Cooldown.removeCooldown(author.getId(), getCommandName());
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.daily.not_qualified")).queue();
 		}
 	}
 

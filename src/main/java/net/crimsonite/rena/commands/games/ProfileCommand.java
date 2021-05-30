@@ -38,7 +38,7 @@ public class ProfileCommand extends Command {
 		Color roleColor = event.getGuild().retrieveMember(user).complete().getColor();
 		
 		String defaultUserStatus = "";
-		String defaultUserBirthday = I18n.getMessage(user.getId(), "roleplay.profile.embed.no_birthday");
+		String defaultUserBirthday = I18n.getMessage(user.getId(), "game.profile.embed.no_birthday");
 		String userStatus = null;
 		String userBirthday = null;
 		
@@ -57,27 +57,27 @@ public class ProfileCommand extends Command {
 		
 		EmbedBuilder embed = new EmbedBuilder()
 				.setColor(roleColor)
-				.setTitle(I18n.getMessage(user.getId(), "roleplay.profile.embed.title").formatted(user.getName()))
+				.setTitle(I18n.getMessage(user.getId(), "game.profile.embed.title").formatted(user.getName()))
 				.setDescription(userStatus)
 				.setThumbnail(user.getEffectiveAvatarUrl())
-				.addField(I18n.getMessage(user.getId(), "roleplay.profile.embed.rep"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "REP")), false)
-				.addField(I18n.getMessage(user.getId(), "roleplay.profile.embed.level"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "LEVEL")), false)
-				.addField(I18n.getMessage(user.getId(), "roleplay.profile.embed.exp"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "EXP")), false)
-				.addField(I18n.getMessage(user.getId(), "roleplay.profile.embed.money"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "MONEY")), true)
+				.addField(I18n.getMessage(user.getId(), "game.profile.embed.rep"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "REP")), false)
+				.addField(I18n.getMessage(user.getId(), "game.profile.embed.level"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "LEVEL")), false)
+				.addField(I18n.getMessage(user.getId(), "game.profile.embed.exp"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "EXP")), false)
+				.addField(I18n.getMessage(user.getId(), "game.profile.embed.money"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "MONEY")), true)
 				.addBlankField(false)
-				.addField(I18n.getMessage(user.getId(), "roleplay.profile.embed.hp"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "HP")), true)
-				.addField(I18n.getMessage(user.getId(), "roleplay.profile.embed.mp"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "MP")), true)
-				.addField(I18n.getMessage(user.getId(), "roleplay.profile.embed.atk"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "ATK")), true)
-				.addField(I18n.getMessage(user.getId(), "roleplay.profile.embed.def"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "DEF")), true)
+				.addField(I18n.getMessage(user.getId(), "game.profile.embed.hp"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "HP")), true)
+				.addField(I18n.getMessage(user.getId(), "game.profile.embed.mp"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "MP")), true)
+				.addField(I18n.getMessage(user.getId(), "game.profile.embed.atk"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "ATK")), true)
+				.addField(I18n.getMessage(user.getId(), "game.profile.embed.def"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "DEF")), true)
 				.addBlankField(false)
-				.addField(I18n.getMessage(user.getId(), "roleplay.profile.embed.vit"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "VIT")), true)
-				.addField(I18n.getMessage(user.getId(), "roleplay.profile.embed.str"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "STR")), true)
-				.addField(I18n.getMessage(user.getId(), "roleplay.profile.embed.agi"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "AGI")), true)
-				.addField(I18n.getMessage(user.getId(), "roleplay.profile.embed.int"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "INT")), true)
-				.addField(I18n.getMessage(user.getId(), "roleplay.profile.embed.wis"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "WIS")), true)
-				.addField(I18n.getMessage(user.getId(), "roleplay.profile.embed.luk"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "LUK")), true)
+				.addField(I18n.getMessage(user.getId(), "game.profile.embed.vit"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "VIT")), true)
+				.addField(I18n.getMessage(user.getId(), "game.profile.embed.str"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "STR")), true)
+				.addField(I18n.getMessage(user.getId(), "game.profile.embed.agi"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "AGI")), true)
+				.addField(I18n.getMessage(user.getId(), "game.profile.embed.int"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "INT")), true)
+				.addField(I18n.getMessage(user.getId(), "game.profile.embed.wis"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "WIS")), true)
+				.addField(I18n.getMessage(user.getId(), "game.profile.embed.luk"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "LUK")), true)
 				.addBlankField(false)
-				.addField(I18n.getMessage(user.getId(), "roleplay.profile.embed.birthday"), userBirthday, false)
+				.addField(I18n.getMessage(user.getId(), "game.profile.embed.birthday"), userBirthday, false)
 				.setFooter(event.getAuthor().getName(), event.getAuthor().getEffectiveAvatarUrl());
 		
 		event.getChannel().sendMessage(embed.build()).queue();
@@ -94,13 +94,13 @@ public class ProfileCommand extends Command {
 			}
 			catch (NullPointerException ignored) {
 				DBReadWrite.registerUser(event.getAuthor().getId());
-				channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.profile.error")).queue();
+				channel.sendMessage(I18n.getMessage(author.getId(), "game.profile.error")).queue();
 			}
 		}
 		else if (args.length >= 2) {
 			if (args[1].equals("-set")) {
 				if (args.length == 2) {
-					channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.profile.nothing_to_set")).queue();
+					channel.sendMessage(I18n.getMessage(author.getId(), "game.profile.nothing_to_set")).queue();
 				}
 				else {
 					switch (args[2]) {
@@ -116,10 +116,10 @@ public class ProfileCommand extends Command {
 								
 								DBReadWrite.modifyDataString(Table.USERS, author.getId(), "Status", status);
 								
-								channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.profile.set_status_success").formatted(status)).queue();
+								channel.sendMessage(I18n.getMessage(author.getId(), "game.profile.set_status_success").formatted(status)).queue();
 							}
 							else {
-								channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.profile.set_status_failed")).queue();
+								channel.sendMessage(I18n.getMessage(author.getId(), "game.profile.set_status_failed")).queue();
 							}
 							
 							break;
@@ -134,12 +134,12 @@ public class ProfileCommand extends Command {
 										int day = Integer.parseInt(birthdayAsArray[1]);
 										
 										if (month > 12 || month < 0) {
-											channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.profile.invalid_month")).queue();
+											channel.sendMessage(I18n.getMessage(author.getId(), "game.profile.invalid_month")).queue();
 											
 											return;
 										}
 										if(day > 31 || day < 0) {
-											channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.profile.invalid_day")).queue();
+											channel.sendMessage(I18n.getMessage(author.getId(), "game.profile.invalid_day")).queue();
 											
 											return;
 										}
@@ -147,28 +147,28 @@ public class ProfileCommand extends Command {
 										birthday = "%1$s-%2$s".formatted(month, day);
 									}
 									catch (NumberFormatException ignored) {
-										channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.profile.illegal_birthday_number")).queue();
+										channel.sendMessage(I18n.getMessage(author.getId(), "game.profile.illegal_birthday_number")).queue();
 										
 										return;
 									}
 								}
 								else {
-									channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.profile.illegal_birthday")).queue();
+									channel.sendMessage(I18n.getMessage(author.getId(), "game.profile.illegal_birthday")).queue();
 									
 									return;
 								}
 																
 								DBReadWrite.modifyDataString(Table.USERS, author.getId(), "Birthday", birthday);
 								
-								channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.profile.set_birthday_success").formatted(birthday)).queue();
+								channel.sendMessage(I18n.getMessage(author.getId(), "game.profile.set_birthday_success").formatted(birthday)).queue();
 							}
 							else {
-								channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.profile.set_birthday_failed").formatted(args[2])).queue();
+								channel.sendMessage(I18n.getMessage(author.getId(), "game.profile.set_birthday_failed").formatted(args[2])).queue();
 							}
 							
 							break;
 						default:
-							channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.profile.cannot_set")).queue();
+							channel.sendMessage(I18n.getMessage(author.getId(), "game.profile.cannot_set")).queue();
 							
 							break;
 					}
@@ -182,14 +182,14 @@ public class ProfileCommand extends Command {
 					}
 					catch (NullPointerException ignored) {
 						DBReadWrite.registerUser(event.getMessage().getMentionedUsers().get(0).getId());
-						channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.profile.error")).queue();
+						channel.sendMessage(I18n.getMessage(author.getId(), "game.profile.error")).queue();
 					}
 				}
 				else {
 					List<Member> listedMembers = FinderUtil.findMembers(args[1], event.getGuild());
 					
 					if (listedMembers.isEmpty()) {
-						channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.profile.player_not_found")).queue();
+						channel.sendMessage(I18n.getMessage(author.getId(), "game.profile.player_not_found")).queue();
 						event.getGuild().loadMembers();
 					}
 					else {
@@ -199,7 +199,7 @@ public class ProfileCommand extends Command {
 						}
 						catch (NullPointerException ignored) {
 							DBReadWrite.registerUser(listedMembers.get(0).getId());
-							channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.profile.error")).queue();
+							channel.sendMessage(I18n.getMessage(author.getId(), "game.profile.error")).queue();
 						}
 					}
 				}
