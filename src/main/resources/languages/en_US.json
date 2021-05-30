@@ -30,6 +30,7 @@
 		},
 		"help": {
 			"command_does_not_exist": "**That command doesn't seem to exist.**",
+			"slash_help": "*I currently do not support slash commands, please use* `%1$shelp` *instead.*",
 			"embed": {
 				"title": "Help",
 				"cooldown_duration_S": "**Cooldown Duration:** %3$ds",

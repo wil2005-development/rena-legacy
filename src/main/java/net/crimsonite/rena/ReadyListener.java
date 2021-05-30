@@ -30,9 +30,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import net.crimsonite.rena.utils.RandomGenerator;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.requests.restaction.CommandUpdateAction;
+import net.dv8tion.jda.api.requests.restaction.CommandUpdateAction.CommandData;
 
 public class ReadyListener extends ListenerAdapter {
 	
@@ -42,7 +45,11 @@ public class ReadyListener extends ListenerAdapter {
 	public void onReady(ReadyEvent event) {
 		int shardId = event.getJDA().getShardInfo().getShardId();
 		String quote = "Engine has started! [Shard #%d]";
+		JDA jda = event.getJDA();
 		LocalDate date = LocalDate.now();
+		
+		CommandUpdateAction slashCommands = jda.updateCommands();
+		slashCommands.addCommands(new CommandData("help", "Shows a help text.")).queue();
 		
 		if (date.getMonth() == Month.JANUARY || date.getDayOfMonth() == 1) {
 			quote = "Happy New Year! [Shard #%d]";
