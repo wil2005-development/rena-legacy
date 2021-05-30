@@ -32,6 +32,9 @@ dependencies {
 	
 	// FILE HANDLER
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
+	
+	// Temporary
+	implementation 'com.github.DV8FromTheWorld:JDA:feature~slash-commands:+'
 }
 
 task filterVersion(type: Copy) {
