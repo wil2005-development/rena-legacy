@@ -21,12 +21,14 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.crimsonite.rena.RenaConfig;
 import net.crimsonite.rena.commands.Command;
 import net.crimsonite.rena.core.CommandRegistry;
 import net.crimsonite.rena.core.I18n;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class HelpCommand extends Command {
@@ -99,6 +101,20 @@ public class HelpCommand extends Command {
 		}
 		catch (NullPointerException ignored) {
 			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "info.help.command_does_not_exist")).queue();
+		}
+	}
+	
+	@Override
+	public void onSlashCommand(SlashCommandEvent event) {
+		if (event.getGuild() == null) {
+			return;
+		}
+		
+		switch(event.getName()) {
+			case "help":
+				event.reply(I18n.getMessage(event.getUser().getId(), "info.help.slash_help").formatted(RenaConfig.getPrefix())).queue();
+				
+				break;
 		}
 	}
 	
