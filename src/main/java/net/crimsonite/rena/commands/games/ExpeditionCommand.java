@@ -21,6 +21,7 @@ import java.awt.Color;
 import java.util.Random;
 
 import net.crimsonite.rena.commands.Command;
+import net.crimsonite.rena.core.Cooldown;
 import net.crimsonite.rena.core.I18n;
 import net.crimsonite.rena.core.PlayerManager;
 import net.crimsonite.rena.core.database.DBReadWrite;
@@ -63,6 +64,7 @@ public class ExpeditionCommand extends Command {
 		}
 		catch (NullPointerException ignored) {
 			DBReadWrite.registerUser(author.getId());
+			Cooldown.removeCooldown(author.getId(), getCommandName());
 			
 			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.expedition.error")).queue();
 		}
