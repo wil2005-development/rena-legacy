@@ -33,7 +33,7 @@ public class SetGuildPrefixCommand extends Command {
 		Member author = event.getMember();
 		MessageChannel channel = event.getChannel();
 		
-		String prefix = "";
+		String prefix;
 		
 		try {
 			prefix = args[1];
