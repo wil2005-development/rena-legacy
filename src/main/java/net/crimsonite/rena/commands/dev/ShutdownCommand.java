@@ -20,9 +20,11 @@ package net.crimsonite.rena.commands.dev;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import net.crimsonite.rena.RenaConfig;
 import net.crimsonite.rena.commands.Command;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.sharding.ShardManager;
 
 public class ShutdownCommand extends Command {
 	
@@ -31,8 +33,23 @@ public class ShutdownCommand extends Command {
 	@Override
 	public void execute(MessageReceivedEvent event, String[] args) {
 		JDA jda = event.getJDA();
+		ShardManager shardManager = jda.getShardManager();
 		
 		logger.info("Shutting down...");
+		
+		if (RenaConfig.isSharding()) {
+			long shardCount = RenaConfig.getTotalShards();
+			
+			for (int i = 0; i < shardCount; i++) {
+				logger.info("Shutting down shard %d", i);
+				
+				shardManager.shutdown(i);
+			}
+		}
+		
+		else {
+			jda.shutdown();
+		}
 		
 		jda.shutdown();
 		System.exit(0); // Maybe remove this?

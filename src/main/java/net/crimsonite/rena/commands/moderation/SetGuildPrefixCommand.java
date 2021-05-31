@@ -18,9 +18,9 @@
 package net.crimsonite.rena.commands.moderation;
 
 import net.crimsonite.rena.commands.Command;
-import net.crimsonite.rena.database.DBReadWrite;
-import net.crimsonite.rena.database.DBReadWrite.Table;
-import net.crimsonite.rena.engine.I18n;
+import net.crimsonite.rena.core.I18n;
+import net.crimsonite.rena.core.database.DBReadWrite;
+import net.crimsonite.rena.core.database.DBReadWrite.Table;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -33,7 +33,7 @@ public class SetGuildPrefixCommand extends Command {
 		Member author = event.getMember();
 		MessageChannel channel = event.getChannel();
 		
-		String prefix = "";
+		String prefix;
 		
 		try {
 			prefix = args[1];

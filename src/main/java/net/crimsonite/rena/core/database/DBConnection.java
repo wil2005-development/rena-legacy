@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.crimsonite.rena.database;
+package net.crimsonite.rena.core.database;
 
 import com.rethinkdb.RethinkDB;
 import com.rethinkdb.gen.ast.Db;

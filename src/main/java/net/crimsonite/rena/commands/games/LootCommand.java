@@ -15,16 +15,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.crimsonite.rena.commands.roleplay;
+package net.crimsonite.rena.commands.games;
 
 import java.awt.Color;
 import java.util.Random;
 
 import net.crimsonite.rena.commands.Command;
-import net.crimsonite.rena.database.DBReadWrite;
-import net.crimsonite.rena.database.DBReadWrite.Table;
-import net.crimsonite.rena.engine.I18n;
-import net.crimsonite.rena.engine.RoleplayEngine;
+import net.crimsonite.rena.core.Cooldown;
+import net.crimsonite.rena.core.I18n;
+import net.crimsonite.rena.core.PlayerManager;
+import net.crimsonite.rena.core.database.DBReadWrite;
+import net.crimsonite.rena.core.database.DBReadWrite.Table;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -49,23 +50,24 @@ public class LootCommand extends Command {
 			
 			DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "MONEY", receivedMoney);
 			DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "EXP", receivedExp);
-			RoleplayEngine.Handler.handleLevelup(author.getId());
+			PlayerManager.Handler.handleLevelup(author.getId());
 			
 			EmbedBuilder embed = new EmbedBuilder()
 					.setColor(roleColor)
-					.setTitle(I18n.getMessage(event.getAuthor().getId(), "roleplay.loot.embed.title"))
-					.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.loot.embed.money"), String.valueOf(receivedMoney), true)
-					.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.loot.embed.exp"), String.valueOf(receivedExp), true)
+					.setTitle(I18n.getMessage(event.getAuthor().getId(), "game.loot.embed.title"))
+					.addField(I18n.getMessage(event.getAuthor().getId(), "game.loot.embed.money"), String.valueOf(receivedMoney), true)
+					.addField(I18n.getMessage(event.getAuthor().getId(), "game.loot.embed.exp"), String.valueOf(receivedExp), true)
 					.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 			
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.loot.dialogue")).queue();
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.loot.dialogue")).queue();
 			channel.sendMessage(embed.build()).queue();
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.loot.no_item")).queue();
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.loot.no_item")).queue();
 		}
 		catch (NullPointerException ignored) {
 			DBReadWrite.registerUser(author.getId());
+			Cooldown.removeCooldown(author.getId(), getCommandName());
 			
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.loot.error")).queue();
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.loot.error")).queue();
 		}
 	}
 
@@ -76,7 +78,7 @@ public class LootCommand extends Command {
 	
 	@Override
 	public String getCommandCategory() {
-		return "Roleplay";
+		return "Games";
 	}
 
 	@Override

@@ -26,7 +26,8 @@ import com.sun.management.OperatingSystemMXBean;
 import net.crimsonite.rena.RenaBot;
 import net.crimsonite.rena.RenaConfig;
 import net.crimsonite.rena.commands.Command;
-import net.crimsonite.rena.engine.I18n;
+import net.crimsonite.rena.core.CommandRegistry;
+import net.crimsonite.rena.core.I18n;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -44,11 +45,11 @@ public class StatusCommand extends Command {
 		
 		OperatingSystemMXBean operatingSystem = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 		
-		long numberOfCommands = HelpCommand.getCommandCount();
+		long numberOfCommands = CommandRegistry.getRegisteredCommandCount();
 		long shards = jda.getShardInfo().getShardTotal();
 		long timesCommandUsed = Command.getTimesCommandUsed();
 		long threads = Thread.activeCount();
-		long totalUptimeInSeconds = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - RenaBot.startup);
+		long totalUptimeInSeconds = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - RenaBot.getStartupTime());
 		long days = totalUptimeInSeconds / 86400;
 		long hours = (totalUptimeInSeconds % 86400) / 3600;
 		long minutes = (totalUptimeInSeconds % 3600) / 60;

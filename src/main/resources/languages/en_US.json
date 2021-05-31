@@ -30,6 +30,7 @@
 		},
 		"help": {
 			"command_does_not_exist": "**That command doesn't seem to exist.**",
+			"slash_help": "*I currently do not support slash commands, please use* `%1$shelp` *instead.*",
 			"embed": {
 				"title": "Help",
 				"cooldown_duration_S": "**Cooldown Duration:** %3$ds",
@@ -130,13 +131,13 @@
 			"user_not_found": "**That user isn't blacklisted from your server, maybe they does not exist at all.**"
 		}
 	},
-	"roleplay": {
+	"game": {
 		"daily": {
 			"daily_streak_increment": "*Welcome back! You got another Streak! **Daily Streak: %d***",
 			"daily_streak_reset": "*You've been away for more than a day... **Streak was reset to %d**'*",
 			"claimed": "*Congratulations! You claimed your **G%d** daily!!!*",
 			"not_qualified": "*It seems that you're still an amateur. You can't claim a daily unless you gain an experience as the rewards depends on your level.*",
-			"not_registered": "*Oops! You're not allowed to claim a daily yet. Come again tomorrow, but first, let me register you to the central guild.*",
+			"not_registered": "*Oops! You're not allowed to claim a daily yet. Come again later, but first, let me register you to the central guild.*",
 			"user_not_found": "**That user doesn't seem to exist, so you took the daily instead.**"
 		},
 		"expedition": {

@@ -15,16 +15,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.crimsonite.rena.commands.roleplay;
+package net.crimsonite.rena.commands.games;
 
 import java.awt.Color;
 import java.util.Random;
 
 import net.crimsonite.rena.commands.Command;
-import net.crimsonite.rena.database.DBReadWrite;
-import net.crimsonite.rena.database.DBReadWrite.Table;
-import net.crimsonite.rena.engine.I18n;
-import net.crimsonite.rena.engine.RoleplayEngine;
+import net.crimsonite.rena.core.Cooldown;
+import net.crimsonite.rena.core.I18n;
+import net.crimsonite.rena.core.PlayerManager;
+import net.crimsonite.rena.core.database.DBReadWrite;
+import net.crimsonite.rena.core.database.DBReadWrite.Table;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -49,22 +50,23 @@ public class ExpeditionCommand extends Command {
 			
 			DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "MONEY", receivedMoney);
 			DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "EXP", receivedExp);
-			RoleplayEngine.Handler.handleLevelup(author.getId());
+			PlayerManager.Handler.handleLevelup(author.getId());
 			
 			EmbedBuilder embed = new EmbedBuilder()
 					.setColor(roleColor)
-					.setTitle(I18n.getMessage(event.getAuthor().getId(), "roleplay.expedition.embed.title"))
-					.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.expedition.embed.money"), String.valueOf(receivedMoney), true)
-					.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.expedition.embed.exp"), String.valueOf(receivedExp), true)
+					.setTitle(I18n.getMessage(event.getAuthor().getId(), "game.expedition.embed.title"))
+					.addField(I18n.getMessage(event.getAuthor().getId(), "game.expedition.embed.money"), String.valueOf(receivedMoney), true)
+					.addField(I18n.getMessage(event.getAuthor().getId(), "game.expedition.embed.exp"), String.valueOf(receivedExp), true)
 					.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 			
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.expedition.dialogue")).queue();
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.expedition.dialogue")).queue();
 			channel.sendMessage(embed.build()).queue();
 		}
 		catch (NullPointerException ignored) {
 			DBReadWrite.registerUser(author.getId());
+			Cooldown.removeCooldown(author.getId(), getCommandName());
 			
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.expedition.error")).queue();
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.expedition.error")).queue();
 		}
 	}
 
@@ -75,7 +77,7 @@ public class ExpeditionCommand extends Command {
 	
 	@Override
 	public String getCommandCategory() {
-		return "Roleplay";
+		return "Games";
 	}
 
 	@Override

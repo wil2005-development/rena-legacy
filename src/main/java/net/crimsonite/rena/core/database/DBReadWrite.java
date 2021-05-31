@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.crimsonite.rena.database;
+package net.crimsonite.rena.core.database;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -30,7 +30,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import net.crimsonite.rena.database.DBConnection;
+import net.crimsonite.rena.core.database.DBConnection;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;

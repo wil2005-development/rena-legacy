@@ -15,16 +15,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.crimsonite.rena.commands.roleplay;
+package net.crimsonite.rena.commands.games;
 
 import java.util.List;
 
 import com.jagrosh.jdautilities.commons.utils.FinderUtil;
 
 import net.crimsonite.rena.commands.Command;
-import net.crimsonite.rena.database.DBReadWrite;
-import net.crimsonite.rena.database.DBReadWrite.Table;
-import net.crimsonite.rena.engine.I18n;
+import net.crimsonite.rena.core.I18n;
+import net.crimsonite.rena.core.database.DBReadWrite;
+import net.crimsonite.rena.core.database.DBReadWrite.Table;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -36,7 +36,7 @@ public class TransferMoneyCommand extends Command {
 		int amountAfterTax = Math.round((float) amount - (amount * 0.02f));
 		
 		if (amount <= 0 || amount >= 100_000) {
-			channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.transfer.invalid_amount")).queue();
+			channel.sendMessage(I18n.getMessage(author.getId(), "game.transfer.invalid_amount")).queue();
 			
 			return;
 		}
@@ -46,7 +46,7 @@ public class TransferMoneyCommand extends Command {
 			DBReadWrite.getValueInt(Table.PLAYERS, member.getId(), "MONEY");
 			
 			if (balance < amount) {
-				channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.transfer.not_enough_money")).queue();
+				channel.sendMessage(I18n.getMessage(author.getId(), "game.transfer.not_enough_money")).queue();
 				
 				return;
 			}
@@ -54,11 +54,11 @@ public class TransferMoneyCommand extends Command {
 				DBReadWrite.decrementValue(Table.PLAYERS, author.getId(), "MONEY", amount);
 				DBReadWrite.incrementValue(Table.PLAYERS, member.getId(), "MONEY", amountAfterTax);
 				
-				channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.transfer.sent").formatted(amountAfterTax, member.getEffectiveName(), 2)).queue();
+				channel.sendMessage(I18n.getMessage(author.getId(), "game.transfer.sent").formatted(amountAfterTax, member.getEffectiveName(), 2)).queue();
 			}
 		}
 		catch (NullPointerException e) {
-			channel.sendMessage(I18n.getMessage(author.getId(), "roleplay.transfer.failed")).queue();
+			channel.sendMessage(I18n.getMessage(author.getId(), "game.transfer.failed")).queue();
 		}
 	}
 
@@ -100,7 +100,7 @@ public class TransferMoneyCommand extends Command {
 
 	@Override
 	public String getCommandCategory() {
-		return "Roleplay";
+		return "Games";
 	}
 
 	@Override

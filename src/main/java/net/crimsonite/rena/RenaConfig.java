@@ -43,25 +43,44 @@ public class RenaConfig {
 	private static String hostName = getValue("HOST_NAME");
 	private static String prefix = getValue("PREFIX");
 	
+	/**
+	 * @return the Id of the bot's owner.
+	 */
 	public static long getOwnerId() {
 		return ownerId;
 	}
 	
+	/**
+	 * @return true if the bot is using sharding.
+	 */
 	public static boolean isSharding() {
 		return useSharding;
 	}
 	
+	/**
+	 * @return the total number of shards.
+	 */
 	public static int getTotalShards() {
 		return totalShards;
 	}
 	
+	/**
+	 * @return the db's host name
+	 */
 	public static String getHostName() {
 		return hostName;
 	}
+	/**
+	 * @return the bot's default prefix.
+	 */
 	public static String getPrefix() {
 		return prefix;
 	}
 	
+	/**
+	 * @param variable
+	 * @return the value of the provided variable. Null if the provided variable doesn't exist.
+	 */
 	private static String getValue(String variable)
 	{
 		String value = null;
@@ -83,6 +102,9 @@ public class RenaConfig {
 		return value;
 	}
 	
+	/**
+	 * Creates a .json file in the current directory containing config options.
+	 */
 	private static void generateConfigFile() {
 		logger.info("Generating config file from templates...");
 		
