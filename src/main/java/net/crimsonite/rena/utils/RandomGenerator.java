@@ -17,11 +17,19 @@
 
 package net.crimsonite.rena.utils;
 
+import java.security.SecureRandom;
 import java.util.Random;
+
+import javax.annotation.Nullable;
 
 public class RandomGenerator {
 	
-	private static Random defaultRNG = new Random();
+	private static Random defaultRNG(@Nullable byte[] seed) {
+		if (seed != null) {
+			return new SecureRandom(seed);
+		}
+		return new SecureRandom();
+	}
 	
 	/**
 	 * @param min Minimum number to generate.
@@ -29,7 +37,20 @@ public class RandomGenerator {
 	 * @return Randomly generated number.
 	 */
 	public static int randomInt(int min, int max) {
-		return defaultRNG.nextInt(max - min) + min;
+		return defaultRNG(null).nextInt(max - min) + min;
+	}
+	
+	/**
+	 * @param min Minimum number to generate.
+	 * @param max Maximum number to generate.
+	 * @param seed (nullable) a key used to generate more entropy.
+	 * @return Randomly generated number.
+	 */
+	public static int randomInt(int min, int max, @Nullable byte[] seed) {
+		if (seed != null) {
+			return defaultRNG(seed).nextInt(max - min) + min;
+		}
+		return defaultRNG(null).nextInt(max - min) + min;
 	}
 	
 	/**
@@ -37,7 +58,19 @@ public class RandomGenerator {
 	 * @return Randomly generated number.
 	 */
 	public static int randomInt(int max) {
-		return defaultRNG.nextInt(max);
+		return defaultRNG(null).nextInt(max);
+	}
+	
+	/**
+	 * @param max Maximum number to generate.
+	 * @param seed (nullable) a key used to generate more entropy.
+	 * @return Randomly generated number.
+	 */
+	public static int randomInt(int max, @Nullable byte[] seed) {
+		if (seed != null) {
+			return defaultRNG(seed).nextInt(max);
+		}
+		return defaultRNG(null).nextInt(max);
 	}
 	
 	/**
@@ -45,7 +78,19 @@ public class RandomGenerator {
 	 * @return Randomly generated number.
 	 */
 	public static float randomFloat(float max) {
-		return defaultRNG.nextFloat() * max;
+		return defaultRNG(null).nextFloat() * max;
+	}
+	
+	/**
+	 * @param max Maximum number to generate.
+	 * @param seed (nullable) a key used to generate more entropy.
+	 * @return Randomly generated number.
+	 */
+	public static float randomFloat(float max, @Nullable byte[] seed) {
+		if (seed != null) {
+			return defaultRNG(seed).nextFloat() * max;
+		}
+		return defaultRNG(null).nextFloat() * max;
 	}
 	
 	/**
@@ -54,7 +99,20 @@ public class RandomGenerator {
 	 * @return Randomly generated number.
 	 */
 	public static float randomFloat(float min, float max) {
-		return (((defaultRNG.nextFloat() * max) - min) + min);
+		return (((defaultRNG(null).nextFloat() * max) - min) + min);
+	}
+	
+	/**
+	 * @param min Minimum number to generate.
+	 * @param max Maximum number to generate.
+	 * @param seed (nullable) a key used to generate more entropy.
+	 * @return Randomly generated number.
+	 */
+	public static float randomFloat(float min, float max, @Nullable byte[] seed) {
+		if (seed != null) {
+			return (((defaultRNG(seed).nextFloat() * max) - min) + min);
+		}
+		return (((defaultRNG(null).nextFloat() * max) - min) + min);
 	}
 	
 	/**
@@ -62,7 +120,19 @@ public class RandomGenerator {
 	 * @return Randomly generated number.
 	 */
 	public static double randomDouble(double max) {
-		return defaultRNG.nextDouble() * max;
+		return defaultRNG(null).nextDouble() * max;
+	}
+	
+	/**
+	 * @param max Maximum number to generate.
+	 * @param seed (nullable) a key used to generate more entropy.
+	 * @return Randomly generated number.
+	 */
+	public static double randomDouble(double max, @Nullable byte[] seed) {
+		if (seed != null) {
+			return defaultRNG(null).nextDouble() * max;
+		}
+		return defaultRNG(null).nextDouble() * max;
 	}
 	
 	/**
@@ -71,7 +141,20 @@ public class RandomGenerator {
 	 * @return Randomly generated number.
 	 */
 	public static double randomDouble(double min, double max) {
-		return (((defaultRNG.nextDouble() * max) - min) + min);
+		return (((defaultRNG(null).nextDouble() * max) - min) + min);
+	}
+	
+	/**
+	 * @param min Minimum number to generate.
+	 * @param max Maximum number to generate.
+	 * @param seed (nullable) a key used to generate more entropy.
+	 * @return Randomly generated number.
+	 */
+	public static double randomDouble(double min, double max, @Nullable byte[] seed) {
+		if (seed != null) {
+			return (((defaultRNG(seed).nextDouble() * max) - min) + min);
+		}
+		return (((defaultRNG(null).nextDouble() * max) - min) + min);
 	}
 	
 	/**
@@ -92,10 +175,44 @@ public class RandomGenerator {
 	
 	/**
 	 * @param percentage The chance of getting a True value.
+	 * @param seed (nullable) a key used to generate more entropy.
+	 * @return True if the generated number is less than or equal to the percentage given,
+	 * otherwise, False.
+	 */
+	public static boolean randomChance(double percentage, @Nullable byte[] seed) {
+		boolean res = false;
+		double n = randomDouble(100);
+		
+		if (seed != null) {
+			n = randomDouble(100, seed);
+		}
+		
+		if (n <= percentage) {
+			res = true;
+		}
+		
+		return res;
+	}
+	
+	/**
+	 * @param percentage The chance of getting a True value.
 	 * @return True if the generated number is less than or equal to the percentage given,
 	 * otherwise, False.
 	 */
 	public static boolean randomChance(float percentage) {
+		return randomChance(percentage);
+	}
+	
+	/**
+	 * @param percentage The chance of getting a True value.
+	 * @param seed (nullable) a key used to generate more entropy.
+	 * @return True if the generated number is less than or equal to the percentage given,
+	 * otherwise, False.
+	 */
+	public static boolean randomChance(float percentage, @Nullable byte[] seed) {
+		if (seed != null) {
+			return randomChance(percentage, seed);
+		}
 		return randomChance(percentage);
 	}
 	
