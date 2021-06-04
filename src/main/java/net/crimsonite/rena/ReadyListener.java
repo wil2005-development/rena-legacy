@@ -34,8 +34,8 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.requests.restaction.CommandUpdateAction;
-import net.dv8tion.jda.api.requests.restaction.CommandUpdateAction.CommandData;
+import net.dv8tion.jda.api.interactions.commands.build.CommandData;
+import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
 
 public class ReadyListener extends ListenerAdapter {
 	
@@ -47,8 +47,8 @@ public class ReadyListener extends ListenerAdapter {
 		String quote = "Engine has started! [Shard #%d]";
 		JDA jda = event.getJDA();
 		LocalDate date = LocalDate.now();
-		
-		CommandUpdateAction slashCommands = jda.updateCommands();
+				
+		CommandListUpdateAction slashCommands = jda.updateCommands();
 		slashCommands.addCommands(new CommandData("help", "Shows a help text.")).queue();
 		
 		if (date.getMonth() == Month.JANUARY || date.getDayOfMonth() == 1) {
