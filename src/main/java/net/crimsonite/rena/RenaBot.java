@@ -35,6 +35,7 @@ import net.crimsonite.rena.commands.games.InsightCommand;
 import net.crimsonite.rena.commands.games.InventoryCommand;
 import net.crimsonite.rena.commands.games.LootCommand;
 import net.crimsonite.rena.commands.games.ProfileCommand;
+import net.crimsonite.rena.commands.games.RepCommand;
 import net.crimsonite.rena.commands.games.TransferMoneyCommand;
 import net.crimsonite.rena.commands.games.UseItemCommand;
 import net.crimsonite.rena.commands.imageboard.DanbooruCommand;
@@ -90,6 +91,7 @@ public class RenaBot extends CommandRegistry {
 						registerCommand(new HuntCommand()),
 						registerCommand(new LootCommand()),
 						registerCommand(new ProfileCommand()),
+						registerCommand(new RepCommand()),
 						registerCommand(new TransferMoneyCommand()),
 						
 						// User Preference Commands
