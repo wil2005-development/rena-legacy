@@ -112,8 +112,12 @@ public abstract class Command extends ListenerAdapter {
 			}
 		}
 		
+		postCommandEvent();
+		
 		return;
 	}
+	
+	public void postCommandEvent() {}
 
 	protected boolean containsCommand(Message message, MessageReceivedEvent event) {
 		String defaultPrefix = RenaConfig.getPrefix();
