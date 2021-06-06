@@ -240,6 +240,12 @@
 				"no_birthday": "Not set"
 			}
 		},
+		"rep": {
+			"no_mention": "*Who are you going to rep?*",
+			"give_rep": "**%1$s gave a reputation to %2$s!**",
+			"self_rep": "**You can't give yourself a reputation!**",
+			"user_not_found": "**You can't give this person a reputation right now.**"
+		},
 		"transfer": {
 			"invalid_amount": "**That is not a valid amount.**",
 			"not_enough_money": "**You don't have enough money.**",
