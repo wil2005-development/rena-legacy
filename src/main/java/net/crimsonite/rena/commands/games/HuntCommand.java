@@ -35,10 +35,11 @@ import net.crimsonite.rena.commands.Command;
 import net.crimsonite.rena.core.Cooldown;
 import net.crimsonite.rena.core.I18n;
 import net.crimsonite.rena.core.PlayerManager;
-import net.crimsonite.rena.core.PlayerManager.Handler;
 import net.crimsonite.rena.core.PlayerManager.Battle.AttackerType;
+import net.crimsonite.rena.core.PlayerManager.Handler;
 import net.crimsonite.rena.core.database.DBReadWrite;
 import net.crimsonite.rena.core.database.DBReadWrite.Table;
+import net.crimsonite.rena.entities.Player;
 import net.crimsonite.rena.utils.RandomGenerator;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -55,15 +56,16 @@ public class HuntCommand extends Command {
 	private long timer;
 	private StringBuilder battleLog;
 	private long dialogueId = 0;
-	private long huntPlayer = 0;
+	private long playerId = 0;
 	private String selectedEnemy;
 	private int enemyHP;
 	private int enemyDMG;
-	private int playerHP;
 	private int playerDMG;
 	private int rewardExp;
 	private int rewardMoney;
 	private boolean locked = true;
+	
+	private Player player;
 	
 	private static EmbedBuilder embedForVictory(MessageReceivedEvent event, int rewardExp, int rewardMoney, String rewardItem) {
 		User author = event.getAuthor();
@@ -96,16 +98,17 @@ public class HuntCommand extends Command {
 	
 	private void throwAttack(MessageReactionAddEvent event, User author) {
 		MessageChannel channel = event.getChannel();
+		Player player = this.player;
 		
 		String selectedEnemy = this.selectedEnemy;
 		int enemyHP = this.enemyHP;
 		int enemyDMG = this.enemyDMG;
-		int playerHP = this.playerHP;
+		int playerHP = (int) player.getHp();
 		int playerDMG = this.playerDMG;
 		int rewardExp = this.rewardExp;
 		int rewardMoney = this.rewardMoney;
 		
-		if (event.getMessageIdLong() == this.dialogueId && event.getUserIdLong() == this.huntPlayer) {
+		if (event.getMessageIdLong() == this.dialogueId && event.getUserIdLong() == this.playerId) {
 			try {
 				while (playerHP > 0 && enemyHP > 0) {
 					String dialogue = "%1$s attacked and dealt %3$d damage to %2$s\n";
@@ -203,7 +206,8 @@ public class HuntCommand extends Command {
 		User author = event.getAuthor();
 		MessageChannel channel = event.getChannel();
 		
-		this.huntPlayer = author.getIdLong();
+		this.player = new Player(author.getId());
+		this.playerId = Long.parseLong(this.player.getPlayerId());
 		this.messageEvent = event;
 		this.timer = System.currentTimeMillis();
 		this.locked = false;
@@ -236,7 +240,6 @@ public class HuntCommand extends Command {
 			this.drops = mapper.convertValue(enemyStat.get("DROPS"), Map.class);
 						
 			this.enemyHP = enemyStat.get("HP").asInt();
-			this.playerHP = DBReadWrite.getValueInt(Table.PLAYERS, author.getId(), "HP");
 			this.rewardExp = enemyStat.get("EXP").asInt();
 			this.rewardMoney = moneyList.get(RandomGenerator.randomInt(moneyList.size())).asInt();
 			
@@ -255,13 +258,13 @@ public class HuntCommand extends Command {
 					channel.addReactionById(dialogue.getIdLong(), "\u274C").queue();
 			});
 		}
-		catch (JsonProcessingException ignored) {
+		catch (JsonProcessingException e) {
 			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.hunt.error.json_processing_error")).queue();
 		}
-		catch (IOException ignored) {
+		catch (IOException e) {
 			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.hunt.error.io_error")).queue();
 		}
-		catch (NullPointerException ignored) {
+		catch (NullPointerException e) {
 			DBReadWrite.registerUser(author.getId());
 			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.hunt.error.generic_error")).queue();
 		}
@@ -277,7 +280,7 @@ public class HuntCommand extends Command {
 		long timeout = 60_000;
 		
 		if(!this.locked) {
-			if (event.getMessageIdLong() == this.dialogueId && author.getIdLong() == this.huntPlayer) {
+			if (event.getMessageIdLong() == this.dialogueId && author.getIdLong() == this.playerId) {
 				while (currentTime < (this.timer + timeout)) {
 					if (event.getReactionEmote().equals(ReactionEmote.fromUnicode("\u2705", event.getJDA()))) {
 						channel.sendMessage(I18n.getMessage(author.getId(), "game.hunt.attack")).queue();

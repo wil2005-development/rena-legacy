@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import net.crimsonite.rena.core.database.DBReadWrite;
 import net.crimsonite.rena.core.database.DBReadWrite.Table;
+import net.crimsonite.rena.entities.Player;
 import net.crimsonite.rena.utils.RandomGenerator;
 
 public class PlayerManager {
@@ -57,7 +58,7 @@ public class PlayerManager {
 		 * @param exp
 		 * @return true if the player has met the minimum exp requirements in order advance to the next level.
 		 */
-		private static boolean canIncrementLevel(int level, int exp) {
+		private static boolean canIncrementLevel(int level, long exp) {
 			int nextLevel = level += 1;
 			int requiredExpForNextLevel = 50*nextLevel*(nextLevel+1);
 			
@@ -74,14 +75,15 @@ public class PlayerManager {
 		 * @param playerId The Discord UID of the player.
 		 */
 		public static void handleLevelup(String playerId) {
-			int playerLEVEL = DBReadWrite.getValueInt(Table.PLAYERS, playerId, "LEVEL");
-			int playerEXP = DBReadWrite.getValueInt(Table.PLAYERS, playerId, "EXP");
+			Player player = new Player(playerId);
+			int playerLEVEL = player.getLvl();
+			long playerEXP = player.getExp();
 			
-			int playerHP = DBReadWrite.getValueInt(Table.PLAYERS, playerId, "HP");
-			int playerMP = DBReadWrite.getValueInt(Table.PLAYERS, playerId, "MP");
+			long playerHP = player.getHp();
+			long playerMP = player.getMp();
 			
-			int playerVIT = DBReadWrite.getValueInt(Table.PLAYERS, playerId, "VIT");
-			int playerWIS = DBReadWrite.getValueInt(Table.PLAYERS, playerId, "WIS");
+			int playerVIT = player.getVit();
+			int playerWIS = player.getWis();
 			
 			boolean canIncrementLvl = canIncrementLevel(playerLEVEL, playerEXP);
 			
@@ -100,8 +102,8 @@ public class PlayerManager {
 				
 				DBReadWrite.incrementValue(Table.PLAYERS, playerId, "LEVEL", playerLEVEL);
 				
-				DBReadWrite.incrementValue(Table.PLAYERS, playerId, "HP", playerHP);
-				DBReadWrite.incrementValue(Table.PLAYERS, playerId, "MP", playerMP);
+				DBReadWrite.incrementValue(Table.PLAYERS, playerId, "HP", (int)playerHP);
+				DBReadWrite.incrementValue(Table.PLAYERS, playerId, "MP", (int)playerMP);
 				
 				DBReadWrite.incrementValue(Table.PLAYERS, playerId, "VIT", playerVIT);
 				DBReadWrite.incrementValue(Table.PLAYERS, playerId, "WIS", playerWIS);
@@ -115,7 +117,9 @@ public class PlayerManager {
 		 * @return the total amount of exp required in order to advance to the next level
 		 */
 		public static int getRequiredExpForNextLevel(String playerId) {
-			int playerLevel = DBReadWrite.getValueInt(Table.PLAYERS, playerId, "LEVEL");
+			Player player = new Player(playerId);
+			
+			int playerLevel = player.getLvl();
 			
 			int nextLevel = playerLevel += 1;
 			return 50*nextLevel*(nextLevel+1);	
@@ -128,7 +132,8 @@ public class PlayerManager {
 		 * @param amount
 		 */
 		public static void giveExp(String playerId, int amount) {
-			int playerLevel = DBReadWrite.getValueInt(Table.PLAYERS, playerId, "LEVEL");
+			Player player = new Player(playerId);
+			int playerLevel = player.getLvl();
 			
 			if (playerLevel < LEVEL_CAP) {
 				DBReadWrite.incrementValue(Table.PLAYERS, playerId, "EXP", amount);
@@ -174,16 +179,17 @@ public class PlayerManager {
 		 */
 		public static int attack(JsonNode enemyDB, String playerId, String enemy, AttackerType type) throws JsonProcessingException, IOException {
 			JsonNode enemyData = enemyDB;
+			Player player = new Player(playerId);
 			
-			int playerLUK = DBReadWrite.getValueInt(Table.PLAYERS, playerId, "LUK");
-			int playerSTR = DBReadWrite.getValueInt(Table.PLAYERS, playerId, "STR");
+			int playerLUK = player.getLuk();
+			int playerSTR = player.getStr();
 			int defaultCriticalHit = new Random().nextInt(20-1)+1;
 			int playerCriticalHit = RandomGenerator.randomInt(1, (playerLUK + 1));
 			int damage;
 			
 			switch (type) {
 				case PLAYER:					
-					playerATK = DBReadWrite.getValueInt(Table.PLAYERS, playerId, "ATK");
+					playerATK = player.getAtk();
 					enemyDEF = enemyData.get(enemy).get("DEF").asInt();
 					
 					damage = (int) (2 * Math.pow((playerATK + playerSTR + playerCriticalHit), 2)) / ((playerATK + playerSTR + playerCriticalHit) + enemyDEF);
@@ -191,13 +197,13 @@ public class PlayerManager {
 					break;
 				case ENEMY_NORMAL:
 					enemyATK = enemyData.get(enemy).get("ATK").asInt();
-					playerDEF = DBReadWrite.getValueInt(Table.PLAYERS, playerId, "DEF");
+					playerDEF = player.getDef();
 					
 					damage = (int) (2 * Math.pow((enemyATK + defaultCriticalHit), 2)) / ((enemyATK + defaultCriticalHit) + playerDEF);
 					
 					break;
 				default:
-					playerATK = DBReadWrite.getValueInt(Table.PLAYERS, playerId, "ATK");
+					playerATK = player.getAtk();
 					enemyDEF = enemyData.get(enemy).get("DEF").asInt();
 					
 					damage = (int) (2 * Math.pow((playerATK + playerSTR + playerCriticalHit), 2)) / ((playerATK + playerSTR + playerCriticalHit) + enemyDEF);

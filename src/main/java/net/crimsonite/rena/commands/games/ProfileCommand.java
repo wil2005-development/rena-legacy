@@ -26,6 +26,7 @@ import net.crimsonite.rena.commands.Command;
 import net.crimsonite.rena.core.I18n;
 import net.crimsonite.rena.core.database.DBReadWrite;
 import net.crimsonite.rena.core.database.DBReadWrite.Table;
+import net.crimsonite.rena.entities.Player;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -36,6 +37,7 @@ public class ProfileCommand extends Command {
 	
 	private static void sendEmbed(MessageReceivedEvent event, User user) {
 		Color roleColor = event.getGuild().retrieveMember(user).complete().getColor();
+		Player player = new Player(user.getId());
 		
 		String defaultUserStatus = "";
 		String defaultUserBirthday = I18n.getMessage(user.getId(), "game.profile.embed.no_birthday");
@@ -61,21 +63,21 @@ public class ProfileCommand extends Command {
 				.setDescription(userStatus)
 				.setThumbnail(user.getEffectiveAvatarUrl())
 				.addField(I18n.getMessage(user.getId(), "game.profile.embed.rep"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "REP")), false)
-				.addField(I18n.getMessage(user.getId(), "game.profile.embed.level"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "LEVEL")), false)
-				.addField(I18n.getMessage(user.getId(), "game.profile.embed.exp"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "EXP")), false)
+				.addField(I18n.getMessage(user.getId(), "game.profile.embed.level"), String.valueOf(player.getLvl()), false)
+				.addField(I18n.getMessage(user.getId(), "game.profile.embed.exp"), String.valueOf(player.getExp()), false)
 				.addField(I18n.getMessage(user.getId(), "game.profile.embed.money"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "MONEY")), true)
 				.addBlankField(false)
-				.addField(I18n.getMessage(user.getId(), "game.profile.embed.hp"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "HP")), true)
-				.addField(I18n.getMessage(user.getId(), "game.profile.embed.mp"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "MP")), true)
-				.addField(I18n.getMessage(user.getId(), "game.profile.embed.atk"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "ATK")), true)
-				.addField(I18n.getMessage(user.getId(), "game.profile.embed.def"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "DEF")), true)
+				.addField(I18n.getMessage(user.getId(), "game.profile.embed.hp"), String.valueOf(player.getHp()), true)
+				.addField(I18n.getMessage(user.getId(), "game.profile.embed.mp"), String.valueOf(player.getMp()), true)
+				.addField(I18n.getMessage(user.getId(), "game.profile.embed.atk"), String.valueOf(player.getAtk()), true)
+				.addField(I18n.getMessage(user.getId(), "game.profile.embed.def"), String.valueOf(player.getDef()), true)
 				.addBlankField(false)
-				.addField(I18n.getMessage(user.getId(), "game.profile.embed.vit"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "VIT")), true)
-				.addField(I18n.getMessage(user.getId(), "game.profile.embed.str"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "STR")), true)
-				.addField(I18n.getMessage(user.getId(), "game.profile.embed.agi"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "AGI")), true)
-				.addField(I18n.getMessage(user.getId(), "game.profile.embed.int"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "INT")), true)
-				.addField(I18n.getMessage(user.getId(), "game.profile.embed.wis"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "WIS")), true)
-				.addField(I18n.getMessage(user.getId(), "game.profile.embed.luk"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "LUK")), true)
+				.addField(I18n.getMessage(user.getId(), "game.profile.embed.vit"), String.valueOf(player.getVit()), true)
+				.addField(I18n.getMessage(user.getId(), "game.profile.embed.str"), String.valueOf(player.getStr()), true)
+				.addField(I18n.getMessage(user.getId(), "game.profile.embed.agi"), String.valueOf(player.getAgi()), true)
+				.addField(I18n.getMessage(user.getId(), "game.profile.embed.int"), String.valueOf(player.getInt()), true)
+				.addField(I18n.getMessage(user.getId(), "game.profile.embed.wis"), String.valueOf(player.getWis()), true)
+				.addField(I18n.getMessage(user.getId(), "game.profile.embed.luk"), String.valueOf(player.getLuk()), true)
 				.addBlankField(false)
 				.addField(I18n.getMessage(user.getId(), "game.profile.embed.birthday"), userBirthday, false)
 				.setFooter(event.getAuthor().getName(), event.getAuthor().getEffectiveAvatarUrl());
