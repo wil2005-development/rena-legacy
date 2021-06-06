@@ -45,18 +45,18 @@ public class Player {
 		this.aPlayerId = playerId;
 		
 		try {
-			this.aAtk = DBReadWrite.getValueInt(Table.PLAYERS, playerId, "ATK");
-			this.aDef = DBReadWrite.getValueInt(Table.PLAYERS, playerId, "DEF");
-			this.aLvl = DBReadWrite.getValueInt(Table.PLAYERS, playerId, "LVL");
-			this.aVit = DBReadWrite.getValueInt(Table.PLAYERS, playerId, "VIT");
-			this.aStr = DBReadWrite.getValueInt(Table.PLAYERS, playerId, "STR");
-			this.aAgi = DBReadWrite.getValueInt(Table.PLAYERS, playerId, "AGI");
-			this.aInt = DBReadWrite.getValueInt(Table.PLAYERS, playerId, "INT");
-			this.aWis = DBReadWrite.getValueInt(Table.PLAYERS, playerId, "WIS");
-			this.aLuk = DBReadWrite.getValueInt(Table.PLAYERS, playerId, "LUK");
-			this.aHp = DBReadWrite.getValueInt(Table.PLAYERS, playerId, "HP");
-			this.aMp = DBReadWrite.getValueInt(Table.PLAYERS, playerId, "MP");
-			this.aExp = DBReadWrite.getValueInt(Table.PLAYERS, playerId, "EXP");
+			this.aAtk = DBReadWrite.getValueInt(Table.PLAYERS, this.aPlayerId, "ATK");
+			this.aDef = DBReadWrite.getValueInt(Table.PLAYERS, this.aPlayerId, "DEF");
+			this.aLvl = DBReadWrite.getValueInt(Table.PLAYERS, this.aPlayerId, "LEVEL");
+			this.aVit = DBReadWrite.getValueInt(Table.PLAYERS, this.aPlayerId, "VIT");
+			this.aStr = DBReadWrite.getValueInt(Table.PLAYERS, this.aPlayerId, "STR");
+			this.aAgi = DBReadWrite.getValueInt(Table.PLAYERS, this.aPlayerId, "AGI");
+			this.aInt = DBReadWrite.getValueInt(Table.PLAYERS, this.aPlayerId, "INT");
+			this.aWis = DBReadWrite.getValueInt(Table.PLAYERS, this.aPlayerId, "WIS");
+			this.aLuk = DBReadWrite.getValueInt(Table.PLAYERS, this.aPlayerId, "LUK");
+			this.aHp = DBReadWrite.getValueInt(Table.PLAYERS, this.aPlayerId, "HP");
+			this.aMp = DBReadWrite.getValueInt(Table.PLAYERS, this.aPlayerId, "MP");
+			this.aExp = DBReadWrite.getValueInt(Table.PLAYERS, this.aPlayerId, "EXP");
 		}
 		catch (NullPointerException e) {
 			throw new NullPointerException("Provided ID is invalid($s)".formatted(playerId));
