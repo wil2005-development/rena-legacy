@@ -37,8 +37,6 @@ public class TransferMoneyCommand extends Command {
 		
 		if (amount <= 0 || amount >= 100_000) {
 			channel.sendMessage(I18n.getMessage(author.getId(), "game.transfer.invalid_amount")).queue();
-			
-			return;
 		}
 		
 		try {
@@ -47,8 +45,6 @@ public class TransferMoneyCommand extends Command {
 			
 			if (balance < amount) {
 				channel.sendMessage(I18n.getMessage(author.getId(), "game.transfer.not_enough_money")).queue();
-				
-				return;
 			}
 			else {
 				DBReadWrite.decrementValue(Table.PLAYERS, author.getId(), "MONEY", amount);
