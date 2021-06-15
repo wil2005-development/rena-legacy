@@ -247,6 +247,8 @@
 			"user_not_found": "**You can't give this person a reputation right now.**"
 		},
 		"transfer": {
+			"incomplete_args": "**You have to specify the amout you're trying to send to whom.**",
+			"invalid_number": "**%1$s is not a valid number.**",
 			"invalid_amount": "**That is not a valid amount.**",
 			"not_enough_money": "**You don't have enough money.**",
 			"sent": "**Successfuly sent *G%1$d* to *%2$s*! *(%3$d%% Tax)***",
