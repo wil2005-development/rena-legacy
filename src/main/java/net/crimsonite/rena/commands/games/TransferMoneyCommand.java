@@ -63,29 +63,37 @@ public class TransferMoneyCommand extends Command {
 		User author = event.getAuthor();
 		MessageChannel channel = event.getChannel();
 		
-		if (args.length >= 3) {
-			Member member;
-			
-			int amount = Integer.parseInt(args[1]);
-			
-			if (!event.getMessage().getMentionedMembers().isEmpty()) {
-				member = event.getMessage().getMentionedMembers().get(0);
+		try {
+			if (args.length >= 3) {
+				Member member;
 				
-				transferMoney(author, member, amount, channel);
-			}
-			else {
-				List<Member> listedMembers = FinderUtil.findMembers(args[2], event.getGuild());
+				int amount = Integer.parseInt(args[1]);
 				
-				if (listedMembers.isEmpty()) {
-					channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "info.user_info.user_not_found")).queue();
-					event.getGuild().loadMembers();
-				}
-				else {
-					member = listedMembers.get(0);
+				if (!event.getMessage().getMentionedMembers().isEmpty()) {
+					member = event.getMessage().getMentionedMembers().get(0);
 					
 					transferMoney(author, member, amount, channel);
 				}
+				else {
+					List<Member> listedMembers = FinderUtil.findMembers(args[2], event.getGuild());
+					
+					if (listedMembers.isEmpty()) {
+						channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "info.user_info.user_not_found")).queue();
+						event.getGuild().loadMembers();
+					}
+					else {
+						member = listedMembers.get(0);
+						
+						transferMoney(author, member, amount, channel);
+					}
+				}
 			}
+			
+			else {
+				channel.sendMessage(I18n.getMessage(author.getId(), "game.transfer.incomplete_args")).queue();			}
+		}
+		catch (NumberFormatException e) {
+			channel.sendMessage(I18n.getMessage(author.getId(), "game.transfer.invalid_number").formatted(args[1])).queue();
 		}
 	}
 
