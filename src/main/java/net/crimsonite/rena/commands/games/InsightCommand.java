@@ -4,7 +4,7 @@ import java.awt.Color;
 
 import net.crimsonite.rena.commands.Command;
 import net.crimsonite.rena.core.I18n;
-import net.crimsonite.rena.core.PlayerManager.Handler;
+import net.crimsonite.rena.core.GameHandler.Handler;
 import net.crimsonite.rena.core.database.DBReadWrite;
 import net.crimsonite.rena.core.database.DBReadWrite.Table;
 import net.dv8tion.jda.api.EmbedBuilder;

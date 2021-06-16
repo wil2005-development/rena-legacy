@@ -23,7 +23,7 @@ import java.util.Random;
 import net.crimsonite.rena.commands.Command;
 import net.crimsonite.rena.core.Cooldown;
 import net.crimsonite.rena.core.I18n;
-import net.crimsonite.rena.core.PlayerManager;
+import net.crimsonite.rena.core.GameHandler;
 import net.crimsonite.rena.core.database.DBReadWrite;
 import net.crimsonite.rena.core.database.DBReadWrite.Table;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -50,7 +50,7 @@ public class ExpeditionCommand extends Command {
 			
 			DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "MONEY", receivedMoney);
 			DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "EXP", receivedExp);
-			PlayerManager.Handler.handleLevelup(author.getId());
+			GameHandler.Handler.handleLevelup(author.getId());
 			
 			EmbedBuilder embed = new EmbedBuilder()
 					.setColor(roleColor)

@@ -28,7 +28,7 @@ import net.crimsonite.rena.core.database.DBReadWrite.Table;
 import net.crimsonite.rena.entities.Player;
 import net.crimsonite.rena.utils.RandomGenerator;
 
-public class PlayerManager {
+public class GameHandler {
 	
 	public static enum Item {
 		SEED_OF_LIFE("SEED_OF_LIFE"),

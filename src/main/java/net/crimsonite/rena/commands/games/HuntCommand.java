@@ -34,9 +34,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.crimsonite.rena.commands.Command;
 import net.crimsonite.rena.core.Cooldown;
 import net.crimsonite.rena.core.I18n;
-import net.crimsonite.rena.core.PlayerManager;
-import net.crimsonite.rena.core.PlayerManager.Battle.AttackerType;
-import net.crimsonite.rena.core.PlayerManager.Handler;
+import net.crimsonite.rena.core.GameHandler;
+import net.crimsonite.rena.core.GameHandler.Battle.AttackerType;
+import net.crimsonite.rena.core.GameHandler.Handler;
 import net.crimsonite.rena.core.database.DBReadWrite;
 import net.crimsonite.rena.core.database.DBReadWrite.Table;
 import net.crimsonite.rena.entities.Player;
@@ -115,7 +115,7 @@ public class HuntCommand extends Command {
 					String status = "%1$s's HP: %3$d | %2$s's HP: %4$d\n\n";
 					checkHP(messageEvent, enemyHP, playerHP, rewardExp, rewardMoney, drops);
 					
-					playerDMG = PlayerManager.Battle.attack(jsonData, author.getId(), selectedEnemy, AttackerType.PLAYER);
+					playerDMG = GameHandler.Battle.attack(jsonData, author.getId(), selectedEnemy, AttackerType.PLAYER);
 					enemyHP -= playerDMG;
 					
 					if (enemyHP < 0) {
@@ -125,7 +125,7 @@ public class HuntCommand extends Command {
 					battleLog.append(dialogue.formatted(author.getName(), selectedEnemy, playerDMG));
 					battleLog.append(status.formatted(author.getName(), selectedEnemy, playerHP, enemyHP));
 					
-					enemyDMG = PlayerManager.Battle.attack(jsonData, author.getId(), selectedEnemy, AttackerType.ENEMY_NORMAL);
+					enemyDMG = GameHandler.Battle.attack(jsonData, author.getId(), selectedEnemy, AttackerType.ENEMY_NORMAL);
 					playerHP -= enemyDMG;
 					
 					if (playerHP < 0) {
@@ -137,7 +137,7 @@ public class HuntCommand extends Command {
 					
 					checkHP(messageEvent, enemyHP, playerHP, rewardExp, rewardMoney, drops);
 				}
-				PlayerManager.Handler.handleLevelup(author.getId());
+				GameHandler.Handler.handleLevelup(author.getId());
 				
 				channel.sendFile("Battle Logs:\n%sEnd".formatted(battleLog.toString()).getBytes(), "BattleLogs.txt").queue();
 			}
