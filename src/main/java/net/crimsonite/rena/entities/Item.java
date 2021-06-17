@@ -28,7 +28,7 @@ import net.crimsonite.rena.core.I18n;
 
 public class Item {
 	
-	private static ObjectMapper mapper;
+	private static ObjectMapper mapper = new ObjectMapper();
 	
 	private String itemName;
 	private String description;
@@ -46,8 +46,10 @@ public class Item {
 	 * @throws IOException if the provided item ID doesn't exist.
 	 */
 	public Item(String itemId, @Nullable String userId) throws IOException {
-		// TODO Fix this shit. It doesn't seem to be able to find the resources' path.
-		JsonNode itemData = mapper.readTree(getClass().getClassLoader().getResourceAsStream("assets/items.json"));
+		System.out.println(itemId);
+		JsonNode itemData = mapper.readTree(getClass().getClassLoader().getResourceAsStream("assets/items.json")).get(itemId);
+		
+		System.out.println(itemData.asText());
 		
 		this.tier = itemData.get("TIER").asText();
 		this.action = itemData.get("USE").get("ACTION").asText();

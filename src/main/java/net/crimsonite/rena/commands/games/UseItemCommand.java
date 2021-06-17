@@ -39,7 +39,7 @@ public class UseItemCommand extends Command {
 		MessageChannel channel = event.getChannel();
 		
 		try {			
-			Item item = new Item(author.getId(), itemId);
+			Item item = new Item(itemId, author.getId());
 			
 			GameHandler.Handler.removeItem(author.getId(), itemId, amount);
 			
@@ -47,7 +47,7 @@ public class UseItemCommand extends Command {
 				case "RAISE_STATS":
 					DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), item.getPrimaryTargetActionField(), item.getPrimaryTargetValue());
 					
-					channel.sendMessage(I18n.getMessage(author.getId(), "game.use_item.raise_stats".formatted(item.getPrimaryTargetActionField(), item.getPrimaryTargetValue()))).queue();
+					channel.sendMessage(I18n.getMessage(author.getId(), "game.use_item.raise_stats").formatted(item.getPrimaryTargetActionField(), item.getPrimaryTargetValue())).queue();
 					
 					break;
 				default:
