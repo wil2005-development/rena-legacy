@@ -95,7 +95,10 @@ public class RenaBot extends CommandRegistry {
 						registerCommand(new TransferMoneyCommand()),
 						
 						// User Preference Commands
-						registerCommand(new PreferenceCommand())
+						registerCommand(new PreferenceCommand()),
+						
+						// Guild Preference Commands
+						registerCommand(new SetGuildPrefixCommand())
 						);
 			}
 			
@@ -114,7 +117,6 @@ public class RenaBot extends CommandRegistry {
 					registerCommand(new UnbanCommand()),
 					registerCommand(new BanCommand()),
 					registerCommand(new KickCommand()),
-					registerCommand(new SetGuildPrefixCommand()),
 					
 					// Miscellaneous Commands
 					registerCommand(new EightBallCommand()),
