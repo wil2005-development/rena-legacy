@@ -1,7 +1,7 @@
 {
 	"ITEM_0X194": {
-		"NAME": "ITEM_0X194",
-		"DESCRIPTION_KEY": "item.item_0x194",
+		"NAME_KEY": "item.item0x194.name",
+		"DESCRIPTION_KEY": "item.item_0x194.desc",
 		"CONSUMABLE": false,
 		"TIER": "???",
 		"USE": {
@@ -13,8 +13,8 @@
 		}
 	},
 	"SEED_OF_LIFE": {
-		"NAME": "Seed of Life",
-		"DESCRIPTION_KEY": "item.seed_of_life",
+		"NAME_KEY": "item.seed_of_life.name",
+		"DESCRIPTION_KEY": "item.seed_of_life.desc",
 		"CONSUMABLE": true,
 		"TIER": "Utra Rare",
 		"USE": {
@@ -26,8 +26,8 @@
 		}
 	},
 	"SEED_OF_WISDOM": {
-		"NAME": "Seed of Wisdom",
-		"DESCRIPTION_KEY": "item.seed_of_wisdom",
+		"NAME_KEY": "item.seed_of_wisdom.name",
+		"DESCRIPTION_KEY": "item.seed_of_wisdom.desc",
 		"CONSUMABLE": true,
 		"TIER": "Ultra Rare",
 		"USE": {
@@ -39,8 +39,8 @@
 		}
 	},
 	"ELIXIR_OF_LIFE": {
-		"NAME": "Elixr of Life",
-		"DESCRIPTION_KEY": "item.elixr_of_life",
+		"NAME_KEY": "item.elixir_of_life.name",
+		"DESCRIPTION_KEY": "item.elixr_of_life.desc",
 		"CONSUMABLE": true,
 		"TIER": "Rare",
 		"USE": {
@@ -52,8 +52,8 @@
 		}
 	},
 	"ELIXIR_OF_MANA": {
-		"NAME": "Elixir of Mana",
-		"DESCRIPTION_KEY": "item.elixr_of_mana",
+		"NAME_KEY": "item.elixir_of_mana.name",
+		"DESCRIPTION_KEY": "item.elixr_of_mana.desc",
 		"CONSUMABLE": false,
 		"TIER": "Rare",
 		"USE": {
