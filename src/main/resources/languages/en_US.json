@@ -1,4 +1,7 @@
 {
+	"common_string": {
+		"something_went_wrong": "*Oops! Something went wrong...*"
+	},
 	"command": {
 		"cooldown_duration_S": "%1$s *Oi oi! Slow down!!! This command is on cooldown for **%4$ds**.*",
 		"cooldown_duration_MS": "%1$s *Oi oi! Slow down!!! This command is on cooldown for **%3$dm, %4ds**.*",
@@ -255,6 +258,7 @@
 			"failed": "**Failed to send money.**"
 		},
 		"use_item": {
+			"raise_stats": "**Raised %1$s by $1$d pts!**",
 			"success": "**Successfully consumed %1$d %2$s(s)**",
 			"no_item_used": "*You can't use nothing!*",
 			"item_not_found": "*You can't use a nonexistent item!",
@@ -272,6 +276,28 @@
 			"error": "*Seems like an unexpected error has occured. Hurry, and report it to my master!*",
 			"set_lang_success": "**Language successfully changed to %1$s_%2$s!**",
 			"set_lang_failed": "**Failed to change language**"
+		}
+	},
+	"item": {
+		"item_0x194": {
+			"name": "Item_0x194",
+			"desc": "???"
+		},
+		"seed_of_life": {
+			"name": "Seed of Life",
+			"desc": "An unusual seed. Raises one's VIT by 3."
+		},
+		"seed_of_wisdom": {
+			"name": "Seed of Wisdom",
+			"desc": "An unusual seed. Raises one's WIS by 3."
+		},
+		"elixir_of_life": {
+			"name": "Elixir of Life",
+			"desc": "An elixir brewed by the ancients. Raises one's HP by 100."
+		},
+		"elixir_of_mana": {
+			"name": "Elixir of Mana",
+			"desc": "An elixir brwede by the highest of mages. Raises one's MP by 80."
 		}
 	}
 }
