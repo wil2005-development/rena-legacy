@@ -17,40 +17,44 @@
 
 package net.crimsonite.rena.commands.games;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import net.crimsonite.rena.commands.Command;
+import net.crimsonite.rena.core.GameHandler;
 import net.crimsonite.rena.core.I18n;
 import net.crimsonite.rena.core.database.DBReadWrite;
 import net.crimsonite.rena.core.database.DBReadWrite.Table;
+import net.crimsonite.rena.entities.Item;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class UseItemCommand extends Command {
-	
-	private static void useItem(User author, String item, int amount) {
-		DBReadWrite.decrementValueFromMap(Table.PLAYERS, author.getId(), "INVENTORY", item, 1);
 		
-		switch(item) {
-			case "SEED_OF_LIFE":
-				DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "VIT", 3);
-				
-				break;
-			case "SEED_OF_WISDOM":
-				DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "WIS", 3);
-				
-				break;
-			case "ELIXIR_OF_LIFE":
-				DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "HP", 100);
-				
-				break;
-			case "ELIXIR_OF_MANA":
-				DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "MP", 80);
-				
-				break;
+	private void useItem(MessageReceivedEvent event, String itemId, int amount) {
+		User author = event.getAuthor();
+		MessageChannel channel = event.getChannel();
+		
+		try {			
+			Item item = new Item(author.getId(), itemId);
+			
+			GameHandler.Handler.removeItem(author.getId(), itemId, amount);
+			
+			switch(item.getAction()) {
+				case "RAISE_STATS":
+					DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), item.getPrimaryTargetActionField(), item.getPrimaryTargetValue());
+					
+					channel.sendMessage(I18n.getMessage(author.getId(), "game.use_item.raise_stats".formatted(item.getPrimaryTargetActionField(), item.getPrimaryTargetValue()))).queue();
+					
+					break;
+				default:
+					return;
+			}
+		} catch (IOException e) {
+			channel.sendMessage(I18n.getMessage(author.getId(), "common_string.something_went_wrong")).queue();
 		}
 	}
 
@@ -66,7 +70,7 @@ public class UseItemCommand extends Command {
 			
 			if (allItems.contains(item)) {
 				if (inventory.get(item) >= 1) {
-					useItem(author, item, 1);
+					useItem(event, item, 1);
 					
 					channel.sendMessage(I18n.getMessage(author.getId(), "game.use_item.success").formatted(1, item)).queue();
 				}
