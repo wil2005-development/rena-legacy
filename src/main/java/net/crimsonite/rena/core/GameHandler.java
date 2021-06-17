@@ -30,20 +30,6 @@ import net.crimsonite.rena.utils.RandomGenerator;
 
 public class GameHandler {
 	
-	public static enum Item {
-		SEED_OF_LIFE("SEED_OF_LIFE"),
-		SEED_OF_WISDOM("SEED_OF_WISDOM"),
-		ELIXIR_OF_LIFE("ELIXIR_OF_LIFE"),
-		ELIXIR_OF_MANA("ELIXIR_OF_MANA"),
-		POTION("POTION");
-		
-		public final String stringValue;
-
-		Item(String stringValue) {
-			this.stringValue = stringValue;
-		}
-	}
-	
 	public static class Handler {
 		
 		@SuppressWarnings("unused")
@@ -143,12 +129,23 @@ public class GameHandler {
 		/**
 		 * Gives item to the player.
 		 * 
-		 * @param player The Discord UID of the player.
-		 * @param item The enum of the item to give.
+		 * @param playerId The Discord ID of the player.
+		 * @param itemId ID  of the item to give.
 		 * @param amount
 		 */
-		public static void giveItem(String player, Item item, int amount) {
-			DBReadWrite.incrementValueFromMap(Table.PLAYERS, player, "INVENTORY", item.stringValue, amount);
+		public static void giveItem(String playerId, String itemId, int amount) {
+			DBReadWrite.incrementValueFromMap(Table.PLAYERS, playerId, "INVENTORY", itemId,  amount);
+		}
+		
+		/**
+		 * Removes an item from the player.
+		 * 
+		 * @param playerId The Discord ID of the player.
+		 * @param itemId ID of the item to give.
+		 * @param amount
+		 */
+		public static void removeItem(String playerId, String itemId, int amount) {
+			DBReadWrite.decrementValueFromMap(Table.PLAYERS, playerId, "INVENTORY", itemId,  amount);
 		}
 	}
 
