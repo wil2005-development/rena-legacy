@@ -40,7 +40,7 @@
 	},
 	"ELIXIR_OF_LIFE": {
 		"NAME_KEY": "item.elixir_of_life.name",
-		"DESCRIPTION_KEY": "item.elixr_of_life.desc",
+		"DESCRIPTION_KEY": "item.elixir_of_life.desc",
 		"CONSUMABLE": true,
 		"TIER": "Rare",
 		"USE": {
@@ -53,7 +53,7 @@
 	},
 	"ELIXIR_OF_MANA": {
 		"NAME_KEY": "item.elixir_of_mana.name",
-		"DESCRIPTION_KEY": "item.elixr_of_mana.desc",
+		"DESCRIPTION_KEY": "item.elixir_of_mana.desc",
 		"CONSUMABLE": false,
 		"TIER": "Rare",
 		"USE": {
