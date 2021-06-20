@@ -1,4 +1,7 @@
 {
+	"common_string": {
+		"something_went_wrong": "*Oops! Something went wrong...*"
+	},
 	"command": {
 		"cooldown_duration_S": "%1$s *Oi oi! Slow down!!! This command is on cooldown for **%4$ds**.*",
 		"cooldown_duration_MS": "%1$s *Oi oi! Slow down!!! This command is on cooldown for **%3$dm, %4ds**.*",
@@ -30,6 +33,7 @@
 		},
 		"help": {
 			"command_does_not_exist": "**That command doesn't seem to exist.**",
+			"slash_help": "*I currently do not support slash commands, please use* `%1$shelp` *instead.*",
 			"embed": {
 				"title": "Help",
 				"cooldown_duration_S": "**Cooldown Duration:** %3$ds",
@@ -130,13 +134,13 @@
 			"user_not_found": "**That user isn't blacklisted from your server, maybe they does not exist at all.**"
 		}
 	},
-	"roleplay": {
+	"game": {
 		"daily": {
 			"daily_streak_increment": "*Welcome back! You got another Streak! **Daily Streak: %d***",
 			"daily_streak_reset": "*You've been away for more than a day... **Streak was reset to %d**'*",
 			"claimed": "*Congratulations! You claimed your **G%d** daily!!!*",
 			"not_qualified": "*It seems that you're still an amateur. You can't claim a daily unless you gain an experience as the rewards depends on your level.*",
-			"not_registered": "*Oops! You're not allowed to claim a daily yet. Come again tomorrow, but first, let me register you to the central guild.*",
+			"not_registered": "*Oops! You're not allowed to claim a daily yet. Come again later, but first, let me register you to the central guild.*",
 			"user_not_found": "**That user doesn't seem to exist, so you took the daily instead.**"
 		},
 		"expedition": {
@@ -144,11 +148,13 @@
 			"error": "Oops! Try again?",
 			"embed": {
 				"title": "Rewards",
-				"money": "金",
+				"money": "Money",
 				"exp": "Exp"
 			}
 		},
 		"hunt": {
+			"attack": "**You attacked the monster confidently!**",
+			"run": "**You ran away knowing that the monster is stronger than you...**",
 			"error": {
 				"generic_error": "Oops! Try again?",
 				"json_processing_error": "*The monsters suddenly disappeared.*",
@@ -165,7 +171,8 @@
 				"title": "You Won!!!",
 				"description": "You won the following:",
 				"exp": "EXP",
-				"money": "金"
+				"money": "Money",
+				"items": "Items"
 			},
 			"embed_lost": {
 				"title": "You Lost!!!",
@@ -199,7 +206,7 @@
 			"no_item": "**Sadly, there wasn't any item of value in there.**",
 			"embed": {
 				"title": "Looted Goods",
-				"money": "金",
+				"money": "Money",
 				"exp": "EXP"
 			}
 		},
@@ -213,7 +220,7 @@
 			"invalid_month": "*Thats... not a valid month.*",
 			"invalid_day": "*That's... not a valid day.*",
 			"illegal_birthday": "*That's... not a valid birthday.*",
-			"illegal_birthday_number": "*That's not even a number!'*",
+			"illegal_birthday_number": "*That's not even a number!*",
 			"cannot_set": "*Erm... I can't set that for you.*",
 			"player_not_found": "*Err... I can't find that person. Try doing it again, I might've missed them*",
 			"embed": {
@@ -221,7 +228,7 @@
 				"rep": "Rep",
 				"level": "Level",
 				"exp": "EXP",
-				"money": "金",
+				"money": "Money",
 				"hp": "HP",
 				"mp": "MP",
 				"atk": "ATK",
@@ -236,18 +243,61 @@
 				"no_birthday": "Not set"
 			}
 		},
+		"rep": {
+			"no_mention": "*Who are you going to rep?*",
+			"give_rep": "**%1$s gave a reputation to %2$s!**",
+			"self_rep": "**You can't give yourself a reputation!**",
+			"user_not_found": "**You can't give this person a reputation right now.**"
+		},
 		"transfer": {
+			"incomplete_args": "**You have to specify the amout you're trying to send to whom.**",
+			"invalid_number": "**%1$s is not a valid number.**",
 			"invalid_amount": "**That is not a valid amount.**",
 			"not_enough_money": "**You don't have enough money.**",
 			"sent": "**Successfuly sent *G%1$d* to *%2$s*! *(%3$d%% Tax)***",
 			"failed": "**Failed to send money.**"
+		},
+		"use_item": {
+			"raise_stats": "**Raised %1$s by %2$d pts!**",
+			"success": "**Successfully consumed %1$d %2$s(s)**",
+			"no_item_used": "*You can't use nothing!*",
+			"item_not_found": "*You can't use a nonexistent item!",
+			"lack_item": "*You don't have any of that.*"
 		}
 	},
 	"user_preference": {
+		"preference": {
+			"invalid_action": "**That's not a valid action.**",
+			"invalid_option": "**That's not a valid option.**",
+			"no_action": "**You didn't provide an action to do.**",
+			"no_option": "**You didn't provide an option.**"
+		},
 		"language_preference": {
 			"error": "*Seems like an unexpected error has occured. Hurry, and report it to my master!*",
 			"set_lang_success": "**Language successfully changed to %1$s_%2$s!**",
 			"set_lang_failed": "**Failed to change language**"
+		}
+	},
+	"item": {
+		"item_0x194": {
+			"name": "Item_0x194",
+			"desc": "???"
+		},
+		"seed_of_life": {
+			"name": "Seed of Life",
+			"desc": "An unusual seed. Raises one's VIT by 3."
+		},
+		"seed_of_wisdom": {
+			"name": "Seed of Wisdom",
+			"desc": "An unusual seed. Raises one's WIS by 3."
+		},
+		"elixir_of_life": {
+			"name": "Elixir of Life",
+			"desc": "An elixir brewed by the ancients. Raises one's HP by 100."
+		},
+		"elixir_of_mana": {
+			"name": "Elixir of Mana",
+			"desc": "An elixir brwede by the highest of mages. Raises one's MP by 80."
 		}
 	}
 }
