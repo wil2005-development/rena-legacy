@@ -20,7 +20,7 @@ package net.crimsonite.rena.commands.misc;
 import java.util.Random;
 
 import net.crimsonite.rena.commands.Command;
-import net.crimsonite.rena.engine.I18n;
+import net.crimsonite.rena.core.I18n;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 

@@ -1,0 +1,67 @@
+{
+	"ITEM_0X194": {
+		"NAME_KEY": "item.item0x194.name",
+		"DESCRIPTION_KEY": "item.item_0x194.desc",
+		"CONSUMABLE": false,
+		"TIER": "???",
+		"USE": {
+			"ACTION": null,
+			"TARGET_FIELD_0": null,
+			"TARGET_FIELD_1": null,
+			"VALUE_0": null,
+			"VALUE_1": null
+		}
+	},
+	"SEED_OF_LIFE": {
+		"NAME_KEY": "item.seed_of_life.name",
+		"DESCRIPTION_KEY": "item.seed_of_life.desc",
+		"CONSUMABLE": true,
+		"TIER": "Utra Rare",
+		"USE": {
+			"ACTION": "RAISE_STATS",
+			"TARGET_FIELD_0": "VIT",
+			"TARGET_FIELD_1": null,
+			"VALUE_0": 3,
+			"VALUE_1": null
+		}
+	},
+	"SEED_OF_WISDOM": {
+		"NAME_KEY": "item.seed_of_wisdom.name",
+		"DESCRIPTION_KEY": "item.seed_of_wisdom.desc",
+		"CONSUMABLE": true,
+		"TIER": "Ultra Rare",
+		"USE": {
+			"ACTION": "RAISE_STATS",
+			"TARGET_FIELD_0": "WIS",
+			"TARGET_FIELD_1": null,
+			"VALUE_0": 3,
+			"VALUE_1": null
+		}
+	},
+	"ELIXIR_OF_LIFE": {
+		"NAME_KEY": "item.elixir_of_life.name",
+		"DESCRIPTION_KEY": "item.elixir_of_life.desc",
+		"CONSUMABLE": true,
+		"TIER": "Rare",
+		"USE": {
+			"ACTION": "RAISE_STATS",
+			"TARGET_FIELD_0": "HP",
+			"TARGET_FIELD_1": null,
+			"VALUE_0": 100,
+			"VALUE_1": null
+		}
+	},
+	"ELIXIR_OF_MANA": {
+		"NAME_KEY": "item.elixir_of_mana.name",
+		"DESCRIPTION_KEY": "item.elixir_of_mana.desc",
+		"CONSUMABLE": false,
+		"TIER": "Rare",
+		"USE": {
+			"ACTION": "RAISE_STATS",
+			"TARGET_FIELD_0": "MP",
+			"TARGET_FIELD_1": null,
+			"VALUE_0": 80,
+			"VALUE_1": null
+		}
+	}
+}

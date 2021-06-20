@@ -17,34 +17,19 @@
 
 package net.crimsonite.rena;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
+import static org.junit.Assert.assertEquals;
 
-import javax.security.auth.login.LoginException;
+import org.junit.Test;
 
-import net.dv8tion.jda.api.JDABuilder;
+import net.crimsonite.rena.core.I18n;
 
-public class RenaTest {
+public class I18nTest {
 	
-	private static String token;
-	
-	public static void main(String[] args) {
-		List<String> list;
-		try {
-			list = Files.readAllLines(Paths.get("config.txt"));
-			token = list.get(0);
-			
-			JDABuilder.createLight(token).build();
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-		catch (LoginException e) {
-			e.printStackTrace();
-		}
+	@Test
+	public void getMessage() {
+		String message = I18n.getMessage("misc.dice.unable_to_roll");
 		
+		assertEquals("*Sorry, I can't roll that for you*", message);
 	}
 
 }

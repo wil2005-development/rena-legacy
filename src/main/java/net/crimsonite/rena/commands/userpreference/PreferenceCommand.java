@@ -24,17 +24,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.crimsonite.rena.commands.Command;
-import net.crimsonite.rena.database.DBReadWrite;
-import net.crimsonite.rena.database.DBReadWrite.Table;
-import net.crimsonite.rena.engine.I18n;
+import net.crimsonite.rena.core.I18n;
+import net.crimsonite.rena.core.database.DBReadWrite;
+import net.crimsonite.rena.core.database.DBReadWrite.Table;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-public class LanguagePreferenceCommand extends Command {
-
-	@Override
-	public void execute(MessageReceivedEvent event, String[] args) {
+public class PreferenceCommand extends Command {
+	
+	private void setLanguage(MessageReceivedEvent event, String[] args) {
 		User author = event.getAuthor();
 		MessageChannel channel = event.getChannel();
 		
@@ -80,13 +79,49 @@ public class LanguagePreferenceCommand extends Command {
 	}
 
 	@Override
-	public String getCommandName() {
-		return "set_lang";
+	public void execute(MessageReceivedEvent event, String[] args) {
+		User author = event.getAuthor();
+		MessageChannel channel = event.getChannel();
+		
+		if (args.length >= 2) {
+			switch (args[1]) {
+				case "-set":
+					if (args.length >= 3) {
+						switch (args[2]) {
+							case "language":
+								setLanguage(event, args);
+								
+								break;
+							default:
+								channel.sendMessage(I18n.getMessage(author.getId(), "user_preference.preference.invalid_option")).queue();
+								
+								break;
+						}
+					}
+					else {
+						channel.sendMessage(I18n.getMessage(author.getId(), "user_preference.preference.no_option")).queue();
+					}
+					
+					break;
+				default:
+					channel.sendMessage(I18n.getMessage(author.getId(), "user_preference.preference.invalid_action")).queue();
+					
+					break;
+			}
+		}
+		else {
+			channel.sendMessage(I18n.getMessage(author.getId(), "user_preference.preference.no_action")).queue();
+		}
 	}
-	
+
+	@Override
+	public String getCommandName() {
+		return "preference";
+	}
+
 	@Override
 	public String getCommandCategory() {
-		return "Preference";
+		return "Informations";
 	}
 
 	@Override
@@ -96,7 +131,7 @@ public class LanguagePreferenceCommand extends Command {
 
 	@Override
 	public long cooldown() {
-		return 60;
+		return 5;
 	}
 
 }

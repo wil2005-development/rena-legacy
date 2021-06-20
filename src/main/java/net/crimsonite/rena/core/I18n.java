@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.crimsonite.rena.engine;
+package net.crimsonite.rena.core;
 
 import java.io.IOException;
 
@@ -25,8 +25,8 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import net.crimsonite.rena.database.DBReadWrite;
-import net.crimsonite.rena.database.DBReadWrite.Table;
+import net.crimsonite.rena.core.database.DBReadWrite;
+import net.crimsonite.rena.core.database.DBReadWrite.Table;
 
 public class I18n {
 	
@@ -36,13 +36,15 @@ public class I18n {
 	private static final Logger logger = LoggerFactory.getLogger(I18n.class);
 	
 	/**
+	 * Gets the string of message in localized form.
+	 * 
 	 * @param language
 	 * @param country
-	 * @param key -The key for message to look for.
-	 * @return message
+	 * @param key
+	 * @return message in localized form.
 	 */
 	public static String getMessage(String language, String country, String key) {
-		String locale = "%s_%s".formatted(language, country);
+		String locale = "%1$s_%2$s".formatted(language, country);
 		String message = "NULL";
 		
 		try {
@@ -95,9 +97,11 @@ public class I18n {
 	}
 	
 	/**
-	 * @param user -The UID of the user.
-	 * @param key -The key for message to look for.
-	 * @return
+	 * Gets the string of message in localized form.
+	 * 
+	 * @param user The UID of the user.
+	 * @param key The key for message to look for.
+	 * @return message in localized form.
 	 */
 	public static String getMessage(String user, String key) {
 		String language = defaultLanguage;
@@ -113,18 +117,22 @@ public class I18n {
 	}
 	
 	/**
-	 * @param key -The key for message to look for.
-	 * @return message
+	 * Gets the string of message in localized form.
+	 * 
+	 * @param key The key for message to look for.
+	 * @return message in localized form.
 	 */
 	public static String getMessage(String key) {
 		return getMessage(defaultLanguage, defaultCountry, key);
 	}
 	
 	/**
+	 * Gets a list of message in localized form.
+	 * 
 	 * @param language
 	 * @param country
-	 * @param key -The key for list to look for.
-	 * @return message
+	 * @param key The key for list to look for.
+	 * @return array of strings in localized form.
 	 */
 	public static String[] getStringArray(String language, String country, String key) {
 		String locale = "%s_%s".formatted(language, country);
@@ -180,9 +188,11 @@ public class I18n {
 	}
 	
 	/**
-	 * @param user -The UID of the user.
-	 * @param key -The key for list to look for.
-	 * @return
+	 * Gets a list of message in localized form.
+	 * 
+	 * @param user The UID of the user.
+	 * @param key The key for list to look for.
+	 * @return array of strings in localized form.
 	 */
 	public static String[] getStringArray(String user, String key) {
 		String language = defaultLanguage;
@@ -198,8 +208,10 @@ public class I18n {
 	}
 	
 	/**
-	 * @param key -The key for list to look for.
-	 * @return message
+	 * Gets a list of message in localized form.
+	 * 
+	 * @param key The key for list to look for.
+	 * @return array of strings in localized form.
 	 */
 	public static String[] getStringArray(String key) {
 		return getStringArray(defaultLanguage, defaultCountry, key);

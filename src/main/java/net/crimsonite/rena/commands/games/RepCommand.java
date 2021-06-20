@@ -15,61 +15,76 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.crimsonite.rena.commands.moderation;
+package net.crimsonite.rena.commands.games;
+
+import java.util.List;
 
 import net.crimsonite.rena.commands.Command;
+import net.crimsonite.rena.core.Cooldown;
 import net.crimsonite.rena.core.I18n;
 import net.crimsonite.rena.core.database.DBReadWrite;
 import net.crimsonite.rena.core.database.DBReadWrite.Table;
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-public class SetGuildPrefixCommand extends Command {
+public class RepCommand extends Command {
+	
+	private boolean shouldRemoveCooldown = false;
+	private String playerId;
 
 	@Override
 	public void execute(MessageReceivedEvent event, String[] args) {
-		Member author = event.getMember();
+		User author = event.getAuthor();
+		List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
 		MessageChannel channel = event.getChannel();
 		
-		String prefix;
+		this.playerId = author.getId();
 		
 		try {
-			prefix = args[1];
+			if (mentionedMembers.isEmpty()) {
+				channel.sendMessage(I18n.getMessage(author.getId(), "game.rep.no_mention")).queue();
+				
+				shouldRemoveCooldown = true;
+			}
+			else {
+				Member member = mentionedMembers.get(0);
+				
+				if (member.getUser() == author) {
+					channel.sendMessage(I18n.getMessage(author.getId(), "game.rep.self_rep")).queue();
+					
+					shouldRemoveCooldown = true;
+				}
+				else {
+					DBReadWrite.incrementValue(Table.PLAYERS, member.getId(), "REP", 1);
+					
+					channel.sendMessage(I18n.getMessage(author.getId(), "game.rep.give_rep").formatted(author.getName(), member.getEffectiveName())).queue();
+				}
+			}
 		}
-		catch (IndexOutOfBoundsException ignored) {
-			channel.sendMessage(I18n.getMessage(author.getId(), "moderation.guild_prefix.failed")).queue();
+		catch (NullPointerException e) {
+			channel.sendMessage(I18n.getMessage(author.getId(), "game.rep.user_not_found")).queue();
 			
-			return;
+			shouldRemoveCooldown = true;
 		}
-				
-		if (author.hasPermission(Permission.ADMINISTRATOR)) {
-			try {
-				DBReadWrite.getValueString(Table.GUILDS, event.getGuild().getId(), "Prefix");
-				DBReadWrite.modifyDataString(Table.GUILDS, event.getGuild().getId(), "Prefix", prefix);
-				
-				channel.sendMessage(I18n.getMessage(author.getId(), "moderation.guild_prefix.success").formatted(prefix)).queue();
-			}
-			catch (NullPointerException ignored) {
-				DBReadWrite.registerGuild(event.getGuild().getId());
-				
-				channel.sendMessage(I18n.getMessage(author.getId(), "moderation.guild_prefix.error")).queue();
-			}
-		}
-		else {
-			channel.sendMessage(I18n.getMessage(author.getId(), "moderation.guild_prefix.no_permission")).queue();
+	}
+	
+	@Override
+	public void postCommandEvent() {
+		if (this.shouldRemoveCooldown) {
+			Cooldown.removeCooldown(this.playerId, getCommandName());
 		}
 	}
 
 	@Override
 	public String getCommandName() {
-		return "set_prefix";
+		return "rep";
 	}
-	
+
 	@Override
 	public String getCommandCategory() {
-		return "Moderation";
+		return "Games";
 	}
 
 	@Override
@@ -79,7 +94,7 @@ public class SetGuildPrefixCommand extends Command {
 
 	@Override
 	public long cooldown() {
-		return 5;
+		return 86_400;
 	}
 
 }

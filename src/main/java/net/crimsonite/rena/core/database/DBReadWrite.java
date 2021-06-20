@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.crimsonite.rena.database;
+package net.crimsonite.rena.core.database;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -84,6 +84,9 @@ public class DBReadWrite {
 						.with("SEED_OF_WISDOM", 0)
 						.with("ELIXIR_OF_LIFE", 0)
 						.with("ELIXIR_OF_MANA", 0))
+				
+				.with("ACHIEVEMENTS", r.hashMap("OWNER", false)
+						.with("DEDICATED", false))
 				)).runNoReply(conn);
 	}
 	
@@ -115,10 +118,35 @@ public class DBReadWrite {
 		}
 		
 		HashMap<String, Long> obj = db.table(table.stringValue).get(UID).run(conn);
-		int initialValue = Integer.parseInt(String.valueOf(obj.get(key)));
+		int initialValue = obj.get(key).intValue();
 		int incrementedValue = initialValue += val;
 		
 		db.table(table.stringValue).get(UID).update(r.hashMap(key, incrementedValue)).runNoReply(conn);
+	}
+	
+	/**
+	 * (Untested)
+	 * (Write)Increments an integer value from db.
+	 * 
+	 * @param table The table to modify.
+	 * @param UID The Unique ID of the user/guild.
+	 * @param map The map to look for.
+	 * @param key The db variable to be incremented.
+	 * @param val The amount to increment.
+	 * @throws IllegalArgumentException If the provided value is a negative number
+	 * @throws NullPointerException If the user is not found in the database.
+	 */
+	public static void incrementValueFromMap(Table table, String UID, String map, String key, int val) throws IllegalArgumentException, NullPointerException {
+		if (val <= 0) {
+			throw new IllegalArgumentException("Value cannot be a negative number (%d).".formatted(val));
+		}
+		
+		HashMap<String, Map<String, Long>> obj = db.table(table.stringValue).get(UID).run(conn);
+		Map<String, Long> mapValue = obj.get(map);
+		int initialValue = mapValue.get(key).intValue();
+		int incrementedValue = initialValue += val;
+		
+		db.table(table.stringValue).get(UID).update(r.hashMap(map, r.hashMap(key, incrementedValue))).runNoReply(conn);
 	}
 	
 	/**
@@ -137,10 +165,35 @@ public class DBReadWrite {
 		}
 		
 		HashMap<String, Long> obj = db.table(table.stringValue).get(UID).run(conn);
-		int initialValue = Integer.parseInt(String.valueOf(obj.get(key)));
+		int initialValue = obj.get(key).intValue();
 		int decrementedValue = initialValue -= val;
 		
 		db.table(table.stringValue).get(UID).update(r.hashMap(key, decrementedValue)).runNoReply(conn);
+	}
+	
+	/**
+	 * (Untested)
+	 * (Write)Decrements an integer value from db.
+	 * 
+	 * @param table The table to modify.
+	 * @param UID The Unique ID of the user/guild.
+	 * @param map The map to look for
+	 * @param key The db variable to be decremented.
+	 * @param val The amount to decrement.
+	 * @throws IllegalArgumentException If the provided value is a negative number
+	 * @throws NullPointerException If the user is not found in the database.
+	 */
+	public static void decrementValueFromMap(Table table, String UID, String map, String key, int val) throws IllegalArgumentException, NullPointerException {
+		if (val <= 0) {
+			throw new IllegalArgumentException("Value cannot be a negative number (%d).".formatted(val));
+		}
+		
+		HashMap<String, Map<String, Long>> obj = db.table(table.stringValue).get(UID).run(conn);
+		Map<String, Long> mapValue = obj.get(map);
+		int initialValue = mapValue.get(key).intValue();
+		int decrementedValue = initialValue -= val;
+		
+		db.table(table.stringValue).get(UID).update(r.hashMap(map, r.hashMap(key, decrementedValue))).runNoReply(conn);
 	}
 	
 	/**
@@ -209,7 +262,7 @@ public class DBReadWrite {
 	public static int getValueInt(Table table, String UID, String key) throws NullPointerException {
 		HashMap<String, Long> obj = db.table(table.stringValue).get(UID).run(conn);
 		
-		return Integer.parseInt(String.valueOf(obj.get(key)));
+		return obj.get(key).intValue();
 	}
 	
 	/**

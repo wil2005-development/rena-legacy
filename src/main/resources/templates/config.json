@@ -5,5 +5,6 @@
 	"SHARD_COUNT": 1,
 	"PREFIX": "~",
 	"ALTERNATIVE_PREFIX": ">",
-	"HOST": "localhost"
+	"HOST_NAME": "localhost",
+	"USE_PROFILE_CARDS": false
 }

@@ -23,7 +23,7 @@ import java.io.IOException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import net.crimsonite.rena.engine.I18n;
+import net.crimsonite.rena.core.I18n;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;

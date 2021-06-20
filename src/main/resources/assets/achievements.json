@@ -1,0 +1,8 @@
+{
+	"Dedicated": {
+		"NAME": "Dedicated",
+		"TIER": "Uncommon",
+		"DESCRIPTION_KEY": "achievement.dedicated",
+		"ICON_PATH": "resources/assets/icons/achievements/dedicated.png"
+	}
+}

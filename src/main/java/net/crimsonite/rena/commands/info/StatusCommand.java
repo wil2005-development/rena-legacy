@@ -24,9 +24,10 @@ import java.util.concurrent.TimeUnit;
 import com.sun.management.OperatingSystemMXBean;
 
 import net.crimsonite.rena.RenaBot;
-import net.crimsonite.rena.RenaInfo;
+import net.crimsonite.rena.RenaConfig;
 import net.crimsonite.rena.commands.Command;
-import net.crimsonite.rena.engine.I18n;
+import net.crimsonite.rena.core.CommandRegistry;
+import net.crimsonite.rena.core.I18n;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -44,11 +45,11 @@ public class StatusCommand extends Command {
 		
 		OperatingSystemMXBean operatingSystem = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 		
-		long numberOfCommands = HelpCommand.getCommandCount();
+		long numberOfCommands = CommandRegistry.getRegisteredCommandCount();
 		long shards = jda.getShardInfo().getShardTotal();
 		long timesCommandUsed = Command.getTimesCommandUsed();
 		long threads = Thread.activeCount();
-		long totalUptimeInSeconds = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - RenaBot.startup);
+		long totalUptimeInSeconds = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - RenaBot.getStartupTime());
 		long days = totalUptimeInSeconds / 86400;
 		long hours = (totalUptimeInSeconds % 86400) / 3600;
 		long minutes = (totalUptimeInSeconds % 3600) / 60;
@@ -65,8 +66,8 @@ public class StatusCommand extends Command {
 		
 		EmbedBuilder embed = new EmbedBuilder()
 				.setColor(roleColor)
-				.setTitle(I18n.getMessage(event.getAuthor().getId(), "info.status.embed.title"), RenaInfo.GITHUB_URL)
-				.addField(I18n.getMessage(event.getAuthor().getId(), "info.status.embed.version"), RenaInfo.VERSION_STRING, false)
+				.setTitle(I18n.getMessage(event.getAuthor().getId(), "info.status.embed.title"), RenaConfig.GITHUB_URL)
+				.addField(I18n.getMessage(event.getAuthor().getId(), "info.status.embed.version"), RenaConfig.VERSION_STRING, false)
 				.addField(I18n.getMessage(event.getAuthor().getId(), "info.status.embed.uptime"), timeFormat, false)
 				.addField(I18n.getMessage(event.getAuthor().getId(), "info.status.embed.number_of_commands"), String.valueOf(numberOfCommands), false)
 				.addField(I18n.getMessage(event.getAuthor().getId(), "info.status.embed.times_command_used"), String.valueOf(timesCommandUsed), false)

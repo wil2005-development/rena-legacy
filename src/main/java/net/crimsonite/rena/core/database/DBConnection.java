@@ -15,11 +15,29 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.crimsonite.rena;
+package net.crimsonite.rena.core.database;
 
-public class RenaInfo {
+import com.rethinkdb.RethinkDB;
+import com.rethinkdb.gen.ast.Db;
+import com.rethinkdb.net.Connection;
+
+import net.crimsonite.rena.RenaConfig;
+
+public class DBConnection {
+
+	private static final RethinkDB r = RethinkDB.r;
+		
+	/**
+	 * @return database connection
+	 */
+	public static final Connection conn() {
+		Connection connection = r.connection().hostname(RenaConfig.getHostName()).port(28015).connect();
+		
+		return connection;
+	}
 	
-	public static final String GITHUB_URL = "https://github.com/Nhalrath/Rena";
-	public static final String VERSION_STRING = "@VERSION@";
-
+	// Primary DB
+	protected static final Db db() {
+		return r.db("Rena");
+	}
 }

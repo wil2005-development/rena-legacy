@@ -30,9 +30,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import net.crimsonite.rena.utils.RandomGenerator;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.commands.build.CommandData;
+import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
 
 public class ReadyListener extends ListenerAdapter {
 	
@@ -42,7 +45,11 @@ public class ReadyListener extends ListenerAdapter {
 	public void onReady(ReadyEvent event) {
 		int shardId = event.getJDA().getShardInfo().getShardId();
 		String quote = "Engine has started! [Shard #%d]";
+		JDA jda = event.getJDA();
 		LocalDate date = LocalDate.now();
+				
+		CommandListUpdateAction slashCommands = jda.updateCommands();
+		slashCommands.addCommands(new CommandData("help", "Shows a help text.")).queue();
 		
 		if (date.getMonth() == Month.JANUARY || date.getDayOfMonth() == 1) {
 			quote = "Happy New Year! [Shard #%d]";
@@ -71,7 +78,7 @@ public class ReadyListener extends ListenerAdapter {
 		
 		event.getJDA().getPresence().setActivity(Activity.playing(quote.formatted(shardId)));
 		
-		logger.info("Shard #%1$d activated in %2$d second(s).".formatted(shardId, ((System.currentTimeMillis()-RenaBot.startup)/1000)));
+		logger.info("Shard #%1$d activated in %2$d second(s).".formatted(shardId, ((System.currentTimeMillis()-RenaBot.getStartupTime())/1000)));
 	}
 	
 }

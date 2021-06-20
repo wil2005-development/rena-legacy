@@ -15,22 +15,23 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.crimsonite.rena.commands.roleplay;
+package net.crimsonite.rena.commands.games;
 
 import java.awt.Color;
 import java.util.Random;
 
 import net.crimsonite.rena.commands.Command;
-import net.crimsonite.rena.database.DBReadWrite;
-import net.crimsonite.rena.database.DBReadWrite.Table;
-import net.crimsonite.rena.engine.I18n;
-import net.crimsonite.rena.engine.RoleplayEngine;
+import net.crimsonite.rena.core.Cooldown;
+import net.crimsonite.rena.core.I18n;
+import net.crimsonite.rena.core.GameHandler;
+import net.crimsonite.rena.core.database.DBReadWrite;
+import net.crimsonite.rena.core.database.DBReadWrite.Table;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-public class ExpeditionCommand extends Command {
+public class LootCommand extends Command {
 
 	@Override
 	public void execute(MessageReceivedEvent event, String[] args) {
@@ -41,46 +42,48 @@ public class ExpeditionCommand extends Command {
 			Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
 			Random rng = new Random();
 			
-			int baseReceivedMoney = rng.nextInt(10-1)+1;
-			int baseReceivedExp = rng.nextInt(3-1)+1;
 			int currentLevel = DBReadWrite.getValueInt(Table.PLAYERS, author.getId(), "LEVEL");
-			int receivedMoney = baseReceivedMoney+currentLevel*2;
+			int baseReceivedExp = rng.nextInt(3-1)+1;
+			int baseReceivedMoney = rng.nextInt(10-1)+1;
 			int receivedExp = baseReceivedExp+currentLevel*2;
+			int receivedMoney = baseReceivedMoney+currentLevel*2;
 			
 			DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "MONEY", receivedMoney);
 			DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "EXP", receivedExp);
-			RoleplayEngine.Handler.handleLevelup(author.getId());
+			GameHandler.Handler.handleLevelup(author.getId());
 			
 			EmbedBuilder embed = new EmbedBuilder()
 					.setColor(roleColor)
-					.setTitle(I18n.getMessage(event.getAuthor().getId(), "roleplay.expedition.embed.title"))
-					.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.expedition.embed.money"), String.valueOf(receivedMoney), true)
-					.addField(I18n.getMessage(event.getAuthor().getId(), "roleplay.expedition.embed.exp"), String.valueOf(receivedExp), true)
+					.setTitle(I18n.getMessage(event.getAuthor().getId(), "game.loot.embed.title"))
+					.addField(I18n.getMessage(event.getAuthor().getId(), "game.loot.embed.money"), String.valueOf(receivedMoney), true)
+					.addField(I18n.getMessage(event.getAuthor().getId(), "game.loot.embed.exp"), String.valueOf(receivedExp), true)
 					.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 			
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.expedition.dialogue")).queue();
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.loot.dialogue")).queue();
 			channel.sendMessage(embed.build()).queue();
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.loot.no_item")).queue();
 		}
 		catch (NullPointerException ignored) {
 			DBReadWrite.registerUser(author.getId());
+			Cooldown.removeCooldown(author.getId(), getCommandName());
 			
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "roleplay.expedition.error")).queue();
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.loot.error")).queue();
 		}
 	}
 
 	@Override
 	public String getCommandName() {
-		return "expedition";
+		return "loot";
 	}
 	
 	@Override
 	public String getCommandCategory() {
-		return "Roleplay";
+		return "Games";
 	}
 
 	@Override
 	public long cooldown() {
-		return 64800;
+		return 43200;
 	}
 
 	@Override

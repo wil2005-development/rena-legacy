@@ -6,7 +6,10 @@
 		"ATK": 10,
 		"DEF": 7,
 		"EXP": 5,
-		"MONEY": [12, 18, 15, 30]
+		"MONEY": [12, 18, 15, 30],
+		"DROPS": {
+			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 50.0}
+		}
 	},
 	"Ogre": {
 		"NAME": "Ogre",
@@ -15,6 +18,82 @@
 		"ATK": 18,
 		"DEF": 15,
 		"EXP": 18,
-		"MONEY": [14, 18, 28,33]
-	}
+		"MONEY": [14, 18, 28,33],
+		"DROPS": {
+			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 52.0}
+		}
+	},
+	"Wraith": {
+		"NAME": "Wraith",
+		"HP": 12,
+		"MP": 30,
+		"ATK": 13,
+		"DEF": 18,
+		"EXP": 23,
+		"MONEY": [15, 24, 33, 38],
+		"DROPS": {
+			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 22.0}
+		}
+	},
+	"Anmo": {
+		"NAME": "Anmo",
+		"HP": 35,
+		"MP": 3,
+		"ATK": 18,
+		"DEF": 18,
+		"EXP": 30,
+		"MONEY": [20, 21, 29, 41],
+		"DROPS": {
+			"DROP_01": {"ID": "POTION", "AMOUNT": 2, "RATE": 79.0}
+		}
+	},
+	"Naga": {
+		"NAME": "Naga",
+		"HP": 12,
+		"MP": 30,
+		"ATK": 13,
+		"DEF": 18,
+		"EXP": 23,
+		"MONEY": [15, 24, 41,49],
+		"DROPS": {
+			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 67.0}
+		}
+	},
+	"Bakunawa": {
+		"NAME": "Bakunawa",
+		"HP": 65,
+		"MP": 30,
+		"ATK": 35,
+		"DEF": 2,
+		"EXP": 51,
+		"MONEY": [25, 33, 41, 54],
+		"DROPS": {
+			"DROP_01": {"ID": "POTION", "AMOUNT": 2, "RATE": 88.0}
+		}
+	},
+	"White Lady": {
+		"NAME": "White Lady",
+		"HP": 10,
+		"MP": 50,
+		"ATK": 5,
+		"DEF": 0,
+		"EXP": 5,
+		"MONEY": [4, 9, 13, 16],
+		"DROPS": {
+			"DROP_01": {"ID": "POTION", "AMOUNT": 2, "RATE": 88.0}
+		}
+	},
+	"Satori": {},
+	"Cobra": {}, 
+	"Serpent": {},
+	"Aswang": {},
+	"Skeleton": {},
+	"Giant Rat": {},
+	"Cultist": {},
+	"Spider": {},
+	"Black Widow": {},
+	"Mimic": {},
+	"Troll": {},
+	"She-Troll": {},
+	"Lizardman": {}
 }

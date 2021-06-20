@@ -16,11 +16,17 @@ targetCompatibility = 15
 
 repositories {
 	jcenter()
+	mavenCentral()
+	maven { 
+		name 'm2-dv8tion'
+		url = 'https://m2.dv8tion.net/releases' 
+	}
+	maven { url = 'https://jitpack.io' }
 }
 
 dependencies {
 	// CORE
-	implementation 'net.dv8tion:JDA:4.2.0_247'
+	implementation 'net.dv8tion:JDA:4.2.1_268'
 	implementation 'com.jagrosh:jda-utilities-commons:3.0.5'
 
 	// LOGGER
