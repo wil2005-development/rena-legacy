@@ -33,8 +33,8 @@ public class PingCommand extends Command {
 		String message = I18n.getMessage(event.getAuthor().getId(), "info.ping.ping_message");
 		
 		jda.getRestPing().queue(
-				(ping) -> channel.sendMessageFormat(message, ping, jda.getGatewayPing()).queue()
-				);
+				(ping) -> channel.sendMessage(message.formatted(ping, jda.getGatewayPing())).queue()
+		);
 	}
 
 	@Override

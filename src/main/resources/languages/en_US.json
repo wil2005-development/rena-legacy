@@ -44,7 +44,7 @@
 			}
 		},
 		"ping": {
-			"ping_message": "**Ping:** %dms | **Websocket:** %dms"
+			"ping_message": "**Ping:** %1$dms | **Websocket:** %2$dms"
 		},
 		"role_info": {
 			"no_role_provided": "*You want me to look for nothing?!*",
