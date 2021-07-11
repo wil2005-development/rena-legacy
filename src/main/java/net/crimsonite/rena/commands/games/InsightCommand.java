@@ -48,7 +48,7 @@ public class InsightCommand extends Command {
 			}
 			
 			if (flag) {
-				channel.sendMessage(embed.build()).queue();
+				channel.sendMessageEmbeds(embed.build()).queue();
 			}
 		}
 		else {

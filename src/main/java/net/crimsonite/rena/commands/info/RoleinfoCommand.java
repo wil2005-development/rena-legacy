@@ -62,7 +62,7 @@ public class RoleinfoCommand extends Command {
 						.addField(I18n.getMessage(event.getAuthor().getId(), "info.role_info.embed.permissions"), role.getPermissions().toString(), false)
 						.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 				
-				channel.sendMessage(embed.build()).queue();
+				channel.sendMessageEmbeds(embed.build()).queue();
 			}
 		}
 	}

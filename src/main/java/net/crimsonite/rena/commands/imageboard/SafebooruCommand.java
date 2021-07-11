@@ -38,7 +38,7 @@ public class SafebooruCommand extends Command {
 					.setTitle("An error has occured");
 		}
 		
-		event.getChannel().sendMessage(embed.build()).queue();
+		event.getChannel().sendMessageEmbeds(embed.build()).queue();
 	}
 
 	@Override

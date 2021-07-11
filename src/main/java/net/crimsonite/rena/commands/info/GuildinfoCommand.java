@@ -50,7 +50,7 @@ public class GuildinfoCommand extends Command{
 				.addField(I18n.getMessage(event.getAuthor().getId(), "info.guild_info.embed.guild_roles"), "" + guild.getRoles().size(), true)
 				.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 		
-		channel.sendMessage(embed.build()).queue();
+		channel.sendMessageEmbeds(embed.build()).queue();
 	}
 
 	@Override

@@ -156,7 +156,7 @@ public class HuntCommand extends Command {
 		
 		for (Map<String, ?> item : drops.values()) {
 			
-			if (RandomGenerator.randomChance((Double) item.get("RATE")))
+			if (RandomGenerator.randomChance((Double) item.get("RATE"), RandomGenerator.generateSeedFromCurrentTime()))
 			{
 				itemRewards.put((String) item.get("ID"), (Integer) item.get("AMOUNT"));
 			}
@@ -192,11 +192,11 @@ public class HuntCommand extends Command {
 				}
 			}
 			
-			channel.sendMessage(embedForVictory(event, rewardEXP, rewardMoney, rewardItem).build()).queue();
+			channel.sendMessageEmbeds(embedForVictory(event, rewardEXP, rewardMoney, rewardItem).build()).queue();
 		}
 		else if (playerHP <= 0) {
 			
-			channel.sendMessage(embedForDefeat(event).build()).queue();
+			channel.sendMessageEmbeds(embedForDefeat(event).build()).queue();
 		}
 	}
 	
@@ -232,7 +232,7 @@ public class HuntCommand extends Command {
 			}
 			catch (IOException e) {}
 			
-			this.selectedEnemy = enemyList.get(RandomGenerator.randomInt(enemyList.size()));
+			this.selectedEnemy = enemyList.get(RandomGenerator.randomInt(enemyList.size(), RandomGenerator.generateSeedFromCurrentTime()));
 			
 			JsonNode enemyStat = jsonData.get(selectedEnemy);
 			JsonNode moneyList = enemyStat.get("MONEY");
@@ -241,7 +241,7 @@ public class HuntCommand extends Command {
 						
 			this.enemyHP = enemyStat.get("HP").asInt();
 			this.rewardExp = enemyStat.get("EXP").asInt();
-			this.rewardMoney = moneyList.get(RandomGenerator.randomInt(moneyList.size())).asInt();
+			this.rewardMoney = moneyList.get(RandomGenerator.randomInt(moneyList.size(), RandomGenerator.generateSeedFromCurrentTime())).asInt();
 			
 			EmbedBuilder embedFirst = new EmbedBuilder()
 					.setColor(roleColor)
@@ -252,7 +252,7 @@ public class HuntCommand extends Command {
 					.addField(I18n.getMessage(event.getAuthor().getId(), "game.hunt.embed_encounter.def"), enemyStat.get("DEF").asText(), true)
 					.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 			
-			channel.sendMessage(embedFirst.build()).queue((dialogue)->{
+			channel.sendMessageEmbeds(embedFirst.build()).queue((dialogue)->{
 					this.dialogueId = dialogue.getIdLong();
 					channel.addReactionById(dialogue.getIdLong(), "\u2705").queue();
 					channel.addReactionById(dialogue.getIdLong(), "\u274C").queue();

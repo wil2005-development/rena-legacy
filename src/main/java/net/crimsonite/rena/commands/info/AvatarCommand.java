@@ -43,7 +43,7 @@ public class AvatarCommand extends Command {
 				.setImage(memberAsUser.getEffectiveAvatarUrl() + "?size=1024")
 				.setFooter(event.getAuthor().getName(), event.getAuthor().getEffectiveAvatarUrl());
 		
-		channel.sendMessage(embed.build()).queue();
+		channel.sendMessageEmbeds(embed.build()).queue();
 		}
 	
 	@Override

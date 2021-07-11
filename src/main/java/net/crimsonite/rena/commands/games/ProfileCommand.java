@@ -82,7 +82,7 @@ public class ProfileCommand extends Command {
 				.addField(I18n.getMessage(user.getId(), "game.profile.embed.birthday"), userBirthday, false)
 				.setFooter(event.getAuthor().getName(), event.getAuthor().getEffectiveAvatarUrl());
 		
-		event.getChannel().sendMessage(embed.build()).queue();
+		event.getChannel().sendMessageEmbeds(embed.build()).queue();
 	}
 
 	@Override

@@ -49,7 +49,7 @@ public class ShardInfoCommand extends Command {
 				.addField("Online Shards", String.valueOf(shardManager.getShardsRunning()), true)
 				.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 		
-		channel.sendMessage(embed.build()).queue();
+		channel.sendMessageEmbeds(embed.build()).queue();
 		
 	}
 

@@ -60,7 +60,7 @@ public class LootCommand extends Command {
 					.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 			
 			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.loot.dialogue")).queue();
-			channel.sendMessage(embed.build()).queue();
+			channel.sendMessageEmbeds(embed.build()).queue();
 			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.loot.no_item")).queue();
 		}
 		catch (NullPointerException ignored) {

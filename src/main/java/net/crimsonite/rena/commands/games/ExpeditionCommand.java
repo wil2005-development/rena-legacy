@@ -60,7 +60,7 @@ public class ExpeditionCommand extends Command {
 					.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 			
 			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.expedition.dialogue")).queue();
-			channel.sendMessage(embed.build()).queue();
+			channel.sendMessageEmbeds(embed.build()).queue();
 		}
 		catch (NullPointerException ignored) {
 			DBReadWrite.registerUser(author.getId());

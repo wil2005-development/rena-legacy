@@ -97,7 +97,7 @@ public class HelpCommand extends Command {
 				}
 			}
 			
-			channel.sendMessage(embed.build()).queue();
+			channel.sendMessageEmbeds(embed.build()).queue();
 		}
 		catch (NullPointerException ignored) {
 			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "info.help.command_does_not_exist")).queue();

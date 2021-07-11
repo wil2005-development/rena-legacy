@@ -49,7 +49,7 @@ public class UserinfoCommand extends Command {
 				.addField(I18n.getMessage(event.getAuthor().getId(), "info.user_info.embed.date_joined"), member.getTimeJoined().format(format),false)
 				.setFooter(author.getEffectiveName(), author.getUser().getEffectiveAvatarUrl());
 		
-		event.getChannel().sendMessage(embed.build()).queue();
+		event.getChannel().sendMessageEmbeds(embed.build()).queue();
 	}
 
 	@Override

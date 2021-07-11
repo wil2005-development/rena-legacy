@@ -75,7 +75,7 @@ public class StatusCommand extends Command {
 				.addField(I18n.getMessage(event.getAuthor().getId(), "info.status.embed.users"), String.valueOf(jda.getUsers().size()), false)
 				.addField(I18n.getMessage(event.getAuthor().getId(), "info.status.embed.shards"), String.valueOf(shards), false);
 		
-		channel.sendMessage(embed.build()).queue();
+		channel.sendMessageEmbeds(embed.build()).queue();
 		channel.sendMessageFormat(
 				"```yml\n" +
 				"**************************\n" +
