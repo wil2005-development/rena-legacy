@@ -51,8 +51,7 @@ public class ShutdownCommand extends Command {
 			jda.shutdown();
 		}
 		
-		jda.shutdown();
-		System.exit(0); // Maybe remove this?
+		System.exit(0);
 	}
 	
 	@Override
