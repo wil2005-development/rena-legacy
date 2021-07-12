@@ -206,13 +206,11 @@ public class DBReadWrite {
 	 * @throws IllegalArgumentException If the provided value is a negative number.
 	 * @throws NullpointerException If the user/guild is not found int the database.
 	 */
-	public static void modifyDataFromMap(Table table, String UID, String map, String key, int val) throws IllegalArgumentException, NullpointerException {
+	public static void modifyDataFromMap(Table table, String UID, String map, String key, int val) throws IllegalArgumentException, NullPointerException {
 		if (val <= 0) {
 			throw new IllegalArgumentException("Value cannot be a negative number (%d).".formatted(val));
 		}
 		
-		HashMap<String, Map<String, Long>> obj = db.table(table.stringValue).get(UID).run(conn);
-
 		db.table(table.stringValue).get(UID).update(r.hashMap(map, r.hashMap(key, val))).runNoReply(conn);
 	}
 	
