@@ -83,7 +83,7 @@ public class LootCommand extends Command {
 
 	@Override
 	public long cooldown() {
-		return 43200;
+		return 43_200;
 	}
 
 	@Override

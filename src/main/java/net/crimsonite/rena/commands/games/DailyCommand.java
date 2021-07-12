@@ -112,7 +112,7 @@ public class DailyCommand extends Command{
 
 	@Override
 	public long cooldown() {
-		return 86400;
+		return 86_400;
 	}
 
 }

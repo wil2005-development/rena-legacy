@@ -320,7 +320,7 @@ public class HuntCommand extends Command {
 
 	@Override
 	public long cooldown() {
-		return 28800;
+		return 28_800;
 	}
 
 	@Override

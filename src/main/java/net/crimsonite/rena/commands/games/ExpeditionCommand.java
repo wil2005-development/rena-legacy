@@ -82,7 +82,7 @@ public class ExpeditionCommand extends Command {
 
 	@Override
 	public long cooldown() {
-		return 64800;
+		return 64_800;
 	}
 
 	@Override
