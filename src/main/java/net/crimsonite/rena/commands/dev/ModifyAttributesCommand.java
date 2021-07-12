@@ -75,7 +75,8 @@ public class ModifyAttributesCommand extends Command {
 				case "STRING":
 					DBReadWrite.modifyDataString(table, args[2], args[3], args[4]);
 					channel.sendMessageFormat(message, args[1]).queue();
-				case "MAP":
+				case "MAP_INCREMENT":
+				{
 					String[] ctx = args[3].split("\\.");
 					
 					if (ctx.length == 2)
@@ -90,6 +91,24 @@ public class ModifyAttributesCommand extends Command {
 						
 						break;
 					}
+				}
+				case "MAP_DECREMENT":
+				{
+					String[] ctx = args[3].split("\\.");
+					
+					if (ctx.length == 2)
+					{
+						DBReadWrite.decrementValueFromMap(table, args[2], ctx[0], ctx[1], Integer.parseInt(args[4]));
+						channel.sendMessageFormat(message, args[1]).queue();
+						
+						break;
+					}
+					else {
+						channel.sendMessage("```diff\n-ERROR: Arguments not satisfied```").queue();
+						
+						break;
+					}
+				}
 				default:
 					channel.sendMessage("```diff\n-ERROR: Invalid Argument```").queue();
 					
