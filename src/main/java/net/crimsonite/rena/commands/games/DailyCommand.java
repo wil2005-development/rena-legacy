@@ -42,7 +42,6 @@ public class DailyCommand extends Command{
 		
 		try {
 			long currentTime = TimeUnit.MILLISECONDS.toHours(System.currentTimeMillis());
-			int currentTimeInInteger = Integer.parseInt(String.valueOf(currentTime));
 			long lastClaim = DBReadWrite.getValueInt(Table.PLAYERS, author.getId(), "LAST_DAILY_CLAIM");
 			long dailyStreak = DBReadWrite.getValueInt(Table.PLAYERS, author.getId(), "DAILY_STREAK");
 			long level = DBReadWrite.getValueInt(Table.PLAYERS, author.getId(), "LEVEL");
@@ -79,9 +78,9 @@ public class DailyCommand extends Command{
 			}
 			
 			DBReadWrite.incrementValue(Table.PLAYERS, recepient.getId(), "MONEY", (int) reward);
-			DBReadWrite.modifyDataInt(Table.PLAYERS, author.getId(), "LAST_DAILY_CLAIM", currentTimeInInteger);
+			DBReadWrite.modifyDataInt(Table.PLAYERS, author.getId(), "LAST_DAILY_CLAIM", Integer.parseInt(String.valueOf(currentTime)));
 			
-			channel.sendMessageFormat(I18n.getMessage(event.getAuthor().getId(), "game.daily.claimed"), reward).queue();
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.daily.claimed").formatted(reward)).queue();
 			channel.sendMessage(dailyStreakDialogue.formatted(dailyStreak)).queue();
 		}
 		catch (NullPointerException e) {
