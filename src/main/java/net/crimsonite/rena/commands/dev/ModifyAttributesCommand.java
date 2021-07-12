@@ -24,7 +24,7 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class ModifyAttributesCommand extends Command {
-
+	
 	@Override
 	public void execute(MessageReceivedEvent event, String[] args) {
 		MessageChannel channel = event.getChannel();
@@ -33,7 +33,7 @@ public class ModifyAttributesCommand extends Command {
 		String message = "```diff\n+SUCCESS: [%s] Operation executed successfully!```";
 		
 		try {
-			switch (args[5]) {
+			switch (args[5].toUpperCase()) {
 				case "USERS":
 					table = Table.USERS;
 					
@@ -51,7 +51,7 @@ public class ModifyAttributesCommand extends Command {
 					
 					break;
 			}
-			switch (args[1]) {
+			switch (args[1].toUpperCase()) {
 				case "BOOLEAN":
 					DBReadWrite.modifyDataBoolean(table, args[2], args[3], Boolean.parseBoolean(args[4]));
 					channel.sendMessageFormat(message, args[1]).queue();
@@ -75,8 +75,21 @@ public class ModifyAttributesCommand extends Command {
 				case "STRING":
 					DBReadWrite.modifyDataString(table, args[2], args[3], args[4]);
 					channel.sendMessageFormat(message, args[1]).queue();
+				case "MAP":
+					String[] ctx = args[3].split("\\.");
 					
-					break;
+					if (ctx.length == 2)
+					{
+						DBReadWrite.incrementValueFromMap(table, args[2], ctx[0], ctx[1], Integer.parseInt(args[4]));
+						channel.sendMessageFormat(message, args[1]).queue();
+						
+						break;
+					}
+					else {
+						channel.sendMessage("```diff\n-ERROR: Arguments not satisfied```").queue();
+						
+						break;
+					}
 				default:
 					channel.sendMessage("```diff\n-ERROR: Invalid Argument```").queue();
 					
