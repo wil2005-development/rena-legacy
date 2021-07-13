@@ -1,6 +1,7 @@
 {
 	"common_string": {
-		"something_went_wrong": "*Oops! Something went wrong...*"
+		"something_went_wrong": "*Oops! Something went wrong...*",
+		"late_registration": "*Oops! Try again?*"
 	},
 	"command": {
 		"cooldown_duration_S": "%1$s *Oi oi! Slow down!!! This command is on cooldown for **%4$ds**.*",
@@ -104,26 +105,25 @@
 	},
 	"moderation": {
 		"ban": {
-			"no_mentioned_member": "**You have to mention a user to ban.**",
-			"multiple_mentions": "**Hold on! You can only ban members one at a time.**",
-			"ban_with_reason_success": "**Successfully banned %s! Reason: %s**",
-			"ban_success": "**Successfully banned %s!**",
-			"unable_to_ban": "**Sorry, but you can't ban that person.**",
-			"no_permission": "%s **Sorry, but you dont have the permission to do that.\nRequired: BAN_MEMBERS permission**"
+			"no_mentioned_member": "%1$s **You have to mention a user to ban.**",
+			"multiple_mentions": "%1$s **Hold on! You can only ban member one at a time.**",
+			"ban_with_reason_success": "%1$s **Successfully banned %2$s! Reason: %3$s**",
+			"ban_success": "%1$s **Successfully banned %2$s!**",
+			"unable_to_ban": "%1$s **Sorry, but you can't ban that person.**",
+			"no_permission": "%1$s **You dont have the permission to do that.\nRequired: BAN_MEMBERS permission**"
 		},
 		"kick": {
-			"no_mentioned_member": "**You have to mention a user to kick.**",
-			"multiple_mentions": "**Hold on! You can only kick members one at a time.**",
-			"kick_with_reason_success": "**Successfully kicked %s! Reason: %s**",
-			"kick_success": "**Successfully kicked %s!**",
-			"unable_to_kick": "**Sorry, but you can't kick that person.**",
-			"no_permission": "%s **Sorry, but you dont have the permission to do that.\nRequired: KICK_MEMBERS permission**"
+			"no_mentioned_member": "%1$s **You have to mention a user to kick.**",
+			"multiple_mentions": "%1$s **Hold on! You can only kick members one at a time.**",
+			"kick_with_reason_success": "%1$s **Successfully kicked %2$s! Reason: %3$s**",
+			"kick_success": "%1$s **Successfully kicked %2$s!**",
+			"unable_to_kick": "%1$s **Sorry, but you can't kick that person.**",
+			"no_permission": "%1$s **You dont have the permission to do that.\nRequired: KICK_MEMBERS permission**"
 		},
 		"guild_prefix": {
-			"error": "Oops! Try again?",
-			"success": "**Successfuly set guild prefix to *%s***",
-			"failed": "**You can't set a prefix to nothing.**",
-			"no_permission": "%s **Sorry, but you dont have the permission to do that.\nRequired: ADMINISTRATOR permission**"
+			"success": "%1$s **Successfuly set guild prefix to** `%2$s`!",
+			"failed": "%1$s **You can't set a prefix to nothing.**",
+			"no_permission": "%1$s **Sorry, but you dont have the permission to do that.\nRequired: ADMINISTRATOR permission**"
 		},
 		"unban": {
 			"no_id_provided": "**You have to specify the ID of the user to unban.**",
