@@ -8,7 +8,7 @@
 		"EXP": 5,
 		"MONEY": [12, 18, 15, 30],
 		"DROPS": {
-			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 50.0}
+			"DROP_01": null
 		}
 	},
 	"Ogre": {
@@ -20,7 +20,7 @@
 		"EXP": 18,
 		"MONEY": [14, 18, 28, 33],
 		"DROPS": {
-			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 52.0}
+			"DROP_01": null
 		}
 	},
 	"Wraith": {
@@ -32,7 +32,7 @@
 		"EXP": 23,
 		"MONEY": [15, 24, 33, 38],
 		"DROPS": {
-			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 22.0}
+			"DROP_01": null
 		}
 	},
 	"Anmo": {
@@ -44,7 +44,7 @@
 		"EXP": 30,
 		"MONEY": [20, 21, 29, 41],
 		"DROPS": {
-			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 79.0}
+			"DROP_01": null
 		}
 	},
 	"Naga": {
@@ -56,7 +56,7 @@
 		"EXP": 23,
 		"MONEY": [15, 24, 41, 49],
 		"DROPS": {
-			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 67.0}
+			"DROP_01": null
 		}
 	},
 	"Bakunawa": {
@@ -68,7 +68,7 @@
 		"EXP": 51,
 		"MONEY": [25, 33, 41, 54],
 		"DROPS": {
-			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 88.0}
+			"DROP_01": null
 		}
 	},
 	"White Lady": {
@@ -80,7 +80,7 @@
 		"EXP": 5,
 		"MONEY": [4, 9, 13, 16],
 		"DROPS": {
-			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 100.0}
+			"DROP_01": null
 		}
 	},
 	"Satori": {
@@ -92,7 +92,7 @@
 		"EXP": 20,
 		"MONEY": [11, 15, 24, 32],
 		"DROPS": {
-			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 23.0}
+			"DROP_01": null
 		}
 	},
 	"Cobra": {
@@ -104,7 +104,7 @@
 		"EXP": 15,
 		"MONEY": [4, 10, 14, 17],
 		"DROPS": {
-			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 33.0}
+			"DROP_01": null
 		}
 	},
 	"Serpent": {
@@ -116,7 +116,7 @@
 		"EXP": 41,
 		"MONEY": [8, 20, 28, 56],
 		"DROPS": {
-			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 66.0}
+			"DROP_01": null
 		}
 	},
 	"Aswang": {
@@ -128,7 +128,7 @@
 		"EXP": 18,
 		"MONEY": [4, 10, 14, 17],
 		"DROPS": {
-			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 45.0}
+			"DROP_01": null
 		}
 	},
 	"Skeleton": {
@@ -140,7 +140,7 @@
 		"EXP": 15,
 		"MONEY": [4, 10, 15, 17],
 		"DROPS": {
-			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 56.0}
+			"DROP_01": null
 		}
 	},
 	"Giant Rat": {
@@ -152,7 +152,7 @@
 		"EXP": 36,
 		"MONEY": [9, 18, 27, 36],
 		"DROPS": {
-			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 75.0}
+			"DROP_01": null
 		}
 	},
 	"Cultist": {
@@ -164,7 +164,7 @@
 		"EXP": 35,
 		"MONEY": [5, 10, 25, 35],
 		"DROPS": {
-			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 90.0}
+			"DROP_01": null
 		}
 	},
 	"Spider": {
@@ -176,7 +176,7 @@
 		"EXP": 9,
 		"MONEY": [2, 5, 7, 13],
 		"DROPS": {
-			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 47.0}
+			"DROP_01": null
 		}
 	},
 	"Black Widow": {
@@ -188,7 +188,7 @@
 		"EXP": 36,
 		"MONEY": [4, 10, 14, 26],
 		"DROPS": {
-			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 47.0}
+			"DROP_01": null
 		}
 	},
 	"Mimic": {
@@ -200,7 +200,7 @@
 		"EXP": 23,
 		"MONEY": [10, 25, 50, 80],
 		"DROPS": {
-			"DROP_01": {"ID": "POTION", "AMOUNT": 3, "RATE": 90.0}
+			"DROP_01": null
 		}
 	},
 	"Troll": {
@@ -212,7 +212,7 @@
 		"EXP": 35,
 		"MONEY": [18, 26, 35, 44],
 		"DROPS": {
-			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 65.0}
+			"DROP_01": null
 		}
 	},
 	"She-Troll": {
@@ -224,7 +224,7 @@
 		"EXP": 35,
 		"MONEY": [18, 26, 35, 44],
 		"DROPS": {
-			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 65.0}
+			"DROP_01": null
 		}
 	},
 	"Lizardman": {
@@ -236,7 +236,7 @@
 		"EXP": 45,
 		"MONEY": [20, 24, 35, 48],
 		"DROPS": {
-			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 78.0}
+			"DROP_01": null
 		}
 	}
 }
