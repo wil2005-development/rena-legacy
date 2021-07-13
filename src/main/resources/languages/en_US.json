@@ -126,12 +126,12 @@
 			"no_permission": "%1$s **Sorry, but you dont have the permission to do that.\nRequired: ADMINISTRATOR permission**"
 		},
 		"unban": {
-			"no_id_provided": "**You have to specify the ID of the user to unban.**",
-			"unban_success": "**Successfully unbanned %s!**",
-			"unban_with_reason_success": "**Successfully unbanned %s! Reason: %s**",
-			"no_permission": "%s **Sorry, but you dont have the permission to do that.\nRequired: BAN_MEMBERS permission**",
-			"invalid_id": "**That is not a valid ID.**",
-			"user_not_found": "**That user isn't blacklisted from your server, maybe they does not exist at all.**"
+			"no_id_provided": "%1$s **You have to specify the ID of the user to unban.**",
+			"unban_success": "$1$s **Successfully unbanned %2$s!**",
+			"unban_with_reason_success": "$1$s **Successfully unbanned %2$s! Reason: %3$s**",
+			"no_permission": "%1$s **Sorry, but you dont have the permission to do that.\nRequired: BAN_MEMBERS permission**",
+			"invalid_id": "%1$s **That is not a valid user ID.**",
+			"user_not_found": "$1$s **That user isn't blacklisted from your server, maybe they does not exist at all.**"
 		}
 	},
 	"game": {
