@@ -32,7 +32,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class AvatarCommand extends Command {
 
-	private static void sendEmbed(MessageReceivedEvent event, Member member) {
+	private void sendEmbed(MessageReceivedEvent event, Member member) {
 		MessageChannel channel = event.getChannel();
 		User memberAsUser = member.getUser();
 		Color roleColor = event.getGuild().retrieveMember(memberAsUser).complete().getColor();
