@@ -48,10 +48,10 @@
 			"ping_message": "**Ping:** %1$dms | **Websocket:** %2$dms"
 		},
 		"role_info": {
-			"no_role_provided": "*You want me to look for nothing?!*",
 			"role_not_found": "*There's no such role*",
 			"embed": {
-				"title": "Informations for role: %s",
+				"title_default": "Roles for %1$s",
+				"title": "Informations for role: %1$s",
 				"role_id": "ID",
 				"position": "Position",
 				"mentionable": "Mentionable",
