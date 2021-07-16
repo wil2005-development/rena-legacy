@@ -20,6 +20,7 @@ package net.crimsonite.rena.commands.info;
 import java.awt.Color;
 
 import net.crimsonite.rena.commands.Command;
+import net.crimsonite.rena.core.I18n;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDA.ShardInfo;
@@ -41,12 +42,12 @@ public class ShardInfoCommand extends Command {
 		
 		EmbedBuilder embed = new EmbedBuilder()
 				.setColor(roleColor)
-				.setTitle("Shard %s".formatted(jda.getShardInfo().getShardString()))
-				.addField("Shard ID", "#" + shardInfo.getShardId(), false)
-				.addField("Average Gateway Ping", "%dm/s".formatted(Math.round(shardManager.getAverageGatewayPing())), true)
+				.setTitle(I18n.getMessage(author.getId(), "info.shard_info.embed.title").formatted(jda.getShardInfo().getShardString()))
+				.addField(I18n.getMessage(author.getId(), "info.shard_info.embed.shard_id"), "#" + shardInfo.getShardId(), false)
+				.addField(I18n.getMessage(author.getId(), "info.shard_info.embed.average_gateway_ping"), "%dm/s".formatted(Math.round(shardManager.getAverageGatewayPing())), true)
 				.addBlankField(true)
-				.addField("Total Shards", String.valueOf(shardManager.getShardsTotal()), true)
-				.addField("Online Shards", String.valueOf(shardManager.getShardsRunning()), true)
+				.addField(I18n.getMessage(author.getId(), "info.shard_info.embed.total_shards"), String.valueOf(shardManager.getShardsTotal()), true)
+				.addField(I18n.getMessage(author.getId(), "info.shard_info.embed.online_shards"), String.valueOf(shardManager.getShardsRunning()), true)
 				.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 		
 		channel.sendMessageEmbeds(embed.build()).queue();
