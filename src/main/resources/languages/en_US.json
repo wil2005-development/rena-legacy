@@ -67,7 +67,9 @@
 				"shard_id": "Shard ID",
 				"average_gateway_ping": "Average Gateway Ping",
 				"total_shards": "Total Shards",
-				"online_shards": "Online Shards"
+				"online_shards": "Online Shards",
+				"total_guilds": "Total Guilds",
+				"total_users": "Total Users"
 			}
 		},
 		"status": {
