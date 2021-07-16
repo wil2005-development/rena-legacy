@@ -40,14 +40,25 @@ public class ShardInfoCommand extends Command {
 		ShardInfo shardInfo = jda.getShardInfo();
 		ShardManager shardManager = jda.getShardManager();
 		
+		long totalUsers = 0;
+		
+		for (User user : shardManager.getUsers()) {
+			if (!user.isBot()) {
+				totalUsers++;
+			}
+		}
+		
 		EmbedBuilder embed = new EmbedBuilder()
 				.setColor(roleColor)
 				.setTitle(I18n.getMessage(author.getId(), "info.shard_info.embed.title").formatted(jda.getShardInfo().getShardString()))
 				.addField(I18n.getMessage(author.getId(), "info.shard_info.embed.shard_id"), "#" + shardInfo.getShardId(), false)
-				.addField(I18n.getMessage(author.getId(), "info.shard_info.embed.average_gateway_ping"), "%dm/s".formatted(Math.round(shardManager.getAverageGatewayPing())), true)
-				.addBlankField(true)
+				.addField(I18n.getMessage(author.getId(), "info.shard_info.embed.average_gateway_ping"), "%dm/s".formatted(Math.round(shardManager.getAverageGatewayPing())), false)
+				.addBlankField(false)
 				.addField(I18n.getMessage(author.getId(), "info.shard_info.embed.total_shards"), String.valueOf(shardManager.getShardsTotal()), true)
 				.addField(I18n.getMessage(author.getId(), "info.shard_info.embed.online_shards"), String.valueOf(shardManager.getShardsRunning()), true)
+				.addBlankField(false)
+				.addField(I18n.getMessage(author.getId(), "info.shard_info.embed.total_guilds"), String.valueOf(shardManager.getGuilds().size()), true)
+				.addField(I18n.getMessage(author.getId(), "info.shard_info.embed.total_users"), String.valueOf(totalUsers), true)
 				.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 		
 		channel.sendMessageEmbeds(embed.build()).queue();
