@@ -61,6 +61,15 @@
 				"permissions": "Permissions"
 			}
 		},
+		"shard_info": {
+			"embed": {
+				"title": "Shard %1$s",
+				"shard_id": "Shard ID",
+				"average_gateway_ping": "Average Gateway Ping",
+				"total_shards": "Total Shards",
+				"online_shards": "Online Shards"
+			}
+		},
 		"status": {
 			"embed": {
 				"title": "Rena's Informations",
