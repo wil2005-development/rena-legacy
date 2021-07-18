@@ -37,11 +37,14 @@
 			"slash_help": "*I currently do not support slash commands, please use* `%1$shelp` *instead.*",
 			"embed": {
 				"title": "Help",
-				"cooldown_duration_S": "**Cooldown Duration:** %3$ds",
-				"cooldown_duration_MS": "**Cooldown Duration:** %2$dm, %3$ds",
-				"cooldown_duration_HMS": "**Cooldown Duration:** %1$dh, %2$dm, %3$ds",
-				"cooldown_duration_HM": "**Cooldown Duration:** %1$dh, %2$dm",
-				"cooldown_duration_H": "**Cooldown Duration:** %1$dh"
+				"cooldown": "Cooldown",
+				"usage": "Usage",
+				"help_description": "Description",
+				"time_format_S": "%3$ds",
+				"time_format_MS": "%2$dm, %3$ds",
+				"time_format_HMS": "%1$dh, %2$dm, %3$ds",
+				"time_format_HM": "%1$dh, %2$dm",
+				"time_format_H": "%1$dh"
 			}
 		},
 		"ping": {
