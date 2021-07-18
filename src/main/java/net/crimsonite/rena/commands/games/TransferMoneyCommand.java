@@ -117,4 +117,16 @@ public class TransferMoneyCommand extends Command {
 		return 10;
 	}
 
+	@Override
+	public String getHelp() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getUsage() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

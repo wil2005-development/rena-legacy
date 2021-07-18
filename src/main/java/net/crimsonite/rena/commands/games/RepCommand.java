@@ -97,4 +97,16 @@ public class RepCommand extends Command {
 		return 86_400;
 	}
 
+	@Override
+	public String getHelp() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getUsage() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -91,4 +91,16 @@ public class LootCommand extends Command {
 		return false;
 	}
 
+	@Override
+	public String getHelp() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getUsage() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
