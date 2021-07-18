@@ -35,15 +35,14 @@ public class HelpCommand extends Command {
 	
 	@Override
 	public void execute(MessageReceivedEvent event, String[] args) {
+		User author = event.getAuthor();
 		MessageChannel channel = event.getChannel();
 		
 		try {
-			User author = event.getAuthor();
 			Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
 			
 			EmbedBuilder embed = new EmbedBuilder()
 					.setColor(roleColor)
-					.setTitle(I18n.getMessage(event.getAuthor().getId(), "info.help.embed.title"))
 					.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 			
 			if (args.length >= 2) {
@@ -71,9 +70,12 @@ public class HelpCommand extends Command {
 					timeFormat = I18n.getMessage(event.getAuthor().getId(), "info.help.embed.cooldown_duration_HM");
 				}
 				
-				String description = timeFormat.formatted(cooldownHours, cooldownMinutes, cooldownSeconds);
+				String cooldown = timeFormat.formatted(cooldownHours, cooldownMinutes, cooldownSeconds);
 				
-				embed.addField(commandName, description, false);
+				embed.setTitle(commandName)
+					.addField(I18n.getMessage(author.getId(), "info.help.embed.cooldown"), cooldown, false)
+					.addField(I18n.getMessage(author.getId(), "info.help.embed.usage"), command.getUsage(), false)
+					.addField(I18n.getMessage(author.getId(), "info.help.embed.help_description"), command.getHelp(), false);
 			}
 			else {
 				List<String> commandCategory = new ArrayList<>();
@@ -85,22 +87,23 @@ public class HelpCommand extends Command {
 				}
 				
 				for (int i = 0; i < commandCategory.size(); i++) {
-					List<String> currentBatchOfCommands = new ArrayList<>();
+					List<String> commandNames = new ArrayList<>();
 					
 					for (Command command : CommandRegistry.getRegisteredCommands().values()) {
 						if (command.getCommandCategory() == commandCategory.get(i)) {
-							currentBatchOfCommands.add(command.getCommandName());
+							commandNames.add(command.getCommandName());
 						}
 					}
 					
-					embed.addField(commandCategory.get(i), currentBatchOfCommands.toString().replace(", ", "`, `").replaceAll("\\[|]", "`"), false);
+					embed.setTitle(I18n.getMessage(author.getId(), "info.help.embed.title"))
+						.addField(commandCategory.get(i), commandNames.toString().replace(", ", "`, `").replaceAll("\\[|]", "`"), false);
 				}
 			}
 			
 			channel.sendMessageEmbeds(embed.build()).queue();
 		}
 		catch (NullPointerException ignored) {
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "info.help.command_does_not_exist")).queue();
+			channel.sendMessage(I18n.getMessage(author.getId(), "info.help.command_does_not_exist")).queue();
 		}
 	}
 	
