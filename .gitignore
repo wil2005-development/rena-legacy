@@ -17,5 +17,6 @@
 # VSCode
 .vscode
 
-# Files
+# Files and Directories
 /config.json
+/logs
