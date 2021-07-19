@@ -38,7 +38,7 @@ public class PreferenceCommand extends Command {
 		MessageChannel channel = event.getChannel();
 		
 		try {
-			boolean combinationCheck = false;
+			boolean isValid = false;
 			
 			String language = "en";
 			String country = "US";
@@ -59,11 +59,11 @@ public class PreferenceCommand extends Command {
 					language = values[0];
 					country = values[1];
 					
-					combinationCheck = true;
+					isValid = true;
 				}
 			}
 			
-			if (combinationCheck == true) {
+			if (isValid == true) {
 				DBReadWrite.modifyDataString(Table.USERS, author.getId(), "Language", language);
 				DBReadWrite.modifyDataString(Table.USERS, author.getId(), "Country", country);
 				

@@ -47,6 +47,19 @@ task filterVersion(type: Copy) {
 	])
 }
 
+task listLanguages {
+	doLast {
+		def languages = new FileOutputStream(new File("src/main/resources/languages/languages.txt"))
+		File dir = new File("src/main/resources/languages")
+		
+		dir.listFiles().each { File file ->
+			if (file.getName().endsWith(".json")) {
+				languages.write(file.getName().replace(".json", "\n").getBytes())
+			}
+		}
+	}
+}
+
 jar {
     archiveBaseName = project.name
     manifest {
@@ -69,6 +82,7 @@ compileJava {
 	options.encoding = 'UTF-8'
 	
 	dependsOn filterVersion
+	dependsOn listLanguages
 }
 
 class Version {
