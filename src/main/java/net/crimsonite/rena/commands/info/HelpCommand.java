@@ -55,19 +55,19 @@ public class HelpCommand extends Command {
 				long cooldownMinutes = (cooldownTime % 3600) / 60;
 				long cooldownSeconds = cooldownTime % 60;
 				
-				String timeFormat = I18n.getMessage(event.getAuthor().getId(), "info.help.embed.cooldown_duration_HMS");
+				String timeFormat = "%1$dh, %2$dm, %3$ds";
 				
 				if (cooldownHours == 0 && cooldownMinutes == 0) {
-					timeFormat = I18n.getMessage(event.getAuthor().getId(), "info.help.embed.cooldown_duration_S");
+					timeFormat = "%3$ds";
 				}
 				else if (cooldownSeconds == 0 && cooldownMinutes == 0) {
-					timeFormat = I18n.getMessage(event.getAuthor().getId(), "info.help.embed.cooldown_duration_H");
+					timeFormat = "%1$dh";
 				}
 				else if (cooldownHours == 0) {
-					timeFormat = I18n.getMessage(event.getAuthor().getId(), "info.help.embed.cooldown_duration_MS");
+					timeFormat = "%2$dm, %3$ds";
 				}
 				else if (cooldownSeconds == 0) {
-					timeFormat = I18n.getMessage(event.getAuthor().getId(), "info.help.embed.cooldown_duration_HM");
+					timeFormat = "%1$dh, %2$dm";
 				}
 				
 				String cooldown = timeFormat.formatted(cooldownHours, cooldownMinutes, cooldownSeconds);

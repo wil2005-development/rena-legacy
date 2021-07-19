@@ -4,11 +4,7 @@
 		"late_registration": "*Oops! Try again?*"
 	},
 	"command": {
-		"cooldown_duration_S": "%1$s *Oi oi! Slow down!!! This command is on cooldown for **%4$ds**.*",
-		"cooldown_duration_MS": "%1$s *Oi oi! Slow down!!! This command is on cooldown for **%3$dm, %4ds**.*",
-		"cooldown_duration_HMS": "%1$s *Oi oi! Slow down!!! This command is on cooldown for **%2$dh, %3$dm, %4$ds**.*",
-		"cooldown_duration_HM": "%1$s *Oi oi! Slow down!!! This command is on cooldown for **%2$dh, %3$dm**.*",
-		"cooldown_duration_H": "%1$s *Oi oi! Slow down!!! This command is on cooldown for **%2$dh**.*"
+		"cooldown": "%1$s *Oi oi! Slow down!!! This command is on cooldown for **%2$s**.*"
 	},
 	"imageboard": {
 		"imageboard_requester": {
@@ -39,12 +35,7 @@
 				"title": "Help",
 				"cooldown": "Cooldown",
 				"usage": "Usage",
-				"help_description": "Description",
-				"time_format_S": "%3$ds",
-				"time_format_MS": "%2$dm, %3$ds",
-				"time_format_HMS": "%1$dh, %2$dm, %3$ds",
-				"time_format_HM": "%1$dh, %2$dm",
-				"time_format_H": "%1$dh"
+				"help_description": "Description"
 			}
 		},
 		"ping": {
