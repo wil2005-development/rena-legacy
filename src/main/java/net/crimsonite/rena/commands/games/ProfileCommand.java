@@ -201,7 +201,7 @@ public class ProfileCommand extends Command {
 						}
 						catch (NullPointerException ignored) {
 							DBReadWrite.registerUser(listedMembers.get(0).getId());
-							channel.sendMessage(I18n.getMessage(author.getId(), "game.profile.error")).queue();
+							channel.sendMessage(I18n.getMessage(author.getId(), "common_string.late_registration")).queue();
 						}
 					}
 				}

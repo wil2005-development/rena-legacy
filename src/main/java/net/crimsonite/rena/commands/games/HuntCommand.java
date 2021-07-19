@@ -266,7 +266,7 @@ public class HuntCommand extends Command {
 		}
 		catch (NullPointerException e) {
 			DBReadWrite.registerUser(author.getId());
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.hunt.error.generic_error")).queue();
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "common_string.late_registration")).queue();
 		}
 	}
 	

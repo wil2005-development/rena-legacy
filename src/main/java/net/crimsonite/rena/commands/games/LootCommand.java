@@ -22,8 +22,8 @@ import java.util.Random;
 
 import net.crimsonite.rena.commands.Command;
 import net.crimsonite.rena.core.Cooldown;
-import net.crimsonite.rena.core.I18n;
 import net.crimsonite.rena.core.GameHandler;
+import net.crimsonite.rena.core.I18n;
 import net.crimsonite.rena.core.database.DBReadWrite;
 import net.crimsonite.rena.core.database.DBReadWrite.Table;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -32,6 +32,8 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class LootCommand extends Command {
+	
+	private User author;
 
 	@Override
 	public void execute(MessageReceivedEvent event, String[] args) {
@@ -54,21 +56,27 @@ public class LootCommand extends Command {
 			
 			EmbedBuilder embed = new EmbedBuilder()
 					.setColor(roleColor)
-					.setTitle(I18n.getMessage(event.getAuthor().getId(), "game.loot.embed.title"))
-					.addField(I18n.getMessage(event.getAuthor().getId(), "game.loot.embed.money"), String.valueOf(receivedMoney), true)
-					.addField(I18n.getMessage(event.getAuthor().getId(), "game.loot.embed.exp"), String.valueOf(receivedExp), true)
+					.setTitle(I18n.getMessage(author.getId(), "game.loot.embed.title"))
+					.addField(I18n.getMessage(author.getId(), "game.loot.embed.money"), String.valueOf(receivedMoney), true)
+					.addField(I18n.getMessage(author.getId(), "game.loot.embed.exp"), String.valueOf(receivedExp), true)
 					.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 			
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.loot.dialogue")).queue();
+			channel.sendMessage(I18n.getMessage(author.getId(), "game.loot.dialogue")).queue();
 			channel.sendMessageEmbeds(embed.build()).queue();
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.loot.no_item")).queue();
+			channel.sendMessage(I18n.getMessage(author.getId(), "game.loot.no_item")).queue();
 		}
 		catch (NullPointerException ignored) {
 			DBReadWrite.registerUser(author.getId());
-			Cooldown.removeCooldown(author.getId(), getCommandName());
 			
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.loot.error")).queue();
+			channel.sendMessage(I18n.getMessage(author.getId(), "common_string.late_registration")).queue();
 		}
+		
+		this.author = author;
+	}
+	
+	@Override
+	public void postCommandEvent() {
+		Cooldown.removeCooldown(author.getId(), getCommandName());
 	}
 
 	@Override

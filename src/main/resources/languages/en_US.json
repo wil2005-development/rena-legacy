@@ -150,7 +150,6 @@
 		},
 		"expedition": {
 			"dialogue": "**You went into an expedition to fulfill a commission...**",
-			"error": "Oops! Try again?",
 			"embed": {
 				"title": "Rewards",
 				"money": "Money",
@@ -161,7 +160,6 @@
 			"attack": "**You attacked the monster confidently!**",
 			"run": "**You ran away knowing that the monster is stronger than you...**",
 			"error": {
-				"generic_error": "Oops! Try again?",
 				"json_processing_error": "*The monsters suddenly disappeared.*",
 				"io_error": "*Huh? Something's weird is happening...*"
 			},
@@ -206,7 +204,6 @@
 			}
 		},
 		"loot": {
-			"error": "Oops! Try again?",
 			"dialogue": "**You went into an abandoned dungeon and got some loots**",
 			"no_item": "**Sadly, there wasn't any item of value in there.**",
 			"embed": {
@@ -216,7 +213,6 @@
 			}
 		},
 		"profile": {
-			"error": "Oops! Try again?",
 			"nothing_to_set": "*W-what are you even trying to set?*",
 			"set_status_success": "**Successfully set status to *%s***",
 			"set_status_failed": "**You didn't specify what to write in your status.**",

@@ -66,7 +66,7 @@ public class ExpeditionCommand extends Command {
 			DBReadWrite.registerUser(author.getId());
 			Cooldown.removeCooldown(author.getId(), getCommandName());
 			
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.expedition.error")).queue();
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "common_string.late_registration")).queue();
 		}
 	}
 
