@@ -25,8 +25,8 @@ repositories {
 }
 
 dependencies {
-	// Core
-	implementation 'net.dv8tion:JDA:4.3.0_295'
+  // Core
+	implementation 'net.dv8tion:JDA:4.3.0_296'
 	implementation 'com.jagrosh:jda-utilities-commons:3.0.5'
 	
 	// Data Manager

@@ -8,7 +8,7 @@
 		"EXP": 5,
 		"MONEY": [12, 18, 15, 30],
 		"DROPS": {
-			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 50.0}
+			"DROP_01": {"ID": "CLOTH", "AMOUNT": 1, "RATE": 50.0}
 		}
 	},
 	"Ogre": {
@@ -18,9 +18,9 @@
 		"ATK": 18,
 		"DEF": 15,
 		"EXP": 18,
-		"MONEY": [14, 18, 28,33],
+		"MONEY": [14, 18, 28, 33],
 		"DROPS": {
-			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 52.0}
+			"DROP_01": {"ID": "CLOTH", "AMOUNT": 1, "RATE": 52.0}
 		}
 	},
 	"Wraith": {
@@ -32,7 +32,7 @@
 		"EXP": 23,
 		"MONEY": [15, 24, 33, 38],
 		"DROPS": {
-			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 22.0}
+			"DROP_01": null
 		}
 	},
 	"Anmo": {
@@ -44,7 +44,7 @@
 		"EXP": 30,
 		"MONEY": [20, 21, 29, 41],
 		"DROPS": {
-			"DROP_01": {"ID": "POTION", "AMOUNT": 2, "RATE": 79.0}
+			"DROP_01": {"ID": "STRAW", "AMOUNT": 1, "RATE": 79.0}
 		}
 	},
 	"Naga": {
@@ -54,9 +54,9 @@
 		"ATK": 13,
 		"DEF": 18,
 		"EXP": 23,
-		"MONEY": [15, 24, 41,49],
+		"MONEY": [15, 24, 41, 49],
 		"DROPS": {
-			"DROP_01": {"ID": "POTION", "AMOUNT": 1, "RATE": 67.0}
+			"DROP_01": {"ID": "SNAKE_VENOM", "AMOUNT": 1, "RATE": 67.0}
 		}
 	},
 	"Bakunawa": {
@@ -68,7 +68,7 @@
 		"EXP": 51,
 		"MONEY": [25, 33, 41, 54],
 		"DROPS": {
-			"DROP_01": {"ID": "POTION", "AMOUNT": 2, "RATE": 88.0}
+			"DROP_01": {"ID": "SNAKE_VENOM", "AMOUNT": 1, "RATE": 88.0}
 		}
 	},
 	"White Lady": {
@@ -80,20 +80,163 @@
 		"EXP": 5,
 		"MONEY": [4, 9, 13, 16],
 		"DROPS": {
-			"DROP_01": {"ID": "POTION", "AMOUNT": 2, "RATE": 88.0}
+			"DROP_01": null
 		}
 	},
-	"Satori": {},
-	"Cobra": {}, 
-	"Serpent": {},
-	"Aswang": {},
-	"Skeleton": {},
-	"Giant Rat": {},
-	"Cultist": {},
-	"Spider": {},
-	"Black Widow": {},
-	"Mimic": {},
-	"Troll": {},
-	"She-Troll": {},
-	"Lizardman": {}
+	"Satori": {
+		"NAME": "Satori",
+		"HP": 13,
+		"MP": 33,
+		"ATK": 9,
+		"DEF": 22,
+		"EXP": 20,
+		"MONEY": [11, 15, 24, 32],
+		"DROPS": {
+			"DROP_01": {"ID": "FUR", "AMOUNT": 1, "RATE": 23.0}
+		}
+	},
+	"Cobra": {
+		"NAME": "Cobra",
+		"HP": 15,
+		"MP": 20,
+		"ATK": 15,
+		"DEF": 9,
+		"EXP": 15,
+		"MONEY": [4, 10, 14, 17],
+		"DROPS": {
+			"DROP_01": {"ID": "SNAKE_VENOM", "AMOUNT": 1, "RATE": 33.0}
+		}
+	},
+	"Serpent": {
+		"NAME": "Serpent",
+		"HP": 30,
+		"MP": 20,
+		"ATK": 20,
+		"DEF": 15,
+		"EXP": 41,
+		"MONEY": [8, 20, 28, 56],
+		"DROPS": {
+			"DROP_01": {"ID": "SNAKE_VENOM", "AMOUNT": 1, "RATE": 66.0}
+		}
+	},
+	"Aswang": {
+		"NAME": "Aswang",
+		"HP": 10,
+		"MP": 9,
+		"ATK": 30,
+		"DEF": 9,
+		"EXP": 18,
+		"MONEY": [4, 10, 14, 17],
+		"DROPS": {
+			"DROP_01": null
+		}
+	},
+	"Skeleton": {
+		"NAME": "Skeleton",
+		"HP": 15,
+		"MP": 10,
+		"ATK": 15,
+		"DEF": 10,
+		"EXP": 15,
+		"MONEY": [4, 10, 15, 17],
+		"DROPS": {
+			"DROP_01": {"ID": "BONE", "AMOUNT": 1, "RATE": 100.0}
+		}
+	},
+	"Giant Rat": {
+		"NAME": "Giant Rat",
+		"HP": 25,
+		"MP": 13,
+		"ATK": 15,
+		"DEF": 25,
+		"EXP": 36,
+		"MONEY": [9, 18, 27, 36],
+		"DROPS": {
+			"DROP_01": {"ID": "FUR", "AMOUNT": 1, "RATE": 75.0}
+		}
+	},
+	"Cultist": {
+		"NAME": "Cultist",
+		"HP": 30,
+		"MP": 20,
+		"ATK": 15,
+		"DEF": 2,
+		"EXP": 35,
+		"MONEY": [5, 10, 25, 35],
+		"DROPS": {
+			"DROP_01": {"ID": "LEATHER", "AMOUNT": 1, "RATE": 90.0}
+		}
+	},
+	"Spider": {
+		"NAME": "Spider",
+		"HP": 7,
+		"MP": 14,
+		"ATK": 15,
+		"DEF": 5,
+		"EXP": 9,
+		"MONEY": [2, 5, 7, 13],
+		"DROPS": {
+			"DROP_01": {"ID": "SPIDER_SILK", "AMOUNT": 1, "RATE": 47.0}
+		}
+	},
+	"Black Widow": {
+		"NAME": "Black Widow",
+		"HP": 15,
+		"MP": 28,
+		"ATK": 30,
+		"DEF": 10,
+		"EXP": 36,
+		"MONEY": [4, 10, 14, 26],
+		"DROPS": {
+			"DROP_01": {"ID": "SPIDER_SILK", "AMOUNT": 1, "RATE": 47.0}
+		}
+	},
+	"Mimic": {
+		"NAME": "Mimic",
+		"HP": 18,
+		"MP": 20,
+		"ATK": 15,
+		"DEF": 10,
+		"EXP": 23,
+		"MONEY": [50, 80, 100, 125],
+		"DROPS": {
+			"DROP_01": null
+		}
+	},
+	"Troll": {
+		"NAME": "Troll",
+		"HP": 75,
+		"MP": 15,
+		"ATK": 25,
+		"DEF": 25,
+		"EXP": 35,
+		"MONEY": [18, 26, 35, 44],
+		"DROPS": {
+			"DROP_01": {"ID": "CLOTH", "AMOUNT": 1, "RATE": 65.0}
+		}
+	},
+	"She-Troll": {
+		"NAME": "She-Troll",
+		"HP": 70,
+		"MP": 20,
+		"ATK": 25,
+		"DEF": 30,
+		"EXP": 35,
+		"MONEY": [18, 26, 35, 44],
+		"DROPS": {
+			"DROP_01": {"ID": "CLOTH", "AMOUNT": 1, "RATE": 65.0}
+		}
+	},
+	"Lizardman": {
+		"NAME": "Lizardman",
+		"HP": 55,
+		"MP": 25,
+		"ATK": 25,
+		"DEF": 25,
+		"EXP": 45,
+		"MONEY": [20, 24, 35, 48],
+		"DROPS": {
+			"DROP_01": {"ID": "REPTILE_SCALE", "AMOUNT": 1, "RATE": 78.0}
+		}
+	}
 }
