@@ -21,29 +21,38 @@ import net.crimsonite.rena.commands.Command;
 import net.crimsonite.rena.core.I18n;
 import net.crimsonite.rena.utils.RandomGenerator;
 import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class DiceCommand extends Command {
 
 	@Override
 	public void execute(MessageReceivedEvent event, String[] args) {
+		User author = event.getAuthor();
 		MessageChannel channel = event.getChannel();
 		
 		if (args.length == 2) {
 			try {
 				String[] die = args[1].split("d");
+				
+				if (die.length > 2) {
+					channel.sendMessage(I18n.getMessage(author.getId(), "misc.dice.unable_to_roll")).queue();
+					
+					return;
+				}
+				
 				int numberOfDice = Integer.parseInt(die[0]);
-				int face = Integer.parseInt(die[1]);
+				int faces = Integer.parseInt(die[1]);
 				int result = 0;
 				
 				for (int i = 0; i < numberOfDice; i++) {
-					result += RandomGenerator.randomInt(1, face);
+					result += RandomGenerator.randomInt(i, faces, RandomGenerator.generateSeedFromCurrentTime());
 				}
 				
-				channel.sendMessageFormat(":game_die: %d (1-%d)", result, face * numberOfDice).queue();
+				channel.sendMessage(":game_die: %1$d (1-%2$d)".formatted(result, (faces * numberOfDice))).queue();
 			}
 			catch (NumberFormatException | ArrayIndexOutOfBoundsException ignored) {
-				channel.sendMessageFormat(I18n.getMessage(event.getAuthor().getId(), "misc.dice.unable_to_roll")).queue();
+				channel.sendMessageFormat(I18n.getMessage(author.getId(), "misc.dice.unable_to_roll")).queue();
 			}
 		}
 		else {
@@ -70,6 +79,18 @@ public class DiceCommand extends Command {
 	@Override
 	public boolean isOwnerCommand() {
 		return false;
+	}
+
+	@Override
+	public String getHelp() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getUsage() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

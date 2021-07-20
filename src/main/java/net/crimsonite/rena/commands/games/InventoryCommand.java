@@ -82,7 +82,7 @@ public class InventoryCommand extends Command {
 		
 		embed.addField(I18n.getMessage(author.getId(), "game.inventory.embed.items"), currentItems.substring(0, (currentItems.length() - 2)), false);
 		
-		channel.sendFile(icon, "inventory_icon.png").embed(embed.build()).queue();
+		channel.sendMessageEmbeds(embed.build()).addFile(icon, "inventory_icon.png").queue();
 	}
 
 	@Override
@@ -103,6 +103,18 @@ public class InventoryCommand extends Command {
 	@Override
 	public long cooldown() {
 		return 5;
+	}
+
+	@Override
+	public String getHelp() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getUsage() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

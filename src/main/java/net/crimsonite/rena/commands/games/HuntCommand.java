@@ -156,7 +156,7 @@ public class HuntCommand extends Command {
 		
 		for (Map<String, ?> item : drops.values()) {
 			
-			if (RandomGenerator.randomChance((Double) item.get("RATE")))
+			if (RandomGenerator.randomChance((Double) item.get("RATE"), RandomGenerator.generateSeedFromCurrentTime()))
 			{
 				itemRewards.put((String) item.get("ID"), (Integer) item.get("AMOUNT"));
 			}
@@ -192,11 +192,11 @@ public class HuntCommand extends Command {
 				}
 			}
 			
-			channel.sendMessage(embedForVictory(event, rewardEXP, rewardMoney, rewardItem).build()).queue();
+			channel.sendMessageEmbeds(embedForVictory(event, rewardEXP, rewardMoney, rewardItem).build()).queue();
 		}
 		else if (playerHP <= 0) {
 			
-			channel.sendMessage(embedForDefeat(event).build()).queue();
+			channel.sendMessageEmbeds(embedForDefeat(event).build()).queue();
 		}
 	}
 	
@@ -232,7 +232,7 @@ public class HuntCommand extends Command {
 			}
 			catch (IOException e) {}
 			
-			this.selectedEnemy = enemyList.get(RandomGenerator.randomInt(enemyList.size()));
+			this.selectedEnemy = enemyList.get(RandomGenerator.randomInt(enemyList.size(), RandomGenerator.generateSeedFromCurrentTime()));
 			
 			JsonNode enemyStat = jsonData.get(selectedEnemy);
 			JsonNode moneyList = enemyStat.get("MONEY");
@@ -241,32 +241,32 @@ public class HuntCommand extends Command {
 						
 			this.enemyHP = enemyStat.get("HP").asInt();
 			this.rewardExp = enemyStat.get("EXP").asInt();
-			this.rewardMoney = moneyList.get(RandomGenerator.randomInt(moneyList.size())).asInt();
+			this.rewardMoney = moneyList.get(RandomGenerator.randomInt(moneyList.size(), RandomGenerator.generateSeedFromCurrentTime())).asInt();
 			
 			EmbedBuilder embedFirst = new EmbedBuilder()
 					.setColor(roleColor)
-					.setTitle(I18n.getMessage(event.getAuthor().getId(), "game.hunt.embed_encounter.title").formatted(selectedEnemy))
-					.addField(I18n.getMessage(event.getAuthor().getId(), "game.hunt.embed_encounter.hp"), String.valueOf(enemyHP), true)
-					.addField(I18n.getMessage(event.getAuthor().getId(), "game.hunt.embed_encounter.mp"), enemyStat.get("MP").asText(), true)
-					.addField(I18n.getMessage(event.getAuthor().getId(), "game.hunt.embed_encounter.atk"), enemyStat.get("ATK").asText(), true)
-					.addField(I18n.getMessage(event.getAuthor().getId(), "game.hunt.embed_encounter.def"), enemyStat.get("DEF").asText(), true)
+					.setTitle(I18n.getMessage(author.getId(), "game.hunt.embed_encounter.title").formatted(selectedEnemy))
+					.addField(I18n.getMessage(author.getId(), "game.hunt.embed_encounter.hp"), String.valueOf(enemyHP), true)
+					.addField(I18n.getMessage(author.getId(), "game.hunt.embed_encounter.mp"), enemyStat.get("MP").asText(), true)
+					.addField(I18n.getMessage(author.getId(), "game.hunt.embed_encounter.atk"), enemyStat.get("ATK").asText(), true)
+					.addField(I18n.getMessage(author.getId(), "game.hunt.embed_encounter.def"), enemyStat.get("DEF").asText(), true)
 					.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 			
-			channel.sendMessage(embedFirst.build()).queue((dialogue)->{
+			channel.sendMessageEmbeds(embedFirst.build()).queue((dialogue)->{
 					this.dialogueId = dialogue.getIdLong();
 					channel.addReactionById(dialogue.getIdLong(), "\u2705").queue();
 					channel.addReactionById(dialogue.getIdLong(), "\u274C").queue();
 			});
 		}
 		catch (JsonProcessingException e) {
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.hunt.error.json_processing_error")).queue();
+			channel.sendMessage(I18n.getMessage(author.getId(), "game.hunt.error.json_processing_error")).queue();
 		}
 		catch (IOException e) {
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.hunt.error.io_error")).queue();
+			channel.sendMessage(I18n.getMessage(author.getId(), "game.hunt.error.io_error")).queue();
 		}
 		catch (NullPointerException e) {
 			DBReadWrite.registerUser(author.getId());
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.hunt.error.generic_error")).queue();
+			channel.sendMessage(I18n.getMessage(author.getId(), "common_string.late_registration")).queue();
 		}
 	}
 	
@@ -320,12 +320,24 @@ public class HuntCommand extends Command {
 
 	@Override
 	public long cooldown() {
-		return 28800;
+		return 28_800;
 	}
 
 	@Override
 	public boolean isOwnerCommand() {
 		return false;
+	}
+
+	@Override
+	public String getHelp() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getUsage() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

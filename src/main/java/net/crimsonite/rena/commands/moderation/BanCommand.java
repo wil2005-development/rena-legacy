@@ -36,10 +36,10 @@ public class BanCommand extends Command {
 		MessageChannel channel = event.getChannel();
 		
 		if (mentionedMembers.isEmpty()) {
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.ban.no_mentioned_member")).queue();
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.ban.no_mentioned_member").formatted(":warning:")).queue();
 		}
 		else if (mentionedMembers.size() > 1) {
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.ban.multiple_mentions")).queue();
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.ban.multiple_mentions").formatted(":warning:")).queue();
 		}
 		else {
 			if (author.hasPermission(Permission.BAN_MEMBERS)) {
@@ -48,15 +48,15 @@ public class BanCommand extends Command {
 						String reason = args[2];
 						
 						mentionedMembers.get(0).ban(0, reason).complete();
-						channel.sendMessageFormat(I18n.getMessage(event.getAuthor().getId(), "moderation.ban.ban_with_reason_success"), mentionedMembers.get(0).getUser().getName(), reason).queue();
+						channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.ban.ban_with_reason_success".formatted(":white_check_mark:", mentionedMembers.get(0).getUser().getName(), reason))).queue();
 					}
 					else {
 						mentionedMembers.get(0).ban(0).complete();
-						channel.sendMessageFormat(I18n.getMessage(event.getAuthor().getId(), "moderation.ban.ban_success"), mentionedMembers.get(0).getUser().getName()).queue();
+						channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.ban.ban_success".formatted(":white_check_mark:", mentionedMembers.get(0).getUser().getName()))).queue();
 					}
 				}
 				catch (HierarchyException ignored) {
-					channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.ban.unable_to_ban")).queue();
+					channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.ban.unable_to_ban").formatted("warning")).queue();
 				}
 			}
 			else {
@@ -83,6 +83,18 @@ public class BanCommand extends Command {
 	@Override
 	public long cooldown() {
 		return 5;
+	}
+
+	@Override
+	public String getHelp() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getUsage() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -51,8 +51,7 @@ public class ShutdownCommand extends Command {
 			jda.shutdown();
 		}
 		
-		jda.shutdown();
-		System.exit(0); // Maybe remove this?
+		System.exit(0);
 	}
 	
 	@Override
@@ -73,6 +72,18 @@ public class ShutdownCommand extends Command {
 	@Override
 	public long cooldown() {
 		return 0;
+	}
+
+	@Override
+	public String getHelp() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getUsage() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

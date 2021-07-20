@@ -17,5 +17,7 @@
 # VSCode
 .vscode
 
-# Files
+# Files and Directories
 /config.json
+/src/main/resources/languages/languages.txt
+/logs

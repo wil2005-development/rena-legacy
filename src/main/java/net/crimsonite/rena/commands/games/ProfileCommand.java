@@ -82,7 +82,7 @@ public class ProfileCommand extends Command {
 				.addField(I18n.getMessage(user.getId(), "game.profile.embed.birthday"), userBirthday, false)
 				.setFooter(event.getAuthor().getName(), event.getAuthor().getEffectiveAvatarUrl());
 		
-		event.getChannel().sendMessage(embed.build()).queue();
+		event.getChannel().sendMessageEmbeds(embed.build()).queue();
 	}
 
 	@Override
@@ -201,7 +201,7 @@ public class ProfileCommand extends Command {
 						}
 						catch (NullPointerException ignored) {
 							DBReadWrite.registerUser(listedMembers.get(0).getId());
-							channel.sendMessage(I18n.getMessage(author.getId(), "game.profile.error")).queue();
+							channel.sendMessage(I18n.getMessage(author.getId(), "common_string.late_registration")).queue();
 						}
 					}
 				}
@@ -227,6 +227,18 @@ public class ProfileCommand extends Command {
 	@Override
 	public boolean isOwnerCommand() {
 		return false;
+	}
+
+	@Override
+	public String getHelp() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getUsage() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

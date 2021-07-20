@@ -32,7 +32,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class AvatarCommand extends Command {
 
-	private static void sendEmbed(MessageReceivedEvent event, Member member) {
+	private void sendEmbed(MessageReceivedEvent event, Member member) {
 		MessageChannel channel = event.getChannel();
 		User memberAsUser = member.getUser();
 		Color roleColor = event.getGuild().retrieveMember(memberAsUser).complete().getColor();
@@ -43,7 +43,7 @@ public class AvatarCommand extends Command {
 				.setImage(memberAsUser.getEffectiveAvatarUrl() + "?size=1024")
 				.setFooter(event.getAuthor().getName(), event.getAuthor().getEffectiveAvatarUrl());
 		
-		channel.sendMessage(embed.build()).queue();
+		channel.sendMessageEmbeds(embed.build()).queue();
 		}
 	
 	@Override
@@ -92,6 +92,18 @@ public class AvatarCommand extends Command {
 	@Override
 	public long cooldown() {
 		return 5;
+	}
+
+	@Override
+	public String getHelp() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getUsage() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -38,7 +38,7 @@ public class DanbooruCommand extends Command {
 					.setTitle("An error has occured");
 		}
 		
-		event.getChannel().sendMessage(embed.build()).queue();
+		event.getChannel().sendMessageEmbeds(embed.build()).queue();
 	}
 
 	@Override
@@ -59,6 +59,18 @@ public class DanbooruCommand extends Command {
 	@Override
 	public long cooldown() {
 		return 5;
+	}
+
+	@Override
+	public String getHelp() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getUsage() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

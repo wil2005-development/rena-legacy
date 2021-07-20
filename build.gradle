@@ -25,18 +25,16 @@ repositories {
 }
 
 dependencies {
-	// CORE
+  // Core
 	implementation 'net.dv8tion:JDA:4.3.0_296'
 	implementation 'com.jagrosh:jda-utilities-commons:3.0.5'
-
-	// LOGGER
-	implementation 'ch.qos.logback:logback-classic:1.2.3'
 	
-	// DATABASE
+	// Data Manager
 	implementation 'com.rethinkdb:rethinkdb-driver:2.3.3'
-	/* implementation 'redis.clients:jedis:3.5.1' */
+	implementation 'redis.clients:jedis:3.5.1'
 	
-	// FILE HANDLER
+	// Misc
+	implementation 'ch.qos.logback:logback-classic:1.2.3'
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.4'
 }
 
@@ -47,6 +45,19 @@ task filterVersion(type: Copy) {
 		VERSION: versionObject.toString(),
 		
 	])
+}
+
+task listLanguages {
+	doLast {
+		def languages = new FileOutputStream(new File("src/main/resources/languages/languages.txt"))
+		File dir = new File("src/main/resources/languages")
+		
+		dir.listFiles().each { File file ->
+			if (file.getName().endsWith(".json")) {
+				languages.write(file.getName().replace(".json", "\n").getBytes())
+			}
+		}
+	}
 }
 
 jar {
@@ -71,6 +82,7 @@ compileJava {
 	options.encoding = 'UTF-8'
 	
 	dependsOn filterVersion
+	dependsOn listLanguages
 }
 
 class Version {

@@ -42,7 +42,6 @@ public class DailyCommand extends Command{
 		
 		try {
 			long currentTime = TimeUnit.MILLISECONDS.toHours(System.currentTimeMillis());
-			int currentTimeInInteger = Integer.parseInt(String.valueOf(currentTime));
 			long lastClaim = DBReadWrite.getValueInt(Table.PLAYERS, author.getId(), "LAST_DAILY_CLAIM");
 			long dailyStreak = DBReadWrite.getValueInt(Table.PLAYERS, author.getId(), "DAILY_STREAK");
 			long level = DBReadWrite.getValueInt(Table.PLAYERS, author.getId(), "LEVEL");
@@ -58,7 +57,7 @@ public class DailyCommand extends Command{
 					List<Member> listedMembers = FinderUtil.findMembers(args[1], event.getGuild());
 					
 					if (listedMembers.isEmpty()) {
-						channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.daily.user_not_found")).queue();
+						channel.sendMessage(I18n.getMessage(author.getId(), "game.daily.user_not_found")).queue();
 						event.getGuild().loadMembers();
 					}
 					else {
@@ -79,19 +78,19 @@ public class DailyCommand extends Command{
 			}
 			
 			DBReadWrite.incrementValue(Table.PLAYERS, recepient.getId(), "MONEY", (int) reward);
-			DBReadWrite.modifyDataInt(Table.PLAYERS, author.getId(), "LAST_DAILY_CLAIM", currentTimeInInteger);
+			DBReadWrite.modifyDataInt(Table.PLAYERS, author.getId(), "LAST_DAILY_CLAIM", Integer.parseInt(String.valueOf(currentTime)));
 			
-			channel.sendMessageFormat(I18n.getMessage(event.getAuthor().getId(), "game.daily.claimed"), reward).queue();
+			channel.sendMessage(I18n.getMessage(author.getId(), "game.daily.claimed").formatted(reward)).queue();
 			channel.sendMessage(dailyStreakDialogue.formatted(dailyStreak)).queue();
 		}
 		catch (NullPointerException e) {
 			DBReadWrite.registerUser(author.getId());
 			
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.daily.not_registered")).queue();
+			channel.sendMessage(I18n.getMessage(author.getId(), "game.daily.not_registered")).queue();
 		}
 		catch (IllegalArgumentException e) {
 			Cooldown.removeCooldown(author.getId(), getCommandName());
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.daily.not_qualified")).queue();
+			channel.sendMessage(I18n.getMessage(author.getId(), "game.daily.not_qualified")).queue();
 		}
 	}
 
@@ -112,7 +111,19 @@ public class DailyCommand extends Command{
 
 	@Override
 	public long cooldown() {
-		return 86400;
+		return 86_400;
+	}
+
+	@Override
+	public String getHelp() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getUsage() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

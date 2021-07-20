@@ -32,6 +32,15 @@ public class RandomGenerator {
 	}
 	
 	/**
+	 * Generates a unique seed as byte array based on the current time.
+	 * 
+	 * @return Pseudorandomly generated seed.
+	 */
+	public static byte[] generateSeedFromCurrentTime() {
+		return String.valueOf(System.currentTimeMillis()).getBytes();
+	}
+	
+	/**
 	 * @param min Minimum number to generate.
 	 * @param max Maximum number to generate.
 	 * @return Randomly generated number.

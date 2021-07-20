@@ -48,7 +48,7 @@ public class InsightCommand extends Command {
 			}
 			
 			if (flag) {
-				channel.sendMessage(embed.build()).queue();
+				channel.sendMessageEmbeds(embed.build()).queue();
 			}
 		}
 		else {
@@ -74,6 +74,18 @@ public class InsightCommand extends Command {
 	@Override
 	public long cooldown() {
 		return 5;
+	}
+
+	@Override
+	public String getHelp() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getUsage() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -36,45 +36,50 @@ public class PreferenceCommand extends Command {
 	private void setLanguage(MessageReceivedEvent event, String[] args) {
 		User author = event.getAuthor();
 		MessageChannel channel = event.getChannel();
+		List<String> validLanguages = new ArrayList<String>();
 		
 		try {
-			boolean combinationCheck = false;
+			String[] localeArgs = args[3].split("\\_");
 			
-			String language = "en";
-			String country = "US";
+			if (localeArgs.length > 2) {
+				channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "user_preference.language_preference.improper_format").formatted(args[3])).queue();
+				
+				return;
+			}
+			
+			String language = localeArgs[0];
+			String country = localeArgs[1];
+			String countryCode = "%1$s_%2$s".formatted(language, country);
+			String validLanguagesText = "";
 			String line;
 			
 			InputStream inputStream = getClass().getClassLoader().getResourceAsStream("languages/languages.txt");
 			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-			List<String> validCombinations = new ArrayList<>();
+			StringBuilder stringBuilder = new StringBuilder();
 			
 			while ((line = reader.readLine()) != null) {
-				validCombinations.add(line);
+				validLanguages.add(line);
 			}
 			
-			for (String combination : validCombinations) {
-				if (args[1].contains(combination)) {
-					String[] values = args[1].split("\\_");
-					
-					language = values[0];
-					country = values[1];
-					
-					combinationCheck = true;
-				}
+			for (String lang : validLanguages) {
+				stringBuilder.append(lang);
+				stringBuilder.append(", ");
 			}
 			
-			if (combinationCheck == true) {
+			validLanguagesText = stringBuilder.toString();
+			
+			if (validLanguages.contains(countryCode)) {
 				DBReadWrite.modifyDataString(Table.USERS, author.getId(), "Language", language);
 				DBReadWrite.modifyDataString(Table.USERS, author.getId(), "Country", country);
 				
-				channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "user_preference.language_preference.set_lang_success").formatted(language, country)).queue();
+				channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "user_preference.language_preference.set_lang_success").formatted(countryCode)).queue();
 			}
 			else {
-				channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "user_preference.language_preference.set_lang_failed")).queue();
+				channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "user_preference.language_preference.invalid_language").formatted(countryCode, validLanguagesText.substring(0, (validLanguagesText.length() - 2)))).queue();
 			}
 		}
 		catch (Exception e) {
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "user_preference.language_preference.error")).queue();
+			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "user_preference.language_preference.set_lang_failed")).queue();
 		}
 	}
 
@@ -83,30 +88,35 @@ public class PreferenceCommand extends Command {
 		User author = event.getAuthor();
 		MessageChannel channel = event.getChannel();
 		
+		String action = args[1];
+		String option = args[2];
+		
 		if (args.length >= 2) {
-			switch (args[1]) {
-				case "-set":
-					if (args.length >= 3) {
-						switch (args[2]) {
-							case "language":
-								setLanguage(event, args);
-								
-								break;
-							default:
-								channel.sendMessage(I18n.getMessage(author.getId(), "user_preference.preference.invalid_option")).queue();
-								
-								break;
-						}
-					}
-					else {
-						channel.sendMessage(I18n.getMessage(author.getId(), "user_preference.preference.no_option")).queue();
+			switch (action) {
+			case "-set":
+				if (args.length >= 3) {
+					switch(option) {
+					case "language":
+						setLanguage(event, args);
+						
+						break;
+					default:
+						channel.sendMessage(I18n.getMessage(author.getId(), "user_preference.preference.invalid_option")).queue();
+						
+						break;
 					}
 					
 					break;
-				default:
-					channel.sendMessage(I18n.getMessage(author.getId(), "user_preference.preference.invalid_action")).queue();
+				}
+				else {
+					channel.sendMessage(I18n.getMessage(author.getId(), "user_preference.preference.no_option")).queue();
 					
 					break;
+				}
+			default:
+				channel.sendMessage(I18n.getMessage(author.getId(), "user_preference.preference.invalid_action")).queue();
+				
+				break;
 			}
 		}
 		else {
@@ -131,7 +141,19 @@ public class PreferenceCommand extends Command {
 
 	@Override
 	public long cooldown() {
-		return 5;
+		return 60;
+	}
+
+	@Override
+	public String getHelp() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getUsage() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

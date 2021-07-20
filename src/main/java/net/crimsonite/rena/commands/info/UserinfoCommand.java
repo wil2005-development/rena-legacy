@@ -32,13 +32,12 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class UserinfoCommand extends Command {
-	
-	private static DateTimeFormatter format = DateTimeFormatter.ofPattern("MMMM d, yyyy");
-	
+		
 	private static void sendEmbed(MessageReceivedEvent event, Member member) {
 		User memberAsUser = member.getUser();
 		Member author = event.getMember();
 		Color roleColor = event.getGuild().retrieveMember(memberAsUser).complete().getColor();
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("MMMM d, yyyy");
 		
 		EmbedBuilder embed = new EmbedBuilder()
 				.setColor(roleColor)
@@ -49,7 +48,7 @@ public class UserinfoCommand extends Command {
 				.addField(I18n.getMessage(event.getAuthor().getId(), "info.user_info.embed.date_joined"), member.getTimeJoined().format(format),false)
 				.setFooter(author.getEffectiveName(), author.getUser().getEffectiveAvatarUrl());
 		
-		event.getChannel().sendMessage(embed.build()).queue();
+		event.getChannel().sendMessageEmbeds(embed.build()).queue();
 	}
 
 	@Override
@@ -57,18 +56,20 @@ public class UserinfoCommand extends Command {
 		MessageChannel channel = event.getChannel();
 		Member author = event.getMember();
 		
+		List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
+		
 		if (args.length == 1) {
 			sendEmbed(event, author);
 		}
 		else if (args.length >= 2){
-			if (!event.getMessage().getMentionedMembers().isEmpty()) {
+			if (!(mentionedMembers.isEmpty() && mentionedMembers.get(0).getUser().isBot())) {
 				Member member = event.getMessage().getMentionedMembers().get(0);
 				sendEmbed(event, member);
 			}
 			else {
 				List<Member> listedMembers = FinderUtil.findMembers(args[1], event.getGuild());
 				
-				if (listedMembers.isEmpty()) {
+				if (listedMembers.isEmpty() || listedMembers.get(0).getUser().isBot()) {
 					channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "info.user_info.user_not_found")).queue();
 					event.getGuild().loadMembers();
 				}
@@ -98,6 +99,18 @@ public class UserinfoCommand extends Command {
 	@Override
 	public long cooldown() {
 		return 5;
+	}
+
+	@Override
+	public String getHelp() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getUsage() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

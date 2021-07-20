@@ -20,6 +20,7 @@ package net.crimsonite.rena.commands.info;
 import java.awt.Color;
 
 import net.crimsonite.rena.commands.Command;
+import net.crimsonite.rena.core.I18n;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDA.ShardInfo;
@@ -39,17 +40,28 @@ public class ShardInfoCommand extends Command {
 		ShardInfo shardInfo = jda.getShardInfo();
 		ShardManager shardManager = jda.getShardManager();
 		
+		long totalUsers = 0;
+		
+		for (User user : shardManager.getUsers()) {
+			if (!user.isBot()) {
+				totalUsers++;
+			}
+		}
+		
 		EmbedBuilder embed = new EmbedBuilder()
 				.setColor(roleColor)
-				.setTitle("Shard %s".formatted(jda.getShardInfo().getShardString()))
-				.addField("Shard ID", "#" + shardInfo.getShardId(), false)
-				.addField("Average Gateway Ping", "%dm/s".formatted(Math.round(shardManager.getAverageGatewayPing())), true)
-				.addBlankField(true)
-				.addField("Total Shards", String.valueOf(shardManager.getShardsTotal()), true)
-				.addField("Online Shards", String.valueOf(shardManager.getShardsRunning()), true)
+				.setTitle(I18n.getMessage(author.getId(), "info.shard_info.embed.title").formatted(jda.getShardInfo().getShardString()))
+				.addField(I18n.getMessage(author.getId(), "info.shard_info.embed.shard_id"), "#" + shardInfo.getShardId(), false)
+				.addField(I18n.getMessage(author.getId(), "info.shard_info.embed.average_gateway_ping"), "%dm/s".formatted(Math.round(shardManager.getAverageGatewayPing())), false)
+				.addBlankField(false)
+				.addField(I18n.getMessage(author.getId(), "info.shard_info.embed.total_shards"), String.valueOf(shardManager.getShardsTotal()), true)
+				.addField(I18n.getMessage(author.getId(), "info.shard_info.embed.online_shards"), String.valueOf(shardManager.getShardsRunning()), true)
+				.addBlankField(false)
+				.addField(I18n.getMessage(author.getId(), "info.shard_info.embed.total_guilds"), String.valueOf(shardManager.getGuilds().size()), true)
+				.addField(I18n.getMessage(author.getId(), "info.shard_info.embed.total_users"), String.valueOf(totalUsers), true)
 				.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 		
-		channel.sendMessage(embed.build()).queue();
+		channel.sendMessageEmbeds(embed.build()).queue();
 		
 	}
 
@@ -71,6 +83,18 @@ public class ShardInfoCommand extends Command {
 	@Override
 	public long cooldown() {
 		return 5;
+	}
+
+	@Override
+	public String getHelp() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getUsage() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

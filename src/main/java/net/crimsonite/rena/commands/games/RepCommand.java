@@ -46,7 +46,7 @@ public class RepCommand extends Command {
 			if (mentionedMembers.isEmpty()) {
 				channel.sendMessage(I18n.getMessage(author.getId(), "game.rep.no_mention")).queue();
 				
-				shouldRemoveCooldown = true;
+				this.shouldRemoveCooldown = true;
 			}
 			else {
 				Member member = mentionedMembers.get(0);
@@ -54,7 +54,7 @@ public class RepCommand extends Command {
 				if (member.getUser() == author) {
 					channel.sendMessage(I18n.getMessage(author.getId(), "game.rep.self_rep")).queue();
 					
-					shouldRemoveCooldown = true;
+					this.shouldRemoveCooldown = true;
 				}
 				else {
 					DBReadWrite.incrementValue(Table.PLAYERS, member.getId(), "REP", 1);
@@ -66,7 +66,7 @@ public class RepCommand extends Command {
 		catch (NullPointerException e) {
 			channel.sendMessage(I18n.getMessage(author.getId(), "game.rep.user_not_found")).queue();
 			
-			shouldRemoveCooldown = true;
+			this.shouldRemoveCooldown = true;
 		}
 	}
 	
@@ -95,6 +95,18 @@ public class RepCommand extends Command {
 	@Override
 	public long cooldown() {
 		return 86_400;
+	}
+
+	@Override
+	public String getHelp() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getUsage() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

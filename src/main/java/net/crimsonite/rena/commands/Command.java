@@ -37,6 +37,8 @@ public abstract class Command extends ListenerAdapter {
 	public abstract void execute(MessageReceivedEvent event, String[] args);
 	public abstract String getCommandName();
 	public abstract String getCommandCategory();
+	public abstract String getHelp();
+	public abstract String getUsage();
 	public abstract boolean isOwnerCommand();
 	public abstract long cooldown();
 	
@@ -73,33 +75,35 @@ public abstract class Command extends ListenerAdapter {
 			timesCommandUsed++;
 			
 			if (Cooldown.getCooldownCache().containsKey(author.getId() + "-" + command)) {
-				long remainingCooldownShortened = Cooldown.getRemainingCooldown(author.getId(), command)-TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
+				long remainingCooldown = Cooldown.getRemainingCooldown(author.getId(), command)-TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
 				
-				if (remainingCooldownShortened > 0) {
-					long cooldownHours = remainingCooldownShortened / 3600;
-					long cooldownMinutes = (remainingCooldownShortened % 3600) / 60;
-					long cooldownSeconds = remainingCooldownShortened % 60;
+				if (remainingCooldown > 0) {
+					long cooldownHours = remainingCooldown / 3600;
+					long cooldownMinutes = (remainingCooldown % 3600) / 60;
+					long cooldownSeconds = remainingCooldown % 60;
 					
-					String message = I18n.getMessage(event.getAuthor().getId(), "command.cooldown_duration_HMS");
+					String format = "%1$dh, %2$dm, %3$ds";
 					
 					if (cooldownHours == 0 && cooldownMinutes == 0) {
-						message = I18n.getMessage(event.getAuthor().getId(), "command.cooldown_duration_S");
+						format = "%3$ds";
 					}
 					else if (cooldownSeconds == 0 && cooldownMinutes == 0) {
-						message = I18n.getMessage(event.getAuthor().getId(), "command.cooldown_duration_H");
+						format = "%1$dh";
 					}
 					else if (cooldownHours == 0) {
-						message = I18n.getMessage(event.getAuthor().getId(), "command.cooldown_duration_MS");
+						format = "%2$dm, %3ds";
 					}
 					else if (cooldownSeconds == 0) {
-						message = I18n.getMessage(event.getAuthor().getId(), "command.embed.cooldown_duration_HM");
+						format = "%1$dh, %2$dm";
 					}
 					
-					channel.sendMessageFormat(message.formatted(":stopwatch:", cooldownHours, cooldownMinutes, cooldownSeconds)).queue();
+					String message = I18n.getMessage(author.getId(), "command.cooldown").formatted(":stopwatch:", format);
+					
+					channel.sendMessageFormat(message.formatted(cooldownHours, cooldownMinutes, cooldownSeconds)).queue();
 					
 					return;
 				}
-				else if (remainingCooldownShortened <= 0) {
+				else if (remainingCooldown <= 0) {
 					Cooldown.removeCooldown(author.getId(), command);
 					
 					execute(event, commandArgs(event.getMessage()));
