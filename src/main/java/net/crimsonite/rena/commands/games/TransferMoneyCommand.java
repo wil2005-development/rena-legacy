@@ -78,7 +78,7 @@ public class TransferMoneyCommand extends Command {
 					List<Member> listedMembers = FinderUtil.findMembers(args[2], event.getGuild());
 					
 					if (listedMembers.isEmpty()) {
-						channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "info.user_info.user_not_found")).queue();
+						channel.sendMessage(I18n.getMessage(author.getId(), "info.user_info.user_not_found")).queue();
 						event.getGuild().loadMembers();
 					}
 					else {

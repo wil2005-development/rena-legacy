@@ -57,7 +57,7 @@ public class DailyCommand extends Command{
 					List<Member> listedMembers = FinderUtil.findMembers(args[1], event.getGuild());
 					
 					if (listedMembers.isEmpty()) {
-						channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.daily.user_not_found")).queue();
+						channel.sendMessage(I18n.getMessage(author.getId(), "game.daily.user_not_found")).queue();
 						event.getGuild().loadMembers();
 					}
 					else {
@@ -80,17 +80,17 @@ public class DailyCommand extends Command{
 			DBReadWrite.incrementValue(Table.PLAYERS, recepient.getId(), "MONEY", (int) reward);
 			DBReadWrite.modifyDataInt(Table.PLAYERS, author.getId(), "LAST_DAILY_CLAIM", Integer.parseInt(String.valueOf(currentTime)));
 			
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.daily.claimed").formatted(reward)).queue();
+			channel.sendMessage(I18n.getMessage(author.getId(), "game.daily.claimed").formatted(reward)).queue();
 			channel.sendMessage(dailyStreakDialogue.formatted(dailyStreak)).queue();
 		}
 		catch (NullPointerException e) {
 			DBReadWrite.registerUser(author.getId());
 			
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.daily.not_registered")).queue();
+			channel.sendMessage(I18n.getMessage(author.getId(), "game.daily.not_registered")).queue();
 		}
 		catch (IllegalArgumentException e) {
 			Cooldown.removeCooldown(author.getId(), getCommandName());
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.daily.not_qualified")).queue();
+			channel.sendMessage(I18n.getMessage(author.getId(), "game.daily.not_qualified")).queue();
 		}
 	}
 

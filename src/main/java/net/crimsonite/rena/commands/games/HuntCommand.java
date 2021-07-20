@@ -245,11 +245,11 @@ public class HuntCommand extends Command {
 			
 			EmbedBuilder embedFirst = new EmbedBuilder()
 					.setColor(roleColor)
-					.setTitle(I18n.getMessage(event.getAuthor().getId(), "game.hunt.embed_encounter.title").formatted(selectedEnemy))
-					.addField(I18n.getMessage(event.getAuthor().getId(), "game.hunt.embed_encounter.hp"), String.valueOf(enemyHP), true)
-					.addField(I18n.getMessage(event.getAuthor().getId(), "game.hunt.embed_encounter.mp"), enemyStat.get("MP").asText(), true)
-					.addField(I18n.getMessage(event.getAuthor().getId(), "game.hunt.embed_encounter.atk"), enemyStat.get("ATK").asText(), true)
-					.addField(I18n.getMessage(event.getAuthor().getId(), "game.hunt.embed_encounter.def"), enemyStat.get("DEF").asText(), true)
+					.setTitle(I18n.getMessage(author.getId(), "game.hunt.embed_encounter.title").formatted(selectedEnemy))
+					.addField(I18n.getMessage(author.getId(), "game.hunt.embed_encounter.hp"), String.valueOf(enemyHP), true)
+					.addField(I18n.getMessage(author.getId(), "game.hunt.embed_encounter.mp"), enemyStat.get("MP").asText(), true)
+					.addField(I18n.getMessage(author.getId(), "game.hunt.embed_encounter.atk"), enemyStat.get("ATK").asText(), true)
+					.addField(I18n.getMessage(author.getId(), "game.hunt.embed_encounter.def"), enemyStat.get("DEF").asText(), true)
 					.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 			
 			channel.sendMessageEmbeds(embedFirst.build()).queue((dialogue)->{
@@ -259,14 +259,14 @@ public class HuntCommand extends Command {
 			});
 		}
 		catch (JsonProcessingException e) {
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.hunt.error.json_processing_error")).queue();
+			channel.sendMessage(I18n.getMessage(author.getId(), "game.hunt.error.json_processing_error")).queue();
 		}
 		catch (IOException e) {
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.hunt.error.io_error")).queue();
+			channel.sendMessage(I18n.getMessage(author.getId(), "game.hunt.error.io_error")).queue();
 		}
 		catch (NullPointerException e) {
 			DBReadWrite.registerUser(author.getId());
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "common_string.late_registration")).queue();
+			channel.sendMessage(I18n.getMessage(author.getId(), "common_string.late_registration")).queue();
 		}
 	}
 	

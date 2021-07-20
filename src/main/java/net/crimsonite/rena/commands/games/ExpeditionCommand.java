@@ -54,19 +54,19 @@ public class ExpeditionCommand extends Command {
 			
 			EmbedBuilder embed = new EmbedBuilder()
 					.setColor(roleColor)
-					.setTitle(I18n.getMessage(event.getAuthor().getId(), "game.expedition.embed.title"))
-					.addField(I18n.getMessage(event.getAuthor().getId(), "game.expedition.embed.money"), String.valueOf(receivedMoney), true)
-					.addField(I18n.getMessage(event.getAuthor().getId(), "game.expedition.embed.exp"), String.valueOf(receivedExp), true)
+					.setTitle(I18n.getMessage(author.getId(), "game.expedition.embed.title"))
+					.addField(I18n.getMessage(author.getId(), "game.expedition.embed.money"), String.valueOf(receivedMoney), true)
+					.addField(I18n.getMessage(author.getId(), "game.expedition.embed.exp"), String.valueOf(receivedExp), true)
 					.setFooter(author.getName(), author.getEffectiveAvatarUrl());
 			
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "game.expedition.dialogue")).queue();
+			channel.sendMessage(I18n.getMessage(author.getId(), "game.expedition.dialogue")).queue();
 			channel.sendMessageEmbeds(embed.build()).queue();
 		}
 		catch (NullPointerException ignored) {
 			DBReadWrite.registerUser(author.getId());
 			Cooldown.removeCooldown(author.getId(), getCommandName());
 			
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "common_string.late_registration")).queue();
+			channel.sendMessage(I18n.getMessage(author.getId(), "common_string.late_registration")).queue();
 		}
 	}
 
