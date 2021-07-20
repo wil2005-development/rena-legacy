@@ -1,13 +1,10 @@
 {
 	"common_string": {
-		"something_went_wrong": "*Oops! Something went wrong...*"
+		"something_went_wrong": "*Oops! Something went wrong...*",
+		"late_registration": "*Oops! Try again?*"
 	},
 	"command": {
-		"cooldown_duration_S": "%1$s *Oi oi! Slow down!!! This command is on cooldown for **%4$ds**.*",
-		"cooldown_duration_MS": "%1$s *Oi oi! Slow down!!! This command is on cooldown for **%3$dm, %4ds**.*",
-		"cooldown_duration_HMS": "%1$s *Oi oi! Slow down!!! This command is on cooldown for **%2$dh, %3$dm, %4$ds**.*",
-		"cooldown_duration_HM": "%1$s *Oi oi! Slow down!!! This command is on cooldown for **%2$dh, %3$dm**.*",
-		"cooldown_duration_H": "%1$s *Oi oi! Slow down!!! This command is on cooldown for **%2$dh**.*"
+		"cooldown": "%1$s *Oi oi! Slow down!!! This command is on cooldown for **%2$s**.*"
 	},
 	"imageboard": {
 		"imageboard_requester": {
@@ -36,21 +33,19 @@
 			"slash_help": "*I currently do not support slash commands, please use* `%1$shelp` *instead.*",
 			"embed": {
 				"title": "Help",
-				"cooldown_duration_S": "**Cooldown Duration:** %3$ds",
-				"cooldown_duration_MS": "**Cooldown Duration:** %2$dm, %3$ds",
-				"cooldown_duration_HMS": "**Cooldown Duration:** %1$dh, %2$dm, %3$ds",
-				"cooldown_duration_HM": "**Cooldown Duration:** %1$dh, %2$dm",
-				"cooldown_duration_H": "**Cooldown Duration:** %1$dh"
+				"cooldown": "Cooldown",
+				"usage": "Usage",
+				"help_description": "Description"
 			}
 		},
 		"ping": {
-			"ping_message": "**Ping:** %dms | **Websocket:** %dms"
+			"ping_message": "**Ping:** %1$dms | **Websocket:** %2$dms"
 		},
 		"role_info": {
-			"no_role_provided": "*You want me to look for nothing?!*",
 			"role_not_found": "*There's no such role*",
 			"embed": {
-				"title": "Informations for role: %s",
+				"title_default": "Roles for %1$s",
+				"title": "Informations for role: %1$s",
 				"role_id": "ID",
 				"position": "Position",
 				"mentionable": "Mentionable",
@@ -58,6 +53,17 @@
 				"role_color": "Color",
 				"guild": "ギルド",
 				"permissions": "Permissions"
+			}
+		},
+		"shard_info": {
+			"embed": {
+				"title": "Shard %1$s",
+				"shard_id": "Shard ID",
+				"average_gateway_ping": "Average Gateway Ping",
+				"total_shards": "Total Shards",
+				"online_shards": "Online Shards",
+				"total_guilds": "Total Guilds",
+				"total_users": "Total Users"
 			}
 		},
 		"status": {
@@ -104,34 +110,33 @@
 	},
 	"moderation": {
 		"ban": {
-			"no_mentioned_member": "**You have to mention a user to ban.**",
-			"multiple_mentions": "**Hold on! You can only ban members one at a time.**",
-			"ban_with_reason_success": "**Successfully banned %s! Reason: %s**",
-			"ban_success": "**Successfully banned %s!**",
-			"unable_to_ban": "**Sorry, but you can't ban that person.**",
-			"no_permission": "%s **Sorry, but you dont have the permission to do that.\nRequired: BAN_MEMBERS permission**"
+			"no_mentioned_member": "%1$s **You have to mention a user to ban.**",
+			"multiple_mentions": "%1$s **Hold on! You can only ban member one at a time.**",
+			"ban_with_reason_success": "%1$s **Successfully banned %2$s! Reason: %3$s**",
+			"ban_success": "%1$s **Successfully banned %2$s!**",
+			"unable_to_ban": "%1$s **Sorry, but you can't ban that person.**",
+			"no_permission": "%1$s **You dont have the permission to do that.\nRequired: BAN_MEMBERS permission**"
 		},
 		"kick": {
-			"no_mentioned_member": "**You have to mention a user to kick.**",
-			"multiple_mentions": "**Hold on! You can only kick members one at a time.**",
-			"kick_with_reason_success": "**Successfully kicked %s! Reason: %s**",
-			"kick_success": "**Successfully kicked %s!**",
-			"unable_to_kick": "**Sorry, but you can't kick that person.**",
-			"no_permission": "%s **Sorry, but you dont have the permission to do that.\nRequired: KICK_MEMBERS permission**"
+			"no_mentioned_member": "%1$s **You have to mention a user to kick.**",
+			"multiple_mentions": "%1$s **Hold on! You can only kick members one at a time.**",
+			"kick_with_reason_success": "%1$s **Successfully kicked %2$s! Reason: %3$s**",
+			"kick_success": "%1$s **Successfully kicked %2$s!**",
+			"unable_to_kick": "%1$s **Sorry, but you can't kick that person.**",
+			"no_permission": "%1$s **You dont have the permission to do that.\nRequired: KICK_MEMBERS permission**"
 		},
 		"guild_prefix": {
-			"error": "Oops! Try again?",
-			"success": "**Successfuly set guild prefix to *%s***",
-			"failed": "**You can't set a prefix to nothing.**",
-			"no_permission": "%s **Sorry, but you dont have the permission to do that.\nRequired: ADMINISTRATOR permission**"
+			"success": "%1$s **Successfuly set guild prefix to** `%2$s`!",
+			"failed": "%1$s **You can't set a prefix to nothing.**",
+			"no_permission": "%1$s **Sorry, but you dont have the permission to do that.\nRequired: ADMINISTRATOR permission**"
 		},
 		"unban": {
-			"no_id_provided": "**You have to specify the ID of the user to unban.**",
-			"unban_success": "**Successfully unbanned %s!**",
-			"unban_with_reason_success": "**Successfully unbanned %s! Reason: %s**",
-			"no_permission": "%s **Sorry, but you dont have the permission to do that.\nRequired: BAN_MEMBERS permission**",
-			"invalid_id": "**That is not a valid ID.**",
-			"user_not_found": "**That user isn't blacklisted from your server, maybe they does not exist at all.**"
+			"no_id_provided": "%1$s **You have to specify the ID of the user to unban.**",
+			"unban_success": "$1$s **Successfully unbanned %2$s!**",
+			"unban_with_reason_success": "$1$s **Successfully unbanned %2$s! Reason: %3$s**",
+			"no_permission": "%1$s **Sorry, but you dont have the permission to do that.\nRequired: BAN_MEMBERS permission**",
+			"invalid_id": "%1$s **That is not a valid user ID.**",
+			"user_not_found": "$1$s **That user isn't blacklisted from your server, maybe they does not exist at all.**"
 		}
 	},
 	"game": {
@@ -145,7 +150,6 @@
 		},
 		"expedition": {
 			"dialogue": "**You went into an expedition to fulfill a commission...**",
-			"error": "Oops! Try again?",
 			"embed": {
 				"title": "Rewards",
 				"money": "Money",
@@ -156,7 +160,6 @@
 			"attack": "**You attacked the monster confidently!**",
 			"run": "**You ran away knowing that the monster is stronger than you...**",
 			"error": {
-				"generic_error": "Oops! Try again?",
 				"json_processing_error": "*The monsters suddenly disappeared.*",
 				"io_error": "*Huh? Something's weird is happening...*"
 			},
@@ -201,7 +204,6 @@
 			}
 		},
 		"loot": {
-			"error": "Oops! Try again?",
 			"dialogue": "**You went into an abandoned dungeon and got some loots**",
 			"no_item": "**Sadly, there wasn't any item of value in there.**",
 			"embed": {
@@ -211,7 +213,6 @@
 			}
 		},
 		"profile": {
-			"error": "Oops! Try again?",
 			"nothing_to_set": "*W-what are you even trying to set?*",
 			"set_status_success": "**Successfully set status to *%s***",
 			"set_status_failed": "**You didn't specify what to write in your status.**",
@@ -273,9 +274,10 @@
 			"no_option": "**You didn't provide an option.**"
 		},
 		"language_preference": {
-			"error": "*Seems like an unexpected error has occured. Hurry, and report it to my master!*",
-			"set_lang_success": "**Language successfully changed to %1$s_%2$s!**",
-			"set_lang_failed": "**Failed to change language**"
+			"set_lang_success": "**Language successfully set to %1$s!**",
+			"set_lang_failed": "**Failed to set language**",
+			"improper_format": "**%1$s is not a proper country code!**",
+			"invalid_language": "**%1$s is not a valid language, available languages are: %2$s**"
 		}
 	},
 	"item": {
