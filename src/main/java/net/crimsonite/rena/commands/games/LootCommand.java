@@ -33,7 +33,8 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class LootCommand extends Command {
 	
-	private User author;
+	private boolean shouldRemoveCooldown = false;
+	private String playerId;
 
 	@Override
 	public void execute(MessageReceivedEvent event, String[] args) {
@@ -69,14 +70,17 @@ public class LootCommand extends Command {
 			DBReadWrite.registerUser(author.getId());
 			
 			channel.sendMessage(I18n.getMessage(author.getId(), "common_string.late_registration")).queue();
+			
+			this.playerId = author.getId();
+			this.shouldRemoveCooldown = true;
 		}
-		
-		this.author = author;
 	}
 	
 	@Override
 	public void postCommandEvent() {
-		Cooldown.removeCooldown(author.getId(), getCommandName());
+		if (this.shouldRemoveCooldown) {
+			Cooldown.removeCooldown(this.playerId, getCommandName());
+		}
 	}
 
 	@Override
