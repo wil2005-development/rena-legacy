@@ -34,6 +34,7 @@ public class RenaConfig {
 	
 	public static final String GITHUB_URL = "https://github.com/Nhalrath/Rena";
 	public static final String VERSION_STRING = "@VERSION@";
+	public static final String GIT_REVISION = "@GIT_REVISION@";
 	
 	public static final String TOKEN = getValue("TOKEN");
 	

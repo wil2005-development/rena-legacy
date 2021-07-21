@@ -38,12 +38,21 @@ dependencies {
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.4'
 }
 
+def gitRevision() {
+    def revString = new ByteArrayOutputStream()
+    exec {
+        commandLine("git", "rev-parse", "HEAD")
+        standardOutput = revString
+    }
+    return revString.toString().trim()
+}
+
 task filterVersion(type: Copy) {
 	from 'src/main/java'
 	into 'build/filtered'
 	filter (ReplaceTokens, tokens:[
 		VERSION: versionObject.toString(),
-		
+		GIT_REVISION: gitRevision()
 	])
 }
 
