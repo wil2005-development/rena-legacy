@@ -14,6 +14,9 @@
 .settings
 /bin
 
+#IntelliJ
+.idea
+
 # VSCode
 .vscode
 
