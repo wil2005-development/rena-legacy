@@ -24,138 +24,108 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class ModifyAttributesCommand extends Command {
-	
-	@Override
-	public void execute(MessageReceivedEvent event, String[] args) {
-		MessageChannel channel = event.getChannel();
-		Table table = null;
-		
-		String message = "```diff\n+SUCCESS: [%s] Operation executed successfully!```";
-		
-		try {
-			switch (args[5].toUpperCase()) {
-				case "USERS":
-					table = Table.USERS;
-					
-					break;
-				case "PLAYERS":
-					table = Table.PLAYERS;
-					
-					break;
-				case "GUILDS":
-					table = Table.GUILDS;
-					
-					break;
-				default:
-					channel.sendMessage("```diff\n-ERROR: Table not specified.```").queue();
-					
-					break;
-			}
-			switch (args[1].toUpperCase()) {
-				case "BOOLEAN":
-					DBReadWrite.modifyDataBoolean(table, args[2], args[3], Boolean.parseBoolean(args[4]));
-					channel.sendMessageFormat(message, args[1]).queue();
-					
-					break;
-				case "INT":
-					DBReadWrite.modifyDataInt(table, args[2], args[3], Integer.parseInt(args[4]));
-					channel.sendMessageFormat(message, args[1]).queue();
-					
-					break;
-				case "INT_INCREMENT":
-					DBReadWrite.incrementValue(table, args[2], args[3], Integer.parseInt(args[4]));
-					channel.sendMessageFormat(message, args[1]).queue();
-					
-					break;
-				case "INT_DECREMENT":
-					DBReadWrite.decrementValue(table, args[2], args[3], Integer.parseInt(args[4]));
-					channel.sendMessageFormat(message, args[1]).queue();
-					
-					break;
-				case "STRING":
-					DBReadWrite.modifyDataString(table, args[2], args[3], args[4]);
-					channel.sendMessageFormat(message, args[1]).queue();
-				case "MAP_INCREMENT":
-				{
-					String[] ctx = args[3].split("\\.");
-					
-					if (ctx.length == 2)
-					{
-						DBReadWrite.incrementValueFromMap(table, args[2], ctx[0], ctx[1], Integer.parseInt(args[4]));
-						channel.sendMessageFormat(message, args[1]).queue();
-						
-						break;
-					}
-					else {
-						channel.sendMessage("```diff\n-ERROR: Arguments not satisfied```").queue();
-						
-						break;
-					}
-				}
-				case "MAP_DECREMENT":
-				{
-					String[] ctx = args[3].split("\\.");
-					
-					if (ctx.length == 2)
-					{
-						DBReadWrite.decrementValueFromMap(table, args[2], ctx[0], ctx[1], Integer.parseInt(args[4]));
-						channel.sendMessageFormat(message, args[1]).queue();
-						
-						break;
-					}
-					else {
-						channel.sendMessage("```diff\n-ERROR: Arguments not satisfied```").queue();
-						
-						break;
-					}
-				}
-				default:
-					channel.sendMessage("```diff\n-ERROR: Invalid Argument```").queue();
-					
-					break;
-			}
-		}
-		catch (ArrayIndexOutOfBoundsException ignored) {
-			channel.sendMessage("```diff\n-ERROR: Received no Arguments```").queue();
-		}
-		catch (IllegalArgumentException ignored) {
-			channel.sendMessage("```diff\n-ERROR: Received an Illegal Argument```").queue();
-		}
-		catch (NullPointerException ignored) {
-			channel.sendMessage("```diff\n-ERROR: Operation returned a null value```").queue();
-		}
-	}
 
-	@Override
-	public String getCommandName() {
-		return "modify";
-	}
-	
-	@Override
-	public String getCommandCategory() {
-		return "Dev";
-	}
+    @Override
+    public void execute(MessageReceivedEvent event, String[] args) {
+        MessageChannel channel = event.getChannel();
+        String message = "```diff\n+SUCCESS: [%s] Operation executed successfully!```";
 
-	@Override
-	public long cooldown() {
-		return 0;
-	}
+        Table table;
 
-	@Override
-	public boolean isOwnerCommand() {
-		return true;
-	}
+        try {
+            switch (args[5].toUpperCase()) {
+                case "USERS" -> table = Table.USERS;
+                case "PLAYERS" -> table = Table.PLAYERS;
+                case "GUILDS" -> table = Table.GUILDS;
+                default -> {
+                    channel.sendMessage("```diff\n-ERROR: Table not specified.```").queue();
 
-	@Override
-	public String getHelp() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+                    return;
+                }
+            }
 
-	@Override
-	public String getUsage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+            switch (args[1].toUpperCase()) {
+                case "BOOLEAN" -> {
+                    DBReadWrite.modifyDataBoolean(table, args[2], args[3], Boolean.parseBoolean(args[4]));
+                    channel.sendMessageFormat(message, args[1]).queue();
+                }
+                case "INT" -> {
+                    DBReadWrite.modifyDataInt(table, args[2], args[3], Integer.parseInt(args[4]));
+                    channel.sendMessageFormat(message, args[1]).queue();
+                }
+                case "INT_INCREMENT" -> {
+                    DBReadWrite.incrementValue(table, args[2], args[3], Integer.parseInt(args[4]));
+                    channel.sendMessageFormat(message, args[1]).queue();
+                }
+                case "INT_DECREMENT" -> {
+                    DBReadWrite.decrementValue(table, args[2], args[3], Integer.parseInt(args[4]));
+                    channel.sendMessageFormat(message, args[1]).queue();
+                }
+                case "STRING" -> {
+                    DBReadWrite.modifyDataString(table, args[2], args[3], args[4]);
+                    channel.sendMessageFormat(message, args[1]).queue();
+                }
+                case "MAP_INCREMENT" -> {
+                    String[] ctx = args[3].split("\\.");
+
+                    if (ctx.length == 2) {
+                        DBReadWrite.incrementValueFromMap(table, args[2], ctx[0], ctx[1], Integer.parseInt(args[4]));
+                        channel.sendMessageFormat(message, args[1]).queue();
+                    } else {
+                        channel.sendMessage("```diff\n-ERROR: Arguments not satisfied```").queue();
+                    }
+
+                }
+                case "MAP_DECREMENT" -> {
+                    String[] ctx = args[3].split("\\.");
+
+                    if (ctx.length == 2) {
+                        DBReadWrite.decrementValueFromMap(table, args[2], ctx[0], ctx[1], Integer.parseInt(args[4]));
+                        channel.sendMessageFormat(message, args[1]).queue();
+
+                    } else {
+                        channel.sendMessage("```diff\n-ERROR: Arguments not satisfied```").queue();
+                    }
+                }
+                default -> channel.sendMessage("```diff\n-ERROR: Invalid Argument```").queue();
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            channel.sendMessage("```diff\n-ERROR: Received no Arguments```").queue();
+        } catch (IllegalArgumentException e) {
+            channel.sendMessage("```diff\n-ERROR: Received an Illegal Argument```").queue();
+        } catch (NullPointerException e) {
+            channel.sendMessage("```diff\n-ERROR: Operation returned a null value```").queue();
+        }
+    }
+
+    @Override
+    public String getCommandName() {
+        return "modify";
+    }
+
+    @Override
+    public String getCommandCategory() {
+        return "Dev";
+    }
+
+    @Override
+    public long cooldown() {
+        return 0;
+    }
+
+    @Override
+    public boolean isOwnerCommand() {
+        return true;
+    }
+
+    @Override
+    public String getHelp() {
+        return null;
+    }
+
+    @Override
+    public String getUsage() {
+        return null;
+    }
 
 }

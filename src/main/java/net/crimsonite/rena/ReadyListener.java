@@ -56,11 +56,11 @@ public class ReadyListener extends ListenerAdapter {
         } else if (date.getMonth() == Month.DECEMBER || date.getDayOfMonth() == 25) {
             quote = "Merry Christmas! [Shard #%d]";
         } else {
+            List<String> listOfQuotes = new ArrayList<>();
+
             InputStream inputStream;
             BufferedReader reader;
             String line;
-
-            List<String> listOfQuotes = new ArrayList<>();
 
             try {
                 inputStream = getClass().getClassLoader().getResourceAsStream("assets/status_quotes.txt");

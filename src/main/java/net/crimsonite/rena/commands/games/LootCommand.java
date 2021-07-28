@@ -32,87 +32,84 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class LootCommand extends Command {
-	
-	private boolean shouldRemoveCooldown = false;
-	private String playerId;
 
-	@Override
-	public void execute(MessageReceivedEvent event, String[] args) {
-		User author = event.getAuthor();
-		MessageChannel channel = event.getChannel();
-		
-		try {
-			Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
-			Random rng = new Random();
-			
-			int currentLevel = DBReadWrite.getValueInt(Table.PLAYERS, author.getId(), "LEVEL");
-			int baseReceivedExp = rng.nextInt(3-1)+1;
-			int baseReceivedMoney = rng.nextInt(10-1)+1;
-			int receivedExp = baseReceivedExp+currentLevel*2;
-			int receivedMoney = baseReceivedMoney+currentLevel*2;
-			
-			DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "MONEY", receivedMoney);
-			DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "EXP", receivedExp);
-			GameHandler.Handler.handleLevelup(author.getId());
-			
-			EmbedBuilder embed = new EmbedBuilder()
-					.setColor(roleColor)
-					.setTitle(I18n.getMessage(author.getId(), "game.loot.embed.title"))
-					.addField(I18n.getMessage(author.getId(), "game.loot.embed.money"), String.valueOf(receivedMoney), true)
-					.addField(I18n.getMessage(author.getId(), "game.loot.embed.exp"), String.valueOf(receivedExp), true)
-					.setFooter(author.getName(), author.getEffectiveAvatarUrl());
-			
-			channel.sendMessage(I18n.getMessage(author.getId(), "game.loot.dialogue")).queue();
-			channel.sendMessageEmbeds(embed.build()).queue();
-			channel.sendMessage(I18n.getMessage(author.getId(), "game.loot.no_item")).queue();
-		}
-		catch (NullPointerException ignored) {
-			DBReadWrite.registerUser(author.getId());
-			
-			channel.sendMessage(I18n.getMessage(author.getId(), "common_string.late_registration")).queue();
-			
-			this.playerId = author.getId();
-			this.shouldRemoveCooldown = true;
-		}
-	}
-	
-	@Override
-	public void postCommandEvent() {
-		if (this.shouldRemoveCooldown) {
-			Cooldown.removeCooldown(this.playerId, getCommandName());
-		}
-	}
+    private boolean shouldRemoveCooldown = false;
+    private String playerId;
 
-	@Override
-	public String getCommandName() {
-		return "loot";
-	}
-	
-	@Override
-	public String getCommandCategory() {
-		return "Games";
-	}
+    @Override
+    public void execute(MessageReceivedEvent event, String[] args) {
+        User author = event.getAuthor();
+        MessageChannel channel = event.getChannel();
 
-	@Override
-	public long cooldown() {
-		return 43_200;
-	}
+        try {
+            Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
+            Random rng = new Random();
 
-	@Override
-	public boolean isOwnerCommand() {
-		return false;
-	}
+            int currentLevel = DBReadWrite.getValueInt(Table.PLAYERS, author.getId(), "LEVEL");
+            int baseReceivedExp = rng.nextInt(3 - 1) + 1;
+            int baseReceivedMoney = rng.nextInt(10 - 1) + 1;
+            int receivedExp = baseReceivedExp + currentLevel * 2;
+            int receivedMoney = baseReceivedMoney + currentLevel * 2;
 
-	@Override
-	public String getHelp() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+            DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "MONEY", receivedMoney);
+            DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), "EXP", receivedExp);
+            GameHandler.Handler.handleLevelup(author.getId());
 
-	@Override
-	public String getUsage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+            EmbedBuilder embed = new EmbedBuilder()
+                    .setColor(roleColor)
+                    .setTitle(I18n.getMessage(author.getId(), "game.loot.embed.title"))
+                    .addField(I18n.getMessage(author.getId(), "game.loot.embed.money"), String.valueOf(receivedMoney), true)
+                    .addField(I18n.getMessage(author.getId(), "game.loot.embed.exp"), String.valueOf(receivedExp), true)
+                    .setFooter(author.getName(), author.getEffectiveAvatarUrl());
+
+            channel.sendMessage(I18n.getMessage(author.getId(), "game.loot.dialogue")).queue();
+            channel.sendMessageEmbeds(embed.build()).queue();
+            channel.sendMessage(I18n.getMessage(author.getId(), "game.loot.no_item")).queue();
+        } catch (NullPointerException ignored) {
+            DBReadWrite.registerUser(author.getId());
+
+            channel.sendMessage(I18n.getMessage(author.getId(), "common_string.late_registration")).queue();
+
+            this.playerId = author.getId();
+            this.shouldRemoveCooldown = true;
+        }
+    }
+
+    @Override
+    public void postCommandEvent() {
+        if (this.shouldRemoveCooldown) {
+            Cooldown.removeCooldown(this.playerId, getCommandName());
+        }
+    }
+
+    @Override
+    public String getCommandName() {
+        return "loot";
+    }
+
+    @Override
+    public String getCommandCategory() {
+        return "Games";
+    }
+
+    @Override
+    public long cooldown() {
+        return 43_200;
+    }
+
+    @Override
+    public boolean isOwnerCommand() {
+        return false;
+    }
+
+    @Override
+    public String getHelp() {
+        return null;
+    }
+
+    @Override
+    public String getUsage() {
+        return null;
+    }
 
 }

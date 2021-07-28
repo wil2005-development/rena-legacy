@@ -30,86 +30,89 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class StatusReportCommand extends Command {
 
-	@Override
-	public void execute(MessageReceivedEvent event, String[] args) {
-		JDA jda = event.getJDA();
-		MessageChannel channel = event.getChannel();
-		
-		OperatingSystemMXBean operatingSystem = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
-		MemoryMXBean memory = ManagementFactory.getMemoryMXBean();
-		
-		long freeMemory = operatingSystem.getFreeMemorySize() / (1024 * 1024);
-		long heapMemoryUsage = memory.getHeapMemoryUsage().getMax() / (1024 * 1024);
-		long nonHeapMemoryUsage = memory.getNonHeapMemoryUsage().getMax() / (1024 * 1024);
-		long numberOfCommands = CommandRegistry.getRegisteredCommandCount();
-		long shards = jda.getShardInfo().getShardTotal();
-		long timesCommandUsed = Command.getTimesCommandUsed();
-		long totalMemory = operatingSystem.getTotalMemorySize() / (1024 * 1024);
-		long usedMemory = totalMemory - freeMemory;
-		long threads = Thread.activeCount();
-		double cpuLoad = operatingSystem.getCpuLoad();
-		
-		channel.sendMessageFormat(
-				"```yml\n" +
-				"********************\n" +
-				"** System Reports **\n" +
-				"********************\n\n" +
-				"Shards: %d\n" +
-				"Command Count: %d\n" +
-				"Times Command Used: %d\n\n" +
-				"Threads : %d\n" +
-				"CPU Usage: %.2f%%\n" +
-				"Total Memory: %dmb\n" +
-				"Used memory: %dmb\n" +
-				"Available Memory: %dmb\n" +
-				"Max Heap Memory: %dmb\n" +
-				"Max Non-Heap Memory: %dmb\n" +
-				"```",
-				
-				shards,
-				numberOfCommands,
-				timesCommandUsed,
-				threads,
-				cpuLoad,
-				totalMemory,
-				usedMemory,
-				freeMemory,
-				heapMemoryUsage,
-				nonHeapMemoryUsage
-				)
-				.queue();
-	}
-	
-	@Override
-	public String getCommandName() {
-		return "reports";
-	}
-	
-	@Override
-	public String getCommandCategory() {
-		return "Dev";
-	}
+    @Override
+    public void execute(MessageReceivedEvent event, String[] args) {
+        JDA jda = event.getJDA();
+        MessageChannel channel = event.getChannel();
 
-	@Override
-	public boolean isOwnerCommand() {
-		return true;
-	}
+        OperatingSystemMXBean operatingSystem = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+        MemoryMXBean memory = ManagementFactory.getMemoryMXBean();
 
-	@Override
-	public long cooldown() {
-		return 0;
-	}
+        long freeMemory = operatingSystem.getFreeMemorySize() / (1024 * 1024);
+        long heapMemoryUsage = memory.getHeapMemoryUsage().getMax() / (1024 * 1024);
+        long nonHeapMemoryUsage = memory.getNonHeapMemoryUsage().getMax() / (1024 * 1024);
+        long numberOfCommands = CommandRegistry.getRegisteredCommandCount();
+        long shards = jda.getShardInfo().getShardTotal();
+        long timesCommandUsed = Command.getTimesCommandUsed();
+        long totalMemory = operatingSystem.getTotalMemorySize() / (1024 * 1024);
+        long usedMemory = totalMemory - freeMemory;
+        long threads = Thread.activeCount();
+        double cpuLoad = operatingSystem.getCpuLoad();
 
-	@Override
-	public String getHelp() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        channel.sendMessageFormat(
+                """
+                ```yml
+                ********************
+                ** System Reports **
+                ********************
 
-	@Override
-	public String getUsage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+                Shards: %d
+                Command Count: %d
+                Times Command Used: %d
+
+                Threads : %d
+                CPU Usage: %.2f%%
+                Total Memory: %dmb
+                Used memory: %dmb
+                Available Memory: %dmb
+                Max Heap Memory: %dmb
+                Max Non-Heap Memory: %dmb
+                ```
+                """,
+
+                shards,
+                numberOfCommands,
+                timesCommandUsed,
+                threads,
+                cpuLoad,
+                totalMemory,
+                usedMemory,
+                freeMemory,
+                heapMemoryUsage,
+                nonHeapMemoryUsage
+        ).queue();
+    }
+
+    @Override
+    public String getCommandName() {
+        return "reports";
+    }
+
+    @Override
+    public String getCommandCategory() {
+        return "Dev";
+    }
+
+    @Override
+    public boolean isOwnerCommand() {
+        return true;
+    }
+
+    @Override
+    public long cooldown() {
+        return 0;
+    }
+
+    @Override
+    public String getHelp() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String getUsage() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

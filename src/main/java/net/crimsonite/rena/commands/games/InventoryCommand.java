@@ -34,87 +34,86 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class InventoryCommand extends Command {
-	
-	private static String replaceItemIdWithName(User author, String str) {
-		str = str.replace("ITEM_0X194", "ITEM_OX194")
-				.replace("SEED_OF_LIFE", I18n.getMessage(author.getId(), "game.inventory.items.seed_of_life"))
-				.replace("SEED_OF_WISDOM", I18n.getMessage(author.getId(), "game.inventory.items.seed_of_wisdom"))
-				.replace("ELIXIR_OF_LIFE", I18n.getMessage(author.getId(), "game.inventory.items.elixir_of_life"))
-				.replace("ELIXIR_OF_MANA", I18n.getMessage(author.getId(), "game.inventory.items.elixir_of_mana"));
-		
-		return str;
-	}
 
-	@Override
-	public void execute(MessageReceivedEvent event, String[] args) {
-		User author = event.getAuthor();
-		Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
-		MessageChannel channel = event.getChannel();
-		
-		StringBuilder itemField = new StringBuilder();
-		InputStream icon = getClass().getClassLoader().getResourceAsStream("assets/icons/inventory_icon.png");
-		
-		EmbedBuilder embed = new EmbedBuilder()
-				.setColor(roleColor)
-				.setTitle(I18n.getMessage(author.getId(), "game.inventory.embed.title"))
-				.setThumbnail("attachment://inventory_icon.png")
-				.setFooter(author.getName(), author.getEffectiveAvatarUrl());
-		
-		Map<String, Long> itemList = DBReadWrite.getValueMapSL(Table.PLAYERS, author.getId(), "INVENTORY");
-		Map<String, Integer> inventory = new HashMap<>();
-		List<String> itemListKeys = new ArrayList<>(itemList.keySet());
-		List<String> inventoryKeys = new ArrayList<>();
-		
-		for (String item : itemListKeys) {
-			if (!(itemList.get(item) == 0)) {
-				inventory.put(item, itemList.get(item).intValue());
-			}
-		}
-		
-		inventoryKeys.addAll(inventory.keySet());
-		
-		for (String item : inventoryKeys) {
-			int amount = inventory.get(item);
-			itemField.append("`%1$s: %2$s`, ".formatted(item, amount));
-		}
-		
-		String currentItems = replaceItemIdWithName(author, itemField.toString());
-		
-		embed.addField(I18n.getMessage(author.getId(), "game.inventory.embed.items"), currentItems.substring(0, (currentItems.length() - 2)), false);
-		
-		channel.sendMessageEmbeds(embed.build()).addFile(icon, "inventory_icon.png").queue();
-	}
+    private static String replaceItemIdWithName(User author, String str) {
+        str = str.replace("ITEM_0X194", "ITEM_OX194")
+                .replace("SEED_OF_LIFE", I18n.getMessage(author.getId(), "game.inventory.items.seed_of_life"))
+                .replace("SEED_OF_WISDOM", I18n.getMessage(author.getId(), "game.inventory.items.seed_of_wisdom"))
+                .replace("ELIXIR_OF_LIFE", I18n.getMessage(author.getId(), "game.inventory.items.elixir_of_life"))
+                .replace("ELIXIR_OF_MANA", I18n.getMessage(author.getId(), "game.inventory.items.elixir_of_mana"));
 
-	@Override
-	public String getCommandName() {
-		return "inventory";
-	}
-	
-	@Override
-	public String getCommandCategory() {
-		return "Games";
-	}
+        return str;
+    }
 
-	@Override
-	public boolean isOwnerCommand() {
-		return false;
-	}
+    @Override
+    public void execute(MessageReceivedEvent event, String[] args) {
+        User author = event.getAuthor();
+        Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
+        MessageChannel channel = event.getChannel();
 
-	@Override
-	public long cooldown() {
-		return 5;
-	}
+        StringBuilder itemField = new StringBuilder();
+        InputStream icon = getClass().getClassLoader().getResourceAsStream("assets/icons/inventory_icon.png");
 
-	@Override
-	public String getHelp() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        if (icon == null) throw new NullPointerException();
 
-	@Override
-	public String getUsage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        EmbedBuilder embed = new EmbedBuilder()
+                .setColor(roleColor)
+                .setTitle(I18n.getMessage(author.getId(), "game.inventory.embed.title"))
+                .setThumbnail("attachment://inventory_icon.png")
+                .setFooter(author.getName(), author.getEffectiveAvatarUrl());
+
+        Map<String, Long> itemList = DBReadWrite.getValueMapSL(Table.PLAYERS, author.getId(), "INVENTORY");
+        Map<String, Integer> inventory = new HashMap<>();
+        List<String> itemListKeys = new ArrayList<>(itemList.keySet());
+
+        for (String item : itemListKeys) {
+            if (!(itemList.get(item) == 0)) {
+                inventory.put(item, itemList.get(item).intValue());
+            }
+        }
+
+        List<String> inventoryKeys = new ArrayList<>(inventory.keySet());
+
+        for (String item : inventoryKeys) {
+            int amount = inventory.get(item);
+            itemField.append("`%1$s: %2$s`, ".formatted(item, amount));
+        }
+
+        String currentItems = replaceItemIdWithName(author, itemField.toString());
+
+        embed.addField(I18n.getMessage(author.getId(), "game.inventory.embed.items"), currentItems.substring(0, (currentItems.length() - 2)), false);
+
+        channel.sendMessageEmbeds(embed.build()).addFile(icon, "inventory_icon.png").queue();
+    }
+
+    @Override
+    public String getCommandName() {
+        return "inventory";
+    }
+
+    @Override
+    public String getCommandCategory() {
+        return "Games";
+    }
+
+    @Override
+    public boolean isOwnerCommand() {
+        return false;
+    }
+
+    @Override
+    public long cooldown() {
+        return 5;
+    }
+
+    @Override
+    public String getHelp() {
+        return null;
+    }
+
+    @Override
+    public String getUsage() {
+        return null;
+    }
 
 }
