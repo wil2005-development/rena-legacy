@@ -1,10 +1,10 @@
 {
-	"TOKEN": "YOUR TOKEN HERE",
-	"OWNER_ID": 123456789101112131,
-	"USE_SHARDING": false,
-	"SHARD_COUNT": 1,
-	"PREFIX": "~",
-	"ALTERNATIVE_PREFIX": ">",
-	"HOST_NAME": "localhost",
-	"USE_PROFILE_CARDS": false
+  "TOKEN": "YOUR TOKEN HERE",
+  "OWNER_ID": 123456789101112131,
+  "USE_SHARDING": false,
+  "SHARD_COUNT": 1,
+  "PREFIX": "~",
+  "ALTERNATIVE_PREFIX": ">",
+  "HOST_NAME": "localhost",
+  "USE_PROFILE_CARDS": false
 }
