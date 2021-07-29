@@ -21,27 +21,27 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 public class Cooldown {
-	
-	private static ConcurrentHashMap<String, Long> cooldownCache = new ConcurrentHashMap<>();
-	
-	public static ConcurrentHashMap<String, Long> getCooldownCache() {
-		return cooldownCache;
-	}
-	
-	public static long getRemainingCooldown(String UID, String command) {
-		String key = UID + "-" + command;
-		return cooldownCache.get(key);
-	}
-	
-	public static void removeCooldown(String UID, String command) {
-		String key = UID + "-" + command;
-		cooldownCache.remove(key);
-	}
-	
-	public static void setCooldown(String UID, String command, long cooldown) {
-		String key = UID + "-" + command;
-		long cooldownDuration = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()) + cooldown;
-		cooldownCache.put(key, cooldownDuration);
-	}
+
+    private static final ConcurrentHashMap<String, Long> cooldownCache = new ConcurrentHashMap<>();
+
+    public static ConcurrentHashMap<String, Long> getCooldownCache() {
+        return cooldownCache;
+    }
+
+    public static long getRemainingCooldown(String UID, String command) {
+        String key = UID + "-" + command;
+        return cooldownCache.get(key);
+    }
+
+    public static void removeCooldown(String UID, String command) {
+        String key = UID + "-" + command;
+        cooldownCache.remove(key);
+    }
+
+    public static void setCooldown(String UID, String command, long cooldown) {
+        String key = UID + "-" + command;
+        long cooldownDuration = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()) + cooldown;
+        cooldownCache.put(key, cooldownDuration);
+    }
 
 }

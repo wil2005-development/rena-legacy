@@ -28,100 +28,98 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class RenaConfig {
-	
-	private static final Logger logger = LoggerFactory.getLogger(RenaConfig.class);
-	private static ObjectMapper mapper = new ObjectMapper();
-	
-	public static final String GITHUB_URL = "https://github.com/Nhalrath/Rena";
-	public static final String VERSION_STRING = "@VERSION@";
-	
-	public static final String TOKEN = getValue("TOKEN");
-	
-	private static long ownerId = (long) Long.parseLong(getValue("OWNER_ID"));
-	private static boolean useSharding = (boolean) Boolean.parseBoolean(getValue("USE_SHARDING"));
-	private static int totalShards = (int) Integer.parseInt(getValue("SHARD_COUNT"));
-	private static String hostName = getValue("HOST_NAME");
-	private static String prefix = getValue("PREFIX");
-	
-	/**
-	 * @return the Id of the bot's owner.
-	 */
-	public static long getOwnerId() {
-		return ownerId;
-	}
-	
-	/**
-	 * @return true if the bot is using sharding.
-	 */
-	public static boolean isSharding() {
-		return useSharding;
-	}
-	
-	/**
-	 * @return the total number of shards.
-	 */
-	public static int getTotalShards() {
-		return totalShards;
-	}
-	
-	/**
-	 * @return the db's host name
-	 */
-	public static String getHostName() {
-		return hostName;
-	}
-	/**
-	 * @return the bot's default prefix.
-	 */
-	public static String getPrefix() {
-		return prefix;
-	}
-	
-	/**
-	 * @param variable
-	 * @return the value of the provided variable. Null if the provided variable doesn't exist.
-	 */
-	private static String getValue(String variable)
-	{
-		String value = null;
-		
-		try {
-			JsonNode configData = mapper.readTree(new File("./config.json"));
-			
-			value = configData.get(variable).asText();
-		}
-		catch (FileNotFoundException e) {
-			logger.error("File \"config.json\" is not found within the directory.");
-			
-			generateConfigFile();
-		}
-		catch (IOException e) {
-			logger.error("Failed to assign variable: {}", variable);
-		}
-		
-		return value;
-	}
-	
-	/**
-	 * Creates a .json file in the current directory containing config options.
-	 */
-	private static void generateConfigFile() {
-		logger.info("Generating config file from templates...");
-		
-		try {			
-			JsonNode templateFileAsTree = mapper.readTree(RenaConfig.class.getResourceAsStream("templates/config.json"));
-			Object templateFileAsObject = mapper.treeToValue(templateFileAsTree, Object.class);
-			
-			mapper.writeValue(new File("config.json"), templateFileAsObject);
-			
-			logger.info("Successfuly made a config file!");
-			logger.info("Fill them up before executing again.");
-			
-			System.exit(0);
-		}
-		catch (IOException ignored) {
-			logger.error("Failed to generate config file.");
-		}
-	}
-	
+
+    private static final Logger logger = LoggerFactory.getLogger(RenaConfig.class);
+    private static final ObjectMapper mapper = new ObjectMapper();
+
+    public static final String GITHUB_URL = "https://github.com/Nhalrath/Rena";
+    public static final String VERSION_STRING = "@VERSION@";
+    public static final String GIT_REVISION = "@GIT_REVISION@";
+
+    public static final String TOKEN = getValue("TOKEN");
+
+    private static final long ownerId = Long.parseLong(getValue("OWNER_ID"));
+    private static final boolean useSharding = Boolean.parseBoolean(getValue("USE_SHARDING"));
+    private static final int totalShards = Integer.parseInt(getValue("SHARD_COUNT"));
+    private static final String hostName = getValue("HOST_NAME");
+    private static final String prefix = getValue("PREFIX");
+
+    /**
+     * @return the Id of the bot's owner.
+     */
+    public static long getOwnerId() {
+        return ownerId;
+    }
+
+    /**
+     * @return true if the bot is using sharding.
+     */
+    public static boolean isSharding() {
+        return useSharding;
+    }
+
+    /**
+     * @return the total number of shards.
+     */
+    public static int getTotalShards() {
+        return totalShards;
+    }
+
+    /**
+     * @return the db's host name
+     */
+    public static String getHostName() {
+        return hostName;
+    }
+
+    /**
+     * @return the bot's default prefix.
+     */
+    public static String getPrefix() {
+        return prefix;
+    }
+
+    /**
+     * @param variable Config variable to get.
+     * @return The value of the provided variable. Null if the provided variable doesn't exist.
+     */
+    private static String getValue(String variable) {
+        String value = null;
+
+        try {
+            JsonNode configData = mapper.readTree(new File("./config.json"));
+
+            value = configData.get(variable).asText();
+        } catch (FileNotFoundException e) {
+            logger.error("File \"config.json\" is not found within the directory.");
+
+            generateConfigFile();
+        } catch (IOException e) {
+            logger.error("Failed to assign variable: {}", variable);
+        }
+
+        return value;
+    }
+
+    /**
+     * Creates a .json file in the current directory containing config options.
+     */
+    private static void generateConfigFile() {
+        logger.info("Generating config file from templates...");
+
+        try {
+            JsonNode templateFileAsTree = mapper.readTree(RenaConfig.class.getResourceAsStream("templates/config.json"));
+            Object templateFileAsObject = mapper.treeToValue(templateFileAsTree, Object.class);
+
+            mapper.writeValue(new File("config.json"), templateFileAsObject);
+
+            logger.info("Successfully made a config file!");
+            logger.info("Fill them up before executing again.");
+
+            System.exit(0);
+        } catch (IOException ignored) {
+            logger.error("Failed to generate config file.");
+        }
+    }
+
 }

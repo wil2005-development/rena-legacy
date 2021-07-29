@@ -31,102 +31,94 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class TransferMoneyCommand extends Command {
-	
-	private static void transferMoney(User author, Member member, int amount, MessageChannel channel) {
-		int amountAfterTax = Math.round((float) amount - (amount * 0.02f));
-		
-		if (amount <= 0 || amount >= 100_000) {
-			channel.sendMessage(I18n.getMessage(author.getId(), "game.transfer.invalid_amount")).queue();
-		}
-		
-		try {
-			int balance = DBReadWrite.getValueInt(Table.PLAYERS, author.getId(), "MONEY");
-			DBReadWrite.getValueInt(Table.PLAYERS, member.getId(), "MONEY");
-			
-			if (balance < amount) {
-				channel.sendMessage(I18n.getMessage(author.getId(), "game.transfer.not_enough_money")).queue();
-			}
-			else {
-				DBReadWrite.decrementValue(Table.PLAYERS, author.getId(), "MONEY", amount);
-				DBReadWrite.incrementValue(Table.PLAYERS, member.getId(), "MONEY", amountAfterTax);
-				
-				channel.sendMessage(I18n.getMessage(author.getId(), "game.transfer.sent").formatted(amountAfterTax, member.getEffectiveName(), 2)).queue();
-			}
-		}
-		catch (NullPointerException e) {
-			channel.sendMessage(I18n.getMessage(author.getId(), "game.transfer.failed")).queue();
-		}
-	}
 
-	@Override
-	public void execute(MessageReceivedEvent event, String[] args) {
-		User author = event.getAuthor();
-		MessageChannel channel = event.getChannel();
-		
-		try {
-			if (args.length >= 3) {
-				Member member;
-				
-				int amount = Integer.parseInt(args[1]);
-				
-				if (!event.getMessage().getMentionedMembers().isEmpty()) {
-					member = event.getMessage().getMentionedMembers().get(0);
-					
-					transferMoney(author, member, amount, channel);
-				}
-				else {
-					List<Member> listedMembers = FinderUtil.findMembers(args[2], event.getGuild());
-					
-					if (listedMembers.isEmpty()) {
-						channel.sendMessage(I18n.getMessage(author.getId(), "info.user_info.user_not_found")).queue();
-						event.getGuild().loadMembers();
-					}
-					else {
-						member = listedMembers.get(0);
-						
-						transferMoney(author, member, amount, channel);
-					}
-				}
-			}
-			
-			else {
-				channel.sendMessage(I18n.getMessage(author.getId(), "game.transfer.incomplete_args")).queue();			}
-		}
-		catch (NumberFormatException e) {
-			channel.sendMessage(I18n.getMessage(author.getId(), "game.transfer.invalid_number").formatted(args[1])).queue();
-		}
-	}
+    private static void transferMoney(User author, Member member, int amount, MessageChannel channel) {
+        int amountAfterTax = Math.round((float) amount - (amount * 0.02f));
 
-	@Override
-	public String getCommandName() {
-		return "transfer";
-	}
+        if (amount <= 0 || amount >= 100_000) {
+            channel.sendMessage(I18n.getMessage(author.getId(), "game.transfer.invalid_amount")).queue();
+        }
 
-	@Override
-	public String getCommandCategory() {
-		return "Games";
-	}
+        try {
+            int balance = DBReadWrite.getValueInt(Table.PLAYERS, author.getId(), "MONEY");
+            DBReadWrite.getValueInt(Table.PLAYERS, member.getId(), "MONEY");
 
-	@Override
-	public boolean isOwnerCommand() {
-		return false;
-	}
+            if (balance < amount) {
+                channel.sendMessage(I18n.getMessage(author.getId(), "game.transfer.not_enough_money")).queue();
+            } else {
+                DBReadWrite.decrementValue(Table.PLAYERS, author.getId(), "MONEY", amount);
+                DBReadWrite.incrementValue(Table.PLAYERS, member.getId(), "MONEY", amountAfterTax);
 
-	@Override
-	public long cooldown() {
-		return 10;
-	}
+                channel.sendMessage(I18n.getMessage(author.getId(), "game.transfer.sent").formatted(amountAfterTax, member.getEffectiveName(), 2)).queue();
+            }
+        } catch (NullPointerException e) {
+            channel.sendMessage(I18n.getMessage(author.getId(), "game.transfer.failed")).queue();
+        }
+    }
 
-	@Override
-	public String getHelp() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public void execute(MessageReceivedEvent event, String[] args) {
+        User author = event.getAuthor();
+        MessageChannel channel = event.getChannel();
 
-	@Override
-	public String getUsage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        try {
+            if (args.length >= 3) {
+                Member member;
+
+                int amount = Integer.parseInt(args[1]);
+
+                if (!event.getMessage().getMentionedMembers().isEmpty()) {
+                    member = event.getMessage().getMentionedMembers().get(0);
+
+                    transferMoney(author, member, amount, channel);
+                } else {
+                    List<Member> listedMembers = FinderUtil.findMembers(args[2], event.getGuild());
+
+                    if (listedMembers.isEmpty()) {
+                        channel.sendMessage(I18n.getMessage(author.getId(), "info.user_info.user_not_found")).queue();
+                        event.getGuild().loadMembers();
+                    } else {
+                        member = listedMembers.get(0);
+
+                        transferMoney(author, member, amount, channel);
+                    }
+                }
+            } else {
+                channel.sendMessage(I18n.getMessage(author.getId(), "game.transfer.incomplete_args")).queue();
+            }
+        } catch (NumberFormatException e) {
+            channel.sendMessage(I18n.getMessage(author.getId(), "game.transfer.invalid_number").formatted(args[1])).queue();
+        }
+    }
+
+    @Override
+    public String getCommandName() {
+        return "transfer";
+    }
+
+    @Override
+    public String getCommandCategory() {
+        return "Games";
+    }
+
+    @Override
+    public boolean isOwnerCommand() {
+        return false;
+    }
+
+    @Override
+    public long cooldown() {
+        return 10;
+    }
+
+    @Override
+    public String getHelp() {
+        return null;
+    }
+
+    @Override
+    public String getUsage() {
+        return null;
+    }
 
 }

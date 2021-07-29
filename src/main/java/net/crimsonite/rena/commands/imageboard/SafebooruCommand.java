@@ -25,52 +25,49 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class SafebooruCommand extends Command {
-	
-	@Override
-	public void execute(MessageReceivedEvent event, String[] args) {
-		EmbedBuilder embed = null;
-		
-		try {
-			embed = ImageboardRequester.getEmbed(Imageboard.SAFEBOORU, event, "https://safebooru.donmai.us/posts/random", args);
-		}
-		catch (IOException ignored) {
-			embed = new EmbedBuilder()
-					.setTitle("An error has occured");
-		}
-		
-		event.getChannel().sendMessageEmbeds(embed.build()).queue();
-	}
 
-	@Override
-	public String getCommandName() {
-		return "safebooru";
-	}
-	
-	@Override
-	public String getCommandCategory() {
-		return "Imageboard";
-	}
+    @Override
+    public void execute(MessageReceivedEvent event, String[] args) {
+        EmbedBuilder embed;
 
-	@Override
-	public boolean isOwnerCommand() {
-		return false;
-	}
+        try {
+            embed = ImageboardRequester.getEmbed(Imageboard.SAFEBOORU, event, "https://safebooru.donmai.us/posts/random", args);
+        } catch (IOException ignored) {
+            embed = new EmbedBuilder()
+                    .setTitle("An error has occured");
+        }
 
-	@Override
-	public long cooldown() {
-		return 5;
-	}
+        event.getChannel().sendMessageEmbeds(embed.build()).queue();
+    }
 
-	@Override
-	public String getHelp() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getCommandName() {
+        return "safebooru";
+    }
 
-	@Override
-	public String getUsage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getCommandCategory() {
+        return "Imageboard";
+    }
+
+    @Override
+    public boolean isOwnerCommand() {
+        return false;
+    }
+
+    @Override
+    public long cooldown() {
+        return 5;
+    }
+
+    @Override
+    public String getHelp() {
+        return null;
+    }
+
+    @Override
+    public String getUsage() {
+        return null;
+    }
 
 }

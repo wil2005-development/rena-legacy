@@ -32,128 +32,124 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class PreferenceCommand extends Command {
-	
-	private void setLanguage(MessageReceivedEvent event, String[] args) {
-		User author = event.getAuthor();
-		MessageChannel channel = event.getChannel();
-		List<String> validLanguages = new ArrayList<String>();
-		
-		try {
-			String[] localeArgs = args[3].split("\\_");
-			
-			if (localeArgs.length > 2) {
-				channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "user_preference.language_preference.improper_format").formatted(args[3])).queue();
-				
-				return;
-			}
-			
-			String language = localeArgs[0];
-			String country = localeArgs[1];
-			String countryCode = "%1$s_%2$s".formatted(language, country);
-			String validLanguagesText = "";
-			String line;
-			
-			InputStream inputStream = getClass().getClassLoader().getResourceAsStream("languages/languages.txt");
-			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-			StringBuilder stringBuilder = new StringBuilder();
-			
-			while ((line = reader.readLine()) != null) {
-				validLanguages.add(line);
-			}
-			
-			for (String lang : validLanguages) {
-				stringBuilder.append(lang);
-				stringBuilder.append(", ");
-			}
-			
-			validLanguagesText = stringBuilder.toString();
-			
-			if (validLanguages.contains(countryCode)) {
-				DBReadWrite.modifyDataString(Table.USERS, author.getId(), "Language", language);
-				DBReadWrite.modifyDataString(Table.USERS, author.getId(), "Country", country);
-				
-				channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "user_preference.language_preference.set_lang_success").formatted(countryCode)).queue();
-			}
-			else {
-				channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "user_preference.language_preference.invalid_language").formatted(countryCode, validLanguagesText.substring(0, (validLanguagesText.length() - 2)))).queue();
-			}
-		}
-		catch (Exception e) {
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "user_preference.language_preference.set_lang_failed")).queue();
-		}
-	}
 
-	@Override
-	public void execute(MessageReceivedEvent event, String[] args) {
-		User author = event.getAuthor();
-		MessageChannel channel = event.getChannel();
-		
-		String action = args[1];
-		String option = args[2];
-		
-		if (args.length >= 2) {
-			switch (action) {
-			case "-set":
-				if (args.length >= 3) {
-					switch(option) {
-					case "language":
-						setLanguage(event, args);
-						
-						break;
-					default:
-						channel.sendMessage(I18n.getMessage(author.getId(), "user_preference.preference.invalid_option")).queue();
-						
-						break;
-					}
-					
-					break;
-				}
-				else {
-					channel.sendMessage(I18n.getMessage(author.getId(), "user_preference.preference.no_option")).queue();
-					
-					break;
-				}
-			default:
-				channel.sendMessage(I18n.getMessage(author.getId(), "user_preference.preference.invalid_action")).queue();
-				
-				break;
-			}
-		}
-		else {
-			channel.sendMessage(I18n.getMessage(author.getId(), "user_preference.preference.no_action")).queue();
-		}
-	}
+    private void setLanguage(MessageReceivedEvent event, String[] args) {
+        User author = event.getAuthor();
+        MessageChannel channel = event.getChannel();
+        List<String> validLanguages = new ArrayList<>();
 
-	@Override
-	public String getCommandName() {
-		return "preference";
-	}
+        try {
+            String[] localeArgs = args[3].split("\\_");
 
-	@Override
-	public String getCommandCategory() {
-		return "Informations";
-	}
+            if (localeArgs.length > 2) {
+                channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "user_preference.language_preference.improper_format").formatted(args[3])).queue();
 
-	@Override
-	public boolean isOwnerCommand() {
-		return false;
-	}
+                return;
+            }
 
-	@Override
-	public long cooldown() {
-		return 60;
-	}
+            String language = localeArgs[0];
+            String country = localeArgs[1];
+            String countryCode = "%1$s_%2$s".formatted(language, country);
 
-	@Override
-	public String getHelp() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+            String validLanguagesText;
+            String line;
 
-	@Override
-	public String getUsage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream("languages/languages.txt");
+
+            if (inputStream == null) throw new NullPointerException();
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            StringBuilder stringBuilder = new StringBuilder();
+
+            while ((line = reader.readLine()) != null) {
+                validLanguages.add(line);
+            }
+
+            for (String lang : validLanguages) {
+                stringBuilder.append(lang);
+                stringBuilder.append(", ");
+            }
+
+            validLanguagesText = stringBuilder.toString();
+
+            if (validLanguages.contains(countryCode)) {
+                DBReadWrite.modifyDataString(Table.USERS, author.getId(), "Language", language);
+                DBReadWrite.modifyDataString(Table.USERS, author.getId(), "Country", country);
+
+                channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "user_preference.language_preference.set_lang_success").formatted(countryCode)).queue();
+            } else {
+                channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "user_preference.language_preference.invalid_language").formatted(countryCode, validLanguagesText.substring(0, (validLanguagesText.length() - 2)))).queue();
+            }
+        } catch (Exception e) {
+            channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "user_preference.language_preference.set_lang_failed")).queue();
+        }
+    }
+
+    @Override
+    public void execute(MessageReceivedEvent event, String[] args) {
+        User author = event.getAuthor();
+        MessageChannel channel = event.getChannel();
+
+        String action = args[1];
+        String option = args[2];
+
+        if (args.length >= 2) {
+            switch (action) {
+                case "-set":
+                    if (args.length >= 3) {
+                        switch (option) {
+                            case "language":
+                                setLanguage(event, args);
+
+                                break;
+                            default:
+                                channel.sendMessage(I18n.getMessage(author.getId(), "user_preference.preference.invalid_option")).queue();
+
+                                break;
+                        }
+                    } else {
+                        channel.sendMessage(I18n.getMessage(author.getId(), "user_preference.preference.no_option")).queue();
+
+                    }
+                    break;
+                default:
+                    channel.sendMessage(I18n.getMessage(author.getId(), "user_preference.preference.invalid_action")).queue();
+
+                    break;
+            }
+        } else {
+            channel.sendMessage(I18n.getMessage(author.getId(), "user_preference.preference.no_action")).queue();
+        }
+    }
+
+    @Override
+    public String getCommandName() {
+        return "preference";
+    }
+
+    @Override
+    public String getCommandCategory() {
+        return "Informations";
+    }
+
+    @Override
+    public boolean isOwnerCommand() {
+        return false;
+    }
+
+    @Override
+    public long cooldown() {
+        return 60;
+    }
+
+    @Override
+    public String getHelp() {
+        return null;
+    }
+
+    @Override
+    public String getUsage() {
+        return null;
+    }
 
 }

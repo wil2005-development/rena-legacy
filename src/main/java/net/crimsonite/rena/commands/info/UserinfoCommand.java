@@ -32,85 +32,81 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class UserinfoCommand extends Command {
-		
-	private static void sendEmbed(MessageReceivedEvent event, Member member) {
-		User memberAsUser = member.getUser();
-		Member author = event.getMember();
-		Color roleColor = event.getGuild().retrieveMember(memberAsUser).complete().getColor();
-		DateTimeFormatter format = DateTimeFormatter.ofPattern("MMMM d, yyyy");
-		
-		EmbedBuilder embed = new EmbedBuilder()
-				.setColor(roleColor)
-				.setTitle(I18n.getMessage(event.getAuthor().getId(), "info.user_info.embed.title").formatted(member.getEffectiveName()))
-				.setThumbnail(memberAsUser.getEffectiveAvatarUrl())
-				.addField(I18n.getMessage(event.getAuthor().getId(), "info.user_info.embed.user_id"), member.getId(), false)
-				.addField(I18n.getMessage(event.getAuthor().getId(), "info.user_info.embed.date_created"), member.getTimeCreated().format(format), false)
-				.addField(I18n.getMessage(event.getAuthor().getId(), "info.user_info.embed.date_joined"), member.getTimeJoined().format(format),false)
-				.setFooter(author.getEffectiveName(), author.getUser().getEffectiveAvatarUrl());
-		
-		event.getChannel().sendMessageEmbeds(embed.build()).queue();
-	}
 
-	@Override
-	public void execute(MessageReceivedEvent event, String[] args) {
-		MessageChannel channel = event.getChannel();
-		Member author = event.getMember();
-		
-		List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
-		
-		if (args.length == 1) {
-			sendEmbed(event, author);
-		}
-		else if (args.length >= 2){
-			if (!(mentionedMembers.isEmpty() && mentionedMembers.get(0).getUser().isBot())) {
-				Member member = event.getMessage().getMentionedMembers().get(0);
-				sendEmbed(event, member);
-			}
-			else {
-				List<Member> listedMembers = FinderUtil.findMembers(args[1], event.getGuild());
-				
-				if (listedMembers.isEmpty() || listedMembers.get(0).getUser().isBot()) {
-					channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "info.user_info.user_not_found")).queue();
-					event.getGuild().loadMembers();
-				}
-				else {
-					Member member = listedMembers.get(0);
-					sendEmbed(event, member);
-				}
-			}
-		}
-	}
+    private static void sendEmbed(MessageReceivedEvent event, Member member) {
+        User memberAsUser = member.getUser();
+        Member author = event.getMember();
+        Color roleColor = event.getGuild().retrieveMember(memberAsUser).complete().getColor();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("MMMM d, yyyy");
 
-	@Override
-	public String getCommandName() {
-		return "userinfo";
-	}
-	
-	@Override
-	public String getCommandCategory() {
-		return "Information";
-	}
+        EmbedBuilder embed = new EmbedBuilder()
+                .setColor(roleColor)
+                .setTitle(I18n.getMessage(event.getAuthor().getId(), "info.user_info.embed.title").formatted(member.getEffectiveName()))
+                .setThumbnail(memberAsUser.getEffectiveAvatarUrl())
+                .addField(I18n.getMessage(event.getAuthor().getId(), "info.user_info.embed.user_id"), member.getId(), false)
+                .addField(I18n.getMessage(event.getAuthor().getId(), "info.user_info.embed.date_created"), member.getTimeCreated().format(format), false)
+                .addField(I18n.getMessage(event.getAuthor().getId(), "info.user_info.embed.date_joined"), member.getTimeJoined().format(format), false)
+                .setFooter(author.getEffectiveName(), author.getUser().getEffectiveAvatarUrl());
 
-	@Override
-	public boolean isOwnerCommand() {
-		return false;
-	}
+        event.getChannel().sendMessageEmbeds(embed.build()).queue();
+    }
 
-	@Override
-	public long cooldown() {
-		return 5;
-	}
+    @Override
+    public void execute(MessageReceivedEvent event, String[] args) {
+        MessageChannel channel = event.getChannel();
+        Member author = event.getMember();
+        List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
 
-	@Override
-	public String getHelp() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        if (author == null) throw new NullPointerException();
 
-	@Override
-	public String getUsage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        if (args.length == 1) {
+            sendEmbed(event, author);
+        } else if (args.length >= 2) {
+            if (!(mentionedMembers.isEmpty() || mentionedMembers.get(0).getUser().isBot())) {
+                Member member = event.getMessage().getMentionedMembers().get(0);
+                sendEmbed(event, member);
+            } else {
+                List<Member> listedMembers = FinderUtil.findMembers(args[1], event.getGuild());
+
+                if (listedMembers.isEmpty() || listedMembers.get(0).getUser().isBot()) {
+                    channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "info.user_info.user_not_found")).queue();
+                    event.getGuild().loadMembers();
+                } else {
+                    Member member = listedMembers.get(0);
+                    sendEmbed(event, member);
+                }
+            }
+        }
+    }
+
+    @Override
+    public String getCommandName() {
+        return "userinfo";
+    }
+
+    @Override
+    public String getCommandCategory() {
+        return "Information";
+    }
+
+    @Override
+    public boolean isOwnerCommand() {
+        return false;
+    }
+
+    @Override
+    public long cooldown() {
+        return 5;
+    }
+
+    @Override
+    public String getHelp() {
+        return null;
+    }
+
+    @Override
+    public String getUsage() {
+        return null;
+    }
 
 }

@@ -28,73 +28,68 @@ import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 
 public class UnbanCommand extends Command {
 
-	@Override
-	public void execute(MessageReceivedEvent event, String[] args) {
-		Member author = event.getMember();
-		MessageChannel channel = event.getChannel();
-		
-		try {
-			if (author.hasPermission(Permission.BAN_MEMBERS)) {	
-				User user;
-				
-				if (args.length == 1) {
-					channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.unban.no_id_provided").formatted(":warning:")).queue();
-				}
-				else if (args.length == 2) {
-					user = event.getJDA().retrieveUserById(args[1]).complete();
-					
-					event.getGuild().unban(user).complete();
-					channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.unban.unban_success".formatted(":white_check_mark:", user.getName()))).queue();
-				}
-				else {
-					user = event.getJDA().retrieveUserById(args[1]).complete();
-					String reason = args[2];
-					event.getGuild().unban(user).reason(reason).complete();
-					channel.sendMessageFormat(I18n.getMessage(event.getAuthor().getId(), "moderation.unban.unban_with_reason_success".formatted(":white_check_mark:", user.getName(), reason))).queue();
-				}
-			}
-			else {
-				channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.unban.no_permission").formatted(":warning:")).queue();
-			}
-		}
-		catch (IllegalArgumentException ignored) {
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.unban.invalid_id").formatted(":warning:")).queue();
-		}
-		catch (ErrorResponseException ignored) {
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.unban.user_not_found").formatted(":warning:")).queue();
-		}
-	}
-	
-	@Override
-	public String getCommandName() {
-		return "unban";
-	}
-	
-	@Override
-	public String getCommandCategory() {
-		return "Moderation";
-	}
+    @Override
+    public void execute(MessageReceivedEvent event, String[] args) {
+        Member author = event.getMember();
+        MessageChannel channel = event.getChannel();
 
-	@Override
-	public boolean isOwnerCommand() {
-		return false;
-	}
+        try {
+            if (author.hasPermission(Permission.BAN_MEMBERS)) {
+                User user;
 
-	@Override
-	public long cooldown() {
-		return 5;
-	}
+                if (args.length == 1) {
+                    channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.unban.no_id_provided").formatted(":warning:")).queue();
+                } else if (args.length == 2) {
+                    user = event.getJDA().retrieveUserById(args[1]).complete();
 
-	@Override
-	public String getHelp() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+                    event.getGuild().unban(user).complete();
+                    channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.unban.unban_success").formatted(":white_check_mark:", user.getName())).queue();
+                } else {
+                    user = event.getJDA().retrieveUserById(args[1]).complete();
+                    String reason = args[2];
+                    event.getGuild().unban(user).reason(reason).complete();
+                    channel.sendMessageFormat(I18n.getMessage(event.getAuthor().getId(), "moderation.unban.unban_with_reason_success").formatted(":white_check_mark:", user.getName(), reason)).queue();
+                }
+            } else {
+                channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.unban.no_permission").formatted(":warning:")).queue();
+            }
+        } catch (IllegalArgumentException ignored) {
+            channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.unban.invalid_id").formatted(":warning:")).queue();
+        } catch (ErrorResponseException ignored) {
+            channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.unban.user_not_found").formatted(":warning:")).queue();
+        }
+    }
 
-	@Override
-	public String getUsage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getCommandName() {
+        return "unban";
+    }
+
+    @Override
+    public String getCommandCategory() {
+        return "Moderation";
+    }
+
+    @Override
+    public boolean isOwnerCommand() {
+        return false;
+    }
+
+    @Override
+    public long cooldown() {
+        return 5;
+    }
+
+    @Override
+    public String getHelp() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String getUsage() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

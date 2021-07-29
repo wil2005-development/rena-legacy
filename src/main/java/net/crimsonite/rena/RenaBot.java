@@ -63,129 +63,124 @@ import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
 public class RenaBot extends CommandRegistry {
-	
-	private static final Logger logger = LoggerFactory.getLogger(RenaBot.class);
-	
-	private static boolean dbIsActive;
-	private static DefaultShardManagerBuilder jdaBuilder;
-	
-	private static final long startupTime = System.currentTimeMillis();
-	
-	protected RenaBot() {
-		logger.info("Preparing bot for activation...");
-				
-		try {
-			jdaBuilder = DefaultShardManagerBuilder.createDefault(RenaConfig.TOKEN)
-				.setStatus(OnlineStatus.ONLINE)
-				.enableIntents(GatewayIntent.GUILD_MEMBERS)
-				.setMemberCachePolicy(MemberCachePolicy.ALL);
-			
-			if (dbIsActive) {
-				jdaBuilder.addEventListeners(
-						// Roleplaying Commands
-						registerCommand(new ExpeditionCommand()),
-						registerCommand(new InsightCommand()),
-						registerCommand(new InventoryCommand()),
-						registerCommand(new UseItemCommand()),
-						registerCommand(new DailyCommand()),
-						registerCommand(new HuntCommand()),
-						registerCommand(new LootCommand()),
-						registerCommand(new ProfileCommand()),
-						registerCommand(new RepCommand()),
-						registerCommand(new TransferMoneyCommand()),
-						
-						// User Preference Commands
-						registerCommand(new PreferenceCommand()),
-						
-						// Guild Preference Commands
-						registerCommand(new SetGuildPrefixCommand())
-						);
-			}
-			
-			jdaBuilder.addEventListeners(
-					// Info Commands
-					registerCommand(new AvatarCommand()),
-					registerCommand(new UserinfoCommand()),
-					registerCommand(new GuildinfoCommand()),
-					registerCommand(new HelpCommand()),
-					registerCommand(new PingCommand()),
-					registerCommand(new RoleinfoCommand()),
-					registerCommand(new ShardInfoCommand()),
-					registerCommand(new StatusCommand()),
-					
-					// Moderation Commands
-					registerCommand(new UnbanCommand()),
-					registerCommand(new BanCommand()),
-					registerCommand(new KickCommand()),
-					
-					// Miscellaneous Commands
-					registerCommand(new EightBallCommand()),
-					registerCommand(new DiceCommand()),
-					
-					// Imageboard Commands
-					registerCommand(new DanbooruCommand()),
-					registerCommand(new SafebooruCommand()),
-					
-					// Developer/Debug Command
-					new ModifyAttributesCommand(),
-					new ShutdownCommand(),
-					new StatusReportCommand(),
-					
-					// Event Listener
-					new ReadyListener()
-					);
-			
-			if (RenaConfig.isSharding()) {
-				int totalShards = RenaConfig.getTotalShards();
-				
-				logger.info("Loading (%d) shards...".formatted(totalShards));
-				
-				List<Integer> shardIds = new ArrayList<>();
-				
-				for (int i = 0; i < totalShards; i++) {
-					shardIds.add(i);
-				}
-				
-				jdaBuilder.setShardsTotal(totalShards)
-							.setShards(shardIds);
-			}
-			
-			jdaBuilder.build();
-		}
-		catch (NullPointerException e) {
-			logger.error("A config variable returned a null value.");
-		}
-		catch (IllegalArgumentException e) {
-			e.printStackTrace();
-			logger.error("Failed to login, try checking if the Token and config variables are provided correctly.");
-		}
-		catch (LoginException e) {
-			logger.error("Failed to login, try checking if the provided Token is valid.");
-		}
-	}
-	
-	public static void main(String[] args) {
-		logger.info("Starting up...");
-		
-		try {
-			DBConnection.conn();
-			dbIsActive = true;
-		}
-		catch (Exception ignored) {
-			logger.warn("Couldn't connect to database. Some commands might fail, but the bot will remain active.");
-			dbIsActive = false;
-		}
-		
-		new RenaBot();
-	}
-	
-	/**
-	 * Gives the time when the bot was executed.
-	 * 
-	 * @return time since the bot was executed.
-	 */
-	public static long getStartupTime() {
-		return startupTime;
-	}
+
+    private static final Logger logger = LoggerFactory.getLogger(RenaBot.class);
+
+    private static boolean dbIsActive;
+
+    private static final long startupTime = System.currentTimeMillis();
+
+    protected RenaBot() {
+        logger.info("Preparing bot for activation...");
+
+        try {
+            DefaultShardManagerBuilder jdaBuilder = DefaultShardManagerBuilder.createDefault(RenaConfig.TOKEN)
+                    .setStatus(OnlineStatus.ONLINE)
+                    .enableIntents(GatewayIntent.GUILD_MEMBERS)
+                    .setMemberCachePolicy(MemberCachePolicy.ALL);
+
+            if (dbIsActive) {
+                jdaBuilder.addEventListeners(
+                        // Roleplaying Commands
+                        registerCommand(new ExpeditionCommand()),
+                        registerCommand(new InsightCommand()),
+                        registerCommand(new InventoryCommand()),
+                        registerCommand(new UseItemCommand()),
+                        registerCommand(new DailyCommand()),
+                        registerCommand(new HuntCommand()),
+                        registerCommand(new LootCommand()),
+                        registerCommand(new ProfileCommand()),
+                        registerCommand(new RepCommand()),
+                        registerCommand(new TransferMoneyCommand()),
+
+                        // User Preference Commands
+                        registerCommand(new PreferenceCommand()),
+
+                        // Guild Preference Commands
+                        registerCommand(new SetGuildPrefixCommand())
+                );
+            }
+
+            jdaBuilder.addEventListeners(
+                    // Info Commands
+                    registerCommand(new AvatarCommand()),
+                    registerCommand(new UserinfoCommand()),
+                    registerCommand(new GuildinfoCommand()),
+                    registerCommand(new HelpCommand()),
+                    registerCommand(new PingCommand()),
+                    registerCommand(new RoleinfoCommand()),
+                    registerCommand(new ShardInfoCommand()),
+                    registerCommand(new StatusCommand()),
+
+                    // Moderation Commands
+                    registerCommand(new UnbanCommand()),
+                    registerCommand(new BanCommand()),
+                    registerCommand(new KickCommand()),
+
+                    // Miscellaneous Commands
+                    registerCommand(new EightBallCommand()),
+                    registerCommand(new DiceCommand()),
+
+                    // Imageboard Commands
+                    registerCommand(new DanbooruCommand()),
+                    registerCommand(new SafebooruCommand()),
+
+                    // Developer/Debug Command
+                    new ModifyAttributesCommand(),
+                    new ShutdownCommand(),
+                    new StatusReportCommand(),
+
+                    // Event Listener
+                    new ReadyListener()
+            );
+
+            if (RenaConfig.isSharding()) {
+                int totalShards = RenaConfig.getTotalShards();
+
+                logger.info("Loading (%d) shards...".formatted(totalShards));
+
+                List<Integer> shardIds = new ArrayList<>();
+
+                for (int i = 0; i < totalShards; i++) {
+                    shardIds.add(i);
+                }
+
+                jdaBuilder.setShardsTotal(totalShards)
+                        .setShards(shardIds);
+            }
+
+            jdaBuilder.build();
+        } catch (NullPointerException e) {
+            logger.error("A config variable returned a null value.");
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            logger.error("Failed to login, try checking if the Token and config variables are provided correctly.");
+        } catch (LoginException e) {
+            logger.error("Failed to login, try checking if the provided Token is valid.");
+        }
+    }
+
+    public static void main(String[] args) {
+        logger.info("Starting up...");
+
+        try {
+            DBConnection.conn();
+            dbIsActive = true;
+        } catch (Exception ignored) {
+            logger.warn("Couldn't connect to database. Some commands might fail, but the bot will remain active.");
+            dbIsActive = false;
+        }
+
+        new RenaBot();
+    }
+
+    /**
+     * Gives the time when the bot was executed.
+     *
+     * @return time since the bot was executed.
+     */
+    public static long getStartupTime() {
+        return startupTime;
+    }
 
 }

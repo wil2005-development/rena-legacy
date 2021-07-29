@@ -29,72 +29,67 @@ import net.dv8tion.jda.api.exceptions.HierarchyException;
 
 public class KickCommand extends Command {
 
-	@Override
-	public void execute(MessageReceivedEvent event, String[] args) {
-		List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
-		Member author = event.getMember();
-		MessageChannel channel = event.getChannel();
-		
-		if (mentionedMembers.isEmpty()) {
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.kick.no_mentioned_member").formatted(":warning:")).queue();
-		}
-		else if (mentionedMembers.size() > 1) {
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.kick.multiple_mentions").formatted(":warning:")).queue();
-		}
-		else {
-			if (author.hasPermission(Permission.KICK_MEMBERS)) {
-				try {
-					if (args.length > 2) {
-						String reason = args[2];
-						
-						mentionedMembers.get(0).kick(reason).complete();
-						channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.kick.kick_with_reason_success").formatted(":white_check_mark:", mentionedMembers.get(0).getUser().getName(), reason)).queue();
-					}
-					else {
-						mentionedMembers.get(0).kick().complete();
-						channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.kick.kick_success").formatted(":white_check_mark:", mentionedMembers.get(0).getUser().getName())).queue();
-					}
-				}
-				catch (HierarchyException ignored) {
-					channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.kick.unable_to_kick").formatted(":warning:")).queue();
-				}
-			}
-			else {
-				channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.kick.no_permission").formatted(":warning:")).queue();
-			}
-		}
-	}
+    @Override
+    public void execute(MessageReceivedEvent event, String[] args) {
+        List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
+        Member author = event.getMember();
+        MessageChannel channel = event.getChannel();
 
-	@Override
-	public String getCommandName() {
-		return "kick";
-	}
-	
-	@Override
-	public String getCommandCategory() {
-		return "Moderation";
-	}
-	
-	@Override
-	public boolean isOwnerCommand() {
-		return false;
-	}
+        if (mentionedMembers.isEmpty()) {
+            channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.kick.no_mentioned_member").formatted(":warning:")).queue();
+        } else if (mentionedMembers.size() > 1) {
+            channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.kick.multiple_mentions").formatted(":warning:")).queue();
+        } else {
+            if (author.hasPermission(Permission.KICK_MEMBERS)) {
+                try {
+                    if (args.length > 2) {
+                        String reason = args[2];
 
-	@Override
-	public long cooldown() {
-		return 5;
-	}
+                        mentionedMembers.get(0).kick(reason).complete();
+                        channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.kick.kick_with_reason_success").formatted(":white_check_mark:", mentionedMembers.get(0).getUser().getName(), reason)).queue();
+                    } else {
+                        mentionedMembers.get(0).kick().complete();
+                        channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.kick.kick_success").formatted(":white_check_mark:", mentionedMembers.get(0).getUser().getName())).queue();
+                    }
+                } catch (HierarchyException ignored) {
+                    channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.kick.unable_to_kick").formatted(":warning:")).queue();
+                }
+            } else {
+                channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.kick.no_permission").formatted(":warning:")).queue();
+            }
+        }
+    }
 
-	@Override
-	public String getHelp() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getCommandName() {
+        return "kick";
+    }
 
-	@Override
-	public String getUsage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getCommandCategory() {
+        return "Moderation";
+    }
+
+    @Override
+    public boolean isOwnerCommand() {
+        return false;
+    }
+
+    @Override
+    public long cooldown() {
+        return 5;
+    }
+
+    @Override
+    public String getHelp() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String getUsage() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

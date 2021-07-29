@@ -31,70 +31,68 @@ import net.dv8tion.jda.api.sharding.ShardManager;
 
 public class ShardInfoCommand extends Command {
 
-	@Override
-	public void execute(MessageReceivedEvent event, String[] args) {
-		User author = event.getAuthor();
-		Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
-		JDA jda = event.getJDA();
-		MessageChannel channel = event.getChannel();
-		ShardInfo shardInfo = jda.getShardInfo();
-		ShardManager shardManager = jda.getShardManager();
-		
-		long totalUsers = 0;
-		
-		for (User user : shardManager.getUsers()) {
-			if (!user.isBot()) {
-				totalUsers++;
-			}
-		}
-		
-		EmbedBuilder embed = new EmbedBuilder()
-				.setColor(roleColor)
-				.setTitle(I18n.getMessage(author.getId(), "info.shard_info.embed.title").formatted(jda.getShardInfo().getShardString()))
-				.addField(I18n.getMessage(author.getId(), "info.shard_info.embed.shard_id"), "#" + shardInfo.getShardId(), false)
-				.addField(I18n.getMessage(author.getId(), "info.shard_info.embed.average_gateway_ping"), "%dm/s".formatted(Math.round(shardManager.getAverageGatewayPing())), false)
-				.addBlankField(false)
-				.addField(I18n.getMessage(author.getId(), "info.shard_info.embed.total_shards"), String.valueOf(shardManager.getShardsTotal()), true)
-				.addField(I18n.getMessage(author.getId(), "info.shard_info.embed.online_shards"), String.valueOf(shardManager.getShardsRunning()), true)
-				.addBlankField(false)
-				.addField(I18n.getMessage(author.getId(), "info.shard_info.embed.total_guilds"), String.valueOf(shardManager.getGuilds().size()), true)
-				.addField(I18n.getMessage(author.getId(), "info.shard_info.embed.total_users"), String.valueOf(totalUsers), true)
-				.setFooter(author.getName(), author.getEffectiveAvatarUrl());
-		
-		channel.sendMessageEmbeds(embed.build()).queue();
-		
-	}
+    @Override
+    public void execute(MessageReceivedEvent event, String[] args) {
+        User author = event.getAuthor();
+        Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
+        JDA jda = event.getJDA();
+        MessageChannel channel = event.getChannel();
+        ShardInfo shardInfo = jda.getShardInfo();
+        ShardManager shardManager = jda.getShardManager();
 
-	@Override
-	public String getCommandName() {
-		return "shardinfo";
-	}
+        long totalUsers = 0;
 
-	@Override
-	public String getCommandCategory() {
-		return "Information";
-	}
+        for (User user : shardManager.getUsers()) {
+            if (!user.isBot()) {
+                totalUsers++;
+            }
+        }
 
-	@Override
-	public boolean isOwnerCommand() {
-		return false;
-	}
+        EmbedBuilder embed = new EmbedBuilder()
+                .setColor(roleColor)
+                .setTitle(I18n.getMessage(author.getId(), "info.shard_info.embed.title").formatted(jda.getShardInfo().getShardString()))
+                .addField(I18n.getMessage(author.getId(), "info.shard_info.embed.shard_id"), "#" + shardInfo.getShardId(), false)
+                .addField(I18n.getMessage(author.getId(), "info.shard_info.embed.average_gateway_ping"), "%dm/s".formatted(Math.round(shardManager.getAverageGatewayPing())), false)
+                .addBlankField(false)
+                .addField(I18n.getMessage(author.getId(), "info.shard_info.embed.total_shards"), String.valueOf(shardManager.getShardsTotal()), true)
+                .addField(I18n.getMessage(author.getId(), "info.shard_info.embed.online_shards"), String.valueOf(shardManager.getShardsRunning()), true)
+                .addBlankField(false)
+                .addField(I18n.getMessage(author.getId(), "info.shard_info.embed.total_guilds"), String.valueOf(shardManager.getGuilds().size()), true)
+                .addField(I18n.getMessage(author.getId(), "info.shard_info.embed.total_users"), String.valueOf(totalUsers), true)
+                .setFooter(author.getName(), author.getEffectiveAvatarUrl());
 
-	@Override
-	public long cooldown() {
-		return 5;
-	}
+        channel.sendMessageEmbeds(embed.build()).queue();
 
-	@Override
-	public String getHelp() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    }
 
-	@Override
-	public String getUsage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getCommandName() {
+        return "shardinfo";
+    }
+
+    @Override
+    public String getCommandCategory() {
+        return "Information";
+    }
+
+    @Override
+    public boolean isOwnerCommand() {
+        return false;
+    }
+
+    @Override
+    public long cooldown() {
+        return 5;
+    }
+
+    @Override
+    public String getHelp() {
+        return null;
+    }
+
+    @Override
+    public String getUsage() {
+        return null;
+    }
 
 }

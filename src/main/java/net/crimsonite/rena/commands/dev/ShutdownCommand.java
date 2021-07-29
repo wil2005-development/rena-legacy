@@ -27,63 +27,61 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.sharding.ShardManager;
 
 public class ShutdownCommand extends Command {
-	
-	private static final Logger logger = LoggerFactory.getLogger(ShutdownCommand.class);
 
-	@Override
-	public void execute(MessageReceivedEvent event, String[] args) {
-		JDA jda = event.getJDA();
-		ShardManager shardManager = jda.getShardManager();
-		
-		logger.info("Shutting down...");
-		
-		if (RenaConfig.isSharding()) {
-			long shardCount = RenaConfig.getTotalShards();
-			
-			for (int i = 0; i < shardCount; i++) {
-				logger.info("Shutting down shard %d", i);
-				
-				shardManager.shutdown(i);
-			}
-		}
-		
-		else {
-			jda.shutdown();
-		}
-		
-		System.exit(0);
-	}
-	
-	@Override
-	public String getCommandName() {
-		return "shutdown";
-	}
-	
-	@Override
-	public String getCommandCategory() {
-		return "Dev";
-	}
+    private static final Logger logger = LoggerFactory.getLogger(ShutdownCommand.class);
 
-	@Override
-	public boolean isOwnerCommand() {
-		return true;
-	}
+    @Override
+    public void execute(MessageReceivedEvent event, String[] args) {
+        JDA jda = event.getJDA();
+        ShardManager shardManager = jda.getShardManager();
 
-	@Override
-	public long cooldown() {
-		return 0;
-	}
+        logger.info("Shutting down...");
 
-	@Override
-	public String getHelp() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        if (RenaConfig.isSharding()) {
+            long shardCount = RenaConfig.getTotalShards();
 
-	@Override
-	public String getUsage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+            for (int i = 0; i < shardCount; i++) {
+                logger.info("Shutting down shard %d".formatted(i));
+
+                if (shardManager != null) {
+                    shardManager.shutdown(i);
+                }
+            }
+        } else {
+            jda.shutdown();
+        }
+
+        System.exit(0);
+    }
+
+    @Override
+    public String getCommandName() {
+        return "shutdown";
+    }
+
+    @Override
+    public String getCommandCategory() {
+        return "Dev";
+    }
+
+    @Override
+    public boolean isOwnerCommand() {
+        return true;
+    }
+
+    @Override
+    public long cooldown() {
+        return 0;
+    }
+
+    @Override
+    public String getHelp() {
+        return null;
+    }
+
+    @Override
+    public String getUsage() {
+        return null;
+    }
 
 }

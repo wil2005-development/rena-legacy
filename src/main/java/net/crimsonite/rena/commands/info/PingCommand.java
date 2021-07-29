@@ -25,48 +25,46 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class PingCommand extends Command {
 
-	@Override
-	public void execute(MessageReceivedEvent event, String[] args) {
-		JDA jda = event.getJDA();
-		MessageChannel channel = event.getChannel();
-		
-		String message = I18n.getMessage(event.getAuthor().getId(), "info.ping.ping_message");
-		
-		jda.getRestPing().queue(
-				(ping) -> channel.sendMessage(message.formatted(ping, jda.getGatewayPing())).queue()
-		);
-	}
+    @Override
+    public void execute(MessageReceivedEvent event, String[] args) {
+        JDA jda = event.getJDA();
+        MessageChannel channel = event.getChannel();
 
-	@Override
-	public String getCommandName() {
-		return "ping";
-	}
-	
-	@Override
-	public String getCommandCategory() {
-		return "Information";
-	}
-	
-	@Override
-	public boolean isOwnerCommand() {
-		return false;
-	}
+        String message = I18n.getMessage(event.getAuthor().getId(), "info.ping.ping_message");
 
-	@Override
-	public long cooldown() {
-		return 5;
-	}
+        jda.getRestPing().queue(
+                (ping) -> channel.sendMessage(message.formatted(ping, jda.getGatewayPing())).queue()
+        );
+    }
 
-	@Override
-	public String getHelp() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getCommandName() {
+        return "ping";
+    }
 
-	@Override
-	public String getUsage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
+    @Override
+    public String getCommandCategory() {
+        return "Information";
+    }
+
+    @Override
+    public boolean isOwnerCommand() {
+        return false;
+    }
+
+    @Override
+    public long cooldown() {
+        return 5;
+    }
+
+    @Override
+    public String getHelp() {
+        return null;
+    }
+
+    @Override
+    public String getUsage() {
+        return null;
+    }
+
 }

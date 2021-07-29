@@ -32,78 +32,75 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class AvatarCommand extends Command {
 
-	private void sendEmbed(MessageReceivedEvent event, Member member) {
-		MessageChannel channel = event.getChannel();
-		User memberAsUser = member.getUser();
-		Color roleColor = event.getGuild().retrieveMember(memberAsUser).complete().getColor();
-		
-		EmbedBuilder embed = new EmbedBuilder()
-				.setColor(roleColor)
-				.setTitle(I18n.getMessage("info.avatar.embed.title").formatted(memberAsUser.getName()))
-				.setImage(memberAsUser.getEffectiveAvatarUrl() + "?size=1024")
-				.setFooter(event.getAuthor().getName(), event.getAuthor().getEffectiveAvatarUrl());
-		
-		channel.sendMessageEmbeds(embed.build()).queue();
-		}
-	
-	@Override
-	public void execute(MessageReceivedEvent event, String[] args) {
-		Member author = event.getMember();
-		MessageChannel channel = event.getChannel();
-		
-		if (args.length == 1) {
-			sendEmbed(event, author);
-		}
-		else if (args.length >= 2){
-			if (!event.getMessage().getMentionedMembers().isEmpty()) {
-				Member member = event.getMessage().getMentionedMembers().get(0);
-				sendEmbed(event, member);
-			}
-			else {
-				List<Member> listedMembers = FinderUtil.findMembers(args[1], event.getGuild());
-				
-				if (listedMembers.isEmpty()) {
-					channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "info.avatar.user_not_found")).queue();
-					event.getGuild().loadMembers();
-				}
-				else {
-					Member member = listedMembers.get(0);
-					sendEmbed(event, member);
-				}
-			}
-		}
-	}
+    private void sendEmbed(MessageReceivedEvent event, Member member) {
+        MessageChannel channel = event.getChannel();
+        User memberAsUser = member.getUser();
+        Color roleColor = event.getGuild().retrieveMember(memberAsUser).complete().getColor();
 
-	@Override
-	public String getCommandName() {
-		return "avatar";
-	}
-	
-	@Override
-	public String getCommandCategory() {
-		return "Information";
-	}
+        EmbedBuilder embed = new EmbedBuilder()
+                .setColor(roleColor)
+                .setTitle(I18n.getMessage("info.avatar.embed.title").formatted(memberAsUser.getName()))
+                .setImage(memberAsUser.getEffectiveAvatarUrl() + "?size=1024")
+                .setFooter(event.getAuthor().getName(), event.getAuthor().getEffectiveAvatarUrl());
 
-	@Override
-	public boolean isOwnerCommand() {
-		return false;
-	}
+        channel.sendMessageEmbeds(embed.build()).queue();
+    }
 
-	@Override
-	public long cooldown() {
-		return 5;
-	}
+    @Override
+    public void execute(MessageReceivedEvent event, String[] args) {
+        Member author = event.getMember();
+        MessageChannel channel = event.getChannel();
 
-	@Override
-	public String getHelp() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        if (author == null) throw new NullPointerException();
 
-	@Override
-	public String getUsage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        if (args.length == 1) {
+            sendEmbed(event, author);
+        } else if (args.length >= 2) {
+            if (!event.getMessage().getMentionedMembers().isEmpty()) {
+                Member member = event.getMessage().getMentionedMembers().get(0);
+                sendEmbed(event, member);
+            } else {
+                List<Member> listedMembers = FinderUtil.findMembers(args[1], event.getGuild());
+
+                if (listedMembers.isEmpty()) {
+                    channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "info.avatar.user_not_found")).queue();
+                    event.getGuild().loadMembers();
+                } else {
+                    Member member = listedMembers.get(0);
+                    sendEmbed(event, member);
+                }
+            }
+        }
+    }
+
+    @Override
+    public String getCommandName() {
+        return "avatar";
+    }
+
+    @Override
+    public String getCommandCategory() {
+        return "Information";
+    }
+
+    @Override
+    public boolean isOwnerCommand() {
+        return false;
+    }
+
+    @Override
+    public long cooldown() {
+        return 5;
+    }
+
+    @Override
+    public String getHelp() {
+        return null;
+    }
+
+    @Override
+    public String getUsage() {
+        return null;
+    }
 
 }

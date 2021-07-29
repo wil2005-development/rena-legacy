@@ -25,15 +25,19 @@ import net.crimsonite.rena.RenaConfig;
 
 public class DBConnection {
 
-	private static final RethinkDB r = RethinkDB.r;
-	
-	public static final Connection conn() {
-		Connection connection = r.connection().hostname(RenaConfig.getHostName()).port(28015).connect();
-		
-		return connection;
-	}
-	
-	protected static final Db db() {
-		return r.db("Rena");
-	}
+    private static final RethinkDB r = RethinkDB.r;
+
+    public static Connection conn() {
+        Connection connection = null;
+
+        try {
+            connection = r.connection().hostname(RenaConfig.getHostName()).port(28015).connect();
+        } catch (Exception ignored) {}
+
+        return connection;
+    }
+
+    protected static Db db() {
+        return r.db("Rena");
+    }
 }

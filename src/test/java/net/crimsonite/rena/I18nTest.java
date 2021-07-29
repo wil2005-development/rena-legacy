@@ -24,12 +24,12 @@ import org.junit.Test;
 import net.crimsonite.rena.core.I18n;
 
 public class I18nTest {
-	
-	@Test
-	public void getMessage() {
-		String message = I18n.getMessage("misc.dice.unable_to_roll");
-		
-		assertEquals("*Sorry, I can't roll that for you*", message);
-	}
+
+    @Test
+    public void getMessage() {
+        String message = I18n.getMessage("misc.dice.unable_to_roll");
+
+        assertEquals("*Sorry, I can't roll that for you*", message);
+    }
 
 }

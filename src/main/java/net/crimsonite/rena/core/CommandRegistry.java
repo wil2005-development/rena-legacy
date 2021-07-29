@@ -25,49 +25,49 @@ import org.slf4j.LoggerFactory;
 import net.crimsonite.rena.commands.Command;
 
 public abstract class CommandRegistry {
-	
-	private static final Logger logger = LoggerFactory.getLogger(CommandRegistry.class);
-	
-	private static int commandCount = 0;
-	
-	private static HashMap<String, Command> commands;
-	
-	public CommandRegistry() {
-		commands = new HashMap<>();
-	}
-	
-	/**
-	 * Gives a map of the currently registered commands.
-	 * 
-	 * @return a hashmap of registered commands.
-	 */
-	public static HashMap<String, Command> getRegisteredCommands() {
-		return commands;
-	}
-	
-	/**
-	 * Gives the number of the currently registered commands.
-	 * 
-	 * @return the number of registered commands.
-	 */
-	public static int getRegisteredCommandCount() {
-		return commandCount;
-	}
-	
-	/**
-	 * Registers and returns the command passed.
-	 * 
-	 * @param command
-	 * @return the command passed
-	 */
-	public Command registerCommand(Command command) {
-		String commandName = command.getCommandName();
-		commands.put(commandName, command);
-		commandCount++;
-		
-		logger.info("\"%1$s\" command loaded.".formatted(commandName));
-		
-		return command;
-	}
+
+    private static final Logger logger = LoggerFactory.getLogger(CommandRegistry.class);
+
+    private static int commandCount = 0;
+
+    private static HashMap<String, Command> commands;
+
+    public CommandRegistry() {
+        commands = new HashMap<>();
+    }
+
+    /**
+     * Gives a map of the currently registered commands.
+     *
+     * @return a hashmap of registered commands.
+     */
+    public static HashMap<String, Command> getRegisteredCommands() {
+        return commands;
+    }
+
+    /**
+     * Gives the number of the currently registered commands.
+     *
+     * @return the number of registered commands.
+     */
+    public static int getRegisteredCommandCount() {
+        return commandCount;
+    }
+
+    /**
+     * Registers and returns the command passed.
+     *
+     * @param command The Command to be registered.
+     * @return the command passed.
+     */
+    public Command registerCommand(Command command) {
+        String commandName = command.getCommandName();
+        commands.put(commandName, command);
+        commandCount++;
+
+        logger.info("\"%1$s\" command loaded.".formatted(commandName));
+
+        return command;
+    }
 
 }

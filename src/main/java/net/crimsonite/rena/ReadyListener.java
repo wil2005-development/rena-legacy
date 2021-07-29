@@ -38,47 +38,54 @@ import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
 
 public class ReadyListener extends ListenerAdapter {
-	
-	private static final Logger logger = LoggerFactory.getLogger(ReadyListener.class);
-	
-	@Override
-	public void onReady(ReadyEvent event) {
-		int shardId = event.getJDA().getShardInfo().getShardId();
-		String quote = "Engine has started! [Shard #%d]";
-		JDA jda = event.getJDA();
-		LocalDate date = LocalDate.now();
-				
-		CommandListUpdateAction slashCommands = jda.updateCommands();
-		slashCommands.addCommands(new CommandData("help", "Shows a help text.")).queue();
-		
-		if (date.getMonth() == Month.JANUARY || date.getDayOfMonth() == 1) {
-			quote = "Happy New Year! [Shard #%d]";
-		}
-		else if(date.getMonth() == Month.DECEMBER || date.getDayOfMonth() == 25) {
-			quote = "Merry Christmas! [Shard #%d]";
-		}
-		else {
-			InputStream inputStream = getClass().getClassLoader().getResourceAsStream("assets/status_quotes.txt");
-			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-			List<String> listOfQuotes = new ArrayList<>();
-			
-			try {
-				String line;
-				
-				while ((line = reader.readLine()) != null) {
-					listOfQuotes.add(line);
-				}
-				
-				quote = listOfQuotes.get(RandomGenerator.randomInt(listOfQuotes.size()));
-			}
-			catch (IOException e) {
-				logger.warn("Shard #%d failed to set activity. Using default activity instead...");
-			}
-		}
-		
-		event.getJDA().getPresence().setActivity(Activity.playing(quote.formatted(shardId)));
-		
-		logger.info("Shard #%1$d activated in %2$d second(s).".formatted(shardId, ((System.currentTimeMillis()-RenaBot.getStartupTime())/1000)));
-	}
-	
+
+    private static final Logger logger = LoggerFactory.getLogger(ReadyListener.class);
+
+    @Override
+    public void onReady(ReadyEvent event) {
+        int shardId = event.getJDA().getShardInfo().getShardId();
+        String quote = "Engine has started! [Shard #%d]";
+        JDA jda = event.getJDA();
+        LocalDate date = LocalDate.now();
+
+        CommandListUpdateAction slashCommands = jda.updateCommands();
+        slashCommands.addCommands(new CommandData("help", "Shows a help text.")).queue();
+
+        if (date.getMonth() == Month.JANUARY || date.getDayOfMonth() == 1) {
+            quote = "Happy New Year! [Shard #%d]";
+        } else if (date.getMonth() == Month.DECEMBER || date.getDayOfMonth() == 25) {
+            quote = "Merry Christmas! [Shard #%d]";
+        } else {
+            List<String> listOfQuotes = new ArrayList<>();
+
+            InputStream inputStream;
+            BufferedReader reader;
+            String line;
+
+            try {
+                inputStream = getClass().getClassLoader().getResourceAsStream("assets/status_quotes.txt");
+
+                if (inputStream == null) throw new NullPointerException();
+
+                reader = new BufferedReader(new InputStreamReader(inputStream));
+
+                while ((line = reader.readLine()) != null) {
+                    listOfQuotes.add(line);
+                }
+
+                quote = listOfQuotes.get(RandomGenerator.randomInt(listOfQuotes.size()));
+            } catch (IOException e) {
+                logger.warn("Shard #%d failed to set activity. Using default activity instead...");
+                e.printStackTrace();
+            } catch (NullPointerException e) {
+                logger.warn("Can't read or find \"status_quotes.txt\"");
+                e.printStackTrace();
+            }
+        }
+
+        event.getJDA().getPresence().setActivity(Activity.playing(quote.formatted(shardId)));
+
+        logger.info("Shard #%1$d activated in %2$d second(s).".formatted(shardId, ((System.currentTimeMillis() - RenaBot.getStartupTime()) / 1000)));
+    }
+
 }
