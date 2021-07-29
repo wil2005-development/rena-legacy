@@ -33,93 +33,89 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class RoleinfoCommand extends Command {
 
-	@Override
-	public void execute(MessageReceivedEvent event, String[] args) {
-		User author = event.getAuthor();
-		MessageChannel channel = event.getChannel();
-		
-		if (args.length == 1) {
-			EmbedBuilder embed = new EmbedBuilder()
-					.setTitle(I18n.getMessage(author.getId(), "info.role_info.embed.title_default").formatted(event.getGuild().getName()))
-					.setFooter(author.getName(), author.getEffectiveAvatarUrl());
-			
-			StringBuilder stringBuilder = new StringBuilder();
-			for (Role role : event.getGuild().getRoles()) {
-				if (!(role.isPublicRole() || role.isManaged())) {
-					stringBuilder.append("`%s`, ".formatted(role.getName()));
-				}
-			}
-			
-			String roles = stringBuilder.toString();
-			
-			embed.addField("", roles.substring(0, (roles.length() - 2)), false);
-			
-			channel.sendMessageEmbeds(embed.build()).queue();
-		}
-		else if (args.length >= 2) {
-			List<Role> listedRoles = FinderUtil.findRoles(args[1], event.getGuild());
-			
-			if (listedRoles.isEmpty() || listedRoles.get(0).isManaged()) {
-				channel.sendMessage(I18n.getMessage(author.getId(), "info.role_info.role_not_found")).queue();
-			}
-			else {
-				Role role = listedRoles.get(0);
-				DateTimeFormatter format = DateTimeFormatter.ofPattern("MMMM d, yyyy");
-				StringBuilder stringBuilder = new StringBuilder();
-				
-				for (Permission permission : listedRoles.get(0).getPermissions()) {
-					stringBuilder.append("`%s`, ".formatted(permission.getName()));
-				}
-				
-				String permissions = stringBuilder.toString();
-				
-				EmbedBuilder embed = new EmbedBuilder()
-						.setColor(role.getColor())
-						.setTitle(I18n.getMessage(author.getId(), "info.role_info.embed.title").formatted(role.getName()))
-						.addField(I18n.getMessage(author.getId(), "info.role_info.embed.role_id"), role.getId(), false)
-						.addField(I18n.getMessage(author.getId(), "info.role_info.embed.position"), String.valueOf(role.getPosition()), false)
-						.addField(I18n.getMessage(author.getId(), "info.role_info.embed.mentionable"), String.valueOf(role.isMentionable()), false)
-						.addField(I18n.getMessage(author.getId(), "info.role_info.embed.date_created"), role.getTimeCreated().format(format), false)
-						.addField(I18n.getMessage(author.getId(), "info.role_info.embed.role_color"), "#"+Integer.toHexString(role.getColorRaw()).toUpperCase(), false)
-						.addField(I18n.getMessage(author.getId(), "info.role_info.embed.guild"), role.getGuild().getName(), false)
-						.addField(I18n.getMessage(author.getId(), "info.role_info.embed.permissions"), permissions.substring(0, (permissions.length() - 2)), false)
-						.setFooter(author.getName(), author.getEffectiveAvatarUrl());
-				
-				channel.sendMessageEmbeds(embed.build()).queue();
-			}
-		}
-	}
+    @Override
+    public void execute(MessageReceivedEvent event, String[] args) {
+        User author = event.getAuthor();
+        MessageChannel channel = event.getChannel();
 
-	@Override
-	public String getCommandName() {
-		return "roleinfo";
-	}
-	
-	@Override
-	public String getCommandCategory() {
-		return "Information";
-	}
+        if (args.length == 1) {
+            EmbedBuilder embed = new EmbedBuilder()
+                    .setTitle(I18n.getMessage(author.getId(), "info.role_info.embed.title_default").formatted(event.getGuild().getName()))
+                    .setFooter(author.getName(), author.getEffectiveAvatarUrl());
 
-	@Override
-	public long cooldown() {
-		return 5;
-	}
+            StringBuilder stringBuilder = new StringBuilder();
+            for (Role role : event.getGuild().getRoles()) {
+                if (!(role.isPublicRole() || role.isManaged())) {
+                    stringBuilder.append("`%s`, ".formatted(role.getName()));
+                }
+            }
 
-	@Override
-	public boolean isOwnerCommand() {
-		return false;
-	}
+            String roles = stringBuilder.toString();
 
-	@Override
-	public String getHelp() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+            embed.addField("", roles.substring(0, (roles.length() - 2)), false);
 
-	@Override
-	public String getUsage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+            channel.sendMessageEmbeds(embed.build()).queue();
+        } else if (args.length >= 2) {
+            List<Role> listedRoles = FinderUtil.findRoles(args[1], event.getGuild());
+
+            if (listedRoles.isEmpty() || listedRoles.get(0).isManaged()) {
+                channel.sendMessage(I18n.getMessage(author.getId(), "info.role_info.role_not_found")).queue();
+            } else {
+                Role role = listedRoles.get(0);
+                DateTimeFormatter format = DateTimeFormatter.ofPattern("MMMM d, yyyy");
+                StringBuilder stringBuilder = new StringBuilder();
+
+                for (Permission permission : listedRoles.get(0).getPermissions()) {
+                    stringBuilder.append("`%s`, ".formatted(permission.getName()));
+                }
+
+                String permissions = stringBuilder.toString();
+
+                EmbedBuilder embed = new EmbedBuilder()
+                        .setColor(role.getColor())
+                        .setTitle(I18n.getMessage(author.getId(), "info.role_info.embed.title").formatted(role.getName()))
+                        .addField(I18n.getMessage(author.getId(), "info.role_info.embed.role_id"), role.getId(), false)
+                        .addField(I18n.getMessage(author.getId(), "info.role_info.embed.position"), String.valueOf(role.getPosition()), false)
+                        .addField(I18n.getMessage(author.getId(), "info.role_info.embed.mentionable"), String.valueOf(role.isMentionable()), false)
+                        .addField(I18n.getMessage(author.getId(), "info.role_info.embed.date_created"), role.getTimeCreated().format(format), false)
+                        .addField(I18n.getMessage(author.getId(), "info.role_info.embed.role_color"), "#" + Integer.toHexString(role.getColorRaw()).toUpperCase(), false)
+                        .addField(I18n.getMessage(author.getId(), "info.role_info.embed.guild"), role.getGuild().getName(), false)
+                        .addField(I18n.getMessage(author.getId(), "info.role_info.embed.permissions"), permissions.substring(0, (permissions.length() - 2)), false)
+                        .setFooter(author.getName(), author.getEffectiveAvatarUrl());
+
+                channel.sendMessageEmbeds(embed.build()).queue();
+            }
+        }
+    }
+
+    @Override
+    public String getCommandName() {
+        return "roleinfo";
+    }
+
+    @Override
+    public String getCommandCategory() {
+        return "Information";
+    }
+
+    @Override
+    public long cooldown() {
+        return 5;
+    }
+
+    @Override
+    public boolean isOwnerCommand() {
+        return false;
+    }
+
+    @Override
+    public String getHelp() {
+        return null;
+    }
+
+    @Override
+    public String getUsage() {
+        return null;
+    }
 
 }

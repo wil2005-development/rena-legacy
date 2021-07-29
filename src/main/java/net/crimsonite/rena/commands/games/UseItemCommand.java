@@ -33,91 +33,88 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class UseItemCommand extends Command {
-		
-	private void useItem(MessageReceivedEvent event, String itemId, int amount) {
-		User author = event.getAuthor();
-		MessageChannel channel = event.getChannel();
-		
-		try {			
-			Item item = new Item(itemId, author.getId());
-			
-			GameHandler.Handler.removeItem(author.getId(), itemId, amount);
-			
-			switch(item.getAction()) {
-				case "RAISE_STATS":
-					DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), item.getPrimaryTargetActionField(), item.getPrimaryTargetValue());
-					
-					channel.sendMessage(I18n.getMessage(author.getId(), "game.use_item.raise_stats").formatted(item.getPrimaryTargetActionField(), item.getPrimaryTargetValue())).queue();
-					
-					break;
-				default:
-					return;
-			}
-		} catch (IOException e) {
-			channel.sendMessage(I18n.getMessage(author.getId(), "common_string.something_went_wrong")).queue();
-		}
-	}
 
-	@Override
-	public void execute(MessageReceivedEvent event, String[] args) {
-		User author = event.getAuthor();
-		MessageChannel channel = event.getChannel();
-		
-		if (args.length >= 2) {
-			String item = args[1].toUpperCase();
-			Map<String, Long> inventory = DBReadWrite.getValueMapSL(Table.PLAYERS, author.getId(), "INVENTORY");
-			List<String> allItems = new ArrayList<>(inventory.keySet());
-			
-			if (allItems.contains(item)) {
-				if (inventory.get(item) >= 1) {
-					useItem(event, item, 1);
-					
-					channel.sendMessage(I18n.getMessage(author.getId(), "game.use_item.success").formatted(1, item)).queue();
-				}
-				else {
-					channel.sendMessage(I18n.getMessage(author.getId(), "game.use_item.lack_item")).queue();
-				}
-			}
-			else {
-				channel.sendMessage(I18n.getMessage(author.getId(), "game.use_item.item_not_found")).queue();
-			}
-		}
-		else {
-			channel.sendMessage(I18n.getMessage(author.getId(), "game.use_item.no_item_used")).queue();
-		}
-		
-	}
+    private void useItem(MessageReceivedEvent event, String itemId) {
+        User author = event.getAuthor();
+        MessageChannel channel = event.getChannel();
 
-	@Override
-	public String getCommandName() {
-		return "use";
-	}
+        try {
+            Item item = new Item(itemId, author.getId());
 
-	@Override
-	public String getCommandCategory() {
-		return "Games";
-	}
+            GameHandler.Handler.removeItem(author.getId(), itemId, 1);
 
-	@Override
-	public boolean isOwnerCommand() {
-		return false;
-	}
+            switch (item.getAction()) {
+                case "RAISE_STATS":
+                    DBReadWrite.incrementValue(Table.PLAYERS, author.getId(), item.getPrimaryTargetActionField(), item.getPrimaryTargetValue());
 
-	@Override
-	public long cooldown() {
-		return 5;
-	}
+                    channel.sendMessage(I18n.getMessage(author.getId(), "game.use_item.raise_stats").formatted(item.getPrimaryTargetActionField(), item.getPrimaryTargetValue())).queue();
 
-	@Override
-	public String getHelp() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+                    break;
+                default:
+                    throw new Exception();
+            }
+        } catch (IOException e) {
+            channel.sendMessage(I18n.getMessage(author.getId(), "common_string.something_went_wrong")).queue();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-	@Override
-	public String getUsage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public void execute(MessageReceivedEvent event, String[] args) {
+        User author = event.getAuthor();
+        MessageChannel channel = event.getChannel();
+
+        if (args.length >= 2) {
+            String item = args[1].toUpperCase();
+            Map<String, Long> inventory = DBReadWrite.getValueMapSL(Table.PLAYERS, author.getId(), "INVENTORY");
+            List<String> allItems = new ArrayList<>(inventory.keySet());
+
+            if (allItems.contains(item)) {
+                if (inventory.get(item) >= 1) {
+                    useItem(event, item);
+
+                    channel.sendMessage(I18n.getMessage(author.getId(), "game.use_item.success").formatted(1, item)).queue();
+                } else {
+                    channel.sendMessage(I18n.getMessage(author.getId(), "game.use_item.lack_item")).queue();
+                }
+            } else {
+                channel.sendMessage(I18n.getMessage(author.getId(), "game.use_item.item_not_found")).queue();
+            }
+        } else {
+            channel.sendMessage(I18n.getMessage(author.getId(), "game.use_item.no_item_used")).queue();
+        }
+
+    }
+
+    @Override
+    public String getCommandName() {
+        return "use";
+    }
+
+    @Override
+    public String getCommandCategory() {
+        return "Games";
+    }
+
+    @Override
+    public boolean isOwnerCommand() {
+        return false;
+    }
+
+    @Override
+    public long cooldown() {
+        return 5;
+    }
+
+    @Override
+    public String getHelp() {
+        return null;
+    }
+
+    @Override
+    public String getUsage() {
+        return null;
+    }
 
 }

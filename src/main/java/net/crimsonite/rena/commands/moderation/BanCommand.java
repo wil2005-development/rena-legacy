@@ -29,72 +29,65 @@ import net.dv8tion.jda.api.exceptions.HierarchyException;
 
 public class BanCommand extends Command {
 
-	@Override
-	public void execute(MessageReceivedEvent event, String[] args) {
-		List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
-		Member author = event.getMember();
-		MessageChannel channel = event.getChannel();
-		
-		if (mentionedMembers.isEmpty()) {
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.ban.no_mentioned_member").formatted(":warning:")).queue();
-		}
-		else if (mentionedMembers.size() > 1) {
-			channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.ban.multiple_mentions").formatted(":warning:")).queue();
-		}
-		else {
-			if (author.hasPermission(Permission.BAN_MEMBERS)) {
-				try {
-					if (args.length > 2) {
-						String reason = args[2];
-						
-						mentionedMembers.get(0).ban(0, reason).complete();
-						channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.ban.ban_with_reason_success".formatted(":white_check_mark:", mentionedMembers.get(0).getUser().getName(), reason))).queue();
-					}
-					else {
-						mentionedMembers.get(0).ban(0).complete();
-						channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.ban.ban_success".formatted(":white_check_mark:", mentionedMembers.get(0).getUser().getName()))).queue();
-					}
-				}
-				catch (HierarchyException ignored) {
-					channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.ban.unable_to_ban").formatted("warning")).queue();
-				}
-			}
-			else {
-				channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.ban.no_permission").formatted(":warning:")).queue();
-			}
-		}
-	}
-	
-	@Override
-	public String getCommandName() {
-		return "ban";
-	}
-	
-	@Override
-	public String getCommandCategory() {
-		return "Moderation";
-	}
+    @Override
+    public void execute(MessageReceivedEvent event, String[] args) {
+        List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
+        Member author = event.getMember();
+        MessageChannel channel = event.getChannel();
 
-	@Override
-	public boolean isOwnerCommand() {
-		return false;
-	}
+        if (mentionedMembers.isEmpty()) {
+            channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.ban.no_mentioned_member").formatted(":warning:")).queue();
+        } else if (mentionedMembers.size() > 1) {
+            channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.ban.multiple_mentions").formatted(":warning:")).queue();
+        } else {
+            if (author.hasPermission(Permission.BAN_MEMBERS)) {
+                try {
+                    if (args.length > 2) {
+                        String reason = args[2];
 
-	@Override
-	public long cooldown() {
-		return 5;
-	}
+                        mentionedMembers.get(0).ban(0, reason).complete();
+                        channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.ban.ban_with_reason_success").formatted(":white_check_mark:", mentionedMembers.get(0).getUser().getName(), reason)).queue();
+                    } else {
+                        mentionedMembers.get(0).ban(0).complete();
+                        channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.ban.ban_success").formatted(":white_check_mark:", mentionedMembers.get(0).getUser().getName())).queue();
+                    }
+                } catch (HierarchyException ignored) {
+                    channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.ban.unable_to_ban").formatted("warning")).queue();
+                }
+            } else {
+                channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "moderation.ban.no_permission").formatted(":warning:")).queue();
+            }
+        }
+    }
 
-	@Override
-	public String getHelp() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getCommandName() {
+        return "ban";
+    }
 
-	@Override
-	public String getUsage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getCommandCategory() {
+        return "Moderation";
+    }
+
+    @Override
+    public boolean isOwnerCommand() {
+        return false;
+    }
+
+    @Override
+    public long cooldown() {
+        return 5;
+    }
+
+    @Override
+    public String getHelp() {
+        return null;
+    }
+
+    @Override
+    public String getUsage() {
+        return null;
+    }
 
 }

@@ -19,6 +19,7 @@ package net.crimsonite.rena.commands.info;
 
 import java.awt.Color;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 import net.crimsonite.rena.commands.Command;
 import net.crimsonite.rena.core.I18n;
@@ -28,61 +29,59 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-public class GuildinfoCommand extends Command{
+public class GuildinfoCommand extends Command {
 
-	private DateTimeFormatter format = DateTimeFormatter.ofPattern("MMMM d, yyyy");
-	
-	@Override
-	public void execute(MessageReceivedEvent event, String[] args) {
-		User author = event.getAuthor();
-		Guild guild = event.getGuild();
-		MessageChannel channel = event.getChannel();
-		Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
+    private final DateTimeFormatter format = DateTimeFormatter.ofPattern("MMMM d, yyyy");
 
-		EmbedBuilder embed = new EmbedBuilder()
-				.setColor(roleColor)
-				.setTitle(I18n.getMessage(author.getId(), "info.guild_info.embed.title") + guild.getName())
-				.setThumbnail(guild.getIconUrl())
-				.addField(I18n.getMessage(author.getId(), "info.guild_info.embed.guild_id"), guild.getId(), false)
-				.addField(I18n.getMessage(author.getId(), "info.guild_info.embed.date_created"), guild.getTimeCreated().format(format), false)
-				.addField(I18n.getMessage(author.getId(), "info.guild_info.embed.guild_owner"), guild.getOwner().getEffectiveName(), false)
-				.addField(I18n.getMessage(author.getId(), "info.guild_info.embed.guild_members"), String.valueOf(guild.getMemberCount()), true)
-				.addField(I18n.getMessage(author.getId(), "info.guild_info.embed.guild_roles"), String.valueOf(guild.getRoles().size()), true)
-				.setFooter(author.getName(), author.getEffectiveAvatarUrl());
-		
-		channel.sendMessageEmbeds(embed.build()).queue();
-	}
+    @Override
+    public void execute(MessageReceivedEvent event, String[] args) {
+        User author = event.getAuthor();
+        Guild guild = event.getGuild();
+        MessageChannel channel = event.getChannel();
+        Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
 
-	@Override
-	public String getCommandName() {
-		return "guildinfo";
-	}
-	
-	@Override
-	public String getCommandCategory() {
-		return "Information";
-	}
+        EmbedBuilder embed = new EmbedBuilder()
+                .setColor(roleColor)
+                .setTitle(I18n.getMessage(author.getId(), "info.guild_info.embed.title") + guild.getName())
+                .setThumbnail(guild.getIconUrl())
+                .addField(I18n.getMessage(author.getId(), "info.guild_info.embed.guild_id"), guild.getId(), false)
+                .addField(I18n.getMessage(author.getId(), "info.guild_info.embed.date_created"), guild.getTimeCreated().format(format), false)
+                .addField(I18n.getMessage(author.getId(), "info.guild_info.embed.guild_owner"), Objects.requireNonNull(guild.getOwner()).getEffectiveName(), false)
+                .addField(I18n.getMessage(author.getId(), "info.guild_info.embed.guild_members"), String.valueOf(guild.getMemberCount()), true)
+                .addField(I18n.getMessage(author.getId(), "info.guild_info.embed.guild_roles"), String.valueOf(guild.getRoles().size()), true)
+                .setFooter(author.getName(), author.getEffectiveAvatarUrl());
 
-	@Override
-	public boolean isOwnerCommand() {
-		return false;
-	}
+        channel.sendMessageEmbeds(embed.build()).queue();
+    }
 
-	@Override
-	public long cooldown() {
-		return 5;
-	}
+    @Override
+    public String getCommandName() {
+        return "guildinfo";
+    }
 
-	@Override
-	public String getHelp() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getCommandCategory() {
+        return "Information";
+    }
 
-	@Override
-	public String getUsage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public boolean isOwnerCommand() {
+        return false;
+    }
+
+    @Override
+    public long cooldown() {
+        return 5;
+    }
+
+    @Override
+    public String getHelp() {
+        return null;
+    }
+
+    @Override
+    public String getUsage() {
+        return null;
+    }
 
 }

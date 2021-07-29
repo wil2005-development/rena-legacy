@@ -26,71 +26,67 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class DiceCommand extends Command {
 
-	@Override
-	public void execute(MessageReceivedEvent event, String[] args) {
-		User author = event.getAuthor();
-		MessageChannel channel = event.getChannel();
-		
-		if (args.length == 2) {
-			try {
-				String[] die = args[1].split("d");
-				
-				if (die.length > 2) {
-					channel.sendMessage(I18n.getMessage(author.getId(), "misc.dice.unable_to_roll")).queue();
-					
-					return;
-				}
-				
-				int numberOfDice = Integer.parseInt(die[0]);
-				int faces = Integer.parseInt(die[1]);
-				int result = 0;
-				
-				for (int i = 0; i < numberOfDice; i++) {
-					result += RandomGenerator.randomInt(i, faces, RandomGenerator.generateSeedFromCurrentTime());
-				}
-				
-				channel.sendMessage(":game_die: %1$d (1-%2$d)".formatted(result, (faces * numberOfDice))).queue();
-			}
-			catch (NumberFormatException | ArrayIndexOutOfBoundsException ignored) {
-				channel.sendMessageFormat(I18n.getMessage(author.getId(), "misc.dice.unable_to_roll")).queue();
-			}
-		}
-		else {
-			int result = RandomGenerator.randomInt(1, 6);
-			channel.sendMessageFormat(":game_die: %d (1-6)", result).queue();
-		}
-	}
+    @Override
+    public void execute(MessageReceivedEvent event, String[] args) {
+        User author = event.getAuthor();
+        MessageChannel channel = event.getChannel();
 
-	@Override
-	public String getCommandName() {
-		return "roll";
-	}
-	
-	@Override
-	public String getCommandCategory() {
-		return "Miscellaneous";
-	}
+        if (args.length == 2) {
+            try {
+                String[] die = args[1].split("d");
 
-	@Override
-	public long cooldown() {
-		return 5;
-	}
+                if (die.length > 2) {
+                    channel.sendMessage(I18n.getMessage(author.getId(), "misc.dice.unable_to_roll")).queue();
 
-	@Override
-	public boolean isOwnerCommand() {
-		return false;
-	}
+                    return;
+                }
 
-	@Override
-	public String getHelp() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+                int numberOfDice = Integer.parseInt(die[0]);
+                int faces = Integer.parseInt(die[1]);
+                int result = 0;
 
-	@Override
-	public String getUsage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+                for (int i = 0; i < numberOfDice; i++) {
+                    result += RandomGenerator.randomInt(i, faces, RandomGenerator.generateSeedFromCurrentTime());
+                }
+
+                channel.sendMessage(":game_die: %1$d (1-%2$d)".formatted(result, (faces * numberOfDice))).queue();
+            } catch (NumberFormatException | ArrayIndexOutOfBoundsException ignored) {
+                channel.sendMessageFormat(I18n.getMessage(author.getId(), "misc.dice.unable_to_roll")).queue();
+            }
+        } else {
+            int result = RandomGenerator.randomInt(1, 6);
+            channel.sendMessageFormat(":game_die: %d (1-6)", result).queue();
+        }
+    }
+
+    @Override
+    public String getCommandName() {
+        return "roll";
+    }
+
+    @Override
+    public String getCommandCategory() {
+        return "Miscellaneous";
+    }
+
+    @Override
+    public long cooldown() {
+        return 5;
+    }
+
+    @Override
+    public boolean isOwnerCommand() {
+        return false;
+    }
+
+    @Override
+    public String getHelp() {
+        return null;
+    }
+
+    @Override
+    public String getUsage() {
+        return null;
+    }
 
 }

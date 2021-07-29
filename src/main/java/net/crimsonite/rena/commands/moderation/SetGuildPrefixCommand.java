@@ -28,70 +28,67 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class SetGuildPrefixCommand extends Command {
 
-	@Override
-	public void execute(MessageReceivedEvent event, String[] args) {
-		Member author = event.getMember();
-		MessageChannel channel = event.getChannel();
-		
-		String prefix;
-		
-		try {
-			prefix = args[1];
-		}
-		catch (IndexOutOfBoundsException ignored) {
-			channel.sendMessage(I18n.getMessage(author.getId(), "moderation.guild_prefix.failed").formatted(":warning:")).queue();
-			
-			return;
-		}
-				
-		if (author.hasPermission(Permission.ADMINISTRATOR)) {
-			try {
-				DBReadWrite.getValueString(Table.GUILDS, event.getGuild().getId(), "Prefix");
-				DBReadWrite.modifyDataString(Table.GUILDS, event.getGuild().getId(), "Prefix", prefix);
-				
-				channel.sendMessage(I18n.getMessage(author.getId(), "moderation.guild_prefix.success").formatted(":white_check_mark:", prefix)).queue();
-			}
-			catch (NullPointerException ignored) {
-				DBReadWrite.registerGuild(event.getGuild().getId());
-				
-				channel.sendMessage(I18n.getMessage(author.getId(), "common_string.late_registration")).queue();
-			}
-		}
-		else {
-			channel.sendMessage(I18n.getMessage(author.getId(), "moderation.guild_prefix.no_permission").formatted(":warning:")).queue();
-		}
-	}
+    @Override
+    public void execute(MessageReceivedEvent event, String[] args) {
+        Member author = event.getMember();
+        MessageChannel channel = event.getChannel();
 
-	@Override
-	public String getCommandName() {
-		return "set_prefix";
-	}
-	
-	@Override
-	public String getCommandCategory() {
-		return "Moderation";
-	}
+        String prefix;
 
-	@Override
-	public boolean isOwnerCommand() {
-		return false;
-	}
+        try {
+            prefix = args[1];
+        } catch (IndexOutOfBoundsException ignored) {
+            channel.sendMessage(I18n.getMessage(author.getId(), "moderation.guild_prefix.failed").formatted(":warning:")).queue();
 
-	@Override
-	public long cooldown() {
-		return 5;
-	}
+            return;
+        }
 
-	@Override
-	public String getHelp() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        if (author.hasPermission(Permission.ADMINISTRATOR)) {
+            try {
+                DBReadWrite.getValueString(Table.GUILDS, event.getGuild().getId(), "Prefix");
+                DBReadWrite.modifyDataString(Table.GUILDS, event.getGuild().getId(), "Prefix", prefix);
 
-	@Override
-	public String getUsage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+                channel.sendMessage(I18n.getMessage(author.getId(), "moderation.guild_prefix.success").formatted(":white_check_mark:", prefix)).queue();
+            } catch (NullPointerException ignored) {
+                DBReadWrite.registerGuild(event.getGuild().getId());
+
+                channel.sendMessage(I18n.getMessage(author.getId(), "common_string.late_registration")).queue();
+            }
+        } else {
+            channel.sendMessage(I18n.getMessage(author.getId(), "moderation.guild_prefix.no_permission").formatted(":warning:")).queue();
+        }
+    }
+
+    @Override
+    public String getCommandName() {
+        return "set_prefix";
+    }
+
+    @Override
+    public String getCommandCategory() {
+        return "Moderation";
+    }
+
+    @Override
+    public boolean isOwnerCommand() {
+        return false;
+    }
+
+    @Override
+    public long cooldown() {
+        return 5;
+    }
+
+    @Override
+    public String getHelp() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String getUsage() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

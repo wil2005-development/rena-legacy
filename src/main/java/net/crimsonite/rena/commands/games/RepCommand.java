@@ -30,83 +30,78 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class RepCommand extends Command {
-	
-	private boolean shouldRemoveCooldown = false;
-	private String playerId;
 
-	@Override
-	public void execute(MessageReceivedEvent event, String[] args) {
-		User author = event.getAuthor();
-		List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
-		MessageChannel channel = event.getChannel();
-		
-		this.playerId = author.getId();
-		
-		try {
-			if (mentionedMembers.isEmpty()) {
-				channel.sendMessage(I18n.getMessage(author.getId(), "game.rep.no_mention")).queue();
-				
-				this.shouldRemoveCooldown = true;
-			}
-			else {
-				Member member = mentionedMembers.get(0);
-				
-				if (member.getUser() == author) {
-					channel.sendMessage(I18n.getMessage(author.getId(), "game.rep.self_rep")).queue();
-					
-					this.shouldRemoveCooldown = true;
-				}
-				else {
-					DBReadWrite.incrementValue(Table.PLAYERS, member.getId(), "REP", 1);
-					
-					channel.sendMessage(I18n.getMessage(author.getId(), "game.rep.give_rep").formatted(author.getName(), member.getEffectiveName())).queue();
-				}
-			}
-		}
-		catch (NullPointerException e) {
-			channel.sendMessage(I18n.getMessage(author.getId(), "game.rep.user_not_found")).queue();
-			
-			this.shouldRemoveCooldown = true;
-		}
-	}
-	
-	@Override
-	public void postCommandEvent() {
-		if (this.shouldRemoveCooldown) {
-			Cooldown.removeCooldown(this.playerId, getCommandName());
-		}
-	}
+    private boolean shouldRemoveCooldown = false;
+    private String playerId;
 
-	@Override
-	public String getCommandName() {
-		return "rep";
-	}
+    @Override
+    public void execute(MessageReceivedEvent event, String[] args) {
+        User author = event.getAuthor();
+        List<Member> mentionedMembers = event.getMessage().getMentionedMembers();
+        MessageChannel channel = event.getChannel();
 
-	@Override
-	public String getCommandCategory() {
-		return "Games";
-	}
+        this.playerId = author.getId();
 
-	@Override
-	public boolean isOwnerCommand() {
-		return false;
-	}
+        try {
+            if (mentionedMembers.isEmpty()) {
+                channel.sendMessage(I18n.getMessage(author.getId(), "game.rep.no_mention")).queue();
 
-	@Override
-	public long cooldown() {
-		return 86_400;
-	}
+                this.shouldRemoveCooldown = true;
+            } else {
+                Member member = mentionedMembers.get(0);
 
-	@Override
-	public String getHelp() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+                if (member.getUser() == author) {
+                    channel.sendMessage(I18n.getMessage(author.getId(), "game.rep.self_rep")).queue();
 
-	@Override
-	public String getUsage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+                    this.shouldRemoveCooldown = true;
+                } else {
+                    DBReadWrite.incrementValue(Table.PLAYERS, member.getId(), "REP", 1);
+
+                    channel.sendMessage(I18n.getMessage(author.getId(), "game.rep.give_rep").formatted(author.getName(), member.getEffectiveName())).queue();
+                }
+            }
+        } catch (NullPointerException e) {
+            channel.sendMessage(I18n.getMessage(author.getId(), "game.rep.user_not_found")).queue();
+
+            this.shouldRemoveCooldown = true;
+        }
+    }
+
+    @Override
+    public void postCommandEvent() {
+        if (this.shouldRemoveCooldown) {
+            Cooldown.removeCooldown(this.playerId, getCommandName());
+        }
+    }
+
+    @Override
+    public String getCommandName() {
+        return "rep";
+    }
+
+    @Override
+    public String getCommandCategory() {
+        return "Games";
+    }
+
+    @Override
+    public boolean isOwnerCommand() {
+        return false;
+    }
+
+    @Override
+    public long cooldown() {
+        return 86_400;
+    }
+
+    @Override
+    public String getHelp() {
+        return null;
+    }
+
+    @Override
+    public String getUsage() {
+        return null;
+    }
 
 }
