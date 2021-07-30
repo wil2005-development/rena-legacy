@@ -29,7 +29,6 @@ import net.crimsonite.rena.commands.dev.ModifyAttributesCommand;
 import net.crimsonite.rena.commands.dev.ShutdownCommand;
 import net.crimsonite.rena.commands.dev.StatusReportCommand;
 import net.crimsonite.rena.commands.games.DailyCommand;
-import net.crimsonite.rena.commands.games.ExpeditionCommand;
 import net.crimsonite.rena.commands.games.HuntCommand;
 import net.crimsonite.rena.commands.games.InsightCommand;
 import net.crimsonite.rena.commands.games.InventoryCommand;
