@@ -24,7 +24,6 @@ import net.crimsonite.rena.core.Cooldown;
 import net.crimsonite.rena.core.I18n;
 import net.crimsonite.rena.core.database.DBReadWrite;
 import net.crimsonite.rena.core.database.DBReadWrite.Table;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -140,17 +139,5 @@ public abstract class Command extends ListenerAdapter {
 
     protected String[] commandArgs(String string) {
         return string.split("\\s+");
-    }
-
-    protected Message sendMessage(MessageReceivedEvent event, Message message) {
-        if (event.isFromType(ChannelType.PRIVATE)) {
-            return event.getPrivateChannel().sendMessage(message).complete();
-        } else {
-            return event.getTextChannel().sendMessage(message).complete();
-        }
-    }
-
-    protected Message sendMessage(MessageReceivedEvent event, String message) {
-        return sendMessage(event, new MessageBuilder().append(message).build());
     }
 }
