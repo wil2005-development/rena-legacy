@@ -73,6 +73,8 @@ public abstract class Command extends ListenerAdapter {
         if (containsCommand(event.getMessage(), event)) {
             String command = getCommandName();
 
+            timesCommandUsed++;
+
             if (Cooldown.getCooldownCache().containsKey(author.getId() + "-" + command)) {
                 long remainingCooldown = Cooldown.getRemainingCooldown(author.getId(), command) - TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
 
@@ -108,11 +110,9 @@ public abstract class Command extends ListenerAdapter {
                 execute(event, commandArgs(event.getMessage()));
                 Cooldown.setCooldown(author.getId(), getCommandName(), this.cooldown());
             }
+
+            postCommandEvent();
         }
-
-        postCommandEvent();
-
-        timesCommandUsed++;
     }
 
     public void postCommandEvent() {}
