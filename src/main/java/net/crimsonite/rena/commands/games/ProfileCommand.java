@@ -173,7 +173,7 @@ public class ProfileCommand extends Command {
                     try {
                         User user = event.getMessage().getMentionedUsers().get(0);
                         sendEmbed(event, user);
-                    } catch (NullPointerException ignored) {
+                    } catch (NullPointerException e) {
                         DBReadWrite.registerUser(event.getMessage().getMentionedUsers().get(0).getId());
                         channel.sendMessage(I18n.getMessage(author.getId(), "game.profile.error")).queue();
                     }
