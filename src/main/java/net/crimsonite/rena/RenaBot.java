@@ -81,7 +81,6 @@ public class RenaBot extends CommandRegistry {
             if (dbIsActive) {
                 jdaBuilder.addEventListeners(
                         // Roleplaying Commands
-                        registerCommand(new ExpeditionCommand()),
                         registerCommand(new InsightCommand()),
                         registerCommand(new InventoryCommand()),
                         registerCommand(new UseItemCommand()),
