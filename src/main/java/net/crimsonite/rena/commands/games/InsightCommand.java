@@ -20,11 +20,11 @@ public class InsightCommand extends Command {
     @Override
     public void execute(MessageReceivedEvent event, String[] args) {
         User author = event.getAuthor();
-        Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
         MessageChannel channel = event.getChannel();
 
+        Color roleColor;
+
         EmbedBuilder embed = new EmbedBuilder()
-                .setColor(roleColor)
                 .setTitle(I18n.getMessage(author.getId(), "game.insight.embed.title"))
                 .setFooter(author.getName(), author.getEffectiveAvatarUrl());
 
@@ -42,6 +42,8 @@ public class InsightCommand extends Command {
                                 currentExp = DBReadWrite.getValueInt(Table.PLAYERS, member.getId(), "EXP");
                                 requiredExpForNextLevel = Handler.getRequiredExpForNextLevel(member.getId());
                                 expNeededForNextLevel = (requiredExpForNextLevel - currentExp);
+                                roleColor = event.getGuild().retrieveMember(member.getUser()).complete().getColor();
+                                embed.setThumbnail(member.getUser().getEffectiveAvatarUrl());
                             } catch (NullPointerException e) {
                                 DBReadWrite.registerUser(member.getId());
                                 channel.sendMessage(I18n.getMessage(author.getId(), "common_string.late_registration")).queue();
@@ -63,6 +65,8 @@ public class InsightCommand extends Command {
                                     currentExp = DBReadWrite.getValueInt(Table.PLAYERS, member.getId(), "EXP");
                                     requiredExpForNextLevel = Handler.getRequiredExpForNextLevel(member.getId());
                                     expNeededForNextLevel = (requiredExpForNextLevel - currentExp);
+                                    roleColor = event.getGuild().retrieveMember(member.getUser()).complete().getColor();
+                                    embed.setThumbnail(member.getUser().getEffectiveAvatarUrl());
                                 } catch (NullPointerException e) {
                                     DBReadWrite.registerUser(listedMembers.get(0).getId());
                                     channel.sendMessage(I18n.getMessage(author.getId(), "common_string.late_registration")).queue();
@@ -75,12 +79,14 @@ public class InsightCommand extends Command {
                         currentExp = DBReadWrite.getValueInt(Table.PLAYERS, author.getId(), "EXP");
                         requiredExpForNextLevel = Handler.getRequiredExpForNextLevel(author.getId());
                         expNeededForNextLevel = (requiredExpForNextLevel - currentExp);
+                        roleColor = event.getGuild().retrieveMember(author).complete().getColor();
+                        embed.setThumbnail(author.getEffectiveAvatarUrl());
                     }
 
-                    // TODO Make the embed more user friendly. Adjust it, so that it shows whose exp is being shown.
                     String fieldName = I18n.getMessage(author.getId(), "game.insight.embed.next_exp");
                     String fieldValue = I18n.getMessage(author.getId(), "game.insight.embed.next_exp_value").formatted(requiredExpForNextLevel, expNeededForNextLevel);
-                    embed.addField(fieldName, fieldValue, false);
+                    embed.setColor(roleColor)
+                            .addField(fieldName, fieldValue, false);
                 }
                 default -> {
                     channel.sendMessage(I18n.getMessage(author.getId(), "game.insight.cannot_predict")).queue();
