@@ -141,8 +141,7 @@ public class HuntCommand extends Command {
     private static void checkHP(MessageReceivedEvent event, int enemyHP, int playerHP, int rewardEXP, int rewardMoney, Map<String, Map<String, ?>> drops) {
         User author = event.getAuthor();
         MessageChannel channel = event.getChannel();
-
-        // Intentionally put here for more entropy.
+        
         Map<String, Integer> itemRewards = new HashMap<>();
 
         for (Map<String, ?> item : drops.values()) {
