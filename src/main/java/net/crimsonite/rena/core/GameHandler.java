@@ -59,14 +59,14 @@ public class GameHandler {
          */
         public static void handleLevelup(String playerId) {
             Player player = new Player(playerId);
-            int playerLEVEL = player.getLvl();
-            long playerEXP = player.getExp();
+            int playerLEVEL = player.getLevel();
+            long playerEXP = player.getExperiencePoints();
 
-            long playerHP = player.getHp();
-            long playerMP = player.getMp();
+            long playerHP = player.getHealth();
+            long playerMP = player.getMana();
 
-            int playerVIT = player.getVit();
-            int playerWIS = player.getWis();
+            int playerVIT = player.getVitality();
+            int playerWIS = player.getWisdom();
 
             boolean canIncrementLvl = canIncrementLevel(playerLEVEL, playerEXP);
 
@@ -102,7 +102,7 @@ public class GameHandler {
         public static int getRequiredExpForNextLevel(String playerId) {
             Player player = new Player(playerId);
 
-            int nextLevel = player.getLvl() + 1;
+            int nextLevel = player.getLevel() + 1;
             return EXP_GROWTH_MODIFIER * nextLevel * (nextLevel + 1);
         }
 
@@ -114,7 +114,7 @@ public class GameHandler {
          */
         public static void giveExp(String playerId, int amount) {
             Player player = new Player(playerId);
-            int playerLevel = player.getLvl();
+            int playerLevel = player.getLevel();
 
             if (playerLevel < LEVEL_CAP) {
                 DBReadWrite.incrementValue(Table.PLAYERS, playerId, "EXP", amount);
@@ -167,15 +167,15 @@ public class GameHandler {
         public static int attack(JsonNode enemyDB, String playerId, String enemy, AttackerType type) throws JsonProcessingException, IOException {
             Player player = new Player(playerId);
 
-            int playerLUK = player.getLuk();
-            int playerSTR = player.getStr();
+            int playerLUK = player.getLuck();
+            int playerSTR = player.getStrength();
             int defaultCriticalHit = new Random().nextInt(20 - 1) + 1;
             int playerCriticalHit = RandomGenerator.randomInt(1, (playerLUK + 1));
             int damage;
 
             switch (type) {
                 case PLAYER:
-                    int playerATK = player.getAtk();
+                    int playerATK = player.getAttack();
                     int enemyDEF = enemyDB.get(enemy).get("DEF").asInt();
 
                     damage = (int) (2 * Math.pow((playerATK + playerSTR + playerCriticalHit), 2)) / ((playerATK + playerSTR + playerCriticalHit) + enemyDEF);
@@ -183,13 +183,13 @@ public class GameHandler {
                     break;
                 case ENEMY_NORMAL:
                     int enemyATK = enemyDB.get(enemy).get("ATK").asInt();
-                    int playerDEF = player.getDef();
+                    int playerDEF = player.getDefense();
 
                     damage = (int) (2 * Math.pow((enemyATK + defaultCriticalHit), 2)) / ((enemyATK + defaultCriticalHit) + playerDEF);
 
                     break;
                 default:
-                    playerATK = player.getAtk();
+                    playerATK = player.getAttack();
                     enemyDEF = enemyDB.get(enemy).get("DEF").asInt();
 
                     damage = (int) (2 * Math.pow((playerATK + playerSTR + playerCriticalHit), 2)) / ((playerATK + playerSTR + playerCriticalHit) + enemyDEF);

@@ -22,19 +22,19 @@ import net.crimsonite.rena.core.database.DBReadWrite.Table;
 
 public class Player {
 
-    private final String aPlayerId;
-    private final int aAtk;
-    private final int aDef;
-    private final int aLvl;
-    private final int aVit;
-    private final int aStr;
-    private final int aAgi;
-    private final int aInt;
-    private final int aWis;
-    private final int aLuk;
-    private final long aHp;
-    private final long aMp;
-    private final long aExp;
+    private final String playerId;
+    private final int attack;
+    private final int defense;
+    private final int level;
+    private final int vitality;
+    private final int strength;
+    private final int agility;
+    private final int intelligence;
+    private final int wisdom;
+    private final int luck;
+    private final long health;
+    private final long mana;
+    private final long experiencePoints;
 
     /**
      * A Player object that contains the player's attributes.
@@ -42,115 +42,115 @@ public class Player {
      * @param playerId Player's Discord ID
      */
     public Player(String playerId) {
-        this.aPlayerId = playerId;
+        this.playerId = playerId;
 
         try {
-            this.aAtk = DBReadWrite.getValueInt(Table.PLAYERS, this.aPlayerId, "ATK");
-            this.aDef = DBReadWrite.getValueInt(Table.PLAYERS, this.aPlayerId, "DEF");
-            this.aLvl = DBReadWrite.getValueInt(Table.PLAYERS, this.aPlayerId, "LEVEL");
-            this.aVit = DBReadWrite.getValueInt(Table.PLAYERS, this.aPlayerId, "VIT");
-            this.aStr = DBReadWrite.getValueInt(Table.PLAYERS, this.aPlayerId, "STR");
-            this.aAgi = DBReadWrite.getValueInt(Table.PLAYERS, this.aPlayerId, "AGI");
-            this.aInt = DBReadWrite.getValueInt(Table.PLAYERS, this.aPlayerId, "INT");
-            this.aWis = DBReadWrite.getValueInt(Table.PLAYERS, this.aPlayerId, "WIS");
-            this.aLuk = DBReadWrite.getValueInt(Table.PLAYERS, this.aPlayerId, "LUK");
-            this.aHp = DBReadWrite.getValueInt(Table.PLAYERS, this.aPlayerId, "HP");
-            this.aMp = DBReadWrite.getValueInt(Table.PLAYERS, this.aPlayerId, "MP");
-            this.aExp = DBReadWrite.getValueInt(Table.PLAYERS, this.aPlayerId, "EXP");
+            this.attack = DBReadWrite.getValueInt(Table.PLAYERS, this.playerId, "ATK");
+            this.defense = DBReadWrite.getValueInt(Table.PLAYERS, this.playerId, "DEF");
+            this.level = DBReadWrite.getValueInt(Table.PLAYERS, this.playerId, "LEVEL");
+            this.vitality = DBReadWrite.getValueInt(Table.PLAYERS, this.playerId, "VIT");
+            this.strength = DBReadWrite.getValueInt(Table.PLAYERS, this.playerId, "STR");
+            this.agility = DBReadWrite.getValueInt(Table.PLAYERS, this.playerId, "AGI");
+            this.intelligence = DBReadWrite.getValueInt(Table.PLAYERS, this.playerId, "INT");
+            this.wisdom = DBReadWrite.getValueInt(Table.PLAYERS, this.playerId, "WIS");
+            this.luck = DBReadWrite.getValueInt(Table.PLAYERS, this.playerId, "LUK");
+            this.health = DBReadWrite.getValueInt(Table.PLAYERS, this.playerId, "HP");
+            this.mana = DBReadWrite.getValueInt(Table.PLAYERS, this.playerId, "MP");
+            this.experiencePoints = DBReadWrite.getValueInt(Table.PLAYERS, this.playerId, "EXP");
         } catch (NullPointerException e) {
             throw new NullPointerException("Provided ID is invalid(%s)".formatted(playerId));
         }
     }
 
     /**
-     * @return player's Discord ID in String format.
+     * @return player's Discord ID as string.
      */
     public String getPlayerId() {
-        return this.aPlayerId;
+        return this.playerId;
     }
 
     /**
-     * @return player's attack attribute.
+     * @return player's attack points.
      */
-    public int getAtk() {
-        return this.aAtk;
+    public int getAttack() {
+        return this.attack;
     }
 
     /**
-     * @return player's defense attribute.
+     * @return player's defense points.
      */
-    public int getDef() {
-        return this.aDef;
+    public int getDefense() {
+        return this.defense;
     }
 
     /**
      * @return player's level.
      */
-    public int getLvl() {
-        return this.aLvl;
+    public int getLevel() {
+        return this.level;
     }
 
     /**
-     * @return player's vitality attribute.
+     * @return player's vitality points.
      */
-    public int getVit() {
-        return this.aVit;
+    public int getVitality() {
+        return this.vitality;
     }
 
     /**
-     * @return player's strength attribute.
+     * @return player's strength points.
      */
-    public int getStr() {
-        return this.aStr;
+    public int getStrength() {
+        return this.strength;
     }
 
     /**
-     * @return player's agility attribute.
+     * @return player's agility points.
      */
-    public int getAgi() {
-        return this.aAgi;
+    public int getAgility() {
+        return this.agility;
     }
 
     /**
-     * @return player's intelligence attribute.
+     * @return player's intelligence points.
      */
-    public int getInt() {
-        return this.aInt;
+    public int getIntelligence() {
+        return this.intelligence;
     }
 
     /**
-     * @return player's wisdom attribute.
+     * @return player's wisdom points.
      */
-    public int getWis() {
-        return this.aWis;
+    public int getWisdom() {
+        return this.wisdom;
     }
 
     /**
-     * @return player's luck attribute.
+     * @return player's luck points.
      */
-    public int getLuk() {
-        return this.aLuk;
+    public int getLuck() {
+        return this.luck;
     }
 
     /**
-     * @return player's HP attribute.
+     * @return player's health.
      */
-    public long getHp() {
-        return this.aHp;
+    public long getHealth() {
+        return this.health;
     }
 
     /**
-     * @return player's MP attribute.
+     * @return player's mana.
      */
-    public long getMp() {
-        return this.aMp;
+    public long getMana() {
+        return this.mana;
     }
 
     /**
      * @return player's experience points.
      */
-    public long getExp() {
-        return this.aExp;
+    public long getExperiencePoints() {
+        return this.experiencePoints;
     }
 
 }
