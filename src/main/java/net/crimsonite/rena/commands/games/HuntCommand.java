@@ -96,7 +96,7 @@ public class HuntCommand extends Command {
 
         String selectedEnemy = this.selectedEnemy;
         int enemyHP = this.enemyHP;
-        int playerHP = (int) player.getHp();
+        int playerHP = (int) player.getHealth();
         int rewardExp = this.rewardExp;
         int rewardMoney = this.rewardMoney;
 
