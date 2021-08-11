@@ -32,7 +32,7 @@
       "command_does_not_exist": "**That command doesn't seem to exist.**",
       "slash_help": "*Sa ngayon, hindi pa suportado ang slash commands. Gamitin mo na lamang ang* `%1$shelp`*.*",
       "embed": {
-        "title": "Help",
+        "title": "Talahulunganan",
         "cooldown": "Cooldown",
         "usage": "Pagkakagamit",
         "help_description": "Description"
@@ -70,13 +70,13 @@
     },
     "status": {
       "embed": {
-        "title": "Rena's Information",
-        "version": "Version",
-        "uptime": "Uptime",
-        "number_of_commands": "Number of Commands",
+        "title": "Impormasyon Tungkol kay Rena",
+        "version": "Pagkakaliwat",
+        "uptime": "Oras ng Pagbukas",
+        "number_of_commands": "Bilang ng Command",
         "times_command_used": "Bilang ng Pagkakagamit ng Command",
         "guilds": "Mga Guild",
-        "users": "Users",
+        "users": "Mga Taga-gamit",
         "shards": "Shards"
       },
       "code_block": {
@@ -90,7 +90,7 @@
         "title": "Impormasyon Ukol kay %s",
         "user_id": "ID",
         "date_created": "Araw ng Paglikha",
-        "date_joined": "Date Joined"
+        "date_joined": "Araw ng Pag-anib"
       }
     }
   },
@@ -195,8 +195,8 @@
     },
     "inventory": {
       "embed": {
-        "title": "Inventory",
-        "items": "Items"
+        "title": "Imbentaryo",
+        "items": "Mga Aytem"
       },
       "items": {
         "seed_of_life": "Seed of Life",
@@ -209,7 +209,7 @@
       "dialogue": "**You went into an abandoned dungeon and got some loots**",
       "no_item": "**Sadly, there wasn't any item of value in there.**",
       "embed": {
-        "title": "Looted Goods",
+        "title": "Mga Dambong",
         "money": "Salapi",
         "exp": "EXP"
       }
@@ -228,10 +228,10 @@
       "player_not_found": "*Err... I can't find that person. Try doing it again, I might've missed them*",
       "embed": {
         "title": "%s's Profile",
-        "rep": "Rep",
-        "level": "Level",
+        "rep": "Parangal",
+        "level": "Antas",
         "exp": "EXP",
-        "money": "Money",
+        "money": "Salapi",
         "hp": "HP",
         "mp": "MP",
         "atk": "ATK",
