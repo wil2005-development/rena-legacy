@@ -20,7 +20,7 @@
     },
     "guild_info": {
       "embed": {
-        "title": "Showing informations for ",
+        "title": "Showing information for ",
         "guild_id": "Guild ID",
         "date_created": "Date Created",
         "guild_owner": "Guild Owner",
@@ -45,7 +45,7 @@
       "role_not_found": "*There's no such role*",
       "embed": {
         "title_default": "Roles for %1$s",
-        "title": "Informations for role: %1$s",
+        "title": "Information for role: %1$s",
         "role_id": "ID",
         "position": "Position",
         "mentionable": "Mentionable",
@@ -63,12 +63,14 @@
         "total_shards": "Total Shards",
         "online_shards": "Online Shards",
         "total_guilds": "Total Guilds",
-        "total_users": "Total Users"
+        "total_users": "Total Users",
+        "shard_guilds": "Shard Guilds",
+        "shard_users": "Shard Users"
       }
     },
     "status": {
       "embed": {
-        "title": "Rena's Informations",
+        "title": "Rena's Information",
         "version": "Version",
         "uptime": "Uptime",
         "number_of_commands": "Number of Commands",
@@ -115,7 +117,7 @@
       "ban_with_reason_success": "%1$s **Successfully banned %2$s! Reason: %3$s**",
       "ban_success": "%1$s **Successfully banned %2$s!**",
       "unable_to_ban": "%1$s **Sorry, but you can't ban that person.**",
-      "no_permission": "%1$s **You dont have the permission to do that.\nRequired: BAN_MEMBERS permission**"
+      "no_permission": "%1$s **You don't have the permission to do that.\nRequired: BAN_MEMBERS permission**"
     },
     "kick": {
       "no_mentioned_member": "%1$s **You have to mention a user to kick.**",
@@ -123,18 +125,18 @@
       "kick_with_reason_success": "%1$s **Successfully kicked %2$s! Reason: %3$s**",
       "kick_success": "%1$s **Successfully kicked %2$s!**",
       "unable_to_kick": "%1$s **Sorry, but you can't kick that person.**",
-      "no_permission": "%1$s **You dont have the permission to do that.\nRequired: KICK_MEMBERS permission**"
+      "no_permission": "%1$s **You don't have the permission to do that.\nRequired: KICK_MEMBERS permission**"
     },
     "guild_prefix": {
-      "success": "%1$s **Successfuly set guild prefix to** `%2$s`!",
+      "success": "%1$s **Successfully set guild prefix to** `%2$s`!",
       "failed": "%1$s **You can't set a prefix to nothing.**",
-      "no_permission": "%1$s **Sorry, but you dont have the permission to do that.\nRequired: ADMINISTRATOR permission**"
+      "no_permission": "%1$s **Sorry, but you don't have the permission to do that.\nRequired: ADMINISTRATOR permission**"
     },
     "unban": {
       "no_id_provided": "%1$s **You have to specify the ID of the user to unban.**",
       "unban_success": "$1$s **Successfully unbanned %2$s!**",
       "unban_with_reason_success": "$1$s **Successfully unbanned %2$s! Reason: %3$s**",
-      "no_permission": "%1$s **Sorry, but you dont have the permission to do that.\nRequired: BAN_MEMBERS permission**",
+      "no_permission": "%1$s **Sorry, but you don't have the permission to do that.\nRequired: BAN_MEMBERS permission**",
       "invalid_id": "%1$s **That is not a valid user ID.**",
       "user_not_found": "$1$s **That user isn't blacklisted from your server, maybe they does not exist at all.**"
     }
@@ -218,7 +220,7 @@
       "set_status_failed": "**You didn't specify what to write in your status.**",
       "set_birthday_success": "**Successfully set birthday to *%s***",
       "set_birthday_failed": "**You didn't specify what to write in your birthday.**",
-      "invalid_month": "*Thats... not a valid month.*",
+      "invalid_month": "*That's... not a valid month.*",
       "invalid_day": "*That's... not a valid day.*",
       "illegal_birthday": "*That's... not a valid birthday.*",
       "illegal_birthday_number": "*That's not even a number!*",
@@ -251,11 +253,11 @@
       "user_not_found": "**You can't give this person a reputation right now.**"
     },
     "transfer": {
-      "incomplete_args": "**You have to specify the amout you're trying to send to whom.**",
+      "incomplete_args": "**You have to specify the amount you're trying to send to whom.**",
       "invalid_number": "**%1$s is not a valid number.**",
       "invalid_amount": "**That is not a valid amount.**",
       "not_enough_money": "**You don't have enough money.**",
-      "sent": "**Successfuly sent *G%1$d* to *%2$s*! *(%3$d%% Tax)***",
+      "sent": "**Successfully sent *G%1$d* to *%2$s*! *(%3$d%% Tax)***",
       "failed": "**Failed to send money.**"
     },
     "use_item": {
@@ -299,7 +301,7 @@
     },
     "elixir_of_mana": {
       "name": "Elixir of Mana",
-      "desc": "An elixir brwede by the highest of mages. Raises one's MP by 80."
+      "desc": "An elixir brewed by the highest of mages. Raises one's MP by 80."
     }
   }
 }

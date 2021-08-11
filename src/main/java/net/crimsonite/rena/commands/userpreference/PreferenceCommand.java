@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.crimsonite.rena.commands.Command;
+import net.crimsonite.rena.core.Cooldown;
 import net.crimsonite.rena.core.I18n;
 import net.crimsonite.rena.core.database.DBReadWrite;
 import net.crimsonite.rena.core.database.DBReadWrite.Table;
@@ -33,10 +34,16 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class PreferenceCommand extends Command {
 
+    private boolean shouldRemoveCooldown = false;
+
+    private String playerId;
+
     private void setLanguage(MessageReceivedEvent event, String[] args) {
         User author = event.getAuthor();
         MessageChannel channel = event.getChannel();
         List<String> validLanguages = new ArrayList<>();
+
+        this.playerId = author.getId();
 
         try {
             String[] localeArgs = args[3].split("\\_");
@@ -79,9 +86,14 @@ public class PreferenceCommand extends Command {
                 channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "user_preference.language_preference.set_lang_success").formatted(countryCode)).queue();
             } else {
                 channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "user_preference.language_preference.invalid_language").formatted(countryCode, validLanguagesText.substring(0, (validLanguagesText.length() - 2)))).queue();
+
+                this.shouldRemoveCooldown = true;
             }
         } catch (Exception e) {
+            e.printStackTrace();
             channel.sendMessage(I18n.getMessage(event.getAuthor().getId(), "user_preference.language_preference.set_lang_failed")).queue();
+
+            this.shouldRemoveCooldown = true;
         }
     }
 
@@ -110,15 +122,27 @@ public class PreferenceCommand extends Command {
                     } else {
                         channel.sendMessage(I18n.getMessage(author.getId(), "user_preference.preference.no_option")).queue();
 
+                        this.shouldRemoveCooldown = true;
                     }
                     break;
                 default:
                     channel.sendMessage(I18n.getMessage(author.getId(), "user_preference.preference.invalid_action")).queue();
 
+                    this.shouldRemoveCooldown = true;
+
                     break;
             }
         } else {
             channel.sendMessage(I18n.getMessage(author.getId(), "user_preference.preference.no_action")).queue();
+
+            this.shouldRemoveCooldown = true;
+        }
+    }
+
+    @Override
+    public void postCommandEvent() {
+        if (this.shouldRemoveCooldown) {
+            Cooldown.removeCooldown(this.playerId, getCommandName());
         }
     }
 

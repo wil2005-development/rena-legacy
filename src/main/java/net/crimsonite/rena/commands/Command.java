@@ -24,7 +24,6 @@ import net.crimsonite.rena.core.Cooldown;
 import net.crimsonite.rena.core.I18n;
 import net.crimsonite.rena.core.database.DBReadWrite;
 import net.crimsonite.rena.core.database.DBReadWrite.Table;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -73,6 +72,8 @@ public abstract class Command extends ListenerAdapter {
         if (containsCommand(event.getMessage(), event)) {
             String command = getCommandName();
 
+            timesCommandUsed++;
+
             if (Cooldown.getCooldownCache().containsKey(author.getId() + "-" + command)) {
                 long remainingCooldown = Cooldown.getRemainingCooldown(author.getId(), command) - TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
 
@@ -108,11 +109,9 @@ public abstract class Command extends ListenerAdapter {
                 execute(event, commandArgs(event.getMessage()));
                 Cooldown.setCooldown(author.getId(), getCommandName(), this.cooldown());
             }
+
+            postCommandEvent();
         }
-
-        postCommandEvent();
-
-        timesCommandUsed++;
     }
 
     public void postCommandEvent() {}
@@ -140,17 +139,5 @@ public abstract class Command extends ListenerAdapter {
 
     protected String[] commandArgs(String string) {
         return string.split("\\s+");
-    }
-
-    protected Message sendMessage(MessageReceivedEvent event, Message message) {
-        if (event.isFromType(ChannelType.PRIVATE)) {
-            return event.getPrivateChannel().sendMessage(message).complete();
-        } else {
-            return event.getTextChannel().sendMessage(message).complete();
-        }
-    }
-
-    protected Message sendMessage(MessageReceivedEvent event, String message) {
-        return sendMessage(event, new MessageBuilder().append(message).build());
     }
 }

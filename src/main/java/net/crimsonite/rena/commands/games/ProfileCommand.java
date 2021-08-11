@@ -63,21 +63,21 @@ public class ProfileCommand extends Command {
                 .setDescription(userStatus)
                 .setThumbnail(user.getEffectiveAvatarUrl())
                 .addField(I18n.getMessage(user.getId(), "game.profile.embed.rep"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "REP")), false)
-                .addField(I18n.getMessage(user.getId(), "game.profile.embed.level"), String.valueOf(player.getLvl()), false)
-                .addField(I18n.getMessage(user.getId(), "game.profile.embed.exp"), String.valueOf(player.getExp()), false)
+                .addField(I18n.getMessage(user.getId(), "game.profile.embed.level"), String.valueOf(player.getLevel()), false)
+                .addField(I18n.getMessage(user.getId(), "game.profile.embed.exp"), String.valueOf(player.getExperiencePoints()), false)
                 .addField(I18n.getMessage(user.getId(), "game.profile.embed.money"), String.valueOf(DBReadWrite.getValueInt(Table.PLAYERS, user.getId(), "MONEY")), true)
                 .addBlankField(false)
-                .addField(I18n.getMessage(user.getId(), "game.profile.embed.hp"), String.valueOf(player.getHp()), true)
-                .addField(I18n.getMessage(user.getId(), "game.profile.embed.mp"), String.valueOf(player.getMp()), true)
-                .addField(I18n.getMessage(user.getId(), "game.profile.embed.atk"), String.valueOf(player.getAtk()), true)
-                .addField(I18n.getMessage(user.getId(), "game.profile.embed.def"), String.valueOf(player.getDef()), true)
+                .addField(I18n.getMessage(user.getId(), "game.profile.embed.hp"), String.valueOf(player.getHealth()), true)
+                .addField(I18n.getMessage(user.getId(), "game.profile.embed.mp"), String.valueOf(player.getMana()), true)
+                .addField(I18n.getMessage(user.getId(), "game.profile.embed.atk"), String.valueOf(player.getAttack()), true)
+                .addField(I18n.getMessage(user.getId(), "game.profile.embed.def"), String.valueOf(player.getDefense()), true)
                 .addBlankField(false)
-                .addField(I18n.getMessage(user.getId(), "game.profile.embed.vit"), String.valueOf(player.getVit()), true)
-                .addField(I18n.getMessage(user.getId(), "game.profile.embed.str"), String.valueOf(player.getStr()), true)
-                .addField(I18n.getMessage(user.getId(), "game.profile.embed.agi"), String.valueOf(player.getAgi()), true)
-                .addField(I18n.getMessage(user.getId(), "game.profile.embed.int"), String.valueOf(player.getInt()), true)
-                .addField(I18n.getMessage(user.getId(), "game.profile.embed.wis"), String.valueOf(player.getWis()), true)
-                .addField(I18n.getMessage(user.getId(), "game.profile.embed.luk"), String.valueOf(player.getLuk()), true)
+                .addField(I18n.getMessage(user.getId(), "game.profile.embed.vit"), String.valueOf(player.getVitality()), true)
+                .addField(I18n.getMessage(user.getId(), "game.profile.embed.str"), String.valueOf(player.getStrength()), true)
+                .addField(I18n.getMessage(user.getId(), "game.profile.embed.agi"), String.valueOf(player.getAgility()), true)
+                .addField(I18n.getMessage(user.getId(), "game.profile.embed.int"), String.valueOf(player.getIntelligence()), true)
+                .addField(I18n.getMessage(user.getId(), "game.profile.embed.wis"), String.valueOf(player.getWisdom()), true)
+                .addField(I18n.getMessage(user.getId(), "game.profile.embed.luk"), String.valueOf(player.getLuck()), true)
                 .addBlankField(false)
                 .addField(I18n.getMessage(user.getId(), "game.profile.embed.birthday"), userBirthday, false)
                 .setFooter(event.getAuthor().getName(), event.getAuthor().getEffectiveAvatarUrl());
@@ -173,7 +173,7 @@ public class ProfileCommand extends Command {
                     try {
                         User user = event.getMessage().getMentionedUsers().get(0);
                         sendEmbed(event, user);
-                    } catch (NullPointerException ignored) {
+                    } catch (NullPointerException e) {
                         DBReadWrite.registerUser(event.getMessage().getMentionedUsers().get(0).getId());
                         channel.sendMessage(I18n.getMessage(author.getId(), "game.profile.error")).queue();
                     }

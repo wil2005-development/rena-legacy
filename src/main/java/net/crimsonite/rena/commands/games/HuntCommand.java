@@ -96,7 +96,7 @@ public class HuntCommand extends Command {
 
         String selectedEnemy = this.selectedEnemy;
         int enemyHP = this.enemyHP;
-        int playerHP = (int) player.getHp();
+        int playerHP = (int) player.getHealth();
         int rewardExp = this.rewardExp;
         int rewardMoney = this.rewardMoney;
 
@@ -141,8 +141,7 @@ public class HuntCommand extends Command {
     private static void checkHP(MessageReceivedEvent event, int enemyHP, int playerHP, int rewardEXP, int rewardMoney, Map<String, Map<String, ?>> drops) {
         User author = event.getAuthor();
         MessageChannel channel = event.getChannel();
-
-        // Intentionally put here for more entropy.
+        
         Map<String, Integer> itemRewards = new HashMap<>();
 
         for (Map<String, ?> item : drops.values()) {

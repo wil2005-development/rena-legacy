@@ -18,7 +18,6 @@
 package net.crimsonite.rena.commands.info;
 
 import java.awt.Color;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import net.crimsonite.rena.RenaBot;
@@ -29,9 +28,11 @@ import net.crimsonite.rena.core.I18n;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.sharding.ShardManager;
 
 public class StatusCommand extends Command {
 
@@ -40,6 +41,7 @@ public class StatusCommand extends Command {
         User author = event.getAuthor();
         JDA jda = event.getJDA();
         MessageChannel channel = event.getChannel();
+        ShardManager shardManager = jda.getShardManager();
         Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
 
         long numberOfCommands = CommandRegistry.getRegisteredCommandCount();
@@ -60,16 +62,14 @@ public class StatusCommand extends Command {
             uptime = "%1$dh, %2$dm".formatted(hours, minutes);
         }
 
-        for (JDA shard : Objects.requireNonNull(jda.getShardManager()).getShards()) {
-            for (@SuppressWarnings("unused") Guild guild : shard.getGuilds()) {
-                totalGuilds++;
-            }
-
-            for (User user : shard.getUsers()) {
-                if (!user.isBot()) {
+        for (Guild guild : (shardManager != null ? shardManager.getGuilds() : jda.getGuilds())) {
+            for (Member member : guild.getMembers()) {
+                if (!member.getUser().isBot()) {
                     totalUsers++;
                 }
             }
+
+            totalGuilds++;
         }
 
         EmbedBuilder embed = new EmbedBuilder()

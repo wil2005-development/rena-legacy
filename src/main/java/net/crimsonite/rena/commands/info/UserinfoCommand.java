@@ -39,6 +39,8 @@ public class UserinfoCommand extends Command {
         Color roleColor = event.getGuild().retrieveMember(memberAsUser).complete().getColor();
         DateTimeFormatter format = DateTimeFormatter.ofPattern("MMMM d, yyyy");
 
+        if (author == null) throw new NullPointerException();
+
         EmbedBuilder embed = new EmbedBuilder()
                 .setColor(roleColor)
                 .setTitle(I18n.getMessage(event.getAuthor().getId(), "info.user_info.embed.title").formatted(member.getEffectiveName()))
