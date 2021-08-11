@@ -21,20 +21,20 @@
     "guild_info": {
       "embed": {
         "title": "Showing information for ",
-        "guild_id": "Guild ID",
-        "date_created": "Date Created",
-        "guild_owner": "Guild Owner",
+        "guild_id": "ID ng Guild",
+        "date_created": "Araw ng Paglikha",
+        "guild_owner": "May-ari ng Guild",
         "guild_members": "Members",
         "guild_roles": "Roles"
       }
     },
     "help": {
       "command_does_not_exist": "**That command doesn't seem to exist.**",
-      "slash_help": "*I currently do not support slash commands, please use* `%1$shelp` *instead.*",
+      "slash_help": "*Sa ngayon, hindi pa suportado ang slash commands. Gamitin mo na lamang ang* `%1$shelp`*.*",
       "embed": {
         "title": "Help",
         "cooldown": "Cooldown",
-        "usage": "Usage",
+        "usage": "Pagkakagamit",
         "help_description": "Description"
       }
     },
@@ -47,10 +47,10 @@
         "title_default": "Roles for %1$s",
         "title": "Information for role: %1$s",
         "role_id": "ID",
-        "position": "Position",
-        "mentionable": "Mentionable",
-        "date_created": "Date Created",
-        "role_color": "Color",
+        "position": "Puwesto",
+        "mentionable": "Maaring Banggitin",
+        "date_created": "Araw ng Paglikha",
+        "role_color": "Kulay",
         "guild": "Guild",
         "permissions": "Permissions"
       }
@@ -74,8 +74,8 @@
         "version": "Version",
         "uptime": "Uptime",
         "number_of_commands": "Number of Commands",
-        "times_command_used": "Times Command Used",
-        "guilds": "Guilds",
+        "times_command_used": "Bilang ng Pagkakagamit ng Command",
+        "guilds": "Mga Guild",
         "users": "Users",
         "shards": "Shards"
       },
@@ -87,9 +87,9 @@
     "user_info": {
       "user_not_found": "*Err... I can't find that person. Try doing it again, I might've missed them*",
       "embed": {
-        "title": "%s's User Info",
+        "title": "Impormasyon Ukol kay %s",
         "user_id": "ID",
-        "date_created": "Date Created",
+        "date_created": "Araw ng Paglikha",
         "date_joined": "Date Joined"
       }
     }
@@ -99,14 +99,14 @@
       "unable_to_roll": "*Sorry, I can't roll that for you*"
     },
     "8ball": {
-      "no_question": "*You didn't even ask a question!!!'*",
+      "no_question": "*Hindi ka naman nagbigay ng tanong!!!*",
       "answers": [
-        "*Yes!*",
-        "*No*",
-        "*Probably*",
-        "*Probably not*",
-        "*Not sure*",
-        "*Ask again...?*"
+        "*Oo!*",
+        "*Hindi*",
+        "*Siguro*",
+        "*Siguro hindi*",
+        "*Hindi ako sigurado*",
+        "*Ano ulit?*"
       ]
     }
   },
@@ -153,17 +153,17 @@
     "expedition": {
       "dialogue": "**You went into an expedition to fulfill a commission...**",
       "embed": {
-        "title": "Rewards",
-        "money": "Money",
+        "title": "Mga Gantimpala",
+        "money": "Salapi",
         "exp": "Exp"
       }
     },
     "hunt": {
-      "attack": "**You attacked the monster confidently!**",
-      "run": "**You ran away knowing that the monster is stronger than you...**",
+      "attack": "**Nilusob mo ang halimaw nang may katapangan!**",
+      "run": "**Ikaw'y tumakas nang nalaman na higit na malakas ang halimaw sa iyo.**",
       "error": {
         "json_processing_error": "*The monsters suddenly disappeared.*",
-        "io_error": "*Huh? Something's weird is happening...*"
+        "io_error": "*Ano?! May kakaibang bagay na nangyayari...*"
       },
       "embed_encounter": {
         "title": "You encountered a %s!!!",
@@ -173,24 +173,24 @@
         "def": "DEF"
       },
       "embed_win": {
-        "title": "You Won!!!",
-        "description": "You won the following:",
+        "title": "Ikaw'y Nagtagumpay!",
+        "description": "Iyong napanalunan ang mga sumusunod:",
         "exp": "EXP",
-        "money": "Money",
+        "money": "Salapi",
         "items": "Items"
       },
       "embed_lost": {
-        "title": "You Lost!!!",
-        "description": "The enemy won, and you received nothing."
+        "title": "Ikaw'y Natalo!",
+        "description": "Nagtagumpay ang kalaban, at wala kang napanalunan."
       }
     },
     "insight": {
-      "nothing_to_predict": "*Better go home if you have nothing to ask for.*",
-      "cannot_predict": "*Sorry, but the Oracle can't predict that for you.*",
+      "nothing_to_predict": "*Mabuting umuwi ka na lang kung walang kahilingan*",
+      "cannot_predict": "*Paumanhin, ngunit hindi kayang hulaan ng Orakulo iyan.*",
       "embed": {
         "title": "The Oracle has spoken",
         "next_exp": "Required EXP for next Level",
-        "next_exp_value": "%1$d (%2$d more)"
+        "next_exp_value": "%1$d (%2$d pa)"
       }
     },
     "inventory": {
@@ -210,7 +210,7 @@
       "no_item": "**Sadly, there wasn't any item of value in there.**",
       "embed": {
         "title": "Looted Goods",
-        "money": "Money",
+        "money": "Salapi",
         "exp": "EXP"
       }
     },
