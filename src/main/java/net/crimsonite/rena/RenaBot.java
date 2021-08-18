@@ -64,13 +64,19 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 public class RenaBot extends CommandRegistry {
 
     private static final Logger logger = LoggerFactory.getLogger(RenaBot.class);
-
-    private static boolean dbIsActive;
-
     private static final long startupTime = System.currentTimeMillis();
 
-    protected RenaBot() {
-        logger.info("Preparing bot for activation...");
+    public static void main(String[] args) {
+        logger.info("Starting up...");
+
+        boolean dbIsActive = false;
+
+        try {
+            DBConnection.conn();
+            dbIsActive = true;
+        } catch (Exception e) {
+            logger.warn("Couldn't connect to database. Some commands might fail, but the bot will remain active.");
+        }
 
         try {
             DefaultShardManagerBuilder jdaBuilder = DefaultShardManagerBuilder.createDefault(RenaConfig.TOKEN)
@@ -80,7 +86,7 @@ public class RenaBot extends CommandRegistry {
 
             if (dbIsActive) {
                 jdaBuilder.addEventListeners(
-                        // Roleplaying Commands
+                        // Game Commands
                         registerCommand(new InsightCommand()),
                         registerCommand(new InventoryCommand()),
                         registerCommand(new UseItemCommand()),
@@ -91,10 +97,10 @@ public class RenaBot extends CommandRegistry {
                         registerCommand(new RepCommand()),
                         registerCommand(new TransferMoneyCommand()),
 
-                        // User Preference Commands
+                        // User Preference Command
                         registerCommand(new PreferenceCommand()),
 
-                        // Guild Preference Commands
+                        // Guild Preference Command
                         registerCommand(new SetGuildPrefixCommand())
                 );
             }
@@ -148,32 +154,13 @@ public class RenaBot extends CommandRegistry {
             }
 
             jdaBuilder.build();
-        } catch (NullPointerException e) {
-            logger.error("A config variable returned a null value.");
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            logger.error("Failed to login, try checking if the Token and config variables are provided correctly.");
         } catch (LoginException e) {
-            logger.error("Failed to login, try checking if the provided Token is valid.");
+            logger.error("Failed to login, try checking if the provided TOKEN is valid");
         }
-    }
-
-    public static void main(String[] args) {
-        logger.info("Starting up...");
-
-        try {
-            DBConnection.conn();
-            dbIsActive = true;
-        } catch (Exception ignored) {
-            logger.warn("Couldn't connect to database. Some commands might fail, but the bot will remain active.");
-            dbIsActive = false;
-        }
-
-        new RenaBot();
     }
 
     /**
-     * Gives the time when the bot was executed.
+     * Returns the time when the bot was started.
      *
      * @return time since the bot was executed.
      */
