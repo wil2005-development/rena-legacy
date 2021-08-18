@@ -27,9 +27,7 @@ import net.crimsonite.rena.commands.Command;
 public abstract class CommandRegistry {
 
     private static final Logger logger = LoggerFactory.getLogger(CommandRegistry.class);
-
     private static int commandCount = 0;
-
     private static HashMap<String, Command> commands;
 
     public CommandRegistry() {
@@ -60,7 +58,7 @@ public abstract class CommandRegistry {
      * @param command The Command to be registered.
      * @return the command passed.
      */
-    public Command registerCommand(Command command) {
+    public static Command registerCommand(Command command) {
         String commandName = command.getCommandName();
         commands.put(commandName, command);
         commandCount++;
