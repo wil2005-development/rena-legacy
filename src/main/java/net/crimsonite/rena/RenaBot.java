@@ -22,6 +22,8 @@ import java.util.List;
 
 import javax.security.auth.login.LoginException;
 
+import com.rethinkdb.RethinkDB;
+import com.rethinkdb.gen.exc.ReqlDriverError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,7 +57,6 @@ import net.crimsonite.rena.commands.moderation.SetGuildPrefixCommand;
 import net.crimsonite.rena.commands.moderation.UnbanCommand;
 import net.crimsonite.rena.commands.userpreference.PreferenceCommand;
 import net.crimsonite.rena.core.CommandRegistry;
-import net.crimsonite.rena.core.database.DBConnection;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
@@ -69,13 +70,16 @@ public class RenaBot extends CommandRegistry {
     public static void main(String[] args) {
         logger.info("Starting up...");
 
-        boolean dbIsActive = false;
+        boolean dbIsActive;
 
         try {
-            DBConnection.conn();
-            dbIsActive = true;
-        } catch (Exception e) {
+             RenaConfig.initializeRethinkDBConnection();
+
+             dbIsActive = true;
+        } catch (ReqlDriverError e) {
             logger.warn("Couldn't connect to database. Some commands might fail, but the bot will remain active.");
+
+            dbIsActive = false;
         }
 
         try {
