@@ -23,12 +23,13 @@ import java.util.Map;
 import com.rethinkdb.RethinkDB;
 import com.rethinkdb.gen.ast.Db;
 import com.rethinkdb.net.Connection;
+import net.crimsonite.rena.RenaConfig;
 
 public class DBReadWrite {
 
-    private static final Db db = DBConnection.db();
-    private static final Connection conn = DBConnection.conn();
     private static final RethinkDB r = RethinkDB.r;
+    private static final Connection conn = RenaConfig.getRethinkDBConnection();
+    private static final Db db = r.db(conn.db());
 
     public enum Table {
         USERS("users"),
