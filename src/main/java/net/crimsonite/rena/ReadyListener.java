@@ -43,9 +43,9 @@ public class ReadyListener extends ListenerAdapter {
 
     @Override
     public void onReady(ReadyEvent event) {
-        int shardId = event.getJDA().getShardInfo().getShardId();
-        String quote = "Engine has started! [Shard #%d]";
         JDA jda = event.getJDA();
+        int shardId = jda.getShardInfo().getShardId();
+        String quote = "Engine has started! [Shard #%d]";
         LocalDate date = LocalDate.now();
 
         CommandListUpdateAction slashCommands = jda.updateCommands();
