@@ -28,12 +28,12 @@ import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public abstract class Command extends ListenerAdapter {
 
-    public abstract void execute(MessageReceivedEvent event, String[] args);
+    public abstract void execute(GuildMessageReceivedEvent event, String[] args);
 
     public abstract String getCommandName();
 
@@ -57,11 +57,11 @@ public abstract class Command extends ListenerAdapter {
     }
 
     @Override
-    public void onMessageReceived(MessageReceivedEvent event) {
+    public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
         User author = event.getAuthor();
         MessageChannel channel = event.getChannel();
 
-        if (event.getChannelType() != ChannelType.TEXT) return;
+        if (event.getChannel().getType() != ChannelType.TEXT) return;
 
         if (author.isBot()) return;
 
@@ -116,7 +116,7 @@ public abstract class Command extends ListenerAdapter {
 
     public void postCommandEvent() {}
 
-    protected boolean containsCommand(Message message, MessageReceivedEvent event) {
+    protected boolean containsCommand(Message message, GuildMessageReceivedEvent event) {
         String defaultPrefix = RenaConfig.getPrefix();
         String prefix;
 
