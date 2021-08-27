@@ -26,7 +26,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.crimsonite.rena.core.I18n;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -52,14 +52,14 @@ public class ImageboardRequester {
 
     /**
      * @param imageboardType Imageboard type.
-     * @param event          MessageReceivedEvent.
+     * @param event          GuildMessageReceivedEvent.
      * @param url            The URL of the imageboard API.
      * @param tags           Tags to search.
      * @return URL of the image
      * @throws IOException          Something went wrong while communicating with the REST API.
      * @throws NullPointerException The response body is empty.
      */
-    protected static String getImage(Imageboard imageboardType, MessageReceivedEvent event, String url, String[] tags) throws IOException, NullPointerException {
+    protected static String getImage(Imageboard imageboardType, GuildMessageReceivedEvent event, String url, String[] tags) throws IOException, NullPointerException {
         if (tags == null || tags.length == 1) {
             url = url.concat(".json");
         } else {
@@ -108,26 +108,26 @@ public class ImageboardRequester {
 
     /**
      * @param imageboardType Imageboard type.
-     * @param event          MessageReceivedEvent.
+     * @param event          GuildMessageReceivedEvent.
      * @param url            The URL of the imageboard API.
      * @return URL of the image.
      * @throws IOException          Something went wrong while communicating with the REST API.
      * @throws NullPointerException The response body is empty.
      */
-    protected static String getImage(Imageboard imageboardType, MessageReceivedEvent event, String url) throws IOException, NullPointerException {
+    protected static String getImage(Imageboard imageboardType, GuildMessageReceivedEvent event, String url) throws IOException, NullPointerException {
         return getImage(imageboardType, event, url, null);
     }
 
     /**
      * @param imageboardType Imageboard type.
-     * @param event          MessageReceivedEvent.
+     * @param event          GuildMessageReceivedEvent.
      * @param url            The URL of the imageboard API.
      * @param tags           Tags to look for.
      * @return An embed of the imageboard result.
      * @throws IOException          Something went wrong while communicating with the REST API.
      * @throws NullPointerException The response body is empty.
      */
-    protected static EmbedBuilder getEmbed(Imageboard imageboardType, MessageReceivedEvent event, String url, String[] tags) throws IOException, NullPointerException {
+    protected static EmbedBuilder getEmbed(Imageboard imageboardType, GuildMessageReceivedEvent event, String url, String[] tags) throws IOException, NullPointerException {
         EmbedBuilder embed;
         User author = event.getAuthor();
         Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
@@ -187,13 +187,13 @@ public class ImageboardRequester {
 
     /**
      * @param imageboardType Imageboard type.
-     * @param event          MessageReceivedEvent.
+     * @param event          GuildMessageReceivedEvent.
      * @param url            The URL of the imageboard API.
      * @return An embed of the imageboard result.
      * @throws IOException          Something went wrong while communicating with the REST API.
      * @throws NullPointerException The response body is empty.
      */
-    protected static EmbedBuilder getEmbed(Imageboard imageboardType, MessageReceivedEvent event, String url) throws IOException, NullPointerException {
+    protected static EmbedBuilder getEmbed(Imageboard imageboardType, GuildMessageReceivedEvent event, String url) throws IOException, NullPointerException {
         return getEmbed(imageboardType, event, url, null);
     }
 

@@ -45,12 +45,12 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.MessageReaction.ReactionEmote;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 
 public class HuntCommand extends Command {
 
-    private MessageReceivedEvent messageEvent;
+    private GuildMessageReceivedEvent messageEvent;
     private JsonNode jsonData;
     private Map<String, Map<String, ?>> drops;
     private long timer;
@@ -65,7 +65,7 @@ public class HuntCommand extends Command {
 
     private Player player;
 
-    private static EmbedBuilder embedForVictory(MessageReceivedEvent event, int rewardExp, int rewardMoney, String rewardItem) {
+    private static EmbedBuilder embedForVictory(GuildMessageReceivedEvent event, int rewardExp, int rewardMoney, String rewardItem) {
         User author = event.getAuthor();
         Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
 
@@ -79,7 +79,7 @@ public class HuntCommand extends Command {
                 .setFooter(author.getName(), author.getEffectiveAvatarUrl());
     }
 
-    private static EmbedBuilder embedForDefeat(MessageReceivedEvent event) {
+    private static EmbedBuilder embedForDefeat(GuildMessageReceivedEvent event) {
         User author = event.getAuthor();
         Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
 
@@ -138,7 +138,7 @@ public class HuntCommand extends Command {
         }
     }
 
-    private static void checkHP(MessageReceivedEvent event, int enemyHP, int playerHP, int rewardEXP, int rewardMoney, Map<String, Map<String, ?>> drops) {
+    private static void checkHP(GuildMessageReceivedEvent event, int enemyHP, int playerHP, int rewardEXP, int rewardMoney, Map<String, Map<String, ?>> drops) {
         User author = event.getAuthor();
         MessageChannel channel = event.getChannel();
         
@@ -187,7 +187,7 @@ public class HuntCommand extends Command {
 
     @Override
     @SuppressWarnings("unchecked")
-    public void execute(MessageReceivedEvent event, String[] args) {
+    public void execute(GuildMessageReceivedEvent event, String[] args) {
         User author = event.getAuthor();
         MessageChannel channel = event.getChannel();
 

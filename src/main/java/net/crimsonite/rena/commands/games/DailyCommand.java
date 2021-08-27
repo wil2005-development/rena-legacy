@@ -30,12 +30,12 @@ import net.crimsonite.rena.core.database.DBReadWrite.Table;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 public class DailyCommand extends Command {
 
     @Override
-    public void execute(MessageReceivedEvent event, String[] args) {
+    public void execute(GuildMessageReceivedEvent event, String[] args) {
         User author = event.getAuthor();
         User recipient = author;
         MessageChannel channel = event.getChannel();
