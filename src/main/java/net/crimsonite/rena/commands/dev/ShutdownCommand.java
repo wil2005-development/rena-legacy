@@ -17,13 +17,13 @@
 
 package net.crimsonite.rena.commands.dev;
 
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import net.crimsonite.rena.RenaConfig;
 import net.crimsonite.rena.commands.Command;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.sharding.ShardManager;
 
 public class ShutdownCommand extends Command {
@@ -31,7 +31,7 @@ public class ShutdownCommand extends Command {
     private static final Logger logger = LoggerFactory.getLogger(ShutdownCommand.class);
 
     @Override
-    public void execute(MessageReceivedEvent event, String[] args) {
+    public void execute(GuildMessageReceivedEvent event, String[] args) {
         JDA jda = event.getJDA();
         ShardManager shardManager = jda.getShardManager();
 

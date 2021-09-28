@@ -21,6 +21,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import com.rethinkdb.RethinkDB;
+import com.rethinkdb.gen.exc.ReqlDriverError;
+import com.rethinkdb.net.Connection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,6 +46,30 @@ public class RenaConfig {
     private static final int totalShards = Integer.parseInt(getValue("SHARD_COUNT"));
     private static final String hostName = getValue("HOST_NAME");
     private static final String prefix = getValue("PREFIX");
+
+    private static Connection rethinkDBConnection;
+
+    /**
+     * Initializes and connects to the active RethinkDB database.
+     *
+     * @throws ReqlDriverError failed to connect to Rena's database.
+     */
+    public static void initializeRethinkDBConnection() throws ReqlDriverError {
+        rethinkDBConnection = RethinkDB.r.connection()
+                .hostname(getValue("HOST_NAME"))
+                .port(28015)
+                .db("Rena")
+                .connect();
+    }
+
+    /**
+     * A connection to Rena's database.
+     *
+     * @return connection to Rena's database.
+     */
+    public static Connection getRethinkDBConnection() {
+        return rethinkDBConnection;
+    }
 
     /**
      * @return the Id of the bot's owner.

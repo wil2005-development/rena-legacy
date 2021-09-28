@@ -28,11 +28,11 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 public class AvatarCommand extends Command {
 
-    private void sendEmbed(MessageReceivedEvent event, Member member) {
+    private void sendEmbed(GuildMessageReceivedEvent event, Member member) {
         MessageChannel channel = event.getChannel();
         User memberAsUser = member.getUser();
         Color roleColor = event.getGuild().retrieveMember(memberAsUser).complete().getColor();
@@ -47,7 +47,7 @@ public class AvatarCommand extends Command {
     }
 
     @Override
-    public void execute(MessageReceivedEvent event, String[] args) {
+    public void execute(GuildMessageReceivedEvent event, String[] args) {
         Member author = event.getMember();
         MessageChannel channel = event.getChannel();
 

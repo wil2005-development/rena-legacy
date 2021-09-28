@@ -27,14 +27,14 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 public class GuildinfoCommand extends Command {
 
     private final DateTimeFormatter format = DateTimeFormatter.ofPattern("MMMM d, yyyy");
 
     @Override
-    public void execute(MessageReceivedEvent event, String[] args) {
+    public void execute(GuildMessageReceivedEvent event, String[] args) {
         User author = event.getAuthor();
         Guild guild = event.getGuild();
         MessageChannel channel = event.getChannel();

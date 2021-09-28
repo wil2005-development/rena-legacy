@@ -11,8 +11,8 @@ mainClassName = 'net.crimsonite.rena.RenaBot'
 def versionObject = new Version(major: 0, minor: 1, revision: 0)
 version versionObject.toString()
 
-sourceCompatibility = 15
-targetCompatibility = 15
+sourceCompatibility = 16
+targetCompatibility = 16
 
 repositories {
 	jcenter()

@@ -30,11 +30,11 @@ import net.crimsonite.rena.core.database.DBReadWrite.Table;
 import net.crimsonite.rena.entities.Item;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 public class UseItemCommand extends Command {
 
-    private void useItem(MessageReceivedEvent event, String itemId) {
+    private void useItem(GuildMessageReceivedEvent event, String itemId) {
         User author = event.getAuthor();
         MessageChannel channel = event.getChannel();
 
@@ -61,7 +61,7 @@ public class UseItemCommand extends Command {
     }
 
     @Override
-    public void execute(MessageReceivedEvent event, String[] args) {
+    public void execute(GuildMessageReceivedEvent event, String[] args) {
         User author = event.getAuthor();
         MessageChannel channel = event.getChannel();
 

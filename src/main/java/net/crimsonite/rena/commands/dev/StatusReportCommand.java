@@ -26,12 +26,12 @@ import net.crimsonite.rena.commands.Command;
 import net.crimsonite.rena.core.CommandRegistry;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 public class StatusReportCommand extends Command {
 
     @Override
-    public void execute(MessageReceivedEvent event, String[] args) {
+    public void execute(GuildMessageReceivedEvent event, String[] args) {
         JDA jda = event.getJDA();
         MessageChannel channel = event.getChannel();
 
