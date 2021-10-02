@@ -24,6 +24,7 @@ import javax.security.auth.login.LoginException;
 
 import com.rethinkdb.RethinkDB;
 import com.rethinkdb.gen.exc.ReqlDriverError;
+import net.crimsonite.rena.commands.misc.ChooseCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -126,6 +127,7 @@ public class RenaBot extends CommandRegistry {
                     registerCommand(new KickCommand()),
 
                     // Miscellaneous Commands
+                    registerCommand(new ChooseCommand()),
                     registerCommand(new EightBallCommand()),
                     registerCommand(new DiceCommand()),
 
