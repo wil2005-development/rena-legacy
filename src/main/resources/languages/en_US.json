@@ -95,6 +95,11 @@
     }
   },
   "misc": {
+    "choose": {
+      "picked": "*I choose... **%1$s!***",
+      "no_provided_choices": "*How am I supposed to respond if you don't give me anything to choose from?!*",
+      "only_one_choice": "*Give me at least two items to choose from.*"
+    },
     "dice": {
       "unable_to_roll": "*Sorry, I can't roll that for you*"
     },
