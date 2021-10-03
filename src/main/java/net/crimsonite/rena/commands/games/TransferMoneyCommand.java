@@ -32,6 +32,8 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 public class TransferMoneyCommand extends Command {
 
+    User author;
+
     private static void transferMoney(User author, Member member, int amount, MessageChannel channel) {
         int amountAfterTax = Math.round((float) amount - (amount * 0.02f));
 
@@ -58,7 +60,7 @@ public class TransferMoneyCommand extends Command {
 
     @Override
     public void execute(GuildMessageReceivedEvent event, String[] args) {
-        User author = event.getAuthor();
+        this.author = event.getAuthor();
         MessageChannel channel = event.getChannel();
 
         try {
@@ -113,12 +115,12 @@ public class TransferMoneyCommand extends Command {
 
     @Override
     public String getHelp() {
-        return null;
+        return I18n.getMessage(author.getId(), "help.games.transfer.description");
     }
 
     @Override
     public String getUsage() {
-        return null;
+        return I18n.getMessage(author.getId(), "help.games.transfer.usage");
     }
 
 }

@@ -34,8 +34,10 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 public class UseItemCommand extends Command {
 
+    User author;
+
     private void useItem(GuildMessageReceivedEvent event, String itemId) {
-        User author = event.getAuthor();
+        this.author = event.getAuthor();
         MessageChannel channel = event.getChannel();
 
         try {
@@ -109,12 +111,12 @@ public class UseItemCommand extends Command {
 
     @Override
     public String getHelp() {
-        return null;
+        return I18n.getMessage(author.getId(), "help.games.use.description");
     }
 
     @Override
     public String getUsage() {
-        return null;
+        return I18n.getMessage(author.getId(), "help.games.use.description");
     }
 
 }

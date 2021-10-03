@@ -35,6 +35,8 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 public class InventoryCommand extends Command {
 
+    User author;
+
     private static String replaceItemIdWithName(User author, String str) {
         str = str.replace("ITEM_0X194", "ITEM_OX194")
                 .replace("SEED_OF_LIFE", I18n.getMessage(author.getId(), "game.inventory.items.seed_of_life"))
@@ -47,7 +49,7 @@ public class InventoryCommand extends Command {
 
     @Override
     public void execute(GuildMessageReceivedEvent event, String[] args) {
-        User author = event.getAuthor();
+        this.author = event.getAuthor();
         Color roleColor = event.getGuild().retrieveMember(author).complete().getColor();
         MessageChannel channel = event.getChannel();
 
@@ -108,12 +110,12 @@ public class InventoryCommand extends Command {
 
     @Override
     public String getHelp() {
-        return null;
+        return I18n.getMessage(author.getId(), "help.games.inventory.description");
     }
 
     @Override
     public String getUsage() {
-        return null;
+        return I18n.getMessage(author.getId(), "help.games.inventory.usage");
     }
 
 }

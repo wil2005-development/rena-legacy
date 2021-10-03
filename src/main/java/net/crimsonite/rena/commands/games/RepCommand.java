@@ -96,12 +96,12 @@ public class RepCommand extends Command {
 
     @Override
     public String getHelp() {
-        return null;
+        return I18n.getMessage(playerId, "help.games.rep.description");
     }
 
     @Override
     public String getUsage() {
-        return null;
+        return I18n.getMessage(playerId, "help.games.rep.usage");
     }
 
 }

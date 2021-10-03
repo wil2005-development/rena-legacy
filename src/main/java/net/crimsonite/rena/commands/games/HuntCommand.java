@@ -319,12 +319,12 @@ public class HuntCommand extends Command {
 
     @Override
     public String getHelp() {
-        return null;
+        return I18n.getMessage(player.getPlayerId(), "help.games.hunt.description");
     }
 
     @Override
     public String getUsage() {
-        return null;
+        return I18n.getMessage(player.getPlayerId(), "help.games.hunt.usage");
     }
 
 }

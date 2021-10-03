@@ -17,6 +17,7 @@
 
 package net.crimsonite.rena.commands.dev;
 
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,11 +35,16 @@ public class ShutdownCommand extends Command {
     public void execute(GuildMessageReceivedEvent event, String[] args) {
         JDA jda = event.getJDA();
         ShardManager shardManager = jda.getShardManager();
+        Message message = event.getMessage();
+
+        message.addReaction("\u26A0").complete();
 
         logger.info("Shutting down...");
 
         if (RenaConfig.isSharding()) {
             long shardCount = RenaConfig.getTotalShards();
+
+            message.addReaction("\u2705").complete();
 
             for (int i = 0; i < shardCount; i++) {
                 logger.info("Shutting down shard %d".formatted(i));
@@ -48,6 +54,8 @@ public class ShutdownCommand extends Command {
                 }
             }
         } else {
+            message.addReaction("\u2705").complete();
+
             jda.shutdown();
         }
 
