@@ -308,5 +308,45 @@
       "name": "Elixir of Mana",
       "desc": "An elixir brewed by the highest of mages. Raises one's MP by 80."
     }
+  },
+  "help": {
+    "games": {
+      "daily": {
+        "description": "Claim your daily money. The amount of reward received depends on your player level.",
+        "usage": "~daily"
+      },
+      "hunt": {
+        "description": "Fight monsters every 8 hours and receive rewards from defeating them.",
+        "usage": "~hunt"
+      },
+      "insight": {
+        "description": "Check some useful info about a player.",
+        "usage": "~insight <what>"
+      },
+      "inventory": {
+        "description": "Shows what items you have in your possession.",
+        "usage": "~inventory"
+      },
+      "loot": {
+        "description": "Unfinished command. Might remove in the future.",
+        "usage": "~loot"
+      },
+      "profile": {
+        "description": "Shows a detailed stats of the player.",
+        "usage": "~profile [who]"
+      },
+      "rep": {
+        "description": "Give a player a reputation point.",
+        "usage": "~rep <who>"
+      },
+      "transfer": {
+        "description": "Transfer your money to the mentioned user. Amount changes after tax.",
+        "usage": "~transfer <amount> <who>"
+      },
+      "use": {
+        "description": "Use an item.",
+        "usage": "~use <what> <amount>"
+      }
+    }
   }
 }
