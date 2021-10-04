@@ -44,14 +44,13 @@ public class DBReadWrite {
     }
 
     /**
-     * (Write)Registers the user to the database when called.
+     * (Write)Register player to the database.
      *
-     * @param UID -The Unique ID of the user.
+     * @param uid Unique ID of the user.
      */
-    public static void registerUser(String UID) {
-        // Roleplay stats are uppercased on purpose.
+    public static void registerUser(String uid) {
         db.table(Table.USERS.stringValue).insert(r.array(
-                r.hashMap("id", UID)
+                r.hashMap("id", uid)
                         .with("Language", "en")
                         .with("Country", "US")
                         .with("Status", null)
@@ -59,7 +58,7 @@ public class DBReadWrite {
         )).runNoReply(conn);
 
         db.table(Table.PLAYERS.stringValue).insert(r.array(
-                r.hashMap("id", UID)
+                r.hashMap("id", uid)
                         .with("LEVEL", 0)
                         .with("EXP", 0)
 
@@ -92,175 +91,175 @@ public class DBReadWrite {
     }
 
     /**
-     * (Write)Registers the guild to the database when called.
+     * (Write)Register guild to the database.
      *
-     * @param UID -The Unique ID of the guild.
+     * @param uid Unique ID of the guild.
      */
-    public static void registerGuild(String UID) {
+    public static void registerGuild(String uid) {
         db.table(Table.GUILDS.stringValue).insert(r.array(
-                r.hashMap("id", UID)
+                r.hashMap("id", uid)
                         .with("Prefix", "~")
         )).runNoReply(conn);
     }
 
     /**
-     * (Write)Increments an integer value from db.
+     * (Write)Increments an integer from db.
      *
-     * @param table -The table to modify.
-     * @param UID   -The Unique ID of the user/guild.
-     * @param key   -The db variable to be incremented.
-     * @param val   -The amount to increment.
-     * @throws IllegalArgumentException If the provided value is a negative number
-     * @throws NullPointerException     If the user/guild is not found in the database.
+     * @param table Database table.
+     * @param uid   Unique ID of the user/guild.
+     * @param key   DB variable to increment.
+     * @param val   Amount to increment by.
+     * @throws IllegalArgumentException Provided value is a negative number
+     * @throws NullPointerException     User/guild is not found in the database.
      */
-    public static void incrementValue(Table table, String UID, String key, int val) throws IllegalArgumentException, NullPointerException {
+    public static void incrementValue(Table table, String uid, String key, int val) throws IllegalArgumentException, NullPointerException {
         if (val <= 0) {
             throw new IllegalArgumentException("Value cannot be a negative number (%d).".formatted(val));
         }
 
-        HashMap<String, Long> obj = db.table(table.stringValue).get(UID).run(conn);
+        HashMap<String, Long> obj = db.table(table.stringValue).get(uid).run(conn);
         int incrementedValue = obj.get(key).intValue() + val;
 
-        db.table(table.stringValue).get(UID).update(r.hashMap(key, incrementedValue)).runNoReply(conn);
+        db.table(table.stringValue).get(uid).update(r.hashMap(key, incrementedValue)).runNoReply(conn);
     }
 
     /**
-     * (Write)Increments an integer value from db.
+     * (Write)Increments an integer from db.
      *
-     * @param table The table to modify.
-     * @param UID   The Unique ID of the user/guild.
+     * @param table Database table.
+     * @param uid   Unique ID of the user/guild.
      * @param map   The map to look for.
-     * @param key   The db variable to be incremented.
-     * @param val   The amount to increment.
-     * @throws IllegalArgumentException If the provided value is a negative number
-     * @throws NullPointerException     If the user/guild is not found in the database.
+     * @param key   Db variable to increment.
+     * @param val   Amount to increment by.
+     * @throws IllegalArgumentException Provided value is a negative number
+     * @throws NullPointerException     User/guild is not found in the database.
      */
-    public static void incrementValueFromMap(Table table, String UID, String map, String key, int val) throws IllegalArgumentException, NullPointerException {
+    public static void incrementValueFromMap(Table table, String uid, String map, String key, int val) throws IllegalArgumentException, NullPointerException {
         if (val <= 0) {
             throw new IllegalArgumentException("Value cannot be a negative number (%d).".formatted(val));
         }
 
-        HashMap<String, Map<String, Long>> obj = db.table(table.stringValue).get(UID).run(conn);
+        HashMap<String, Map<String, Long>> obj = db.table(table.stringValue).get(uid).run(conn);
         Map<String, Long> mapValue = obj.get(map);
         int incrementedValue = mapValue.get(key).intValue() + val;
 
-        db.table(table.stringValue).get(UID).update(r.hashMap(map, r.hashMap(key, incrementedValue))).runNoReply(conn);
+        db.table(table.stringValue).get(uid).update(r.hashMap(map, r.hashMap(key, incrementedValue))).runNoReply(conn);
     }
 
     /**
      * (Write)Decrements an integer value from db.
      *
-     * @param table -The table to modify.
-     * @param UID   -The Unique ID of the user/guild.
-     * @param key   -The db variable to be decremented.
-     * @param val   -The amount to decrement.
-     * @throws IllegalArgumentException If the provided value is a negative number
-     * @throws NullPointerException     If the user/guild is not found in the database.
+     * @param table Database table.
+     * @param uid   Unique ID of the user/guild.
+     * @param key   DB variable to decrement.
+     * @param val   Amount to decrement by.
+     * @throws IllegalArgumentException Provided value is a negative number
+     * @throws NullPointerException     User/guild is not found in the database.
      */
-    public static void decrementValue(Table table, String UID, String key, int val) throws IllegalArgumentException, NullPointerException {
+    public static void decrementValue(Table table, String uid, String key, int val) throws IllegalArgumentException, NullPointerException {
         if (val <= 0) {
             throw new IllegalArgumentException("Value cannot be a negative number (%d).".formatted(val));
         }
 
-        HashMap<String, Long> obj = db.table(table.stringValue).get(UID).run(conn);
+        HashMap<String, Long> obj = db.table(table.stringValue).get(uid).run(conn);
         int decrementedValue = obj.get(key).intValue() - val;
 
-        db.table(table.stringValue).get(UID).update(r.hashMap(key, decrementedValue)).runNoReply(conn);
+        db.table(table.stringValue).get(uid).update(r.hashMap(key, decrementedValue)).runNoReply(conn);
     }
 
     /**
      * (Write)Decrements an integer value from db.
      *
-     * @param table The table to modify.
-     * @param UID   The Unique ID of the user/guild.
+     * @param table Database table.
+     * @param uid   Unique ID of the user/guild.
      * @param map   The map to look for.
-     * @param key   The db variable to be decremented.
-     * @param val   The amount to decrement.
-     * @throws IllegalArgumentException If the provided value is a negative number.
-     * @throws NullPointerException     If the user/guild is not found in the database.
+     * @param key   DB variable to decrement.
+     * @param val   Amount to decrement by.
+     * @throws IllegalArgumentException Provided value is a negative number.
+     * @throws NullPointerException     User/guild is not found in the database.
      */
-    public static void decrementValueFromMap(Table table, String UID, String map, String key, int val) throws IllegalArgumentException, NullPointerException {
+    public static void decrementValueFromMap(Table table, String uid, String map, String key, int val) throws IllegalArgumentException, NullPointerException {
         if (val <= 0) {
             throw new IllegalArgumentException("Value cannot be a negative number (%d).".formatted(val));
         }
 
-        HashMap<String, Map<String, Long>> obj = db.table(table.stringValue).get(UID).run(conn);
+        HashMap<String, Map<String, Long>> obj = db.table(table.stringValue).get(uid).run(conn);
         Map<String, Long> mapValue = obj.get(map);
         int decrementedValue = mapValue.get(key).intValue() - val;
 
-        db.table(table.stringValue).get(UID).update(r.hashMap(map, r.hashMap(key, decrementedValue))).runNoReply(conn);
+        db.table(table.stringValue).get(uid).update(r.hashMap(map, r.hashMap(key, decrementedValue))).runNoReply(conn);
     }
 
     /**
      * (Untested)
      * (Write)Modifies an integer value from db.
      *
-     * @param table The table to modify.
-     * @param UID   The Unique ID of the user/guild.
+     * @param table Database table.
+     * @param uid   Unique ID of the user/guild.
      * @param map   The map to look for.
-     * @param key   The db variable to be modified.
-     * @param val   The amount to put.
-     * @throws IllegalArgumentException If the provided value is a negative number.
-     * @throws NullPointerException     If the user/guild is not found int the database.
+     * @param key   DB variable to modify.
+     * @param val   Amount to exchange with.
+     * @throws IllegalArgumentException Provided value is a negative number.
+     * @throws NullPointerException     User/guild is not found int the database.
      */
-    public static void modifyDataFromMap(Table table, String UID, String map, String key, int val) throws IllegalArgumentException, NullPointerException {
+    public static void modifyDataFromMap(Table table, String uid, String map, String key, int val) throws IllegalArgumentException, NullPointerException {
         if (val <= 0) {
             throw new IllegalArgumentException("Value cannot be a negative number (%d).".formatted(val));
         }
 
-        db.table(table.stringValue).get(UID).update(r.hashMap(map, r.hashMap(key, val))).runNoReply(conn);
+        db.table(table.stringValue).get(uid).update(r.hashMap(map, r.hashMap(key, val))).runNoReply(conn);
     }
 
     /**
      * (Write)Modifies a String value from db.
      *
-     * @param table -The table to modify.
-     * @param UID   -The Unique ID of the user/guild.
-     * @param key   -the db variable to be modified.
-     * @param val   -The value to exchange.
-     * @throws NullPointerException If the user/guild is not found in the database.
+     * @param table Database table.
+     * @param uid   Unique ID of the user/guild.
+     * @param key   DB variable to modify.
+     * @param val   Amount to exchange with.
+     * @throws NullPointerException User/guild is not found in the database.
      */
-    public static void modifyDataString(Table table, String UID, String key, String val) throws NullPointerException {
-        db.table(table.stringValue).get(UID).update(r.hashMap(key, val)).runNoReply(conn);
+    public static void modifyDataString(Table table, String uid, String key, String val) throws NullPointerException {
+        db.table(table.stringValue).get(uid).update(r.hashMap(key, val)).runNoReply(conn);
     }
 
     /**
      * (Write)Modifies an Int value from db.
      *
-     * @param table -The table to modify.
-     * @param UID   -The Unique ID of the user/guild.
-     * @param key   -The db variable to be modified.
-     * @param val   =The value to exchange.
-     * @throws NullPointerException If the user/guild is not found in the database.
+     * @param table Database table.
+     * @param uid   Unique ID of the user/guild.
+     * @param key   DB variable to be modified.
+     * @param val   Amount to exchange with.
+     * @throws NullPointerException User/guild is not found in the database.
      */
-    public static void modifyDataInt(Table table, String UID, String key, int val) throws NullPointerException {
-        db.table(table.stringValue).get(UID).update(r.hashMap(key, val)).runNoReply(conn);
+    public static void modifyDataInt(Table table, String uid, String key, int val) throws NullPointerException {
+        db.table(table.stringValue).get(uid).update(r.hashMap(key, val)).runNoReply(conn);
     }
 
     /**
      * (Write)Modifies a Boolean value from db.
      *
-     * @param table -The table to modify.
-     * @param UID   -The Unique ID of the user/guild.
-     * @param key   -The db variable to be modified.
-     * @param val   -The value to exchange.
-     * @throws NullPointerException If the user/guild is not found in the database.
+     * @param table Database table.
+     * @param uid   Unique ID of the user/guild.
+     * @param key   DB variable to be modified/toggled.
+     * @param val   State.
+     * @throws NullPointerException User/guild is not found in the database.
      */
-    public static void modifyDataBoolean(Table table, String UID, String key, boolean val) throws NullPointerException {
-        db.table(table.stringValue).get(UID).update(r.hashMap(key, val)).runNoReply(conn);
+    public static void modifyDataBoolean(Table table, String uid, String key, boolean val) throws NullPointerException {
+        db.table(table.stringValue).get(uid).update(r.hashMap(key, val)).runNoReply(conn);
     }
 
     /**
      * (Read)Returns the String value of the specified key.
      *
-     * @param table -The table to look for.
-     * @param UID   -The Unique ID of the user/guild.
-     * @param key   -The db variable to get.
-     * @return value of key
-     * @throws NullPointerException If the user/guild is not found in the database.
+     * @param table Database table.
+     * @param uid   Unique ID of the user/guild.
+     * @param key   String to get.
+     * @return Value of key
+     * @throws NullPointerException User/guild is not found in the database.
      */
-    public static String getValueString(Table table, String UID, String key) throws NullPointerException {
-        HashMap<String, String> obj = db.table(table.stringValue).get(UID).run(conn);
+    public static String getValueString(Table table, String uid, String key) throws NullPointerException {
+        HashMap<String, String> obj = db.table(table.stringValue).get(uid).run(conn);
 
         return obj.get(key);
     }
@@ -268,14 +267,14 @@ public class DBReadWrite {
     /**
      * (Read)Returns the Integer value of the specified key.
      *
-     * @param table -The table to look for.
-     * @param UID   -The Unique ID of the user/guild.
-     * @param key   -The db variable to get.
-     * @return value of key
-     * @throws NullPointerException If the user/guild is not found in the database.
+     * @param table Database table.
+     * @param uid   Unique ID of the user/guild.
+     * @param key   Integer to get.
+     * @return Value of key
+     * @throws NullPointerException User/guild is not found in the database.
      */
-    public static int getValueInt(Table table, String UID, String key) throws NullPointerException {
-        HashMap<String, Long> obj = db.table(table.stringValue).get(UID).run(conn);
+    public static int getValueInt(Table table, String uid, String key) throws NullPointerException {
+        HashMap<String, Long> obj = db.table(table.stringValue).get(uid).run(conn);
 
         return obj.get(key).intValue();
     }
@@ -283,14 +282,14 @@ public class DBReadWrite {
     /**
      * (Read)Returns the Boolean value of the specified key.
      *
-     * @param table -The table to look for.
-     * @param UID   -The Unique ID of the user/guild.
-     * @param key   -The db variable to get.
-     * @return value of key
-     * @throws NullPointerException If the user/guild is not found in the database.
+     * @param table Database table.
+     * @param uid   Unique ID of the user/guild.
+     * @param key   Variable to get.
+     * @return Value of key
+     * @throws NullPointerException User/guild is not found in the database.
      */
-    public static boolean getValueBoolean(Table table, String UID, String key) throws NullPointerException {
-        HashMap<String, Boolean> obj = db.table(table.stringValue).get(UID).run(conn);
+    public static boolean getValueBoolean(Table table, String uid, String key) throws NullPointerException {
+        HashMap<String, Boolean> obj = db.table(table.stringValue).get(uid).run(conn);
 
         return obj.get(key);
     }
@@ -298,14 +297,14 @@ public class DBReadWrite {
     /**
      * (Read)Returns the Map(String, Integer) value of the specified key.
      *
-     * @param table -The table to look for.
-     * @param UID   -The Unique ID of the user/guild.
-     * @param key   -The db variable to get.
-     * @return value of key
-     * @throws NullPointerException If the user/guild is not found in the database.
+     * @param table Database table.
+     * @param uid   Unique ID of the user/guild.
+     * @param key   Long to get.
+     * @return Value of key
+     * @throws NullPointerException User/guild is not found in the database.
      */
-    public static Map<String, Long> getValueMapSL(Table table, String UID, String key) throws NullPointerException {
-        HashMap<String, Map<String, Long>> obj = db.table(table.stringValue).get(UID).run(conn);
+    public static Map<String, Long> getValueMapSL(Table table, String uid, String key) throws NullPointerException {
+        HashMap<String, Map<String, Long>> obj = db.table(table.stringValue).get(uid).run(conn);
 
         return obj.get(key);
     }
