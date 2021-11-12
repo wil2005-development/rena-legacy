@@ -34,7 +34,7 @@ dependencies {
 	implementation 'redis.clients:jedis:3.7.0'
 	
 	// Misc
-	implementation 'ch.qos.logback:logback-classic:1.2.6'
+	implementation 'ch.qos.logback:logback-classic:1.2.7'
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.5'
 }
 
