@@ -1,5 +1,0 @@
-* @Nhalrath
-
-# This might be temporary, but GReturn will be handling these files.
-src/main/resources/assets/enemy.json @GReturn
-src/main/resources/assets/enemy_list.txt @GReturn
